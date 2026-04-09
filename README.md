@@ -9,7 +9,7 @@ Part 1 Outline: In groups of 2 to 4 people:
 3. Create a graphical user interface (GUI) using an HTML Canvas.
 4. Implement and expand on one of the basic designs listed below.
 
-## Option 2: *Tower Defense*
+## Selected Option: **Tower Defense** *(Option 2)*
 Bloons Tower Defense knockoff.
 
 See gameplay video: [Bloons TD 6 - Downstream [Hard] Gameplay (No Commentary)](https://www.youtube.com/watch?v=4-cT9n8QNAk&t=31s)
