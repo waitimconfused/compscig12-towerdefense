@@ -20,7 +20,7 @@ sprite.registerData({
 			{ source: undefined, crop: { x:300, y:0, w:100, h:100 } }
 		]
 	}
-})
+});
 
 /**
  * Main render loop
