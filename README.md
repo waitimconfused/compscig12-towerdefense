@@ -26,3 +26,15 @@ The units that the player controls vary in terms of how far they
 can shoot, and how much time it takes between their shots.
 
 > Rubric not included, as it is too big.
+
+## NPM Scripts
+
+There are two scripts inside `package.json`.
+
+They are:
+
+ - `npm run build`: Builds/compiles TypeScript files (`npx tsc`), and
+ logs the timestamp that it completed along with a message
+
+ - `npm run dev`: Used `npx nodemon` to listen for changes to `*ts`
+ files, and runs `npm run build` to recompile them.
