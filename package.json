@@ -14,8 +14,8 @@
 	"license": "ISC",
 	"type": "commonjs",
 	"scripts": {
-		"build": "npx tsc && echo \"[$(date +%k:%M:%S)]: Compiled Typescript\"",
-		"dev": "nodemon -e ts  --exec \"npm run build\" --quiet"
+		"build": "npx tsc",
+		"dev": "nodemon -e ts  --exec \"npm run build\""
 	},
 	"dependencies": {
 		"@types/node": "^25.5.0",
