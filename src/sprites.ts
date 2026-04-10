@@ -110,7 +110,7 @@ export type Sprite = {
 /**
  * An object to store a list of **registered** `SpriteData` objects.
  */
-var spriteData:{ [x:string]: SpriteData } = {};
+var registeredSprites:{ [x:string]: SpriteData } = {};
 
 export const sprite = {
 
@@ -125,7 +125,7 @@ export const sprite = {
 
 		// If a sprite with the same name has already been
 		// registered, log an error and stop
-		if (data.name in spriteData) {
+		if (data.name in registeredSprites) {
 			console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
 			return;
 		}
@@ -171,7 +171,7 @@ export const sprite = {
 		}
 
 		// Add the data to the spriteData list
-		spriteData[data.name] = data;
+		registeredSprites[data.name] = data;
 
 		// Log a message into the console
 		console.log(`Registered SpriteData with name "${data.name}"`);
@@ -189,14 +189,16 @@ export const sprite = {
 	 */
 	drawSprite(ref:Sprite, context:RenderingContext):void {
 
-		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
-		let data:SpriteData|undefined = spriteData.find( (d) => d.name == ref.name );
-
 		// If the sprite could not be found, log it in the console as an error, and stop.
-		if (data == undefined) {
+		if (ref.name in registeredSprites == false) {
 			console.error(`Failed to find SpriteData with name "${ref.name}".`);
 			return;
 		}
+
+		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
+		// Safe to assume that it's a `SpriteData` object, as we checked above
+		let data:SpriteData = registeredSprites[ref.name] as SpriteData;
+
 
 		// If (for some reason) the `SpriteData.source` is **not** an image, log it and stop.
 		if ( data.source instanceof HTMLImageElement == false ) {
