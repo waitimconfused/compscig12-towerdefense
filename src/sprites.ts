@@ -108,9 +108,9 @@ export type Sprite = {
 
 
 /**
- * An array/list to store a list of **registered** `SpriteData` objects.
+ * An object to store a list of **registered** `SpriteData` objects.
  */
-var spriteData:SpriteData[] = [];
+var spriteData:{ [x:string]: SpriteData } = {};
 
 export const sprite = {
 
@@ -122,6 +122,13 @@ export const sprite = {
 	 * @param data The `SpriteData` object to register as a sprite
 	 */
 	registerData(data:SpriteData) {
+
+		// If a sprite with the same name has already been
+		// registered, log an error and stop
+		if (data.name in spriteData) {
+			console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
+			return;
+		}
 		
 		// Convert all image-paths to images
 		if (typeof data.source == "string") {
@@ -164,7 +171,7 @@ export const sprite = {
 		}
 
 		// Add the data to the spriteData list
-		spriteData.push(data);
+		spriteData[data.name] = data;
 
 		// Log a message into the console
 		console.log(`Registered SpriteData with name "${data.name}"`);
