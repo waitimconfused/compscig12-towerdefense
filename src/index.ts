@@ -34,7 +34,7 @@ sprite.registerData({
 
 		// The (optional) time offset for the animation (in ms)
 		// Not used, so it's left as `undefined`
-		offset: undefined,
+		offset: 100,
 
 		// A list of frames for the sprite's animation
 		frames: [
@@ -53,12 +53,23 @@ sprite.registerData({
 	}
 });
 
+export const windowStats = {
+	deltaTime: 0,
+	fps: 0,
+	lastTimeCalled: 0
+}
+
 /**
  * Main render loop
  * 
  * All rendering actions start inside here.
  */
 function render() {
+
+	let nowTime = performance.now();
+
+	windowStats.deltaTime = nowTime - windowStats.lastTimeCalled;
+	windowStats.fps = 1000 / windowStats.deltaTime;
 
 	// Update the canvas's width if it isn't the same as the windows
 	if (canvas.width != window.innerWidth) {
@@ -98,6 +109,8 @@ function render() {
 		// The `RenderingContext` to draw the image onto
 		context
 	);
+
+	windowStats.lastTimeCalled = performance.now();
 
 	// When the document/window redraws the screen, call
 	// the `render()` function
