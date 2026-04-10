@@ -25,6 +25,8 @@
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false,
+		"strictPropertyInitialization": false,
+		"removeComments": true
 	},
 	
 	"include": [
