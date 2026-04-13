@@ -1,5 +1,6 @@
 // Import the sprite-based functions/methods
-import { sprite } from "./sprites.js";
+import { KeyboardManager } from "./keyboard.js";
+import { SpriteRenderer } from "./sprites.js";
 
 // Get the canvas that will be drawn on, as well as
 // it's 2D context. The context is what is actually
@@ -9,7 +10,7 @@ const context:CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRender
 
 
 // Register a sprite with a name "example-sprite"
-sprite.registerData({
+SpriteRenderer.registerData({
 
 	// The name of the sprite
 	name: "example-sprite",
@@ -93,7 +94,7 @@ function render() {
 	);
 
 	// Draw a sprite with reference to "example-sprite" (declared above)	
-	sprite.drawSprite(
+	SpriteRenderer.drawSprite(
 		{
 			name: "example-sprite",
 
@@ -119,3 +120,9 @@ function render() {
 
 // Start the render loop
 render();
+
+
+
+KeyboardManager.addEventListener("down", /.*/, (e) => {
+	console.log(e.key);
+});

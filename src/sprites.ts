@@ -107,12 +107,16 @@ export type Sprite = {
 }
 
 
-/**
- * An object to store a list of **registered** `SpriteData` objects.
- */
-var registeredSprites:{ [x:string]: SpriteData } = {};
+export class SpriteRenderer {
 
-export const sprite = {
+	/**
+	 * An object to store a list of **registered** `SpriteData` objects.
+	 */
+	private static registeredSprites:{ [x:string]: SpriteData } = {};
+
+	constructor() {
+		throw new TypeError("SpriteRenderer is not a constructor");
+	}
 
 
 	/**
@@ -121,11 +125,11 @@ export const sprite = {
 	 * 
 	 * @param data The `SpriteData` object to register as a sprite
 	 */
-	registerData(data:SpriteData) {
+	public static registerData(data:SpriteData) {
 
 		// If a sprite with the same name has already been
 		// registered, log an error and stop
-		if (data.name in registeredSprites) {
+		if (data.name in this.registeredSprites) {
 			console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
 			return;
 		}
@@ -171,13 +175,13 @@ export const sprite = {
 		}
 
 		// Add the data to the spriteData list
-		registeredSprites[data.name] = data;
+		this.registeredSprites[data.name] = data;
 
 		// Log a message into the console
 		console.log(`Registered SpriteData with name "${data.name}"`);
 
 
-	},
+	}
 
 	/**
 	 * Draw a sprite (through referencing a registered `SpriteData` object) onto a specific `RenderingContext`.
@@ -187,17 +191,17 @@ export const sprite = {
 	 * @param context	What `RenderingContext` the sprite should
 	 * 					be rendered onto.
 	 */
-	drawSprite(ref:Sprite, context:RenderingContext):void {
+	public static drawSprite(ref:Sprite, context:RenderingContext):void {
 
 		// If the sprite could not be found, log it in the console as an error, and stop.
-		if (ref.name in registeredSprites == false) {
+		if (ref.name in this.registeredSprites == false) {
 			console.error(`Failed to find SpriteData with name "${ref.name}".`);
 			return;
 		}
 
 		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
 		// Safe to assume that it's a `SpriteData` object, as we checked above
-		let data:SpriteData = registeredSprites[ref.name] as SpriteData;
+		let data:SpriteData = this.registeredSprites[ref.name] as SpriteData;
 
 
 		// If (for some reason) the `SpriteData.source` is **not** an image, log it and stop.
@@ -260,13 +264,13 @@ export const sprite = {
 			ref.size[0], ref.size[1]
 		);
 
-	},
+	}
 
 	/**
 	 * Render the sprite onto an `OffscreenCanvas`
 	 * @param ref	Determines the `SpriteData` to use, as well as the size of the `OffscreenCanvas`. (`ref.position` is ignored)
 	 */
-	getSpriteAsOffscreenCanvas(ref:Sprite):OffscreenCanvas {
+	public static getSpriteAsOffscreenCanvas(ref:Sprite):OffscreenCanvas {
 		
 		// Create a new OffscreenCanvas, as well as a 2D context for it.
 		// The OffscreenCanvas is the same size a the `ref.size` values.

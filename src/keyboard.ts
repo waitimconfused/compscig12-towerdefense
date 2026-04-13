@@ -12,13 +12,19 @@ type KeyboardListener = {
 	callback: KeyboardListenerCallback
 };
 
-// Array to store a list of what keyboard buttons are being pressed
-var keyList: string[] = [];
-
 // Array to store a list of event listeners (see `KeyboardListener`)
 var eventListeners: KeyboardListener[] = [];
 
-const keyboard = {
+export class KeyboardManager {
+
+	constructor() {
+		throw new TypeError("KeyboardManager is not a constructor");
+	}
+
+	/**
+	 * Array to store a list of what keyboard buttons are being pressed
+	 */
+	private static activeKeys: string[] = [];
 
 	/**
 	 * 
@@ -29,17 +35,17 @@ const keyboard = {
 	 * 
 	 * @param callback	Function to call when the requested keyboard event occurs 
 	 */
-	addEventListener(type: KeyboardListenerType, key: string | RegExp, callback: KeyboardListenerCallback) {
+	public static addEventListener(type: KeyboardListenerType, key: string | RegExp, callback: KeyboardListenerCallback) {
 
 		eventListeners.push({ type, key, callback });
 
-	},
+	}
 
-	isKeyDown(key: string | RegExp) {
+	public static isKeyDown(key: string | RegExp) {
 
-		for (let i = 0; i < keyList.length; i++) {
+		for (let i = 0; i < this.activeKeys.length; i++) {
 
-			let currentKey:string = keyList[i] as string;
+			let currentKey:string = this.activeKeys[i] as string;
 
 			if (key instanceof RegExp && currentKey.match(key)) return true;
 			if (typeof key == "string" && currentKey == key) return true;
@@ -47,19 +53,22 @@ const keyboard = {
 		}
 
 		return false;
+	}
 
-	},
+	public static dispatchEvent(type: KeyboardListenerType, key: string, event: KeyboardEvent) {
 
+		let index = this.activeKeys.indexOf(key);
 
-	dispatchEvent(type: KeyboardListenerType, key: string, event: KeyboardEvent) {
+		if (type == "down" && index != -1) return;
 
-		let index = keyList.indexOf(key);
+		switch (type) {
+			case "down":
+				this.activeKeys.push(key);
+				break;
 
-		if (type == "down") {
-			if (index == -1) keyList.push(key);
-
-		} else if (type == "up") {
-			keyList.splice(index, 1);
+			case "up":
+				this.activeKeys.splice(index, 1);
+				break;
 		}
 
 		for (let i = 0; i < eventListeners.length; i++) {
@@ -83,7 +92,7 @@ document.addEventListener("keydown", (e) => {
 
 	let key = (e.key.length == 1) ? e.key.toLowerCase() : e.key;
 
-	keyboard.dispatchEvent("down", key, e);
+	KeyboardManager.dispatchEvent("down", key, e);
 
 });
 
@@ -92,21 +101,6 @@ document.addEventListener("keyup", (e) => {
 
 	let key = (e.key.length == 1) ? e.key.toLowerCase() : e.key;
 
-	keyboard.dispatchEvent("up", key, e);
+	KeyboardManager.dispatchEvent("up", key, e);
 
 });
-
-
-
-
-
-
-
-
-
-
-keyboard.addEventListener("down", /w|a|s|d/, (e) => {
-	console.log(e.key);
-});
-
-keyboard.isKeyDown("ArrowLeft")
