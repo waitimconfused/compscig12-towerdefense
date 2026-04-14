@@ -51,7 +51,7 @@
           <mxGeometry height="72" width="250" y="138" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-10" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="View" vertex="1">
-          <mxGeometry height="140" width="310" x="-1370" y="290" as="geometry" />
+          <mxGeometry height="140" width="310" x="-810" y="370" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-11" parent="ROBIbayNkki9oVfscOgo-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ name: string {readonly}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- parentEngine: Engine&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- renderables: EngineRenderable[]&lt;/div&gt;" vertex="1">
           <mxGeometry height="84" width="310" y="26" as="geometry" />
