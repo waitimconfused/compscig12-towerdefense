@@ -130,12 +130,6 @@
             <mxPoint x="35" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="yPStzAgsiJfc5xqQPr_x-2" parent="1" style="whiteSpace=wrap;html=1;" value="" vertex="1">
-          <mxGeometry height="60" width="120" x="130" y="680" as="geometry" />
-        </mxCell>
-        <mxCell id="9guflXT3q6MyzlLtJzlu-17" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" value="HIHIHI THIS IS A TEST" vertex="1">
-          <mxGeometry height="260" width="440" x="-1530" y="230" as="geometry" />
-        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
