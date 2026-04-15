@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="8gM9-npyLLICQrEM5v5u">
-    <mxGraphModel dx="5682" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="4798" dy="730" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -94,7 +94,7 @@
         <mxCell id="9guflXT3q6MyzlLtJzlu-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;DefenderEntity&lt;/div&gt;" vertex="1">
           <mxGeometry height="174" width="270" x="-160" y="798" as="geometry" />
         </mxCell>
-        <mxCell id="9guflXT3q6MyzlLtJzlu-6" parent="9guflXT3q6MyzlLtJzlu-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- defenderLvl : number&lt;div&gt;- spawnCooldown : number&lt;div&gt;- attackCooldown : number&lt;/div&gt;&lt;div&gt;- defenderCost : number&lt;/div&gt;&lt;div&gt;- defenderSoldCost : number&lt;/div&gt;&lt;div&gt;- knockbackStrength : number&lt;/div&gt;&lt;div&gt;-defenderUpgradePoints : number&lt;/div&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="9guflXT3q6MyzlLtJzlu-6" parent="9guflXT3q6MyzlLtJzlu-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- defenderLvl : number&lt;div&gt;- spawnCooldown : number&lt;div&gt;- attackCooldown : number&lt;/div&gt;&lt;div&gt;- defenderCost : number&lt;/div&gt;&lt;div&gt;- defenderSoldCost : number&lt;/div&gt;&lt;div&gt;- knockbackStrength : number&lt;/div&gt;&lt;div&gt;- defenderUpgradePoints : number&lt;/div&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="114" width="270" y="26" as="geometry" />
         </mxCell>
         <mxCell id="9guflXT3q6MyzlLtJzlu-7" parent="9guflXT3q6MyzlLtJzlu-5" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
@@ -214,7 +214,7 @@
         <mxCell id="yPStzAgsiJfc5xqQPr_x-12" parent="yPStzAgsiJfc5xqQPr_x-10" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="380" y="70" as="geometry" />
         </mxCell>
-        <mxCell id="yPStzAgsiJfc5xqQPr_x-13" parent="yPStzAgsiJfc5xqQPr_x-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ attackClosest(defenders : DefenderEntity[]) : void&lt;/div&gt;&lt;div&gt;+ killDefender() : void&lt;/div&gt;&lt;div&gt;+ antDeath() : void&lt;/div&gt;&lt;div&gt;+ takeDamage(amount : number, isAOE : boolean) : void&lt;/div&gt;" vertex="1">
+        <mxCell id="yPStzAgsiJfc5xqQPr_x-13" parent="yPStzAgsiJfc5xqQPr_x-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ attackClosest() : void&lt;/div&gt;&lt;div&gt;+ killDefender() : void&lt;/div&gt;&lt;div&gt;+ antDeath() : void&lt;/div&gt;&lt;div&gt;+ takeDamage(amount : number, isAOE : boolean) : void&lt;/div&gt;" vertex="1">
           <mxGeometry height="92" width="380" y="78" as="geometry" />
         </mxCell>
         <mxCell id="9guflXT3q6MyzlLtJzlu-25" edge="1" parent="1" source="yLfdV1dLRmRjlCLzfb5J-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.989;entryY=0.436;entryDx=0;entryDy=0;entryPerimeter=0;" target="ROBIbayNkki9oVfscOgo-11">
@@ -237,7 +237,7 @@
         <mxCell id="UppwIz4bOEHaex1xX7Yn-3" parent="UppwIz4bOEHaex1xX7Yn-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="10" width="300" y="80" as="geometry" />
         </mxCell>
-        <mxCell id="UppwIz4bOEHaex1xX7Yn-4" parent="UppwIz4bOEHaex1xX7Yn-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ attemptAttack(defenders : DefenderEntity[]) : void&lt;/div&gt;&lt;div&gt;+ killDefender() : void&lt;/div&gt;&lt;div&gt;+ raccoonDeath() : void&lt;/div&gt;" vertex="1">
+        <mxCell id="UppwIz4bOEHaex1xX7Yn-4" parent="UppwIz4bOEHaex1xX7Yn-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ attemptAttack() : void&lt;/div&gt;&lt;div&gt;+ killDefender() : void&lt;/div&gt;&lt;div&gt;+ raccoonDeath() : void&lt;/div&gt;" vertex="1">
           <mxGeometry height="90" width="300" y="90" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-15" edge="1" parent="1" source="UppwIz4bOEHaex1xX7Yn-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.769;entryY=0.986;entryDx=0;entryDy=0;entryPerimeter=0;" target="9guflXT3q6MyzlLtJzlu-4" value="extends">
@@ -317,19 +317,19 @@
         <mxCell id="UgaVAZVQR7dv4b7FBpfu-30" parent="UgaVAZVQR7dv4b7FBpfu-28" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="230" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="UgaVAZVQR7dv4b7FBpfu-31" parent="UgaVAZVQR7dv4b7FBpfu-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ constructor ()&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ selfDestruct :void&lt;/div&gt;&lt;div&gt;+detectEnemy : void&lt;/div&gt;" vertex="1">
+        <mxCell id="UgaVAZVQR7dv4b7FBpfu-31" parent="UgaVAZVQR7dv4b7FBpfu-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ constructor ()&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ selfDestruct :void&lt;/div&gt;&lt;div&gt;+ detectEnemy : void&lt;/div&gt;" vertex="1">
           <mxGeometry height="72" width="230" y="98" as="geometry" />
         </mxCell>
         <mxCell id="UgaVAZVQR7dv4b7FBpfu-32" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Strawberry" vertex="1">
           <mxGeometry height="240" width="330" x="460" y="1022" as="geometry" />
         </mxCell>
-        <mxCell id="UgaVAZVQR7dv4b7FBpfu-33" parent="UgaVAZVQR7dv4b7FBpfu-32" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- flyToEnemy : boolean&lt;div&gt;- didDamage : boolean&lt;/div&gt;&lt;div&gt;- psychoLvl : number&lt;/div&gt;&lt;div&gt;- strawberrySize : number&lt;/div&gt;&lt;div&gt;- canHit : boolean&lt;/div&gt;" vertex="1">
+        <mxCell id="UgaVAZVQR7dv4b7FBpfu-33" parent="UgaVAZVQR7dv4b7FBpfu-32" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- targetedEnemy: EnemyEntity | null&lt;div&gt;- didDamage : boolean&lt;/div&gt;&lt;div&gt;- psychoLvl : number&lt;/div&gt;&lt;div&gt;- strawberrySize : number&lt;/div&gt;&lt;div&gt;- canHit : boolean&lt;/div&gt;" vertex="1">
           <mxGeometry height="94" width="330" y="26" as="geometry" />
         </mxCell>
         <mxCell id="UgaVAZVQR7dv4b7FBpfu-34" parent="UgaVAZVQR7dv4b7FBpfu-32" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="330" y="120" as="geometry" />
         </mxCell>
-        <mxCell id="UgaVAZVQR7dv4b7FBpfu-35" parent="UgaVAZVQR7dv4b7FBpfu-32" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ constructor ()&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ attackClosest(enemy : EnemyEntity[]) : void&lt;/div&gt;&lt;div&gt;+ strawberryExpression(psyochoLvl : number)&amp;nbsp; : void&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="UgaVAZVQR7dv4b7FBpfu-35" parent="UgaVAZVQR7dv4b7FBpfu-32" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ constructor ()&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ attackClosest() : void&lt;/div&gt;&lt;div&gt;+ strawberryExpression(psyochoLvl : number)&amp;nbsp; : void&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="112" width="330" y="128" as="geometry" />
         </mxCell>
         <mxCell id="UgaVAZVQR7dv4b7FBpfu-42" edge="1" parent="1" source="UgaVAZVQR7dv4b7FBpfu-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1.009;entryY=0.821;entryDx=0;entryDy=0;entryPerimeter=0;" target="9guflXT3q6MyzlLtJzlu-6">
