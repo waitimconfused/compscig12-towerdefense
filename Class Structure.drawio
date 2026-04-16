@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="8gM9-npyLLICQrEM5v5u">
-    <mxGraphModel dx="6343" dy="1506" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="4798" dy="730" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -25,21 +25,25 @@
         <mxCell id="ROBIbayNkki9oVfscOgo-5" edge="1" parent="1" source="yLfdV1dLRmRjlCLzfb5J-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.999;exitY=0.823;exitDx=0;exitDy=0;startArrow=circlePlus;startFill=0;exitPerimeter=0;" target="ROBIbayNkki9oVfscOgo-2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ROBIbayNkki9oVfscOgo-17" edge="1" parent="1" source="ROBIbayNkki9oVfscOgo-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" target="ROBIbayNkki9oVfscOgo-10">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="ROBIbayNkki9oVfscOgo-17" edge="1" parent="1" source="ROBIbayNkki9oVfscOgo-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.306;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;startArrow=classic;startFill=1;exitPerimeter=0;" target="ROBIbayNkki9oVfscOgo-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-1845" y="200" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-18" connectable="0" parent="ROBIbayNkki9oVfscOgo-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="* views" vertex="1">
           <mxGeometry relative="1" x="-0.6595" y="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ROBIbayNkki9oVfscOgo-19" connectable="0" parent="ROBIbayNkki9oVfscOgo-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="1 parentEngine" vertex="1">
-          <mxGeometry relative="1" x="0.3325" y="1" as="geometry">
-            <mxPoint y="30" as="offset" />
+        <mxCell id="eVBpOyt0c2aBKcT73KbQ-2" connectable="0" parent="ROBIbayNkki9oVfscOgo-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="1 parentEngine" vertex="1">
+          <mxGeometry relative="1" x="0.912" y="-1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-6" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Engine" vertex="1">
-          <mxGeometry height="210" width="250" x="-810" y="40" as="geometry" />
+          <mxGeometry height="210" width="250" x="-1290" y="50" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-7" parent="ROBIbayNkki9oVfscOgo-6" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- canvas: HTMLCanvasElement&lt;/div&gt;&lt;div&gt;- context: CanvasRenderingContext2D&lt;/div&gt;&lt;div&gt;+ width: number {readonly}&lt;/div&gt;&lt;div&gt;+ height: number {readonly}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;-views: View[]&lt;/div&gt;" vertex="1">
           <mxGeometry height="104" width="250" y="26" as="geometry" />
@@ -51,9 +55,9 @@
           <mxGeometry height="72" width="250" y="138" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-10" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="View" vertex="1">
-          <mxGeometry height="140" width="310" x="-810" y="370" as="geometry" />
+          <mxGeometry height="140" width="310" x="-2000" y="286" as="geometry" />
         </mxCell>
-        <mxCell id="ROBIbayNkki9oVfscOgo-11" parent="ROBIbayNkki9oVfscOgo-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ name: string {readonly}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- parentEngine: Engine&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- renderables: EngineRenderable[]&lt;/div&gt;" vertex="1">
+        <mxCell id="ROBIbayNkki9oVfscOgo-11" parent="ROBIbayNkki9oVfscOgo-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ name: string {readonly}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- parentEngine: Engine&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- elements: ViewElement[]&lt;/div&gt;" vertex="1">
           <mxGeometry height="84" width="310" y="26" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-12" parent="ROBIbayNkki9oVfscOgo-10" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
@@ -63,7 +67,7 @@
           <mxGeometry height="22" width="310" y="118" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-22" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="GameplayView" vertex="1">
-          <mxGeometry height="168" width="310" x="-1030" y="630" as="geometry" />
+          <mxGeometry height="168" width="310" x="-1680" y="580" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-23" parent="ROBIbayNkki9oVfscOgo-22" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- worldCanvas: OffscreenCanvas&lt;/div&gt;&lt;div&gt;- worldContext: OffscreenCanvasRenderingContext2D&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- guiCanvas: OffscreenCanvas&lt;/div&gt;&lt;div&gt;- guiContext: OffscreenCanvasRenderingContext2d&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ enemies: EnemyEntity[] {readonly}&lt;/div&gt;&lt;div&gt;+ defenders: DefenderEntity[] {readonly}&lt;/div&gt;" vertex="1">
           <mxGeometry height="134" width="310" y="26" as="geometry" />
@@ -71,7 +75,7 @@
         <mxCell id="ROBIbayNkki9oVfscOgo-24" parent="ROBIbayNkki9oVfscOgo-22" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="310" y="160" as="geometry" />
         </mxCell>
-        <mxCell id="ROBIbayNkki9oVfscOgo-26" edge="1" parent="1" source="ROBIbayNkki9oVfscOgo-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.271;entryY=1.01;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=0;" target="ROBIbayNkki9oVfscOgo-13">
+        <mxCell id="ROBIbayNkki9oVfscOgo-26" edge="1" parent="1" source="ROBIbayNkki9oVfscOgo-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.934;entryY=1.006;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=0;" target="ROBIbayNkki9oVfscOgo-13">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="ROBIbayNkki9oVfscOgo-27" connectable="0" parent="ROBIbayNkki9oVfscOgo-26" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="extends" vertex="1">
