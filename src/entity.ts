@@ -29,17 +29,13 @@ class Entity {
     constructor (
         view : View,
         stats : { health : number, speed : number, regeneration : number},
-        upgrades : EntityUpgrade[],
-        modifiers : EntityModifiers
     ) {
         this.parentView = view;
         this.stats = stats;
-        this.modifiers = modifiers;
         this.maxHealth = stats.health;
         this.health = stats.health;
         this.position = [0,0];
         this.walkingTo = [0,0];
-        this.upgradeData = upgrades;
         this.currentUpgrade = 0;
     }
 
