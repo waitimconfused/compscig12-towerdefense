@@ -30,3 +30,9 @@ export interface Position2D extends Array<number> {
  * rendered on (`Canvas` and `OffscreenCanvas`)
  */
 export type RenderingContext = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
+
+/**
+ * The 2D contexts of types of *Canvases* that can be
+ * rendered on (`Canvas` and `OffscreenCanvas`)
+ */
+export type Canvas = HTMLCanvasElement | OffscreenCanvas;
