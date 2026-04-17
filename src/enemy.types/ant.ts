@@ -2,7 +2,6 @@ import { EnemyEntity } from "../enemyEntity";
 import { View } from "../view";
 
 class Ant extends EnemyEntity {
-    private regenerationActive : boolean = false;
     private aoeVulnerability : number = 0;
 
     constructor(view: View, waveNumber: number) {
@@ -24,8 +23,6 @@ class Ant extends EnemyEntity {
     }
 
     public killDefender() : void {
-        this.regenerationActive = true;
-
         this.regen(1,2);
     }
 
