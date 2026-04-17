@@ -20,6 +20,8 @@ export default class Engine {
 
 	private views:ViewObjectLayout = {};
 
+	public static windowVisible:boolean = true;
+
 	constructor( canvas:HTMLCanvasElement ) {
 		this.canvas = canvas;
 		this.context = canvas.getContext("2d") as RenderingContext;
@@ -54,6 +56,16 @@ export default class Engine {
 	
 	private render() {
 
+		if (Engine.windowVisible == false) {
+			console.log("PAUSED");
+			Engine.waitForVisible()
+				.then(() => {
+					console.log("PLAY");
+					this.render();
+				});
+			return;
+		}
+
 		if (this.canvas.width != window.innerWidth)		this.canvas.width = window.innerWidth;
 		if (this.canvas.height != window.innerHeight)	this.canvas.height = window.innerHeight;
 
@@ -70,4 +82,27 @@ export default class Engine {
 		window.requestAnimationFrame(() => this.render());
 	}
 
+	public static async waitForVisible():Promise<true> {
+		return new Promise((resolve) => {
+
+			let anonymous = () => {
+				document.removeEventListener("visibilitychange", anonymous);
+				resolve(true);
+			};
+
+			document.addEventListener("visibilitychange", anonymous);
+
+		});
+	}
+
 }
+
+document.addEventListener("visibilitychange", (event) => {
+
+	if (document.visibilityState == "visible") {
+		Engine.windowVisible = true;
+	} else {
+		Engine.windowVisible = false;
+	}
+
+});

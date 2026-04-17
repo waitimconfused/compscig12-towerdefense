@@ -84,11 +84,9 @@ export type SpriteData = {
 export type Sprite = {
 
 	/**
-	 * Reference to `SpriteData.name`,
-	 * then (after being added to an Engine), it is set to
-	 * the **index** of the `SpriteData`.
+	 * Reference to `SpriteData.name`
 	 */
-	name: string | number;
+	name: string;
 
 	/**
 	 * `Sprite.position[0]:number`: ***X**-coordinate*
@@ -118,6 +116,9 @@ export class SpriteRenderer {
 		throw new TypeError("SpriteRenderer is not a constructor");
 	}
 
+	public static isRegistered(reference:string|number) {
+		return reference in this.registeredSprites;
+	}
 
 	/**
 	 * Register a `SpriteData` object that can be referenced

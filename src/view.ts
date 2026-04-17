@@ -1,11 +1,13 @@
+import { SpriteRenderer } from "./sprites.js";
 import { Canvas, Position2D, RenderingContext } from "./types.js";
 
 export class View {
 
 	private elements:ViewElement[] = [];
 	
-	public addElement( ...element:ViewElement[] ):this {
-		this.elements.push(...element);
+	public addElement( ...elements:ViewElement[] ):this {
+		this.elements.push(...elements);
+		console.log(this.elements.length);
 		return this;
 	}
 	
@@ -86,7 +88,7 @@ class ViewElement {
 
 	public stroke: ViewElementStroke = {
 		colour: "black",
-		size: 10,
+		size: 5,
 		lineCap: "square",
 		lineJoin: "miter",
 		dash: null,
@@ -144,11 +146,15 @@ export class ViewText extends ViewElement {
 	}
 
 	public override render(canvas:Canvas, context:RenderingContext) {
+
+		setGeneralStyles(context, this);
 		
 		context.font = `bold ${this.font.size}px ${this.font.family}`;
 		context.textAlign = this.alignment.x;
 		context.textBaseline = this.alignment.y;
+
 		context.fillText( this.content, this.position[0], this.position[1] );
+		context.strokeText( this.content, this.position[0], this.position[1] );
 	}
 
 }
@@ -156,4 +162,54 @@ export class ViewText extends ViewElement {
 
 export class ViewRect extends ViewElement {
 	public size:Position2D = [ 0, 0 ];
+
+	public override render(canvas: Canvas, context: RenderingContext): void {
+		setGeneralStyles(context, this);
+		
+		context.beginPath();
+		context.fillRect(this.position[0], this.position[1], this.size[0], this.size[1]);
+		context.closePath();
+
+		context.fill();
+		context.stroke();
+
+	}
+}
+
+export class ViewSprite extends ViewElement {
+
+	public reference:string;
+
+	public size:Position2D = [ 100, 100 ];
+
+	constructor( reference:string ) {
+		super();
+		
+		if ( SpriteRenderer.isRegistered(reference) ) this.reference = reference;
+		else console.error(`Cannot reference unregistered sprite "${reference}".`);
+	}
+
+	public override render(canvas: Canvas, context: RenderingContext): void {
+
+		SpriteRenderer.drawSprite({
+			name: this.reference,
+			position: this.position,
+			size: this.size
+		}, context);
+
+	}
+}
+
+
+function setGeneralStyles( context:RenderingContext, viewElement:ViewElement ): void {
+	context.strokeStyle = viewElement.stroke.colour;
+	
+	context.setLineDash( viewElement.stroke.dash ?? [0] );
+	context.lineDashOffset = viewElement.stroke.dashOffset;
+	
+	context.lineCap = viewElement.stroke.lineCap;
+	context.lineJoin = viewElement.stroke.lineJoin;
+	context.lineWidth = viewElement.stroke.size;
+
+	context.fillStyle = viewElement.fill;
 }
