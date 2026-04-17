@@ -11,6 +11,14 @@ type EntityUpgrade = {
     [statName : string] : number;
 }
 
+/**
+ * Base class for all Entities
+ * 
+ * Handles position, movement, health, damage, healing, and death
+ * 
+ * Extended by specialized Entities
+ * e.g. enemies, defenders
+ */
 class Entity {
     // World view or rendering system reference
     private parentView: View
