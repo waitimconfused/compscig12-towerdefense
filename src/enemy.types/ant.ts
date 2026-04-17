@@ -30,8 +30,8 @@ class Ant extends EnemyEntity {
         this.regen(1,2);
     }
 
-    public override takeDamage(amount : number, isAOE : boolean = false) : void {
-        let finalDamage = amount;
+    public override takeDamage(damage : number, isAOE : boolean = false) : void {
+        let finalDamage = damage;
 
         if (isAOE) {
             finalDamage += finalDamage * this.aoeVulnerability;
