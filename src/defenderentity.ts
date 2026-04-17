@@ -1,7 +1,7 @@
 //import the basic entity class
 import { Entity } from "./entity.js";
 
-class DefenderEntity{
+class DefenderEntity extends Entity{
     //assign basic properties for all defenders
     //the defender level
     private defenderLvl : number;
@@ -31,6 +31,7 @@ class DefenderEntity{
      * @param theDefenderUpgradePoints 
      */
     constructor (theDefenderLvl : number, theSpawnCooldown : number, theAttackCooldown : number, theDefenderCost : number, theDefenderSoldCost : number, theKnockbackStrength : number, theDefenderUpgradePoints : number, theDefenderUpgradeCost : number ){
+        super();
         this.defenderLvl = theDefenderLvl;
         this.spawnCooldown = theSpawnCooldown;
         this.attackCooldown = theAttackCooldown;
