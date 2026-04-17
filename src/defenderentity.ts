@@ -30,7 +30,7 @@ class DefenderEntity extends Entity{
      * @param theKnockbackStrength 
      * @param theDefenderUpgradePoints 
      */
-    constructor (theDefenderLvl : number, theSpawnCooldown : number, theAttackCooldown : number, theDefenderCost : number, theDefenderSoldCost : number, theKnockbackStrength : number, theDefenderUpgradePoints : number, theDefenderUpgradeCost : number ){
+    constructor (theDefenderLvl : number, theSpawnCooldown : number, theAttackCooldown : number, theDefenderCost : number, theDefenderSoldCost : number, theDefenderUpgradePoints : number, theDefenderUpgradeCost : number ){
         super();
         this.defenderLvl = theDefenderLvl;
         this.spawnCooldown = theSpawnCooldown;
