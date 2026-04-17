@@ -43,20 +43,8 @@ class Entity {
         this._health = stats.health;
     }
 
-    public setPosition(x : number, y : number) : void {
-        this.position = [x,y];
-    }
-
     public walkToPosition(x : number, y : number) : void {
         this.walkingTo = [x,y];
-    }
-
-    public setState(state : string) : void {
-        
-    }
-
-    public takeDamage(damage : number) : void {
-        
     }
 
     public getClosestEntity() : Entity | null {
@@ -67,16 +55,32 @@ class Entity {
         return null;
     }
 
-    public heal(amount: number): void {
-        this._health = Math.min(this._health + amount, this._maxHealth);
+    public setPosition(x : number, y : number) : void {
+        this.position = [x,y];
     }
 
+    public setState(state : string) : void {
+        
+    }
+    
     public setHealth(value: number): void {
         this._health = Math.max(0, Math.min(value, this._maxHealth));
     
         if (this._health === 0) {
             this.onDeath();
         }
+    }
+
+    public takeDamage(damage : number) : void {
+        if (!this.isAlive) {
+            return;
+        }
+
+        this.setHealth(this._health - damage);
+    }
+
+    public heal(amount: number): void {
+        this._health = Math.min(this._health + amount, this._maxHealth);
     }
 
     public isAlive(): boolean {
