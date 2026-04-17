@@ -2,7 +2,7 @@ import { EnemyEntity } from "../enemyEntity";
 import { View } from "../view";
 
 class Ant extends EnemyEntity {
-    private aoeVulnerability : number = 0;
+    private aoeVulnerability : number = 0.25;
 
     constructor(view: View, waveNumber: number) {
         const STATS = {

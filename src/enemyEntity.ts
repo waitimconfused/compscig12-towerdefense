@@ -92,10 +92,6 @@ class EnemyEntity extends Entity {
         }, 1000);
     }
 
-    public enemyDamaged(): void {
-
-    }
-
     public setDrops(drops: EnemyDrops): void {
         this.drops = drops;
     }

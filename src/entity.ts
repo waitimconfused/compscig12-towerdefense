@@ -12,27 +12,43 @@ type EntityUpgrade = {
 }
 
 class Entity {
+    // World view or rendering system reference
     private parentView: View
     
+    // Current entity position
     public position : Position2D = [ 0, 0 ];
+
+    // Target position entity is moving toward
     private walkingTo : Position2D = [ 0, 0 ];
     
+    // Current health
     private _health: number;
     public get health() { return this._health };
+
+    // Maximum possible health value
     private _maxHealth: number;
     public get maxHealth() { return this._maxHealth };
     
+    // Base stats
     private _stats: { health : number, speed : number, regeneration : number };
     public get stats() { return this._stats };
     
+    // Temporary modifiers
     private modifers: EntityModifers;
     
+    // Entity upgrades
     private _currentUpgrade: number;
     public get currentUpgrade() { return this._currentUpgrade };
 
+    // Upgrade data table
     private _upgradeData: EntityUpgrade[];
     public get upgradeData() { return this._upgradeData };
 
+    /**
+     * 
+     * @param view 
+     * @param stats 
+     */
     constructor (
         view: View,
         stats: { health: number; speed: number; regeneration: number }

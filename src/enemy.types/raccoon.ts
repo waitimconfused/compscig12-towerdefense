@@ -34,7 +34,7 @@ class Raccoon extends EnemyEntity {
     }
 
     public killDefender(): void {
-        this.regen(1, 5);
+        this.regen(5, 5);
     }
 
     public raccoonDeath(): void {
