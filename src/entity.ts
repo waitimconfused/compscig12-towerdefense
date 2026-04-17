@@ -66,6 +66,26 @@ class Entity {
     private getClosestTargetableEntity() : Entity | null {
         return null;
     }
+
+    public heal(amount: number): void {
+        this._health = Math.min(this._health + amount, this._maxHealth);
+    }
+
+    public setHealth(value: number): void {
+        this._health = Math.max(0, Math.min(value, this._maxHealth));
+    
+        if (this._health === 0) {
+            this.onDeath();
+        }
+    }
+
+    public isAlive(): boolean {
+        return this._health > 0;
+    }
+
+    public onDeath(): void {
+
+    }
 }
 
 export { Entity };
