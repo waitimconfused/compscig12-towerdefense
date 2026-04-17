@@ -70,14 +70,6 @@ class Ant extends EnemyEntity {
 
         super.takeDamage(finalDamage);
     }
-
-    /**
-     * Sets AOE vulnerability
-     * @param amount New vulnerability factor
-     */
-    public setAoeVulnerability(amount : number) : void {
-        this.aoeVulnerability = amount;
-    }
 }
 
 export {Ant};
