@@ -1,10 +1,10 @@
 import { EnemyEntity } from "../enemyEntity";
+import { DefenderEntity } from "../defenderEntity";
 import { View } from "../view";
 
 class Raccoon extends EnemyEntity {
     private stunDuration: number = 5;
-    private attackChance: number = 20;
-    private regenerationActive: boolean = false;
+    private attackChance: number = 0.2;
 
     constructor(view: View, waveNumber: number) {
         const STATS = {
@@ -34,11 +34,7 @@ class Raccoon extends EnemyEntity {
     }
 
     public killDefender(): void {
-        this.regenerationActive = true;
-
         this.regen(1, 5);
-
-
     }
 
     public raccoonDeath(): void {
@@ -51,10 +47,6 @@ class Raccoon extends EnemyEntity {
 
     public setAttackChance(value: number): void {
         this.attackChance = value;
-    }
-
-    public isRegenerating(): boolean {
-        return this.regenerationActive;
     }
 }
 
