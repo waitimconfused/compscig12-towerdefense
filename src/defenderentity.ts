@@ -16,7 +16,7 @@ class DefenderEntity extends Entity{
     //the amount of money returned when selling a defender (defenders can only be sold if they have not been deployed)
     private defenderSoldCost : number;
     //the knockback strength of a defender
-    private knockbackStrength : number;
+    private knockbackStrength : number = 3;
     //the amount of points the player gets when upgrading aspects of a defender
     private defenderUpgradePoints : number;
 
@@ -38,7 +38,6 @@ class DefenderEntity extends Entity{
         this.defenderUpgradePoints = theDefenderUpgradePoints;
         this.defenderCost = theDefenderCost;
         this.defenderSoldCost = theDefenderSoldCost;
-        this.knockbackStrength = theKnockbackStrength;
         this.defenderUpgradeCost = theDefenderUpgradeCost;
     }
 }
