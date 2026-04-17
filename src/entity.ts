@@ -59,11 +59,11 @@ class Entity {
         
     }
 
-    private getClosestEntity() : Entity | null {
+    public getClosestEntity() : Entity | null {
         return null;
     }
 
-    private getClosestTargetableEntity() : Entity | null {
+    public getClosestTargetableEntity() : Entity | null {
         return null;
     }
 

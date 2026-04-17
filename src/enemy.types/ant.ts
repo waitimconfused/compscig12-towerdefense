@@ -19,7 +19,11 @@ class Ant extends EnemyEntity {
     }
 
     public attackClosest() : void {
-        
+        // placeholder
+        const DEFENDER = this.getClosestTargetableEntity();
+        if (!DEFENDER) return;
+
+        DEFENDER.takeDamage(2);
     }
 
     public killDefender() : void {
@@ -38,10 +42,6 @@ class Ant extends EnemyEntity {
 
     public setAoeVulnerability(amount : number) : void {
         this.aoeVulnerability = amount;
-    }
-
-    public isRegenerating() : boolean {
-        return this.regenerationActive;
     }
 }
 
