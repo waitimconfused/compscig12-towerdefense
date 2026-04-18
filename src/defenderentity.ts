@@ -1,4 +1,4 @@
-//import the basic entity class
+//import the vie and the basic entity class
 import { Entity } from "./entity.js";
 import { View } from "./view.js";
 
@@ -22,6 +22,8 @@ class DefenderEntity extends Entity{
     private defenderUpgradePoints : number;
     //check if defender has been stunned
     private isStunned : boolean = false;
+    //defender attack damage
+    private defenderAttackDamage : number;
 
     /**
      * passes through all the properties
@@ -30,15 +32,15 @@ class DefenderEntity extends Entity{
      * @param theAttackCooldown 
      * @param theDefenderCost 
      * @param theDefenderSoldCost 
-     * @param theKnockbackStrength 
      * @param theDefenderUpgradePoints 
+     * @param theDefenderAttackDamage
      */
    
     constructor (view: View,
         stats: { health: number; speed: number; regeneration: number }, 
         theDefenderLvl : number, theSpawnCooldown : number, theAttackCooldown : number, 
         theDefenderCost : number, theDefenderSoldCost : number, theDefenderUpgradePoints : number, 
-        theDefenderUpgradeCost : number ){
+        theDefenderUpgradeCost : number, theDefenderAttackDamage : number){
 
         super(view, {
             health: stats.health,
@@ -53,6 +55,7 @@ class DefenderEntity extends Entity{
         this.defenderCost = theDefenderCost;
         this.defenderSoldCost = theDefenderSoldCost;
         this.defenderUpgradeCost = theDefenderUpgradeCost;
+        this.defenderAttackDamage = theDefenderAttackDamage;
     }
 
     public spawnMovingDefender(x:number, y:number) : void{
