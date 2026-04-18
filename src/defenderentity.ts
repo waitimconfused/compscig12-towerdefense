@@ -16,7 +16,7 @@ class DefenderEntity extends Entity{
     private defenderUpgradeCost : number;
     //the amount of money returned when selling a defender (defenders can only be sold if they have not been deployed)
     private defenderSoldCost : number;
-    //the knockback strength of a defender
+    //the knockback strength of a defender - all have a knockback strength of 3
     private knockbackStrength : number = 3;
     //the amount of points the player gets when upgrading aspects of a defender
     private defenderUpgradePoints : number;
@@ -35,18 +35,13 @@ class DefenderEntity extends Entity{
      */
    
     constructor (view: View,
-        stats: { health: number; speed: number; regeneration: number },
-        waveNumber: number,
-        healthScale: number, 
+        stats: { health: number; speed: number; regeneration: number }, 
         theDefenderLvl : number, theSpawnCooldown : number, theAttackCooldown : number, 
         theDefenderCost : number, theDefenderSoldCost : number, theDefenderUpgradePoints : number, 
         theDefenderUpgradeCost : number ){
 
-        const SCALED_HEALTH = Math.floor(
-            stats.health * (healthScale ** (waveNumber - 1))
-        );
         super(view, {
-            health: SCALED_HEALTH,
+            health: stats.health,
             speed: stats.speed,
             regeneration: stats.regeneration
         });
@@ -60,7 +55,9 @@ class DefenderEntity extends Entity{
         this.defenderUpgradeCost = theDefenderUpgradeCost;
     }
 
-    
+    public spawnMovingDefender(x:number, y:number) : void{
+        this.position = [x,y];
+    }
 }
 
 export {DefenderEntity};
