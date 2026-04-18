@@ -27,7 +27,7 @@ class Ant extends EnemyEntity {
     }
 
     /**
-     * Spawns ant at given position
+     * Spawns Ant at given position
      * @param x The x coordinate on the world map
      * @param y The y coordinate on the world map
      */
