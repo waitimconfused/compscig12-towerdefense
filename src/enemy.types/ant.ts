@@ -21,6 +21,15 @@ export class Ant extends EnemyEntity {
         }
 
         super(view, STATS, waveNumber, 1.1);
+
+        this.setDrops({
+            coins : 1,
+            points : 2,
+            materialDropRate : {
+                'wood' : 0.2,
+                'glass' : 0.2
+            }
+        })
     }
 
     /**

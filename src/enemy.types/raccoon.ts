@@ -28,6 +28,15 @@ export class Raccoon extends EnemyEntity {
         };
 
         super(view, STATS, waveNumber, 1.20);
+
+        this.setDrops({
+            coins : 1,
+            points : 2,
+            materialDropRate : {
+                'wood' : 0.3,
+                'jar' : 0.3
+            }
+        })
     }
 
     /**
