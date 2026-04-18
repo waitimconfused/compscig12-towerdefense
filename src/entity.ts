@@ -19,7 +19,7 @@ type EntityUpgrade = {
  * Extended by specialized Entities
  * e.g. enemies, defenders
  */
-class Entity {
+export class Entity {
     // World view or rendering system reference
     private parentView: View
     
@@ -155,5 +155,3 @@ class Entity {
         // placeholder : override for subclasses
     }
 }
-
-export { Entity };

@@ -7,10 +7,7 @@ import { View } from "../view";
  * Ants are low health enemies that deal damage and spawn in clusters
  * Vulnerable to AOE, health increases every wave by 10%
  */
-class Ant extends EnemyEntity {
-    // Applied to AOE damage attacks
-    private aoeVulnerability : number = 0.25;
-
+export class Ant extends EnemyEntity {
     /**
      * Constructs an Ant enemy
      * @param view The game view to reference
@@ -65,11 +62,9 @@ class Ant extends EnemyEntity {
 
         // Increases damage dealth to Ant by 25% if attack is AOE
         if (isAOE) {
-            finalDamage += finalDamage * this.aoeVulnerability;
+            finalDamage += finalDamage * 0.25;
         }
 
         super.takeDamage(finalDamage);
     }
 }
-
-export {Ant};

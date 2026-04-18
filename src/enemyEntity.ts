@@ -12,7 +12,7 @@ type EnemyDrops = {
  * 
  * Handles wave scaling
  */
-class EnemyEntity extends Entity {
+export class EnemyEntity extends Entity {
     // Current wave enemy is spawned in
     private waveNumber: number;
 
@@ -177,5 +177,3 @@ class EnemyEntity extends Entity {
         this.handleDrops();
     }
 }
-
-export { EnemyEntity };

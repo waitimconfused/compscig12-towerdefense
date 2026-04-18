@@ -7,7 +7,7 @@ import { View } from "../view";
  * 
  * Raccoons are high hp enemies that deal damage and randomly attack and stun defenders on the path
  */
-class Raccoon extends EnemyEntity {
+export class Raccoon extends EnemyEntity {
     // Duration in seconds that defender is stunned for when hit
     private stunDuration: number = 5;
     
@@ -58,11 +58,4 @@ class Raccoon extends EnemyEntity {
     public killDefender(): void {
         this.regen(2, 5);
     }
-
-    //
-    public override onDeath(): void {
-        
-    }
 }
-
-export { Raccoon };
