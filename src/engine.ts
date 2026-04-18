@@ -1,4 +1,4 @@
-import { RenderingContext } from "./types.js";
+import { Position2D, RenderingContext } from "./types.js";
 import { View, ViewObjectLayout } from "./view.js";
 
 
@@ -21,6 +21,20 @@ export default class Engine {
 	private views:ViewObjectLayout = {};
 
 	public static windowVisible:boolean = true;
+
+	public static anchor = {
+		topLeft:		Symbol("Anchor:tl"),
+		topCenter:		Symbol("Anchor:tl"),
+		topRight:		Symbol("Anchor:tr"),
+
+		centerLeft:		Symbol("Anchor:cl"),
+		centerCenter:	Symbol("Anchor:cl"),
+		centerRight:	Symbol("Anchor:cr"),
+
+		bottomLeft:		Symbol("Anchor:bl"),
+		bottomCenter:	Symbol("Anchor:bl"),
+		bottomRight:	Symbol("Anchor:br"),
+	}
 
 	constructor( canvas:HTMLCanvasElement ) {
 		this.canvas = canvas;
@@ -93,6 +107,45 @@ export default class Engine {
 			document.addEventListener("visibilitychange", anonymous);
 
 		});
+	}
+
+	public static resolveAnchor(anchor:symbol):Position2D|null {
+
+		switch (anchor) {
+			case Engine.anchor.topLeft:
+				return [ 0,						0 ];
+
+			case Engine.anchor.topCenter:
+				return [ window.innerWidth/2,	0 ];
+
+			case Engine.anchor.topRight:
+				return [ window.innerWidth,		0 ];
+
+
+			case Engine.anchor.centerLeft:
+				return [ 0,						window.innerHeight/2 ];
+
+			case Engine.anchor.centerCenter:
+				return [ window.innerWidth/2,	window.innerHeight/2 ];
+
+			case Engine.anchor.centerRight:
+				return [ window.innerWidth,		window.innerHeight/2 ];
+
+
+			case Engine.anchor.bottomLeft:
+				return [ 0,						window.innerHeight ];
+
+			case Engine.anchor.bottomCenter:
+				return [ window.innerWidth/2,	window.innerHeight ];
+
+			case Engine.anchor.bottomRight:
+				return [ window.innerWidth,		window.innerHeight ];
+
+				
+			default:
+				console.error(`Unknown anchor "${anchor.description}".`);
+				return null;
+		}
 	}
 
 }

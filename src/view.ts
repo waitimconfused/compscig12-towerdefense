@@ -1,3 +1,4 @@
+import Engine from "./engine.js";
 import { SpriteRenderer } from "./sprites.js";
 import { Canvas, Position2D, RenderingContext } from "./types.js";
 
@@ -82,7 +83,15 @@ export type ViewElementStroke = {
 
 class ViewElement {
 
-	public position:Position2D = [ 0, 0 ];
+	private _position:Position2D|symbol = [ 0, 0 ];
+
+	public get position() {
+		if (typeof this._position == "symbol") {
+			return Engine.resolveAnchor(this._position) ?? [ 0, 0 ];
+		} else {
+			return this._position;
+		}
+	}
 	
 	private clickEvent:ViewCallbackFunction|null = null;
 
@@ -97,9 +106,20 @@ class ViewElement {
 
 	public fill:string = "purple";
 
+	/**
+	 * @param anchor See `View.anchor`
+	 */
+	public setAnchor(anchor:symbol):this {
+		if ( Object.values(Engine.anchor).includes(anchor) == false ) {
+			console.error(`ViewElement cannot be anchored to an unknown anchor "${anchor.description}".`);
+			return this;
+		}
+		this._position = anchor;
+		return this;
+	}
+
 	public moveTo(x:number, y:number):this {
-		this.position[0] = x;
-		this.position[y] = y;
+		this._position = [ x, y ];
 		return this;
 	}
 	
