@@ -1,6 +1,6 @@
-import { EnemyEntity } from "../enemyEntity";
-import { DefenderEntity } from "../defenderEntity";
-import { View } from "../view";
+import { EnemyEntity } from "../enemyEntity.js";
+import { DefenderEntity } from "../defenderEntity.js";
+import { View } from "../view.js";
 
 /**
  * Creates a Raccoon as an EnemyEntity

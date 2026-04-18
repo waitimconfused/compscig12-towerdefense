@@ -1,5 +1,5 @@
-import { EnemyEntity } from "../enemyEntity";
-import { View } from "../view";
+import { EnemyEntity } from "../enemyEntity.js";
+import { View } from "../view.js";
 
 /**
  * Creates an Ant as an EnemyEntity

@@ -1,5 +1,5 @@
-import { Entity } from "./entity";
-import { View } from "./view";
+import { Entity } from "./entity.js";
+import { View } from "./view.js";
 
 type EnemyDrops = {
     coins: number;
