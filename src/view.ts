@@ -202,6 +202,16 @@ export class ViewSprite extends ViewElement {
 
 	public size:Position2D = [ 100, 100 ];
 
+	private _origin:Position2D = [ 0, 0 ];
+
+	public get origin() { return this._origin };
+	public set origin(position:Position2D) {
+		
+		// Clamp the coordinates to be in the range (0-1)
+		this._origin[0] = Math.max( Math.min(position[0], 1), 0 );
+		this._origin[1] = Math.max( Math.min(position[1], 1), 0 );
+	}
+
 	constructor( reference:string ) {
 		super();
 		
@@ -209,13 +219,24 @@ export class ViewSprite extends ViewElement {
 		else console.error(`Cannot reference unregistered sprite "${reference}".`);
 	}
 
+	public setOrigin(x:number, y:number):this {
+		this.origin = [ x, y ];
+		return this;
+	}
+
 	public override render(canvas: Canvas, context: RenderingContext): void {
 
+		let offsetPosition:Position2D = [
+			this.position[0] - this.origin[0]*this.size[0],
+			this.position[1] - this.origin[1]*this.size[1]
+		];
+		
 		SpriteRenderer.drawSprite({
 			name: this.reference,
-			position: this.position,
+			position: offsetPosition,
 			size: this.size
 		}, context);
+
 
 	}
 }

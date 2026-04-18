@@ -37,6 +37,7 @@ const engine = new Engine( canvas );
 	menuView.addElement(
 		new ViewSprite("example")
 		.setAnchor( Engine.anchor.centerCenter )
+		.setOrigin(0.5, 0.5)
 	);
 
 
