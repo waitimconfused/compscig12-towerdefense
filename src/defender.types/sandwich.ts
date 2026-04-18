@@ -11,15 +11,15 @@ class Sandwich extends DefenderEntity{
     private increaseSandwichLayers : boolean = false;
     
     /**
-     * passes through all the properties needed for the Cherry. the constructer has the base stats and the view
-     * @param view //the place where the Cherry will be found on the screen
+     * passes through all the properties needed for the sandwich. the constructer has the base stats and the view
+     * @param view //the place where the sandwich will be found on the screen
      * @param theDefenderLvl //starts at lvl 1
-     * @param theDeployCooldown //the cooldown for how fast the player can deploy the Cherry
-     * @param theAttackCooldown //the cooldown for how often the Cherry can attach
-     * @param theDefenderCost //the cost of deploying the Cherry
-     * @param theDefenderSoldCost //the money the player gets back when selling the Cherry
-     * @param theDefenderUpgradePoints //the points the player gets for their overall game when they upgrade the Cherry defender
-     * @param theDefenderAttackDamage //the attack damage for the Cherry
+     * @param theDeployCooldown //the cooldown for how fast the player can deploy the sandwich
+     * @param theAttackCooldown //the cooldown for how often the sandwich can attach
+     * @param theDefenderCost //the cost of deploying the sandwich
+     * @param theDefenderSoldCost //the money the player gets back when selling the sandwich
+     * @param theDefenderUpgradePoints //the points the player gets for their overall game when they upgrade the sandwich defender
+     * @param theDefenderAttackDamage //the attack damage for the sandwich
      */
     constructor (view : View, knockbackStrength : number){
         const STATS = {
@@ -73,12 +73,12 @@ class Sandwich extends DefenderEntity{
     }
 
     /**
-     * check to see if the cherry is at the max upgrade 
+     * check to see if the sandwich is at the max upgrade 
      * if it is, it can now hit enemies from the front and behind
-     * @returns returns the boolean value of whether the cherry can now attack front and back
+     * @returns returns the boolean value of whether the sandwich can now attack front and back
      */
     public sandwichMaxUpgrade () : boolean {
-        //if the cherry is at lvl 3, it is at max lvl and can use its new ability
+        //if the sandwich is at lvl 3, it is at max lvl and can use its new ability
         if (this.defenderBaseStats.defenderLvl == 3){
             this.increaseSandwichLayers = true;
             this.sandwichLayerCount = this.sandwichLayerCount + 3;
