@@ -41,8 +41,19 @@ export type SpriteData = {
 		 * basis**.
 		 * 
 		 * Measured in *milliseconds*.
+		 * 
+		 * If not set, use `frame_duration`. If neither are set, the default is `100ms/frame`
 		 */
-		duration: number,
+		duration: number|null,
+
+		/**
+		 * Duration of each `SpriteData` frame, **on a per-frame basis**
+		 * 
+		 * Measured in *milliseconds*.
+		 * 
+		 * If not set, use `duration`. If neither are set, the default is `100ms/frame`. If both are set, the default is to use `duration`.
+		 */
+		frame_duration: number|null,
 
 		/**
 		 * Time offset of animation.
@@ -110,7 +121,9 @@ export class SpriteRenderer {
 	/**
 	 * An object to store a list of **registered** `SpriteData` objects.
 	 */
-	private static registeredSprites:{ [x:string]: SpriteData } = {};
+	private static registeredSprites:{ [x:string]: SpriteData|undefined } = {};
+
+	private static images:{[x:string]:HTMLImageElement|undefined} = {};
 
 	constructor() {
 		throw new TypeError("SpriteRenderer is not a constructor");
@@ -128,22 +141,65 @@ export class SpriteRenderer {
 	 */
 	public static registerData(data:SpriteData) {
 
+		// Create a console.log group
+		console.groupCollapsed(`Creating sprite: "${data.name}"`);
+
 		// If a sprite with the same name has already been
 		// registered, log an error and stop
 		if (data.name in this.registeredSprites) {
 			console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
+			console.groupEnd();
 			return;
 		}
 		
 		// Convert all image-paths to images
 		if (typeof data.source == "string") {
-			let src = data.source;
-			data.source = new Image;
-			data.source.src = src;
+			let src:string = data.source;
+
+			if (src in this.images == false) {
+				this.images[src] = new Image;
+				this.images[src].src = src;
+				console.log(`Loading image from "${src}".`);
+			} else {
+				console.log(`Using preloaded image "${src}".`);
+			}
+			
+			data.source = this.images[src] as HTMLImageElement;
+		}
+		
+		else if (data.source.src in this.images == false) {
+			this.images[data.source.src] = data.source;
 		}
 
 		// Convert all animation frame image-paths to images (if possible)
 		if ( data?.animation != null ) {
+
+			// If neither `duration` or `frame_duration` are set, send a warning
+			if (!data.animation?.duration && !data.animation?.frame_duration) {
+				// Send a warning to the console, with styling!
+				console.warn(
+					"Animation%c duration%c and%c frame_duration%c unset. Will default to%c 100ms/frame%c.",
+					"font-style: italic; font-weight: bold",
+					"",
+					"font-style: italic; font-weight: bold",
+					"",
+					"font-style: italic; font-weight: bold",
+					"",
+				);
+
+			// If both `duration` and `frame_duration` are set, send a warning
+			} else if (data.animation?.duration && data.animation?.frame_duration) {
+				// Send a warning to the console, with styling!
+				console.warn(
+					"Animation%c duration%c and%c frame_duration%c are both set. Will default to%c duration%c.",
+					"font-style: italic; font-weight: bold",
+					"",
+					"font-style: italic; font-weight: bold",
+					"",
+					"font-style: italic; font-weight: bold",
+					"",
+				);
+			}
 
 			// Because the `Sprite` has an animation, loop through
 			// each frame, and (conditionally) turn the sources into `HTMLImageElement`s 
@@ -158,15 +214,23 @@ export class SpriteRenderer {
 				
 				// If the frame's source is already an image, continue onto the
 				// next frame 
-				if ( frame?.source instanceof HTMLImageElement) continue; 
+				if ( frame?.source instanceof HTMLImageElement) {
+					continue;
+				}
 
 				// Store the path to the source (frame.source will be replaced)
-				let src = frame.source;
+				let src:string = frame.source as string;
 
-				// Set the frames source to an image, and the image's
-				// source (src) to the path
-				frame.source = new Image;
-				frame.source.src = src;
+				if (src in this.images == false) {
+					this.images[src] = new Image;
+					this.images[src].src = src;
+					console.log(`Loading image from "${src} for frame #${i+1}".`);
+				} else {
+					console.log(`Using preloaded image "${src}" for frame #${i+1}".`);
+				}
+				
+				// Update the source to be an image
+				frame.source = this.images[src] as HTMLImageElement;
 
 				// Because `frame` is a **reference**, we don't need to
 				// update anything in `data.animation.frames`
@@ -178,8 +242,9 @@ export class SpriteRenderer {
 		// Add the data to the spriteData list
 		this.registeredSprites[data.name] = data;
 
-		// Log a message into the console
-		console.log(`Registered SpriteData with name "${data.name}"`);
+		// Close the console group
+		console.log("Sprite has been registered.");
+		console.groupEnd();
 
 
 	}
@@ -226,8 +291,20 @@ export class SpriteRenderer {
 		// If the sprite has an animation
 		if (data?.animation) {
 			
+			let duration:number = 0;
+
+			if (data.animation.duration) {
+				duration = data.animation.duration;
+			
+			} else if (data.animation.frame_duration) {
+				duration = data.animation.frame_duration * data.animation.frames.length;
+
+			} else {
+				duration = 100 * data.animation.frames.length;
+			}
+
 			// Calculate the speed of the animation
-			let speed:number = data.animation.duration / data.animation.frames.length;
+			let speed:number = duration / data.animation.frames.length;
 			
 			// Store the animation offset, defaulting to 0ms
 			let offset:number = data.animation?.offset ?? 0;
