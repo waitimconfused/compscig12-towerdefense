@@ -3,6 +3,8 @@
  * The creation and rendering of sprites onto a `RenderingContext`
  */
 
+// Get basic types for positioning (`Position2D`) and canvas
+// contexts (`RenderingContext`) that can be rendered on
 import { Position2D, RenderingContext } from "./types.js";
 
 /**
@@ -133,15 +135,27 @@ export class SpriteRenderer {
 	 */
 	private static registeredSprites:{ [x:string]: SpriteData|undefined } = {};
 
+	/**
+	 * An object containing the source urls and images that have
+	 * been registered using `SpriteRenderer.registerData()`.
+	 */
 	private static images:{[x:string]:HTMLImageElement|undefined} = {};
 
-	private static listeners:{ reference:string, loaded:()=>void }[] = [];
-
 	constructor() {
+		// The `SpriteRenderer` class is a static class. No instances
+		// are to be made.
 		throw new TypeError("SpriteRenderer is not a constructor");
 	}
 
-	public static isRegistered(reference:string|number) {
+	/**
+	 * Get whether or not a sprite has been registered, via a given name
+	 * 
+	 * @param reference	The string-name of the `SpriteData.name` value
+	 * @returns			Whether or not the referenced sprite has been registered
+	 */
+	public static isRegistered(reference:string|number):boolean {
+		// Return `true` if the key (`reference`) exists inside
+		// the `registeredSprites` object `false` if not
 		return reference in this.registeredSprites;
 	}
 
@@ -261,8 +275,21 @@ export class SpriteRenderer {
 
 	}
 
+	/**
+	 * Get the realtime `HTMLImageElement` and crop-regions of a sprite
+	 * 
+	 * @param reference The string-name of the `SpriteData.name` value
+	 * 
+	 * @param time		The time used for determining the animation frame,
+	 * 					measured in *milliseconds*.
+	 * 
+	 * @returns			A `RenderableSpriteData` object, or null (sprite
+	 * 					does not exist, or fatal error)
+	 */
 	private static getData(reference:string):RenderableSpriteData|null {
-		// If the sprite could not be found, log it in the console as an error, and stop.
+
+		// If the sprite could not be found, log it in the console as an
+		// error, and return null.
 		if (reference in this.registeredSprites == false) {
 			console.error(`Failed to find SpriteData with name "${reference}".`);
 			return null;
@@ -272,8 +299,8 @@ export class SpriteRenderer {
 		// Safe to assume that it's a `SpriteData` object, as we checked above
 		let data:SpriteData = this.registeredSprites[reference] as SpriteData;
 
-
-		// If (for some reason) the `SpriteData.source` is **not** an image, log it and stop.
+		// If (for some reason) the `SpriteData.source` is **not** an
+		// image, log it and return null.
 		if ( data.source instanceof HTMLImageElement == false ) {
 			console.error(`Sprite "${data.name}"'s source was loaded incorrectly.`);
 			return null;
@@ -283,22 +310,36 @@ export class SpriteRenderer {
 		// Can be overwritten if an animation frame specifies a different source
 		let image:HTMLImageElement = data.source as HTMLImageElement;
 
-		// Store the `SpriteData` crop data, defaulting to show the entire image
-		// Can be overwritten if an animation frame specifies an different crop region
+		// Store the `SpriteData` crop data, defaulting to show the entire
+		// image. Can be overwritten if an animation frame specifies an
+		// different crop region
 		let crop = data?.crop ?? { x:0, y:0, w:image.width, h:image.height };
 
-		// If the sprite has an animation
+		// If the sprite has an animation, update the
+		// image/source if it isn't inherited and
+		// update the crop region if it isn't the full image
 		if (data?.animation) {
 			
+			// The duration of the entire animation, to be set in
+			// the following `if` statements
 			let duration:number = 0;
 
+			// If the animation duration has been set, use it
+			// Meaning, `duration` is the default
 			if (data.animation.duration) {
 				duration = data.animation.duration;
 			
+			// If `duration` is unset, but `frame_duration` is, use that
 			} else if (data.animation.frame_duration) {
+				// Set duration to the frame duration * number of frames
+				// to get the length of the animation
 				duration = data.animation.frame_duration * data.animation.frames.length;
-
+			
+			// If neither `duration` or `frame_duration` has been set,
+			// Use `100ms/frame` (`frame_duration=100`)
 			} else {
+				// Set duration to 100ms * number of frames
+				// to get the length of the animation
 				duration = 100 * data.animation.frames.length;
 			}
 
@@ -318,10 +359,12 @@ export class SpriteRenderer {
 			// Store a reference to the correct animation frame
 			let frame = data.animation.frames[frameIndex];
 
-			// If the frame has a specific source (not inherited), set used image to it.
+			// If the frame has a specific source (not inherited), set
+			// used image to it.
 			if (frame?.source) image = frame.source as HTMLImageElement;
 			
-			// Update the crop data, defaulting to show the entire (possibly new) source image.
+			// Update the crop data, defaulting to show the entire
+			// (possibly new) source image.
 			crop = frame?.crop ?? { x:0, y:0, w:image.width, h:image.height };
 
 		}
@@ -331,6 +374,7 @@ export class SpriteRenderer {
 
 	/**
 	 * Draw a sprite (through referencing a registered `SpriteData` object) onto a specific `RenderingContext`.
+	 * 
 	 * @param reference	Determines the `SpriteData` to use, as well as
 	 * 					the size of the `OffscreenCanvas`. (`ref.position` is ignored)
 	 * 
@@ -339,9 +383,10 @@ export class SpriteRenderer {
 	 */
 	public static drawSprite(reference:Sprite, context:RenderingContext):void {
 
-		// Get a RenderableSpriteData object
+		// Get a `RenderableSpriteData` object
 		let data = this.getData(reference.name);
 
+		// If the data cannot be rendered, don't do anything
 		if (!data) return;
 		
 		// Draw an image on the passed `RenderingContext`
@@ -363,7 +408,10 @@ export class SpriteRenderer {
 
 	/**
 	 * Render the sprite onto an `OffscreenCanvas`
-	 * @param reference	Determines the `SpriteData` to use, as well as the size of the `OffscreenCanvas`. (`ref.position` is ignored)
+	 * 
+	 * @param reference	Determines the `SpriteData` to use, as
+	 * 					well as the size of the `OffscreenCanvas`.
+	 * 					(`ref.position` is ignored)
 	 */
 	public static getSpriteAsOffscreenCanvas(reference:Sprite):OffscreenCanvas {
 		
@@ -372,7 +420,7 @@ export class SpriteRenderer {
 		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( reference.size[0], reference.size[1] );
 		let context:OffscreenCanvasRenderingContext2D = offscreenCanvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
 
-		// Get a RenderableSpriteData object
+		// Get a `RenderableSpriteData` object
 		let data = this.getData(reference.name);
 		
 		// Draw an image on the passed `RenderingContext`, if RenderableSpriteData object exists
@@ -398,33 +446,47 @@ export class SpriteRenderer {
 };
 
 
+
+// Get the list of path to `SpriteData`-related files (JSON)
 import pathsToSpriteData from "../assets/sprites.json" with { type: "json" };
 
+// Loop through each path, and load the `SpriteData` object(s)
 for (let i = 0; i < pathsToSpriteData.length; i ++) {
 	let path:string = pathsToSpriteData[i] as string;
 
 	// Make path relative to the ./assets/ folder
 	path = new URL( path, window.location.href+"/assets/" ).href;
 
+	// Import the JSON file, using promises
 	import(path, { with: { type: "json" } })
+	
+	// Using promises, wait for the JSON containing
+	// `SpriteData` to be imported
 	.then((spriteData:{default:SpriteData|SpriteData[]}) => {
+		
+		// The data is stored as the default export (`.default`)
 		let imported = spriteData.default;
 		
+		// The JSON file can be a list of `SpriteData` objects
 		if (Array.isArray(imported)) {
 			
+			// Loop through each `SpriteData` object, and register it.
 			for (let i = 0; i < imported.length; i ++) {
 				let data = imported[i] as SpriteData;
 
 				// Make the source relative to the current JSON file 
 				data.source = new URL( data.source as string, path ).href
 
+				// Register the sprite
 				SpriteRenderer.registerData( data );
 			}
 
-		}
-		else {
+		// If the JSON file is only one `SpriteData` object, register it
+		} else {
 			// Make the source relative to the current JSON file 
-			imported.source = new URL( imported.source as string, path ).href
+			imported.source = new URL( imported.source as string, path ).href;
+
+			// Register the sprite
 			SpriteRenderer.registerData( imported as SpriteData );
 		}
 	})
