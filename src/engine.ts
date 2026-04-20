@@ -8,6 +8,12 @@ type EngineStats = {
 	lastRenderCall: number
 };
 
+type EngineTimer = {
+	start: number;
+	duration: number;
+	complete: ()=>void
+}
+
 export default class Engine {
 
 	private canvas:HTMLCanvasElement;
@@ -35,6 +41,7 @@ export default class Engine {
 		bottomCenter:	Symbol("Anchor:bl"),
 		bottomRight:	Symbol("Anchor:br"),
 	}
+	static timers:EngineTimer[] = [];
 
 	constructor( canvas:HTMLCanvasElement ) {
 		this.canvas = canvas;
@@ -66,7 +73,7 @@ export default class Engine {
 		return this.views[name] ?? null;
 		
 	}
-	
+
 	
 	private render() {
 
@@ -80,6 +87,21 @@ export default class Engine {
 			return;
 		}
 
+		let currentTime = performance.now();
+		
+		this._stats.delta = currentTime - this._stats.lastRenderCall;
+		this._stats.fps = 1000 / this._stats.delta;
+
+		for (let i = 0; i < Engine.timers.length; i ++) {
+			let timer:EngineTimer = Engine.timers[i] as EngineTimer;
+
+			if (currentTime < timer.start + timer.duration) continue;
+			
+			timer.complete();
+
+			Engine.timers.splice(i, 1);
+		}
+
 		if (this.canvas.width != window.innerWidth)		this.canvas.width = window.innerWidth;
 		if (this.canvas.height != window.innerHeight)	this.canvas.height = window.innerHeight;
 
@@ -90,9 +112,7 @@ export default class Engine {
 			view.render( this.canvas, this.context );
 		}
 
-		this._stats.delta = performance.now() - this._stats.lastRenderCall;
-		this._stats.fps = 1000 / this._stats.delta;
-
+		this._stats.lastRenderCall = currentTime;
 		window.requestAnimationFrame(() => this.render());
 	}
 
@@ -147,6 +167,17 @@ export default class Engine {
 				return null;
 		}
 	}
+}
+
+export function wait(time:number):Promise<void> {
+
+	return new Promise((complete) => {
+		Engine.timers.push({
+			start: performance.now(),
+			duration: time,
+			complete: complete
+		});
+  })
 
 }
 
