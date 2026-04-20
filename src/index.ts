@@ -1,6 +1,20 @@
 import Engine from "./engine.js";
-import { SpriteRenderer } from "./sprites.js";
+import { SpriteData, SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
+
+import pathsToSpriteData from "../assets/sprites.json" with { type: "json" };
+
+for (let i = 0; i < pathsToSpriteData.length; i ++) {
+	let path:string = pathsToSpriteData[i] as string;
+	path = path.replace(/^\.\//, "../assets/");
+
+	import(path, {
+		with: { type: "json" }
+	})
+	.then((spriteData:{default:SpriteData}) => {
+		SpriteRenderer.registerData(spriteData.default);
+	})
+}
 
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -16,29 +30,8 @@ const engine = new Engine( canvas );
 		new ViewText("MAIN MENU")
 	);
 
-	SpriteRenderer.registerData({
-		name: "strawberry",
-		source: "assets/strawberry.png",
-
-		crop: undefined,
-
-		animation: {
-			duration: 750,
-			offset: undefined,
-			frames: [
-				{ source: undefined, crop:{ x:160*0,	y:0,	w:160,	h:204 } },
-				{ source: undefined, crop:{ x:160*1,	y:0,	w:160,	h:204 } },
-				{ source: undefined, crop:{ x:160*2,	y:0,	w:160,	h:204 } },
-				{ source: undefined, crop:{ x:160*3,	y:0,	w:160,	h:204 } },
-				{ source: undefined, crop:{ x:160*4,	y:0,	w:160,	h:204 } },
-				{ source: undefined, crop:{ x:160*5,	y:0,	w:160,	h:204 } },
-				{ source: undefined, crop:{ x:160*6,	y:0,	w:160,	h:204 } },
-			]
-		}
-	})
-
 	menuView.addElement(
-		new ViewSprite("strawberry")
+		new ViewSprite("defender/strawberry")
 		.setAnchor( Engine.anchor.centerCenter )
 		.setOrigin(0.5, 0.5)
 		.setSize(160, 204)

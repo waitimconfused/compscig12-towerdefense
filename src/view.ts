@@ -221,9 +221,7 @@ export class ViewSprite extends ViewElement {
 
 	constructor( reference:string ) {
 		super();
-		
-		if ( SpriteRenderer.isRegistered(reference) ) this.reference = reference;
-		else console.error(`Cannot reference unregistered sprite "${reference}".`);
+		this.reference = reference;
 	}
 
 	public setOrigin(x:number, y:number):this {
@@ -239,6 +237,8 @@ export class ViewSprite extends ViewElement {
 	}
 
 	public override render(canvas: Canvas, context: RenderingContext): void {
+
+		if (SpriteRenderer.isRegistered(this.reference) == false) return;
 
 		let offsetPosition:Position2D = [
 			this.position[0] - this.origin[0]*this.size[0],
