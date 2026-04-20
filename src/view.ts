@@ -8,7 +8,6 @@ export class View {
 	
 	public addElement( ...elements:ViewElement[] ):this {
 		this.elements.push(...elements);
-		console.log(this.elements.length);
 		return this;
 	}
 	
