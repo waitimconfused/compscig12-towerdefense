@@ -1,4 +1,5 @@
 import Engine, { wait } from "./engine.js";
+import { SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
 
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
@@ -19,9 +20,9 @@ const engine = new Engine( canvas );
 	strawberry.setAnchor( Engine.anchor.centerCenter );
 	strawberry.setOrigin(0.5, 0.5);
 	strawberry.setSize(160, 204);
-
 	menuView.addElement(strawberry);
 
+	await SpriteRenderer.waitUntilLoaded("defender/strawberry:fly");
 	await wait(1000);
 	strawberry.setReference("defender/strawberry:idle");
 

@@ -113,6 +113,16 @@ export type Sprite = {
 	 */
 	size: Position2D;
 
+};
+
+type RenderableSpriteData = {
+	image: HTMLImageElement;
+	crop: {
+		x: number,
+		y: number,
+		w: number,
+		h: number
+	}
 }
 
 
@@ -124,6 +134,8 @@ export class SpriteRenderer {
 	private static registeredSprites:{ [x:string]: SpriteData|undefined } = {};
 
 	private static images:{[x:string]:HTMLImageElement|undefined} = {};
+
+	private static listeners:{ reference:string, loaded:()=>void }[] = [];
 
 	constructor() {
 		throw new TypeError("SpriteRenderer is not a constructor");
@@ -249,40 +261,27 @@ export class SpriteRenderer {
 
 	}
 
-	/**
-	 * Draw a sprite (through referencing a registered `SpriteData` object) onto a specific `RenderingContext`.
-	 * @param ref		Determines the `SpriteData` to use, as well as
-	 * 					the size of the `OffscreenCanvas`. (`ref.position` is ignored)
-	 * 
-	 * @param context	What `RenderingContext` the sprite should
-	 * 					be rendered onto.
-	 */
-	public static drawSprite(ref:Sprite, context:RenderingContext):void {
-
+	private static getData(reference:string):RenderableSpriteData|null {
 		// If the sprite could not be found, log it in the console as an error, and stop.
-		if (ref.name in this.registeredSprites == false) {
-			console.error(`Failed to find SpriteData with name "${ref.name}".`);
-			return;
+		if (reference in this.registeredSprites == false) {
+			console.error(`Failed to find SpriteData with name "${reference}".`);
+			return null;
 		}
 
 		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
 		// Safe to assume that it's a `SpriteData` object, as we checked above
-		let data:SpriteData = this.registeredSprites[ref.name] as SpriteData;
+		let data:SpriteData = this.registeredSprites[reference] as SpriteData;
 
 
 		// If (for some reason) the `SpriteData.source` is **not** an image, log it and stop.
 		if ( data.source instanceof HTMLImageElement == false ) {
 			console.error(`Sprite "${data.name}"'s source was loaded incorrectly.`);
-			return;
+			return null;
 		}
 
 		// Create a variable to store the `SpriteData` image.
 		// Can be overwritten if an animation frame specifies a different source
 		let image:HTMLImageElement = data.source as HTMLImageElement;
-
-		// If the image has not been fully loaded,
-		// don't even attempt to render it
-		if (image.complete == false) return;
 
 		// Store the `SpriteData` crop data, defaulting to show the entire image
 		// Can be overwritten if an animation frame specifies an different crop region
@@ -326,44 +325,70 @@ export class SpriteRenderer {
 			crop = frame?.crop ?? { x:0, y:0, w:image.width, h:image.height };
 
 		}
+
+		return { image, crop };
+	}
+
+	/**
+	 * Draw a sprite (through referencing a registered `SpriteData` object) onto a specific `RenderingContext`.
+	 * @param reference	Determines the `SpriteData` to use, as well as
+	 * 					the size of the `OffscreenCanvas`. (`ref.position` is ignored)
+	 * 
+	 * @param context	What `RenderingContext` the sprite should
+	 * 					be rendered onto.
+	 */
+	public static drawSprite(reference:Sprite, context:RenderingContext):void {
+
+		// Get a RenderableSpriteData object
+		let data = this.getData(reference.name);
+
+		if (!data) return;
 		
 		// Draw an image on the passed `RenderingContext`
 		context.drawImage(
 
 			// The image to be drawn
-			image,
+			data.image,
 
 			// The position/size of where to crop (inside the image)
-			crop.x, crop.y,
-			crop.w, crop.h,
+			data.crop.x, data.crop.y,
+			data.crop.w, data.crop.h,
 
 			// The position/size of where to put the (cropped) image on the given canvas
-			ref.position[0], ref.position[1],
-			ref.size[0], ref.size[1]
+			reference.position[0], reference.position[1],
+			reference.size[0], reference.size[1]
 		);
 
 	}
 
 	/**
 	 * Render the sprite onto an `OffscreenCanvas`
-	 * @param ref	Determines the `SpriteData` to use, as well as the size of the `OffscreenCanvas`. (`ref.position` is ignored)
+	 * @param reference	Determines the `SpriteData` to use, as well as the size of the `OffscreenCanvas`. (`ref.position` is ignored)
 	 */
-	public static getSpriteAsOffscreenCanvas(ref:Sprite):OffscreenCanvas {
+	public static getSpriteAsOffscreenCanvas(reference:Sprite):OffscreenCanvas {
 		
 		// Create a new OffscreenCanvas, as well as a 2D context for it.
 		// The OffscreenCanvas is the same size a the `ref.size` values.
-		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( ref.size[0], ref.size[1] );
+		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( reference.size[0], reference.size[1] );
 		let context:OffscreenCanvasRenderingContext2D = offscreenCanvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
 
-		// Save the reference position, and reference position it to (0,0).
-		let position:Position2D = [ ref.position[0], ref.position[1] ];
-		ref.position = [0, 0];
+		// Get a RenderableSpriteData object
+		let data = this.getData(reference.name);
+		
+		// Draw an image on the passed `RenderingContext`, if RenderableSpriteData object exists
+		if (data) context.drawImage(
 
-		// Draw the referenced sprite (at [0,0]) onto the OffscreenCanvas's context
-		this.drawSprite(ref, context);
+			// The image to be drawn
+			data.image,
 
-		// Reset the reference position, to the saved value(s).
-		ref.position = position;
+			// The position/size of where to crop (inside the image)
+			data.crop.x, data.crop.y,
+			data.crop.w, data.crop.h,
+
+			// The position/size of where to put the (cropped) image on the given canvas
+			reference.position[0], reference.position[1],
+			reference.size[0], reference.size[1]
+		);
 
 		// Return the OffscreenCanvas, which holds the drawn sprite image
 		return offscreenCanvas;
