@@ -1,11 +1,14 @@
+import Engine from "./engine.js";
+import { SpriteRenderer } from "./sprites.js";
 import { Canvas, Position2D, RenderingContext } from "./types.js";
 
 export class View {
 
 	private elements:ViewElement[] = [];
 	
-	public addElement( ...element:ViewElement[] ):this {
-		this.elements.push(...element);
+	public addElement( ...elements:ViewElement[] ):this {
+		this.elements.push(...elements);
+		console.log(this.elements.length);
 		return this;
 	}
 	
@@ -80,13 +83,21 @@ export type ViewElementStroke = {
 
 class ViewElement {
 
-	public position:Position2D = [ 0, 0 ];
+	private _position:Position2D|symbol = [ 0, 0 ];
+
+	public get position() {
+		if (typeof this._position == "symbol") {
+			return Engine.resolveAnchor(this._position) ?? [ 0, 0 ];
+		} else {
+			return this._position;
+		}
+	}
 	
 	private clickEvent:ViewCallbackFunction|null = null;
 
 	public stroke: ViewElementStroke = {
 		colour: "black",
-		size: 10,
+		size: 5,
 		lineCap: "square",
 		lineJoin: "miter",
 		dash: null,
@@ -95,9 +106,20 @@ class ViewElement {
 
 	public fill:string = "purple";
 
+	/**
+	 * @param anchor See `View.anchor`
+	 */
+	public setAnchor(anchor:symbol):this {
+		if ( Object.values(Engine.anchor).includes(anchor) == false ) {
+			console.error(`ViewElement cannot be anchored to an unknown anchor "${anchor.description}".`);
+			return this;
+		}
+		this._position = anchor;
+		return this;
+	}
+
 	public moveTo(x:number, y:number):this {
-		this.position[0] = x;
-		this.position[y] = y;
+		this._position = [ x, y ];
 		return this;
 	}
 	
@@ -144,11 +166,15 @@ export class ViewText extends ViewElement {
 	}
 
 	public override render(canvas:Canvas, context:RenderingContext) {
+
+		setGeneralStyles(context, this);
 		
 		context.font = `bold ${this.font.size}px ${this.font.family}`;
 		context.textAlign = this.alignment.x;
 		context.textBaseline = this.alignment.y;
+
 		context.fillText( this.content, this.position[0], this.position[1] );
+		context.strokeText( this.content, this.position[0], this.position[1] );
 	}
 
 }
@@ -156,4 +182,89 @@ export class ViewText extends ViewElement {
 
 export class ViewRect extends ViewElement {
 	public size:Position2D = [ 0, 0 ];
+
+	public override render(canvas: Canvas, context: RenderingContext): void {
+		setGeneralStyles(context, this);
+		
+		context.beginPath();
+		context.fillRect(this.position[0], this.position[1], this.size[0], this.size[1]);
+		context.closePath();
+
+		context.fill();
+		context.stroke();
+
+	}
+
+	public setSize(width:number, height:number): this {
+		this.size[0] = width;
+		this.size[1] = height;
+
+		return this;
+	}
+}
+
+export class ViewSprite extends ViewElement {
+
+	public reference:string;
+
+	public size:Position2D = [ 100, 100 ];
+
+	private _origin:Position2D = [ 0, 0 ];
+
+	public get origin() { return this._origin };
+	public set origin(position:Position2D) {
+		
+		// Clamp the coordinates to be in the range (0-1)
+		this._origin[0] = Math.max( Math.min(position[0], 1), 0 );
+		this._origin[1] = Math.max( Math.min(position[1], 1), 0 );
+	}
+
+	constructor( reference:string ) {
+		super();
+		this.reference = reference;
+	}
+
+	public setOrigin(x:number, y:number):this {
+		this.origin = [ x, y ];
+		return this;
+	}
+
+	public setSize(width:number, height:number):this {
+		this.size[0] = width;
+		this.size[1] = height;
+
+		return this;
+	}
+
+	public override render(canvas: Canvas, context: RenderingContext): void {
+
+		if (SpriteRenderer.isRegistered(this.reference) == false) return;
+
+		let offsetPosition:Position2D = [
+			this.position[0] - this.origin[0]*this.size[0],
+			this.position[1] - this.origin[1]*this.size[1]
+		];
+		
+		SpriteRenderer.drawSprite({
+			name: this.reference,
+			position: offsetPosition,
+			size: this.size
+		}, context);
+
+
+	}
+}
+
+
+function setGeneralStyles( context:RenderingContext, viewElement:ViewElement ): void {
+	context.strokeStyle = viewElement.stroke.colour;
+	
+	context.setLineDash( viewElement.stroke.dash ?? [0] );
+	context.lineDashOffset = viewElement.stroke.dashOffset;
+	
+	context.lineCap = viewElement.stroke.lineCap;
+	context.lineJoin = viewElement.stroke.lineJoin;
+	context.lineWidth = viewElement.stroke.size;
+
+	context.fillStyle = viewElement.fill;
 }

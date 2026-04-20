@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>School Days Left</title>
+	<link rel="stylesheet" href="https://unpkg.com/98.css">
+	<style>
+		body {
+			margin: 0px;
+			padding: 0px;
+			min-width: 100vw;
+			min-height: 100vh;
+
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
+			background-image: url("./Clouds.jpg");
+			background-position: center center;
+			background-size: cover;
+		}
+
+		.window {
+			transform: scale(2.4);
+			transform-origin: center;
+		}
+
+		#be-kind {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			translate: -50% -50%;
+			z-index: -1;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="window" style="width: 320px">
+		<div class="title-bar">
+			<div class="title-bar-text">Days Left</div>
+			<div class="title-bar-controls">
+				<button aria-label="Minimize"></button>
+				<button aria-label="Maximize"></button>
+				<button aria-label="Close"></button>
+			</div>
+		</div>
+		<div class="window-body">
+			<p>- <span id="week-count">?</span> weeks and <span id="week-days">?</span> days remaining</p>
+			<p>- <span id="days">?</span> days left!</p>
+			<p>- <span id="school-days">?</span> school days left!</p>
+		</div>
+		<div class="status-bar">
+			<p class="status-bar-field">Not including today</p>
+		</div>
+	</div>
+
+	<p id="be-kind">Be Kind :heart:</p>
+
+	<script>
+		const weekCount_el = document.getElementById("week-count");
+		const weekRemainder_el = document.getElementById("week-days");
+
+		const totalDays_el = document.getElementById("days");
+		const totalSchoolDays_el = document.getElementById("school-days");
+
+		const END_OF_SCHOOL = new Date(2026, 5, 24);
+		const HOLIDAYS = [
+			new Date(2026, 5, 4),
+			new Date(2026, 5, 18)
+		];
+
+		function update() {
+			const today = new Date();
+
+			let difference = END_OF_SCHOOL - today;
+
+			let weekCount = Math.floor(difference / (7 * 24 * 60 * 60 * 1000));
+			let weekRemainder = Math.floor((difference - weekCount * 7 * 24 * 60 * 60) / 1E9);
+			let totalDays = Math.ceil(difference / (60 * 60 * 24 * 1E3));
+
+			let totalHolidays = HOLIDAYS.filter((d) => {
+				return d >= today;
+			}).length;
+
+			weekCount_el.innerText = weekCount;
+			weekRemainder_el.innerText = weekRemainder;
+
+			totalDays_el.innerText = totalDays;
+			totalSchoolDays_el.innerText = totalDays - totalHolidays - (weekCount * 2);
+		}
+
+		update();
+
+		setInterval(update, 1000 * 60 * 60);
+	</script>
+
+</body>
+
+</html>
