@@ -105,6 +105,8 @@ class ViewElement {
 
 	public fill:string = "purple";
 
+	public rotation:number = 0;
+
 	/**
 	 * @param anchor See `View.anchor`
 	 */
@@ -124,6 +126,12 @@ class ViewElement {
 	
 	public setClickEvent(event: ViewCallbackFunction|null ): this {
 		this.clickEvent = event;
+		return this;
+	}
+
+	public setRotation(degrees:number):this {
+		// Convert degrees to radians
+		this.rotation = degrees * Math.PI / 180;
 		return this;
 	}
 
@@ -239,16 +247,19 @@ export class ViewSprite extends ViewElement {
 
 		if (SpriteRenderer.isRegistered(this.reference) == false) return;
 
-		let offsetPosition:Position2D = [
-			this.position[0] - this.origin[0]*this.size[0],
-			this.position[1] - this.origin[1]*this.size[1]
-		];
-		
+		context.save();
+
+		context.translate( this.position[0], this.position[1] );
+		context.rotate(this.rotation);
+		context.translate( -this.origin[0]*this.size[0], -this.origin[1]*this.size[1] );
+
 		SpriteRenderer.drawSprite({
 			name: this.reference,
-			position: offsetPosition,
+			position: [ 0, 0 ],
 			size: this.size
 		}, context);
+
+		context.restore();
 
 
 	}
