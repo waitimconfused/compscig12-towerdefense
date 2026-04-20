@@ -1,27 +1,13 @@
-import Engine from "./engine.js";
+import Engine, { wait } from "./engine.js";
 import { SpriteData, SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
-
-import pathsToSpriteData from "../assets/sprites.json" with { type: "json" };
-
-for (let i = 0; i < pathsToSpriteData.length; i ++) {
-	let path:string = pathsToSpriteData[i] as string;
-	path = path.replace(/^\.\//, "../assets/");
-
-	import(path, {
-		with: { type: "json" }
-	})
-	.then((spriteData:{default:SpriteData}) => {
-		SpriteRenderer.registerData(spriteData.default);
-	})
-}
 
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
 const engine = new Engine( canvas );
 
 // Main Menu
-(() => {
+(async () => {
 
 	var menuView = new View();
 	engine.createView("main-menu", menuView);
@@ -30,12 +16,15 @@ const engine = new Engine( canvas );
 		new ViewText("MAIN MENU")
 	);
 
-	menuView.addElement(
-		new ViewSprite("defender/strawberry")
-		.setAnchor( Engine.anchor.centerCenter )
-		.setOrigin(0.5, 0.5)
-		.setSize(160, 204)
-	);
+	let strawberry = new ViewSprite("defender/strawberry:fly")
+	strawberry.setAnchor( Engine.anchor.centerCenter );
+	strawberry.setOrigin(0.5, 0.5);
+	strawberry.setSize(160, 204);
+
+	menuView.addElement(strawberry);
+
+	// await wait(1000);
+	// strawberry.setReference("defender/strawberry:idle");
 
 
 })();

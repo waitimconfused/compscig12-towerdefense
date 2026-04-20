@@ -243,6 +243,12 @@ export class ViewSprite extends ViewElement {
 		return this;
 	}
 
+	public setReference(reference:string):this {
+		this.reference = reference;
+
+		return this;
+	}
+
 	public override render(canvas: Canvas, context: RenderingContext): void {
 
 		if (SpriteRenderer.isRegistered(this.reference) == false) return;

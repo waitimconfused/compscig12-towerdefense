@@ -294,3 +294,36 @@ export class SpriteRenderer {
 	}
 
 };
+
+
+import pathsToSpriteData from "../assets/sprites.json" with { type: "json" };
+
+for (let i = 0; i < pathsToSpriteData.length; i ++) {
+	let path:string = pathsToSpriteData[i] as string;
+
+	// Make path relative to the ./assets/ folder
+	path = new URL( path, window.location.href+"/assets/" ).href;
+
+	import(path, { with: { type: "json" } })
+	.then((spriteData:{default:SpriteData|SpriteData[]}) => {
+		let imported = spriteData.default;
+		
+		if (Array.isArray(imported)) {
+			
+			for (let i = 0; i < imported.length; i ++) {
+				let data = imported[i] as SpriteData;
+
+				// Make the source relative to the current JSON file 
+				data.source = new URL( data.source as string, path ).href
+
+				SpriteRenderer.registerData( data );
+			}
+
+		}
+		else {
+			// Make the source relative to the current JSON file 
+			imported.source = new URL( imported.source as string, path ).href
+			SpriteRenderer.registerData( imported as SpriteData );
+		}
+	})
+}
