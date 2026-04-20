@@ -194,6 +194,13 @@ export class ViewRect extends ViewElement {
 		context.stroke();
 
 	}
+
+	public setSize(width:number, height:number): this {
+		this.size[0] = width;
+		this.size[1] = height;
+
+		return this;
+	}
 }
 
 export class ViewSprite extends ViewElement {
@@ -221,6 +228,13 @@ export class ViewSprite extends ViewElement {
 
 	public setOrigin(x:number, y:number):this {
 		this.origin = [ x, y ];
+		return this;
+	}
+
+	public setSize(width:number, height:number):this {
+		this.size[0] = width;
+		this.size[1] = height;
+
 		return this;
 	}
 

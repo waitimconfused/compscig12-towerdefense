@@ -17,27 +17,31 @@ const engine = new Engine( canvas );
 	);
 
 	SpriteRenderer.registerData({
-		name: "example",
-		source: "assets/smile-spritesheet.png",
+		name: "strawberry",
+		source: "assets/strawberry.png",
 
 		crop: undefined,
 
 		animation: {
-			duration: 1000,
+			duration: 750,
 			offset: undefined,
 			frames: [
-				{ source:undefined, crop:{x:0,y:0,w:100,h:100} },
-				{ source:undefined, crop:{x:100,y:0,w:100,h:100} },
-				{ source:undefined, crop:{x:200,y:0,w:100,h:100} },
-				{ source:undefined, crop:{x:100,y:0,w:100,h:100} },
+				{ source: undefined, crop:{ x:160*0,	y:0,	w:160,	h:204 } },
+				{ source: undefined, crop:{ x:160*1,	y:0,	w:160,	h:204 } },
+				{ source: undefined, crop:{ x:160*2,	y:0,	w:160,	h:204 } },
+				{ source: undefined, crop:{ x:160*3,	y:0,	w:160,	h:204 } },
+				{ source: undefined, crop:{ x:160*4,	y:0,	w:160,	h:204 } },
+				{ source: undefined, crop:{ x:160*5,	y:0,	w:160,	h:204 } },
+				{ source: undefined, crop:{ x:160*6,	y:0,	w:160,	h:204 } },
 			]
 		}
 	})
 
 	menuView.addElement(
-		new ViewSprite("example")
+		new ViewSprite("strawberry")
 		.setAnchor( Engine.anchor.centerCenter )
 		.setOrigin(0.5, 0.5)
+		.setSize(160, 204)
 	);
 
 
