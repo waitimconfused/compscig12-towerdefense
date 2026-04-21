@@ -17,7 +17,6 @@ export class Ant extends EnemyEntity {
         const STATS = {
             health : 10,
             speed : 0.7,
-            regeneration : 0
         }
 
         super(view, STATS, waveNumber, 1.1);

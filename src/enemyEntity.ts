@@ -44,7 +44,7 @@ export class EnemyEntity extends Entity {
      */
     constructor(
         view: View,
-        stats: { health: number; speed: number; regeneration: number },
+        stats: { health: number; speed: number },
         waveNumber: number,
         healthScale: number
     ) {
@@ -57,7 +57,6 @@ export class EnemyEntity extends Entity {
         super(view, {
             health: SCALED_HEALTH,
             speed: stats.speed,
-            regeneration: stats.regeneration
         });
     
         this.waveNumber = waveNumber;

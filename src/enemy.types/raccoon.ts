@@ -1,5 +1,5 @@
 import { EnemyEntity } from "../enemyEntity.js";
-import { DefenderEntity } from "../defenderEntity.js";
+import { DefenderEntity } from "../defenderentity.js";
 import { View } from "../view.js";
 
 /**
@@ -9,11 +9,11 @@ import { View } from "../view.js";
  */
 export class Raccoon extends EnemyEntity {
     // Duration in seconds that defender is stunned for when hit
-    private stunDuration: number = 5;
+    //private stunDuration: number = 5;
     
     // Probability of attacking with each attempt
     // 20% chance of attacking
-    private attackChance: number = 0.2;
+    //private attackChance: number = 0.2;
 
     /**
      * Constructs a Raccoon enemy
@@ -24,7 +24,6 @@ export class Raccoon extends EnemyEntity {
         const STATS = {
             health: 200,
             speed: 0.5,
-            regeneration: 0
         };
 
         super(view, STATS, waveNumber, 1.20);
@@ -57,9 +56,9 @@ export class Raccoon extends EnemyEntity {
         let chance = Math.random();
 
         // Deals 20 damage and stuns if the chance is lower than or equal to 20% (0.2)
-        if (chance <= this.attackChance) {
+        if (chance <= 0.2) {
             target.takeDamage(20);
-            target.stun(this.stunDuration);
+            target.stun(5);
         }
     }
 

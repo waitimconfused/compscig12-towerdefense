@@ -45,7 +45,6 @@ class DefenderEntity extends Entity{
         super(view, {
             health: stats.health,
             speed: stats.speed,
-            regeneration: stats.regeneration
         });
         
         this.defenderLvl = theDefenderLvl;
