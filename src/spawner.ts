@@ -1,12 +1,17 @@
 import { View } from "./view.js";
 import { Ant } from "./enemy.types/ant.js";
 import { Raccoon } from "./enemy.types/raccoon.js";
+import { EnemyEntity } from "./enemyEntity.js";
 
 export class Spawner {
     private view : View;
     
     constructor(view : View) {
         this.view = view;
+    }
+
+    public spawnEnemy(enemyType : EnemyEntity, x : number, y : number) : void {
+        
     }
 
     public spawnAntCluster(waveNumber : number, x : number, y : number) : void {
