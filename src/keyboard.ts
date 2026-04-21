@@ -57,9 +57,20 @@ export class KeyboardManager {
 
 	public static dispatchEvent(type: KeyboardListenerType, key: string, event: KeyboardEvent) {
 
+		if (typeof key == "string") {
+			switch (key) {
+				case " ":
+						key = "Space";
+					break;
+			
+				default:
+					break;
+			}
+		}
 		let index = this.activeKeys.indexOf(key);
 
 		if (type == "down" && index != -1) return;
+
 
 		switch (type) {
 			case "down":

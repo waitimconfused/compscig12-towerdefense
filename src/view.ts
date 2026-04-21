@@ -45,7 +45,7 @@ export class ViewCollection extends View {
 
 	public showView(name:string):View|null {
 
-		if (name in this.views) {
+		if (name in this.views == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 		
 		} else {
@@ -78,7 +78,7 @@ export type ViewElementStroke = {
 	dashOffset:number
 };
 
-export class ViewElement {
+class ViewElement {
 
 	public position:Position2D = [ 0, 0 ];
 	
