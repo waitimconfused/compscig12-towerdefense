@@ -59,9 +59,7 @@ class DefenderEntity extends Entity{
         },
         knockbackStrength : number,
     ){
-        super(view, {health: stats.health, speed: stats.speed, 
-            regeneration: stats.regeneration
-        });
+        super(view, {health: stats.health, speed: stats.speed, });
             
         this._defenderBaseStats = defenderBaseStats;
         this._knockbackStrength = knockbackStrength; 
@@ -82,9 +80,7 @@ class DefenderEntity extends Entity{
      * @returns returns a promise that resolves after the attackcooldown in milliseconds has passed
      */
     public beginHitCooldown(time : number) : Promise<void>{
-        return new Promise ((canHitAgain) => {
-            setTimeout(canHitAgain, this.attackCooldown*1000);
-        });
+        return wait(this.beginHitCooldown*1000);
     }
 
     /**
@@ -93,9 +89,7 @@ class DefenderEntity extends Entity{
      * @returns returns a promise that resolves after the deploycooldown in milliseconds has passed
      */
     public beginDeployCooldown(time : number) : Promise<void>{
-        return new Promise ((canDeployAgain) => {
-            setTimeout(canDeployAgain, this.beginDeployCooldown*1000);
-        });
+        return wait(this.beginDeployCooldown*1000);
     }
 
     /**

@@ -27,7 +27,6 @@ class Cherry extends DefenderEntity{
         const STATS = {
             health : 20,
             speed : 0.6,
-            regeneration : 0
         };
         const DEFENDERBASESTATS = {
             defenderLvl : 1,

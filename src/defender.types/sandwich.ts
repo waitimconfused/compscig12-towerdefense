@@ -25,7 +25,6 @@ class Sandwich extends DefenderEntity{
         const STATS = {
             health : 40,
             speed : 0,
-            regeneration : 0
         };
         const DEFENDERBASESTATS = {
             defenderLvl : 1,
