@@ -21,8 +21,8 @@ const engine = new Engine( canvas );
 	strawberry.setSize(160, 204);
 	menuView.addElement(strawberry);
 
-	await wait(1000);
-	strawberry.setReference("defender/strawberry:idle");
+	// await wait(1000);
+	// strawberry.setReference("defender/strawberry:idle");
 
 
 })();

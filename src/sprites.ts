@@ -46,7 +46,7 @@ export type SpriteData = {
 		 * 
 		 * If not set, use `frame_duration`. If neither are set, the default is `100ms/frame`
 		 */
-		duration: number|null,
+		duration: number|undefined,
 
 		/**
 		 * Duration of each `SpriteData` frame, **on a per-frame basis**
@@ -55,7 +55,7 @@ export type SpriteData = {
 		 * 
 		 * If not set, use `duration`. If neither are set, the default is `100ms/frame`. If both are set, the default is to use `duration`.
 		 */
-		frame_duration: number|null,
+		frame_duration: number|undefined,
 
 		/**
 		 * Time offset of animation.

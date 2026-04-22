@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+
+		#sprites {
+			display: flex;
+			flex-direction: row;
+			gap: 16px;
+			flex-wrap: wrap;
+			max-width: 100%;
+		}
+		section {
+			display: flex;
+			flex-direction: column;
+			width: min-content;
+			max-width: 750px;
+			gap: 16px;
+			border: 1px solid black;
+			padding: 16px;
+		}
+		canvas {
+			border: 1px dashed black;
+			max-width: 500px;
+		}
+		output {
+			border: 1px dashed black;
+			display: block;
+			white-space: pre;
+			font-family: monospace;
+			max-height: 200px;
+			overflow: scroll;
+			padding: 16px;
+		}
+
+		div.divider {
+			display: block;
+			height: 1px;
+			background: black;
+		}
+	</style>
+</head>
+<body>
+
+	<button id="new-sprite">Create sprite</button>
+	<br>
+	<br>
+
+	<div id="sprites"></div>
+
+	<script type="module" src="./dist/assetexporter/index.js"></script>
+</body>
+</html>
