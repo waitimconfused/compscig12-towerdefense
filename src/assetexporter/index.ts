@@ -4,6 +4,14 @@ import { default as SuperGif } from "./libgif.js";
 const newSprite:HTMLButtonElement = document.getElementById("new-sprite") as HTMLButtonElement;
 const spritesDiv:HTMLDivElement = document.getElementById("sprites") as HTMLDivElement;
 
+const exportAll:HTMLButtonElement = document.getElementById("export-all") as HTMLButtonElement;
+exportAll.disabled = true;
+
+const PADDING = 5;
+
+var allJsonData:SpriteData[] = [];
+var allImages:HTMLCanvasElement[] = [];
+
 newSprite.addEventListener("click", () => {
 
 	let section:HTMLElement = document.createElement("section");
@@ -67,8 +75,8 @@ newSprite.addEventListener("click", () => {
 		let data = output.innerText;
 		console.log(data);
 
-        let blob:Blob = new Blob([output.innerText], {type: "octet/stream"});
-        let url:string = window.URL.createObjectURL(blob);
+		let blob:Blob = new Blob([output.innerText], {type: "octet/stream"});
+		let url:string = window.URL.createObjectURL(blob);
 
 		link.href = url;
 		link.download = `${title.value || "untitled-sprite"}.json`;
@@ -93,21 +101,28 @@ function sprite(
 	exportJson:HTMLButtonElement
 ):void {
 	
+	let index = allJsonData.length;
+
 	let section:HTMLElement = canvas.parentElement as HTMLElement;
 
 	let jsonData:SpriteData = {
-		name: title.value || "untitled-sprite",
-		source: `./${ title.value || "untitled-sprite" }.png`,
+		name: "",
+		source: "",
 		crop: undefined,
 		animation: undefined
 	};
 
+	jsonData.name = title.value || `untitled-sprite-${index+1}`;
+	jsonData.source = `./${ jsonData.name }.png`;
+
 	title.addEventListener("input", () => {
-		jsonData.name = title.value || "untitled-sprite";
-		jsonData.source = `./${ title.value || "untitled-sprite" }.png`;
+		jsonData.name = title.value || `untitled-sprite-${index+1}`;
+		jsonData.source = `./${ jsonData.name }.png`;
 		output.innerText = JSON.stringify(jsonData, null, "\t");
 	})
 
+	allJsonData[index] = jsonData;
+	allImages[index] = canvas;
 	output.innerText = JSON.stringify(jsonData, null, "\t")
 		.replaceAll(
 			/{\n\t\t\t\t"crop": {\n\t\t\t\t\t"x": (\d*),\n\t\t\t\t\t"y": (\d*),\n\t\t\t\t\t"w": (\d*),\n\t\t\t\t\t"h": (\d*)\n\t\t\t\t}\n\t\t\t}/gm,
@@ -136,10 +151,11 @@ function sprite(
 				if (image.src.startsWith("data:image/gif")) {
 					section.appendChild(image);
 				
-					let frames = await loadGif(image);
+					let frames = await extractFrames(image);
 
 					exportImage.disabled = false;
 					exportJson.disabled = false;
+					exportAll.disabled = false;
 
 					canvas.width = (frames[0]?.width??0) * frames.length;
 					canvas.height = (frames[0]?.height??0);
@@ -158,7 +174,7 @@ function sprite(
 						jsonData.animation.frames.push({
 							source: undefined,
 							crop: {
-								x: i * ( frames[0]?.width ?? 0 ),
+								x: i * ( PADDING + (frames[0]?.width ?? 0) ),
 								y: 0,
 								w: frames[0]?.width ?? 0,
 								h: frames[0]?.height ?? 0
@@ -175,6 +191,7 @@ function sprite(
 				} else {
 					exportImage.disabled = false;
 					exportJson.disabled = false;
+					exportAll.disabled = false;
 
 					canvas.width = image.width;
 					canvas.height = image.height;
@@ -183,6 +200,7 @@ function sprite(
 					context.drawImage(image, 0, 0);
 				}
 
+				allJsonData[index] = jsonData;
 				output.innerText = JSON.stringify(jsonData, null, "\t")
 					.replaceAll(
 						/{\n\t\t\t\t"crop": {\n\t\t\t\t\t"x": (\d*),\n\t\t\t\t\t"y": (\d*),\n\t\t\t\t\t"w": (\d*),\n\t\t\t\t\t"h": (\d*)\n\t\t\t\t}\n\t\t\t}/gm,
@@ -197,6 +215,55 @@ function sprite(
 	}, false);
 
 }
+
+exportAll.addEventListener("click", () => {
+		
+	let jsonLink:HTMLAnchorElement = document.createElement("a");
+
+	let data = JSON.stringify(allJsonData, null, "\t")
+		.replaceAll(
+			/{\n\t\t\t\t\t"crop": {\n\t\t\t\t\t\t"x": (\d*),\n\t\t\t\t\t\t"y": (\d*),\n\t\t\t\t\t\t"w": (\d*),\n\t\t\t\t\t\t"h": (\d*)\n\t\t\t\t\t}\n\t\t\t\t}/gm,
+			`{ "x": $1, "y": $2, "w": $3, "h": $4 }`
+		);
+
+	let blob:Blob = new Blob([data], {type: "octet/stream"});
+	let url:string = window.URL.createObjectURL(blob);
+	
+	jsonLink.href = url;
+	jsonLink.download = "sprite-collection.json";
+	jsonLink.click();
+
+	window.URL.revokeObjectURL(url);
+
+	let canvasPackage:HTMLCanvasElement = document.createElement("canvas");
+	let contextPackage:CanvasRenderingContext2D = canvasPackage.getContext("2d") as CanvasRenderingContext2D;
+
+	canvasPackage.width = allImages[0]?.width ?? 0;
+	canvasPackage.height = 0;
+
+	for (let i = 0; i < allImages.length; i ++) {
+		canvasPackage.width = Math.max( canvasPackage.width, allImages[i]?.width ?? Infinity );
+		canvasPackage.height += allImages[i]?.height ?? 0;
+	}
+
+	let y = 0;
+
+	for (let i = 0; i < allImages.length; i ++) {
+		let canvas:HTMLCanvasElement = allImages[i] as HTMLCanvasElement;
+		
+		contextPackage.drawImage(canvas, 0, y);
+
+		y += canvas.height + PADDING;
+
+	}
+
+	let imageLink:HTMLAnchorElement = document.createElement("a");
+	imageLink.setAttribute('download', "sprite-collection.png");
+	imageLink.setAttribute('href', canvasPackage.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+	imageLink.click();
+
+
+});
 
 type SUPER_GIF = {
 	play: () => void;
@@ -221,7 +288,7 @@ type SUPER_GIF = {
 	set_frame_offset: () => void
 };
 
-function loadGif(gif:HTMLImageElement):Promise<ImageData[]> {
+function extractFrames(gif:HTMLImageElement):Promise<ImageData[]> {
 	let rub:SUPER_GIF = new SuperGif({ gif }) as SUPER_GIF;
 
 	return new Promise( (resolve) => {
