@@ -6,12 +6,32 @@
 	<title>Document</title>
 	<style>
 
-		#sprites {
+		body {
+			margin: 0px;
+			padding: 8px;
+		}
+
+		nav {
+			position: sticky;
+			top: 0px;
+			left: 0px;
 			display: flex;
 			flex-direction: row;
 			gap: 16px;
+			justify-content: center;
+			background-color: white;
+			margin-bottom: 8px;
+			padding: 8px;
+		}
+
+		#sprites {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			gap: 24px;
 			flex-wrap: wrap;
 			max-width: 100%;
+			padding: 0 5%;
 		}
 		section {
 			display: flex;
@@ -41,14 +61,28 @@
 			height: 1px;
 			background: black;
 		}
+
+		button {
+			background: black;
+			color: white;
+			border-radius: 0px;
+			border: none;
+			padding: 8px 16px;
+			cursor: pointer;
+		}
+
+		button:disabled {
+			background: gray;
+			cursor: disabled;
+		}
 	</style>
 </head>
 <body>
 
-	<button id="new-sprite">Create sprite</button>
-	<button id="export-all">Export All</button>
-	<br>
-	<br>
+	<nav>
+		<button id="new-sprite">Create sprite</button>
+		<button id="export-all" disabled>Export All</button>
+	</nav>
 
 	<div id="sprites"></div>
 

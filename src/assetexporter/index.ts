@@ -119,7 +119,7 @@ function sprite(
 		jsonData.name = title.value || `untitled-sprite-${index+1}`;
 		jsonData.source = `./${ jsonData.name }.png`;
 		output.innerText = JSON.stringify(jsonData, null, "\t");
-	})
+	});
 
 	allJsonData[index] = jsonData;
 	allImages[index] = canvas;
