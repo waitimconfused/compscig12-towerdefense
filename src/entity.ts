@@ -38,7 +38,7 @@ export class Entity {
     public get maxHealth() { return this._maxHealth };
     
     // Base stats
-    private _stats: { health : number, speed : number, regeneration : number };
+    private _stats: { health : number, speed : number };
     public get stats() { return this._stats };
     
     // Temporary modifiers
@@ -63,7 +63,7 @@ export class Entity {
      */
     constructor (
         view: View,
-        stats: { health: number; speed: number; regeneration: number }
+        stats: { health: number; speed: number }
     ) {
         this.parentView = view;
         this._stats = stats;
