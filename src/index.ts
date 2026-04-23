@@ -1,5 +1,8 @@
 import Engine, { wait } from "./engine.js";
+import { SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
+
+SpriteRenderer.loadDefaults();
 
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
@@ -21,8 +24,8 @@ const engine = new Engine( canvas );
 	strawberry.setSize(160, 204);
 	menuView.addElement(strawberry);
 
-	await wait(1000);
-	strawberry.setReference("defender/strawberry:idle");
+	// await wait(1000);
+	// strawberry.setReference("defender/strawberry:idle");
 
 
 })();
