@@ -4,6 +4,8 @@ import { default as SuperGif } from "./libgif.js";
 const newSprite:HTMLButtonElement = document.getElementById("new-sprite") as HTMLButtonElement;
 const spritesDiv:HTMLDivElement = document.getElementById("sprites") as HTMLDivElement;
 
+const spriteTemplate:HTMLTemplateElement = document.getElementById("sprite-template") as HTMLTemplateElement;
+
 const exportAll:HTMLButtonElement = document.getElementById("export-all") as HTMLButtonElement;
 exportAll.disabled = true;
 
@@ -14,79 +16,49 @@ var allImages:HTMLCanvasElement[] = [];
 
 newSprite.addEventListener("click", () => {
 
-	let section:HTMLElement = document.createElement("section");
-	spritesDiv.appendChild(section);
-
-	let div:HTMLDivElement = document.createElement("div");
-	section.appendChild(div);
+	const clone = document.importNode(spriteTemplate.content, true);
 	
-	let title:HTMLInputElement = document.createElement("input");
-	title.type = "text";
-	title.placeholder = "Sprite Name";
-	div.appendChild(title);
+	let title:HTMLInputElement = clone.getElementById("sprite-name") as HTMLInputElement;
+	title.placeholder = `untitled-sprite-${allJsonData.length+1}`;
 
-	let file:HTMLInputElement = document.createElement("input");
-	file.type = "file";
-	file.id = `sprite-${spritesDiv.children.length}`;
-	file.accept = "image/png image/gif";
-	div.appendChild(file);
-
-	let divider1:HTMLDivElement = document.createElement("div");
-	divider1.classList.add("divider");
-	section.appendChild(divider1);
-
-
-
-	let canvas:HTMLCanvasElement = document.createElement("canvas");
-	section.appendChild(canvas);
-
-	let exportImage:HTMLButtonElement = document.createElement("button");
-	exportImage.innerText = "Export Source Image";
-	exportImage.disabled = true;
-	section.appendChild(exportImage);
-
+	let file:HTMLInputElement = clone.querySelectorAll("input")[1] as HTMLInputElement;
+	
+	let canvas:HTMLCanvasElement = clone.querySelector("canvas") as HTMLCanvasElement;
+	
+	let exportImage:HTMLButtonElement = clone.querySelectorAll("button")[0] as HTMLButtonElement;
+	
 	exportImage.addEventListener("click", () => {
 		
 		let link:HTMLAnchorElement = document.createElement("a");
 		link.setAttribute('download', `${title.value || "untitled-sprite"}.png`);
 		link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
 		link.click();
-
+		
 	});
-
-	let divider2:HTMLDivElement = document.createElement("div");
-	divider2.classList.add("divider");
-	section.appendChild(divider2);
-
-
-
-	let output:HTMLOutputElement = document.createElement("output");
-	section.appendChild(output);
-
-	let exportJson:HTMLButtonElement = document.createElement("button");
-	exportJson.innerText = "Export JSON Data";
-	exportJson.disabled = true;
-	section.appendChild(exportJson);
-
+	
+	let output:HTMLOutputElement = clone.querySelector("output") as HTMLOutputElement;
+	
+	let exportJson:HTMLButtonElement = clone.querySelectorAll("button")[1] as HTMLButtonElement;
+	
 	exportJson.addEventListener("click", () => {
 		
 		let link:HTMLAnchorElement = document.createElement("a");
-
+		
 		let data = output.innerText;
 		console.log(data);
-
+		
 		let blob:Blob = new Blob([output.innerText], {type: "octet/stream"});
 		let url:string = window.URL.createObjectURL(blob);
-
+		
 		link.href = url;
 		link.download = `${title.value || "untitled-sprite"}.json`;
 		link.click();
-
+		
 		window.URL.revokeObjectURL(url);
-
+		
 	});
 
-
+	spritesDiv.appendChild(clone);
 	sprite(title, file, canvas, output, exportImage, exportJson);
 
 });

@@ -9,6 +9,8 @@
 		body {
 			margin: 0px;
 			padding: 8px;
+			font-family: monospace;
+			background: whitesmoke;
 		}
 
 		nav {
@@ -19,9 +21,10 @@
 			flex-direction: row;
 			gap: 16px;
 			justify-content: center;
-			background-color: white;
+			background-color: whitesmoke;
 			margin-bottom: 8px;
 			padding: 8px;
+			z-index: 3148244321913097;
 		}
 
 		#sprites {
@@ -34,10 +37,11 @@
 			padding: 0 5%;
 		}
 		section {
+			background: white;
 			display: flex;
 			flex-direction: column;
 			width: min-content;
-			max-width: 750px;
+			width: 450px;
 			gap: 16px;
 			border: 1px solid black;
 			padding: 16px;
@@ -62,6 +66,11 @@
 			background: black;
 		}
 
+		button, input {
+			font: inherit;
+			color: inherit;
+		}
+
 		button {
 			background: black;
 			color: white;
@@ -75,6 +84,27 @@
 			background: gray;
 			cursor: disabled;
 		}
+
+		output[role=json],
+		canvas[role=source] {
+			position: relative;
+		}
+		output[role=json]::before,
+		canvas[role=source]::before {
+			content: "JSON";
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			font-size: 80%;
+		}
+		output[role=json]::before {
+			content: "JSON";
+		}
+		canvas[role=source]::before {
+			content: "PNG";
+			color: black;
+			z-index: 10000;
+		}
 	</style>
 </head>
 <body>
@@ -84,8 +114,37 @@
 		<button id="export-all" disabled>Export All</button>
 	</nav>
 
+	<template id="sprite-template">
+		<section>
+			<div>
+				<p>
+					<label for="sprite-name">Sprite Name:</label>
+					<input type="text" placeholder="untitled-sprite" id="sprite-name">
+				</p>
+				<p>
+					<label for="sprite-source">Source Image:</label>
+					<input type="file" accept="image/png image/gif" id="sprite-source">
+				</p>
+			</div>
+			<div class="divider"></div>
+			<canvas role="source"></canvas>
+			<button disabled>Export Source Image</button>
+			<div class="divider"></div>
+			<output role="json"></output>
+			<button disabled>Export JSON Data</button>
+		</section>
+	</template>
+
 	<div id="sprites"></div>
 
 	<script type="module" src="./dist/assetexporter/index.js"></script>
+	<script>
+		const nav = document.querySelector("nav");
+
+		document.addEventListener("scroll", () => {
+			if (window.scrollY >= 8) nav.style.borderBottom = "1px solid black";
+			else nav.style.borderBottom = "";
+		})
+	</script>
 </body>
 </html>
