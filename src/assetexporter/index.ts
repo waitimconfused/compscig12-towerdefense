@@ -11,9 +11,6 @@ exportAll.disabled = true;
 
 const PADDING = 5;
 
-var allJsonData: SpriteData[] = [];
-var allImages: HTMLCanvasElement[] = [];
-
 newSprite.addEventListener("click", () => {
 
 	new ExportableSprite();
