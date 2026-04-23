@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Tower Defense // Asset Exporter</title>
 	<style>
 
 		body {
@@ -81,30 +81,12 @@
 		}
 
 		button:disabled {
-			background: gray;
-			cursor: disabled;
+			background: #808080;
+			cursor: not-allowed;
+			background-image: url("./assets/diagonal-fill.svg");
+			background-size: 8px 8px;
 		}
 
-		output[role=json],
-		canvas[role=source] {
-			position: relative;
-		}
-		output[role=json]::before,
-		canvas[role=source]::before {
-			content: "JSON";
-			position: absolute;
-			top: 4px;
-			right: 4px;
-			font-size: 80%;
-		}
-		output[role=json]::before {
-			content: "JSON";
-		}
-		canvas[role=source]::before {
-			content: "PNG";
-			color: black;
-			z-index: 10000;
-		}
 	</style>
 </head>
 <body>
@@ -144,7 +126,7 @@
 		document.addEventListener("scroll", () => {
 			if (window.scrollY >= 8) nav.style.borderBottom = "1px solid black";
 			else nav.style.borderBottom = "";
-		})
+		});
 	</script>
 </body>
 </html>
