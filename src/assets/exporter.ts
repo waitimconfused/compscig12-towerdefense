@@ -139,7 +139,7 @@ class ExportableSprite {
 
 				this.data.animation = {
 					duration: undefined,
-					frame_duration: 0,
+					frame_duration: 100,
 					offset: undefined,
 					frames: []
 				}
@@ -213,7 +213,7 @@ class ExportableSprite {
 		return JSON.stringify(this.data, null, "\t")
 			.replaceAll(
 				/{\n\t\t\t\t"crop": {\n\t\t\t\t\t"x": (\d*),\n\t\t\t\t\t"y": (\d*),\n\t\t\t\t\t"w": (\d*),\n\t\t\t\t\t"h": (\d*)\n\t\t\t\t}\n\t\t\t}/gm,
-				`{ "x": $1, "y": $2, "w": $3, "h": $4 }`
+				`{ "crop": { "x": $1, "y": $2, "w": $3, "h": $4 } }`
 			);
 	}
 
