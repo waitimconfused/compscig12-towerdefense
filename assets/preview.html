@@ -4,6 +4,101 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tower Defense // Asset Previewer</title>
+	<style>
+
+		body {
+			margin: 0px;
+			padding: 8px;
+			font-family: monospace;
+			background: whitesmoke;
+		}
+
+		nav {
+			position: sticky;
+			top: 0px;
+			left: 0px;
+			display: flex;
+			flex-direction: row;
+			gap: 16px;
+			justify-content: center;
+			background-color: whitesmoke;
+			margin-bottom: 8px;
+			padding: 8px;
+			z-index: 3148244321913097;
+		}
+
+		#sprites {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			gap: 24px;
+			flex-wrap: wrap;
+			max-width: 100%;
+			padding: 0 5%;
+		}
+		section {
+			background: white;
+			display: flex;
+			flex-direction: column;
+			width: min-content;
+			width: 450px;
+			gap: 16px;
+			border: 1px solid black;
+			padding: 16px;
+		}
+		canvas {
+			border: 1px dashed black;
+			max-width: 500px;
+		}
+		output {
+			border: 1px dashed black;
+			display: block;
+			white-space: pre;
+			font-family: monospace;
+			max-height: 200px;
+			overflow: scroll;
+			padding: 16px;
+		}
+
+		div.divider {
+			display: block;
+			height: 1px;
+			background: black;
+		}
+
+		button, input {
+			font: inherit;
+			color: inherit;
+		}
+
+		button {
+			background: black;
+			color: white;
+			border-radius: 0px;
+			border: none;
+			padding: 8px 16px;
+			cursor: pointer;
+		}
+
+		button:disabled {
+			background: #808080;
+			cursor: not-allowed;
+			background-image: url("./assets/diagonal-fill.svg");
+			background-size: 8px 8px;
+		}
+
+		body:not(:has( #sprites>:first-child)) > nav {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			translate: -50% -50%;
+
+			&>#export-all {
+				display: none;
+			}
+		}
+
+	</style>
 </head>
 <body>
 	
@@ -14,7 +109,7 @@
 		</div>
 	</template>
 
-	<div id="frames"></div>
+	<div id="sprites"></div>
 
 	<script type="module" src="../dist/assets/preview.js"></script>
 
