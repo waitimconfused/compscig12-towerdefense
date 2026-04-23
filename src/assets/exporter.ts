@@ -69,6 +69,8 @@ class ExportableSprite {
 	private jsonOutput: HTMLOutputElement;
 	private exporter_image: HTMLButtonElement;
 	private exporter_json: HTMLButtonElement;
+	private animationType: HTMLSelectElement;
+	private animationDuration: HTMLInputElement;
 
 	private index:number;
 
@@ -89,6 +91,8 @@ class ExportableSprite {
 		this.jsonOutput = clone.querySelector("output") as HTMLOutputElement;
 		this.exporter_image = clone.querySelectorAll("button")[0] as HTMLButtonElement;
 		this.exporter_json = clone.querySelectorAll("button")[1] as HTMLButtonElement;
+		this.animationType = clone.getElementById("duration-type") as HTMLSelectElement;
+		this.animationDuration = clone.getElementById("duration") as HTMLInputElement;
 
 		spritesDiv.appendChild(clone);
 
@@ -139,10 +143,12 @@ class ExportableSprite {
 
 				this.data.animation = {
 					duration: undefined,
-					frame_duration: 100,
+					frame_duration: undefined,
 					offset: undefined,
 					frames: []
-				}
+				};
+
+				if (this.animationDuration.parentElement) this.animationDuration.parentElement.style.display = "";
 
 				for (let i = 0; i < frames.length; i++) {
 
@@ -175,12 +181,37 @@ class ExportableSprite {
 				context.drawImage(image, 0, 0);
 			}
 
-			this.jsonOutput.innerText = this.getJsonString();
+			this.updateAnimation(); // Function also updates jsonOutput.innerText
 
 		});
+
+		this.animationType.addEventListener("input", () => this.updateAnimation());
+
+		this.animationDuration.addEventListener("input", () => this.updateAnimation());
 	}
 
-	export() {
+	public updateAnimation() {
+		if (!this.data.animation) return;
+
+		switch (this.animationType.value) {
+			case "total":
+				this.data.animation.duration = this.animationDuration.valueAsNumber || 1;
+				this.data.animation.frame_duration = undefined;
+				this.jsonOutput.innerText = this.getJsonString();
+				break;
+
+			case "frame":
+				this.data.animation.duration = undefined;
+				this.data.animation.frame_duration = this.animationDuration.valueAsNumber || 1;
+				this.jsonOutput.innerText = this.getJsonString();
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	public export() {
 		this.exportImage();
 		this.exportJson();
 	}
