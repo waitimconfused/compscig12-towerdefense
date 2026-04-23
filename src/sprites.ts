@@ -417,17 +417,20 @@ export class SpriteRenderer {
 	 * 					(`ref.position` is ignored)
 	 */
 	public static getSpriteAsOffscreenCanvas(reference:Sprite):OffscreenCanvas {
-		
-		// Create a new OffscreenCanvas, as well as a 2D context for it.
-		// The OffscreenCanvas is the same size a the `ref.size` values.
-		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( reference.size[0], reference.size[1] );
-		let context:OffscreenCanvasRenderingContext2D = offscreenCanvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
 
 		// Get a `RenderableSpriteData` object
 		let data = this.getData(reference.name);
-		
-		// Draw an image on the passed `RenderingContext`, if RenderableSpriteData object exists
-		if (data) context.drawImage(
+
+		// If the referenced sprite does not exist, return the (empty) `OffscreenCanvas`
+		if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);
+
+		// Create a new OffscreenCanvas, as well as a 2D context for it.
+		// The OffscreenCanvas is the same size a the `ref.size` values.
+		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( reference.size[0] || data.crop.w, reference.size[1] || data.crop.h );
+		let context:OffscreenCanvasRenderingContext2D = offscreenCanvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
+
+		// Draw an image on the passed `RenderingContext`
+		context.drawImage(
 
 			// The image to be drawn
 			data.image,
@@ -438,7 +441,7 @@ export class SpriteRenderer {
 
 			// The position/size of where to put the (cropped) image on the given canvas
 			reference.position[0], reference.position[1],
-			reference.size[0], reference.size[1]
+			reference.size[0] || data.crop.w, reference.size[1] || data.crop.h
 		);
 
 		// Return the OffscreenCanvas, which holds the drawn sprite image

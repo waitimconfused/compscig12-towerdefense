@@ -38,6 +38,9 @@ function tick() {
 			size: [ 0, 0 ],
 		});
 
+		if (canvas.width != offscreenCanvas.width) canvas.width = offscreenCanvas.width;
+		if (canvas.height != offscreenCanvas.height) canvas.height = offscreenCanvas.height;
+
 		context.drawImage(offscreenCanvas, 0, 0);
 
 	}
