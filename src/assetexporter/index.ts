@@ -11,44 +11,6 @@ exportAll.disabled = true;
 
 const PADDING = 5;
 
-newSprite.addEventListener("click", () => {
-
-	new ExportableSprite();
-
-});
-
-exportAll.addEventListener("click", () => {
-
-	let data = ExportableSprite.compressAll();
-
-
-
-	let jsonLink: HTMLAnchorElement = document.createElement("a");
-
-	let jsonString = JSON.stringify(data.data, null, "\t")
-		.replaceAll(
-			/{\n\t\t\t\t\t"crop": {\n\t\t\t\t\t\t"x": (\d*),\n\t\t\t\t\t\t"y": (\d*),\n\t\t\t\t\t\t"w": (\d*),\n\t\t\t\t\t\t"h": (\d*)\n\t\t\t\t\t}\n\t\t\t\t}/gm,
-			`{ "x": $1, "y": $2, "w": $3, "h": $4 }`
-		);
-
-	let blob: Blob = new Blob([jsonString], { type: "octet/stream" });
-	let url: string = window.URL.createObjectURL(blob);
-
-	jsonLink.href = url;
-	jsonLink.download = "sprite-collection.json";
-	jsonLink.click();
-
-	window.URL.revokeObjectURL(url);
-
-
-
-	let imageLink: HTMLAnchorElement = document.createElement("a");
-	imageLink.setAttribute('download', "sprite-collection.png");
-	imageLink.setAttribute('href', data.source.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-	imageLink.click();
-
-});
-
 type SUPER_GIF = {
 	play: () => void;
 	pause: () => void;
@@ -306,5 +268,43 @@ class ExportableSprite {
 
 	}
 
+	public static exportAll() {
+		exportAll.disabled = true;
+
+		let data = ExportableSprite.compressAll();
+
+		let jsonString = JSON.stringify(data.data, null, "\t")
+		.replaceAll(
+			/{\n\t\t\t\t\t"crop": {\n\t\t\t\t\t\t"x": (\d*),\n\t\t\t\t\t\t"y": (\d*),\n\t\t\t\t\t\t"w": (\d*),\n\t\t\t\t\t\t"h": (\d*)\n\t\t\t\t\t}\n\t\t\t\t}/gm,
+			`{ "x": $1, "y": $2, "w": $3, "h": $4 }`
+		);
+
+		let href = data.source.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+		let blob: Blob = new Blob([jsonString], { type: "octet/stream" });
+		let url: string = window.URL.createObjectURL(blob);
+
+		let jsonLink: HTMLAnchorElement = document.createElement("a");
+		jsonLink.href = url;
+		jsonLink.download = "sprite-collection.json";
+		jsonLink.click();
+
+		window.URL.revokeObjectURL(url);
+
+		let imageLink: HTMLAnchorElement = document.createElement("a");
+		imageLink.setAttribute('download', "sprite-collection.png");
+		imageLink.setAttribute('href', href);
+		imageLink.click();
+
+		exportAll.disabled = false;
+	}
+
 
 }
+
+
+
+
+newSprite.addEventListener("click", () => new ExportableSprite() );
+
+exportAll.addEventListener("click", ExportableSprite.exportAll);

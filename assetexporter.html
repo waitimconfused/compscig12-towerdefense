@@ -87,6 +87,17 @@
 			background-size: 8px 8px;
 		}
 
+		body:not(:has( #sprites>:first-child)) > nav {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			translate: -50% -50%;
+
+			&>#export-all {
+				display: none;
+			}
+		}
+
 	</style>
 </head>
 <body>
