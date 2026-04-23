@@ -3,11 +3,7 @@ import { EnemyEntity } from "../enemyEntity";
 import { DefenderEntity } from "../defenderentity";
 
 export class Wasp extends EnemyEntity {
-    
-    private flying : boolean;
-    private speedMultiplier : number;
-    private stunChance : number;
-    private stunDuration : number;
+    public isFlying : boolean = true;
 
     constructor(view : View, waveNumber : number) {
         const STATS = {
@@ -16,6 +12,14 @@ export class Wasp extends EnemyEntity {
         }
 
         super(view, STATS, waveNumber, 1.15);
+
+        this.setDrops({
+            coins : 1,
+            points : 1,
+            materialDropRate : {
+                'Fake Honey' : 0.25
+            }
+        })
     }
 
     public spawn(x : number, y : number) {
