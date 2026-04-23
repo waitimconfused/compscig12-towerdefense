@@ -1,5 +1,8 @@
 import Engine, { wait } from "./engine.js";
+import { SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
+
+SpriteRenderer.loadDefaults();
 
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 

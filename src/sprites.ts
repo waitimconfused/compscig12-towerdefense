@@ -7,6 +7,9 @@
 // contexts (`RenderingContext`) that can be rendered on
 import { Position2D, RenderingContext } from "./types.js";
 
+// Get the list of path to `SpriteData`-related files (JSON)
+import pathsToSpriteData from "../assets/sprites.json" with { type: "json" };
+
 /**
  * Used in `sprite.RegisterData()` to create a sprite that can be
  * referenced through `Sprite.name`.
@@ -443,51 +446,68 @@ export class SpriteRenderer {
 
 	}
 
-};
+	/**
+	 * Get a list of all registered `SpriteData` string-references (`SpriteData.name`)
+	 * @returns A list of all sprite reference strings
+	 */
+	public static getAllSprites() {
+		return Object.keys(this.registeredSprites);
+	}
 
+	/**
+	 * Automatically register all `SpriteData` JSON files listed in `assets/sprites.json`
+	 * @returns A list of `SpriteData.name` values
+	 */
+	public static async loadDefaults():Promise<string[]> {
 
+		let references:string[] = [];
 
-// Get the list of path to `SpriteData`-related files (JSON)
-import pathsToSpriteData from "../assets/sprites.json" with { type: "json" };
+		// Loop through each path, and load the `SpriteData` object(s)
+		for (let i = 0; i < pathsToSpriteData.length; i ++) {
+			let path:string = pathsToSpriteData[i] as string;
 
-// Loop through each path, and load the `SpriteData` object(s)
-for (let i = 0; i < pathsToSpriteData.length; i ++) {
-	let path:string = pathsToSpriteData[i] as string;
+			// Make path relative to the ./assets/ folder
+			path = new URL( path, location.origin+"/assets/" ).href;
 
-	// Make path relative to the ./assets/ folder
-	path = new URL( path, window.location.href+"/assets/" ).href;
-
-	// Import the JSON file, using promises
-	import(path, { with: { type: "json" } })
-	
-	// Using promises, wait for the JSON containing
-	// `SpriteData` to be imported
-	.then((spriteData:{default:SpriteData|SpriteData[]}) => {
-		
-		// The data is stored as the default export (`.default`)
-		let imported = spriteData.default;
-		
-		// The JSON file can be a list of `SpriteData` objects
-		if (Array.isArray(imported)) {
+			// Import the JSON file, using promises
+			let spriteData = await import(path, { with: { type: "json" } });
 			
-			// Loop through each `SpriteData` object, and register it.
-			for (let i = 0; i < imported.length; i ++) {
-				let data = imported[i] as SpriteData;
+			// The data is stored as the default export (`.default`)
+			let imported:SpriteData|SpriteData[] = spriteData?.default;
 
+			// The JSON file can be a list of `SpriteData` objects
+			if (Array.isArray(imported)) {
+				
+				// Loop through each `SpriteData` object, and register it.
+				for (let i = 0; i < imported.length; i ++) {
+					let data = imported[i] as SpriteData;
+
+					// Make the source relative to the current JSON file 
+					data.source = new URL( data.source as string, path ).href
+
+					// Register the sprite
+					SpriteRenderer.registerData( data );
+					
+					// Add the `SpriteData.name` to the list of registered sprites
+					references.push(data.name);
+				}
+
+			// If the JSON file is only one `SpriteData` object, register it
+			} else {
 				// Make the source relative to the current JSON file 
-				data.source = new URL( data.source as string, path ).href
+				imported.source = new URL( imported.source as string, path ).href;
 
 				// Register the sprite
-				SpriteRenderer.registerData( data );
+				SpriteRenderer.registerData( imported as SpriteData );
+
+				// Add the `SpriteData.name` to the list of registered sprites
+				references.push(imported.name);
 			}
 
-		// If the JSON file is only one `SpriteData` object, register it
-		} else {
-			// Make the source relative to the current JSON file 
-			imported.source = new URL( imported.source as string, path ).href;
-
-			// Register the sprite
-			SpriteRenderer.registerData( imported as SpriteData );
 		}
-	})
-}
+
+		return references;
+
+	}
+
+};
