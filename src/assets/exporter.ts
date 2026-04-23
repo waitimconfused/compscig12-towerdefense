@@ -164,7 +164,7 @@ class ExportableSprite {
 
 					context.putImageData(
 						frames[i] as ImageData,
-						i * (frames[0]?.width ?? 0),
+						i * (PADDING + (frames[0]?.width ?? 0)),
 						0
 					);
 
