@@ -1,10 +1,19 @@
 import { SpriteRenderer } from "../sprites.js";
+import pathsToSpriteData from "../../assets/sprites.json" with { type: "json" };
 
 const template:HTMLTemplateElement = document.getElementById("sprite") as HTMLTemplateElement;
 const output:HTMLDivElement = document.getElementById("sprites") as HTMLDivElement;
 
+const sources:HTMLUListElement = document.getElementById("sources") as HTMLUListElement;
+
 var references:string[] = await SpriteRenderer.loadDefaults();
 references = references.sort();
+
+for (let i = 0; i < pathsToSpriteData.length; i ++) {
+	let li = document.createElement("li");
+	li.innerText = pathsToSpriteData[i] as string;
+	sources.appendChild(li);
+}
 
 var canvases:HTMLCanvasElement[] = [];
 

@@ -1,0 +1,105 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: monospace;
+	background: whitesmoke;
+}
+
+#content {
+	display: flex;
+	flex-direction: row;
+	min-height: 100vh;
+}
+
+#content > :first-child {
+	border-right: 1px solid black;
+}
+
+#content > * {
+	padding: 16px;
+}
+
+code {
+	background-color: lightgray;
+	padding: 4px 8px;
+	border-radius: 4px;
+}
+
+nav {
+	position: sticky;
+	top: 0px;
+	left: 0px;
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	justify-content: center;
+	background-color: whitesmoke;
+	margin-bottom: 8px;
+	padding: 8px;
+	z-index: 3148244321913097;
+}
+
+#sprites {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 24px;
+	flex-wrap: wrap;
+	max-width: 100%;
+}
+section {
+	background: white;
+	display: flex;
+	flex-direction: column;
+	width: 500px;
+	height: max-content;
+	gap: 16px;
+	border: 1px solid black;
+	padding: 16px;
+}
+canvas {
+	border: 1px dashed black;
+	max-width: 500px;
+	background-image: url("/assets/grid.svg");
+}
+output {
+	border: 1px dashed black;
+	display: block;
+	white-space: pre;
+	font-family: monospace;
+	max-height: 200px;
+	overflow: scroll;
+	padding: 16px;
+}
+
+div.divider {
+	display: block;
+	height: 1px;
+	background: black;
+}
+
+button, input, .button {
+	font: inherit;
+	color: inherit;
+}
+
+button, .button {
+	background: black;
+	color: white;
+	border-radius: 0px;
+	border: none;
+	padding: 8px 16px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+button:disabled, .button[disabled] {
+	background: #808080;
+	cursor: not-allowed;
+	background-image: url("./assets/diagonal-fill.svg");
+	background-size: 8px 8px;
+}
+
+ul li {
+	list-style: "- ";
+}

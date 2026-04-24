@@ -114,6 +114,15 @@ class ExportableSprite {
 			this.jsonOutput.innerText = this.getJsonString();
 		});
 
+		let context: CanvasRenderingContext2D = this.source.getContext("2d") as CanvasRenderingContext2D;
+		this.source.width = this.jsonOutput.offsetWidth;
+		this.source.height = this.jsonOutput.offsetHeight;
+
+		context.fillStyle = "black";
+		context.textAlign = "center";
+		context.textBaseline = "middle";
+		context.font = "24px monospace"
+		context.fillText("No source provided.", this.source.width/2, this.source.height/2);
 
 
 		this.fileInput.addEventListener('change', async (event) => {
@@ -137,9 +146,7 @@ class ExportableSprite {
 				exportAll.disabled = false;
 
 				this.source.width = (frames[0]?.width ?? 0) * frames.length;
-				this.source.height = (frames[0]?.height ?? 0);
-
-				let context: CanvasRenderingContext2D = this.source.getContext("2d") as CanvasRenderingContext2D;
+				this.source.height = frames[0]?.height ?? 0;
 
 				this.data.animation = {
 					duration: undefined,
@@ -339,3 +346,5 @@ class ExportableSprite {
 newSprite.addEventListener("click", () => new ExportableSprite() );
 
 exportAll.addEventListener("click", ExportableSprite.exportAll);
+
+new ExportableSprite();
