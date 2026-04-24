@@ -286,8 +286,11 @@ class ExportableSprite {
 		for (let i = 0; i < this.list.length; i++) {
 			canvasPackage.width = Math.max(canvasPackage.width, this.list[i]?.source?.width ?? Infinity);
 			canvasPackage.height += this.list[i]?.source?.height ?? 0;
+			canvasPackage.height += PADDING;
 		}
 
+		let duplicatedSpriteData:SpriteData[] = structuredClone(this.list.map( (exportable) => exportable.data ));
+		
 		let y = 0;
 
 		for (let i = 0; i < this.list.length; i++) {
@@ -295,13 +298,32 @@ class ExportableSprite {
 
 			contextPackage.drawImage(canvas, 0, y);
 
-			y += canvas.height + PADDING;
+			(duplicatedSpriteData[i] as SpriteData).source = "./sprite-collection.png";
 
+			(duplicatedSpriteData[i] as SpriteData).crop = {
+				x: duplicatedSpriteData[i]?.crop?.x ?? 0,
+				y: (duplicatedSpriteData[i]?.crop?.y ?? 0) + y,
+				w: duplicatedSpriteData[i]?.crop?.w || canvas.width,
+				h: duplicatedSpriteData[i]?.crop?.h || canvas.height
+			}
+
+			let frames = duplicatedSpriteData[i]?.animation?.frames;
+
+			if (frames) for ( let i = 0; i < frames.length; i ++ ) {
+				(frames[i] as SpriteData).crop = {
+					x: frames[i]?.crop?.x ?? 0,
+					y: (frames[i]?.crop?.y ?? 0) + y,
+					w: frames[i]?.crop?.w ?? canvas.width,
+					h: frames[i]?.crop?.h ?? canvas.height
+				}
+			}
+
+			y += canvas.height + PADDING;
 		}
 
 		return {
 			source: canvasPackage,
-			data: this.list.map( (exportable) => exportable.data )
+			data: duplicatedSpriteData
 		}
 
 	}
@@ -314,7 +336,7 @@ class ExportableSprite {
 		let jsonString = JSON.stringify(data.data, null, "\t")
 		.replaceAll(
 			/{\n\t\t\t\t\t"crop": {\n\t\t\t\t\t\t"x": (\d*),\n\t\t\t\t\t\t"y": (\d*),\n\t\t\t\t\t\t"w": (\d*),\n\t\t\t\t\t\t"h": (\d*)\n\t\t\t\t\t}\n\t\t\t\t}/gm,
-			`{ "x": $1, "y": $2, "w": $3, "h": $4 }`
+			`{ "crop": { "x": $1, "y": $2, "w": $3, "h": $4 } }`
 		);
 
 		let href = data.source.toDataURL("image/png").replace("image/png", "image/octet-stream");
