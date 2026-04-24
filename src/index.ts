@@ -18,7 +18,7 @@ const engine = new Engine( canvas );
 		new ViewText("MAIN MENU")
 	);
 
-	let strawberry = new ViewSprite("defender/strawberry:fly")
+	let strawberry = new ViewSprite("strawberry-base")
 	strawberry.setAnchor( Engine.anchor.centerCenter );
 	strawberry.setOrigin(0.5, 0.5);
 	strawberry.setSize(160, 204);

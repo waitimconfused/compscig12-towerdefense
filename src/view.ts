@@ -253,8 +253,6 @@ export class ViewSprite extends ViewElement {
 
 		if (SpriteRenderer.isRegistered(this.reference) == false) return;
 
-		this.rotation = performance.now() / 1000;
-
 		context.save();
 
 		context.translate( this.position[0], this.position[1] );
