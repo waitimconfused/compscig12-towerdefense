@@ -102,7 +102,7 @@ class ExportableSprite {
 		this.exporter_json.addEventListener("click", () => this.exportJson());
 
 		this.data.name = this.titleInput.value || `untitled-sprite-${this.index+1}`;
-		this.data.source = `./${this.data.name}.png`;
+		this.data.source = `./${this.data.name.replace(/[^a-zA-Z0-9-_]/g, '-')}.png`;
 		this.titleInput.placeholder = this.data.name;
 		this.jsonOutput.innerText = this.getJsonString();
 
@@ -110,7 +110,7 @@ class ExportableSprite {
 
 		this.titleInput.addEventListener("input", () => {
 			this.data.name = this.titleInput.value || `untitled-sprite-${this.index+1}`;
-			this.data.source = `./${this.data.name}.png`;
+			this.data.source = `./${this.data.name.replace(/[^a-zA-Z0-9-_]/g, '-')}.png`;
 			this.jsonOutput.innerText = this.getJsonString();
 		});
 
@@ -145,7 +145,7 @@ class ExportableSprite {
 				this.exporter_json.disabled = false;
 				exportAll.disabled = false;
 
-				this.source.width = (frames[0]?.width ?? 0) * frames.length;
+				this.source.width = frames.length * (PADDING + (frames[0]?.width ?? 0));
 				this.source.height = frames[0]?.height ?? 0;
 
 				this.data.animation = {
@@ -227,7 +227,7 @@ class ExportableSprite {
 		let url = this.source.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
 		let imageLink: HTMLAnchorElement = document.createElement("a");
-		imageLink.setAttribute('download', `${this.data.name}.png`);
+		imageLink.setAttribute('download', `${this.data.name.replace(/[^a-zA-Z0-9-_]/g, '-')}.png`);
 		imageLink.setAttribute('href', url);
 		imageLink.click();
 	}

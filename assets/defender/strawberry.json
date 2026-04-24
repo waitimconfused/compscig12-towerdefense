@@ -1,18 +1,17 @@
 [
 	{
 		"name": "defender/strawberry:fly",
-		"source": "./strawberry.png",
-
+		"source": "./defender-strawberry-fly.png",
 		"animation": {
 			"frame_duration": 100,
 			"frames": [
-				{ "crop": { "x":0,		"y":0,	"w":160,	"h":204 } },
-				{ "crop": { "x":160,	"y":0,	"w":160,	"h":204 } },
-				{ "crop": { "x":320,	"y":0,	"w":160,	"h":204 } },
-				{ "crop": { "x":480,	"y":0,	"w":160,	"h":204 } },
-				{ "crop": { "x":640,	"y":0,	"w":160,	"h":204 } },
-				{ "crop": { "x":800,	"y":0,	"w":160,	"h":204 } },
-				{ "crop": { "x":960,	"y":0,	"w":160,	"h":204 } }
+				{ "crop": { "x": 0, "y": 0, "w": 438, "h": 560 } },
+				{ "crop": { "x": 443, "y": 0, "w": 438, "h": 560 } },
+				{ "crop": { "x": 886, "y": 0, "w": 438, "h": 560 } },
+				{ "crop": { "x": 1329, "y": 0, "w": 438, "h": 560 } },
+				{ "crop": { "x": 1772, "y": 0, "w": 438, "h": 560 } },
+				{ "crop": { "x": 2215, "y": 0, "w": 438, "h": 560 } },
+				{ "crop": { "x": 2658, "y": 0, "w": 438, "h": 560 } }
 			]
 		}
 	},
@@ -21,7 +20,7 @@
 		"name": "defender/strawberry:idle",
 		"source": "./strawberry.png",
 		
-		"crop": { "x":0,	"y":0,	"w":160,	"h":204 }
+		"crop": { "x":0, "y":0, "w":438, "h": 560 }
 
 	}
 ]
