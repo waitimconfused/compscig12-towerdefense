@@ -202,14 +202,14 @@ class ExportableSprite {
 
 		switch (this.animationType.value) {
 			case "total":
-				this.data.animation.duration = this.animationDuration.valueAsNumber || 1;
+				this.data.animation.duration = this.animationDuration.valueAsNumber || 100 * this.data.animation.frames.length;
 				this.data.animation.frame_duration = undefined;
 				this.jsonOutput.innerText = this.getJsonString();
 				break;
 
 			case "frame":
 				this.data.animation.duration = undefined;
-				this.data.animation.frame_duration = this.animationDuration.valueAsNumber || 1;
+				this.data.animation.frame_duration = this.animationDuration.valueAsNumber || 100;
 				this.jsonOutput.innerText = this.getJsonString();
 				break;
 
