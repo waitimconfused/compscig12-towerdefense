@@ -1,4 +1,4 @@
-import { Position2D } from "./types.js";
+import { Canvas, Position2D, RenderingContext } from "./types.js";
 import { View } from "./view.js";
 
 type EntityModifers = {
@@ -69,6 +69,13 @@ export class Entity {
         this._stats = stats;
         this._maxHealth = stats.health;
         this._health = stats.health;
+    }
+
+
+    public render(canvas:Canvas, context:RenderingContext) {
+
+        throw new Error("Entity render() function not implemented.");
+
     }
 
     /**
