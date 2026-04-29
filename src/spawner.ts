@@ -1,7 +1,9 @@
 import { View } from "./view.js";
 import { Ant } from "./enemy.types/ant.js";
-import { Raccoon } from "./enemy.types/raccoon.js";
 import { EnemyEntity } from "./enemyEntity.js";
+import { Raccoon } from "./enemy.types/raccoon.js";
+import { Wasp } from "./enemy.types/wasp.js";
+import { Frog } from "./enemy.types/frog.js";
 
 export class Spawner {
     private view : View;
@@ -10,8 +12,10 @@ export class Spawner {
         this.view = view;
     }
 
-    public spawnEnemy(enemyType : EnemyEntity, x : number, y : number) : void {
-        
+    public spawnEnemy(enemyType : Raccoon | Wasp | Frog, x : number, y : number, waveNumber : number) : void {
+        if (enemyType instanceof Raccoon) {
+            new Raccoon(this.view, waveNumber);
+        }
     }
 
     public spawnAntCluster(waveNumber : number, x : number, y : number) : void {

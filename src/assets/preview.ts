@@ -7,7 +7,6 @@ const output:HTMLDivElement = document.getElementById("sprites") as HTMLDivEleme
 const sources:HTMLUListElement = document.getElementById("sources") as HTMLUListElement;
 
 var references:string[] = await SpriteRenderer.loadDefaults();
-references = references.sort();
 
 for (let i = 0; i < pathsToSpriteData.length; i ++) {
 	let li = document.createElement("li");
