@@ -1,6 +1,6 @@
 [
 	{
-		"name": "banana-attack",
+		"name": "banana-attacking",
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
@@ -28,7 +28,7 @@
 		}
 	},
 	{
-		"name": "banana-peel",
+		"name": "banana-peeling",
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
@@ -48,6 +48,27 @@
 				{ "crop": { "x": 2094, "y": 273, "w": 344, "h": 242 } },
 				{ "crop": { "x": 2443, "y": 273, "w": 344, "h": 242 } },
 				{ "crop": { "x": 2792, "y": 273, "w": 344, "h": 242 } }
+			]
+		}
+	},
+	{
+		"name": "banana-rolling",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 520,
+			"w": 1788,
+			"h": 150
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 520, "w": 293, "h": 150 } },
+				{ "crop": { "x": 298, "y": 520, "w": 293, "h": 150 } },
+				{ "crop": { "x": 596, "y": 520, "w": 293, "h": 150 } },
+				{ "crop": { "x": 894, "y": 520, "w": 293, "h": 150 } },
+				{ "crop": { "x": 1192, "y": 520, "w": 293, "h": 150 } },
+				{ "crop": { "x": 1490, "y": 520, "w": 293, "h": 150 } }
 			]
 		}
 	}
