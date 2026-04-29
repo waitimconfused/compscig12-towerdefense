@@ -11,6 +11,8 @@ type EntityUpgrade = {
     [statName : string] : number;
 }
 
+type EntityState = 'idle' | 'run' | 'attack';
+
 /**
  * Base class for all Entities
  * 
@@ -20,6 +22,8 @@ type EntityUpgrade = {
  * e.g. enemies, defenders
  */
 export class Entity {
+    public state : EntityState = 'idle';
+
     // World view or rendering system reference
     private parentView: View
     
