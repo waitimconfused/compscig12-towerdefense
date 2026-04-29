@@ -78,7 +78,7 @@ export class Ant extends EnemyEntity {
         super.takeDamage(finalDamage);
     }
 
-    public override render (canvas : OffscreenCanvas, context : RenderingContext) {
+    public override render (canvas : OffscreenCanvas, context : RenderingContext) : void {
         let spriteReference : string = '';
 
         switch (this.state) {

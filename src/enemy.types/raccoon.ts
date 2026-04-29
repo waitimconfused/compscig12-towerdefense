@@ -1,6 +1,7 @@
 import { EnemyEntity } from "../enemyEntity.js";
 import { DefenderEntity } from "../defenderentity.js";
 import { View } from "../view.js";
+import { RenderingContext } from "../types.js";
 
 /**
  * Creates a Raccoon as an EnemyEntity
@@ -65,5 +66,26 @@ export class Raccoon extends EnemyEntity {
     // Triggers short regeneration effect when Raccoon kills a defender
     public killDefender(): void {
         this.regen(2, 5);
+    }
+
+    public override render(canvas : OffscreenCanvas, context : RenderingContext) : void {
+        let spriteReference : string;
+
+        switch (this.state) {
+            case 'idle':
+                spriteReference = 'raccoon-idle';
+                break;
+
+            case 'run':
+                spriteReference = 'raccoon-run';
+                break;
+        
+            case 'attack':
+                spriteReference = 'raccoon-attack';
+                break;
+                
+            default:
+                break;
+        }   
     }
 }

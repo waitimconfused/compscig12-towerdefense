@@ -1,6 +1,7 @@
 import { View } from "../view";
 import { EnemyEntity } from "../enemyEntity";
 import { DefenderEntity } from "../defenderentity";
+import { RenderingContext } from "../types";
 
 export class Wasp extends EnemyEntity {
     public isFlying : boolean = true;
@@ -34,6 +35,27 @@ export class Wasp extends EnemyEntity {
             target.stun(2);
 
             this.stats.speed += 0.1;
+        }
+    }
+
+    public override render(canvas : OffscreenCanvas, context : RenderingContext) : void {
+        let spriteReference : string;
+
+        switch (this.state) {
+            case 'idle' :
+                spriteReference = 'wasp-idle';
+                break;
+            
+            case 'run' :
+                spriteReference = 'wasp-run';
+                break;
+            
+            case 'attack' :
+                spriteReference = 'wasp-attack';
+                break
+            
+            default :
+                break;
         }
     }
 }
