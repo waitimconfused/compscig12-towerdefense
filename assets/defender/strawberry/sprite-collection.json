@@ -1,6 +1,6 @@
 [
 	{
-		"name": "strawberry-body-flying",
+		"name": "strawberry-flying",
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
@@ -22,7 +22,7 @@
 		}
 	},
 	{
-		"name": "strawberry-face-1",
+		"name": "strawberry-jumping",
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
@@ -44,7 +44,7 @@
 		}
 	},
 	{
-		"name": "strawberry-face-2",
+		"name": "strawberry-idling",
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
@@ -66,7 +66,7 @@
 		}
 	},
 	{
-		"name": "strawberry-face-3",
+		"name": "strawberry-normal-face",
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
