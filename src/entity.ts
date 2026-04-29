@@ -1,4 +1,4 @@
-import { Position2D } from "./types.js";
+import { Canvas, Position2D, RenderingContext } from "./types.js";
 import { View } from "./view.js";
 
 type EntityModifers = {
@@ -11,6 +11,8 @@ type EntityUpgrade = {
     [statName : string] : number;
 }
 
+type EntityState = 'idle' | 'run' | 'attack';
+
 /**
  * Base class for all Entities
  * 
@@ -20,6 +22,8 @@ type EntityUpgrade = {
  * e.g. enemies, defenders
  */
 export class Entity {
+    public state : EntityState = 'idle';
+
     // World view or rendering system reference
     private parentView: View
     
@@ -69,6 +73,13 @@ export class Entity {
         this._stats = stats;
         this._maxHealth = stats.health;
         this._health = stats.health;
+    }
+
+
+    public render(canvas:Canvas, context:RenderingContext) {
+
+        throw new Error("Entity render() function not implemented.");
+
     }
 
     /**

@@ -15,6 +15,7 @@ export class Spawner {
     public spawnEnemy(enemyType : Raccoon | Wasp | Frog, x : number, y : number, waveNumber : number) : void {
         if (enemyType instanceof Raccoon) {
             new Raccoon(this.view, waveNumber);
+            
         }
     }
 
