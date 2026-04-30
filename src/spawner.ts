@@ -4,6 +4,10 @@ import { Raccoon } from "./enemy.types/raccoon.js";
 import { Wasp } from "./enemy.types/wasp.js";
 import { Frog } from "./enemy.types/frog.js";
 
+/**
+ * Class to spawn entities at a specified location
+ * Creates defender and enemy entities
+ */
 export class Spawner {
     private view : View;
     

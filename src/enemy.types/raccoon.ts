@@ -59,24 +59,19 @@ export class Raccoon extends EnemyEntity {
         this.regen(2, 5);
     }
 
-    public override render(canvas : OffscreenCanvas, context : RenderingContext) : void {
-        let spriteReference : string;
-
+    public override render() : string {
         switch (this.state) {
             case 'idle':
-                spriteReference = 'raccoon-idle';
-                break;
+                return 'raccoon-idle';
 
             case 'run':
-                spriteReference = 'raccoon-run';
-                break;
+                return 'raccoon-run';
         
             case 'attack':
-                spriteReference = 'raccoon-attack';
-                break;
+                return 'raccoon-attack';
                 
             default:
-                break;
+                return 'raccoon-idle';
         }   
     }
 }

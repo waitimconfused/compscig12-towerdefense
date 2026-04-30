@@ -25,24 +25,19 @@ export class Frog extends EnemyEntity {
         })
     }
 
-    public override render(canvas : OffscreenCanvas, context : RenderingContext) : void {
-        let spriteReference : string;
-
+    public override render() : string {
         switch (this.state) {
             case 'idle':
-                spriteReference = 'frog-idle';
-                break;
+                return 'frog-idle';
         
             case 'run':
-                spriteReference = 'frog-run';
-                break;
+                return 'frog-run';
 
             case 'attack':
-                spriteReference = 'frog-attack';
-                break;
+                return 'frog-attack';
 
             default:
-                break;
+                return 'frog-idle';
         }
     }
 }

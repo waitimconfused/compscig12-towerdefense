@@ -34,24 +34,19 @@ export class Wasp extends EnemyEntity {
         }
     }
 
-    public override render(canvas : OffscreenCanvas, context : RenderingContext) : void {
-        let spriteReference : string;
-
+    public override render() : string {
         switch (this.state) {
             case 'idle' :
-                spriteReference = 'wasp-idle';
-                break;
+                return 'wasp-idle';
             
             case 'run' :
-                spriteReference = 'wasp-run';
-                break;
+                return 'wasp-run';
             
             case 'attack' :
-                spriteReference = 'wasp-attack';
-                break
+                return 'wasp-attack';
             
             default :
-                break;
+                return 'wasp-idle';
         }
     }
 }

@@ -69,30 +69,24 @@ export class Ant extends EnemyEntity {
         super.takeDamage(finalDamage);
     }
 
-    public override render (canvas : OffscreenCanvas, context : RenderingContext) : void {
-        let spriteReference : string = '';
-
+    public override render() : string {
+        /**
+         * Checks if the ant's state is idle, run, or attack
+         * Sets sprite reference to corresponding sprite sheet
+         */
         switch (this.state) {
             case 'idle':
-                spriteReference = 'ant-idle';
-                break;
+                return 'ant-idle';
 
             case 'run':
-                spriteReference = 'ant-run';
-                break;
+                return 'ant-run';
 
             case 'attack':
-                spriteReference = 'ant-attack';
-                break;
+                return 'ant-attack';
 
             default:
-                break;
-        }
+                return 'ant-idle';
 
-        SpriteRenderer.drawSprite({
-            name: spriteReference,
-            position: this.position,
-            size: [ 0, 0 ]
-        }, context,)
+        }
     }
 }
