@@ -1,7 +1,6 @@
 import { View } from "../view";
 import { EnemyEntity } from "../enemyEntity";
 import { DefenderEntity } from "../defenderentity";
-import { RenderingContext } from "../types";
 
 export class Wasp extends EnemyEntity {
     public isFlying : boolean = true;

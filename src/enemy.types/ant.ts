@@ -1,6 +1,4 @@
 import { EnemyEntity } from "../enemyEntity.js";
-import { SpriteRenderer } from "../sprites.js";
-import { Position2D, RenderingContext } from "../types.js";
 import { View } from "../view.js";
 
 /**

@@ -20,23 +20,23 @@ export class Spawner {
      * @param enemyType The enemy type to spawn
      * @param waveNumber The current wave number the enemy is spawned in
      */
-    public spawnEnemy(enemyType : Raccoon | Wasp | Frog, waveNumber : number) : void {
+    public spawnEnemy(enemyType : Raccoon | Wasp | Frog, waveNumber : number) : Raccoon | Wasp | Frog {
+        // Stores the created enemy
+        let enemy;
+
         /** Checks the enemy type
          *  Constructs and sets enemy position to the enemy spawn
          */
         if (enemyType instanceof Raccoon) {
-            new Raccoon(this.view, waveNumber);
-            
-            enemyType.setPosition(0, 0);
+            enemy = new Raccoon(this.view, waveNumber);
         } else if (enemyType instanceof Wasp) {
-            new Wasp(this.view, waveNumber);
-
-            enemyType.setPosition(0, 0);
-        } else if (enemyType instanceof Frog) {
-            new Frog(this.view, waveNumber);
-
-            enemyType.setPosition(0, 0);
+            enemy = new Wasp(this.view, waveNumber);
+        } else {
+            enemy = new Frog(this.view, waveNumber);
         }
+
+        enemyType.setPosition(0, 0);
+        return enemy;
     }
 
     /**
@@ -47,7 +47,10 @@ export class Spawner {
      * @param x 
      * @param y 
      */
-    public spawnAntCluster(waveNumber : number, x : number, y : number) : void {
+    public spawnAntCluster(waveNumber : number) : Ant[] {
+        // Stores ants as a cluster
+        let ant : Ant[] = [];
+
         // Chance to spawn a special ant cluster
         const SPAWN_SPECIAL_CLUSTER = Math.random();
 
@@ -72,9 +75,12 @@ export class Spawner {
 
         // Creates 'count' number of ants and sets position to enemy spawn
         for (let i = 0; i < count; i++) {
-            const ant = new Ant(this.view, waveNumber);
+            const NEW_ANT = new Ant(this.view, waveNumber);
 
-            ant.setPosition(0,0);
+            NEW_ANT.setPosition(0,0);
+            ant.push(NEW_ANT);
         }
+
+        return ant;
     }
 }

@@ -1,8 +1,5 @@
 import { View } from "../view";
-import { Entity } from "../entity";
 import { EnemyEntity } from "../enemyEntity";
-import { DefenderEntity } from "../defenderentity";
-import { RenderingContext } from "../types";
 
 export class Frog extends EnemyEntity {
     public isLeaping : boolean;
