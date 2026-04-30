@@ -25,15 +25,6 @@ export class Frog extends EnemyEntity {
         })
     }
 
-    /**
-     * Spawns Ant at given position
-     * @param x The x coordinate on the world map
-     * @param y The y coordinate on the world map
-     */
-    public spawn(x: number, y : number) : void {
-        this.setPosition(x,y);
-    }
-
     public override render(canvas : OffscreenCanvas, context : RenderingContext) : void {
         let spriteReference : string;
 

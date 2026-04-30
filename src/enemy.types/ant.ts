@@ -34,15 +34,6 @@ export class Ant extends EnemyEntity {
     }
 
     /**
-     * Spawns Ant at given position
-     * @param x The x coordinate on the world map
-     * @param y The y coordinate on the world map
-     */
-    public spawn(x: number, y : number) : void {
-        this.setPosition(x,y);
-    }
-
-    /**
      * Attacks the closest defender in range
      * @returns If there is no defender in range
      */

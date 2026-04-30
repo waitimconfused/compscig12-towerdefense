@@ -23,10 +23,6 @@ export class Wasp extends EnemyEntity {
         })
     }
 
-    public spawn(x : number, y : number) {
-        this.setPosition(x,y);
-    }
-
     public attemptStun(target : DefenderEntity) {
         let chance = Math.random();
 
