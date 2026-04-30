@@ -1,11 +1,11 @@
 import { Canvas, Position2D, RenderingContext } from "./types.js";
 import { View } from "./view.js";
 
-type EntityModifers = {
-    speed : number,
-    damage : number,
-    sheild : number
-}
+// type EntityModifers = {
+//     speed : number,
+//     damage : number,
+//     sheild : number
+// }
 
 type EntityUpgrade = {
     [statName : string] : number;
@@ -25,7 +25,7 @@ export class Entity {
     public state : EntityState = 'idle';
 
     // World view or rendering system reference
-    private parentView: View
+    private parentView: View;
     
     // Current entity position
     public position : Position2D = [ 0, 0 ];
@@ -45,8 +45,8 @@ export class Entity {
     private _stats: { health : number, speed : number };
     public get stats() { return this._stats };
     
-    // Temporary modifiers
-    private modifers: EntityModifers;
+    // // Temporary modifiers
+    // private modifers: EntityModifers;
     
     // Entity upgrades
     private _currentUpgrade: number;
@@ -110,13 +110,13 @@ export class Entity {
         this.position = [x,y];
     }
 
-    /**
-     * Placeholder : Entity state
-     * @param state 
-     */
-    public setState(state : string) : void {
+    // /**
+    //  * Placeholder : Entity state
+    //  * @param state 
+    //  */
+    // public setState(state : string) : void {
         
-    }
+    // }
     
     /**
      * Sets the Entity health
