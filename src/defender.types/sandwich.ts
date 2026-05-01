@@ -1,50 +1,95 @@
-//import the defenderentity class
+//import the defenderentity, enemyentity, and view classes
 import { DefenderEntity } from "../defenderentity.js";
-import { EnemyEntity } from "../enemyEntity.js";
+import {EnemyEntity} from "enemyEntity.js";
 import { View } from "../view.js";
 
-class Sandwich extends DefenderEntity {
-	//create the unique properties for the defender "sandwich"
-	private hitCount : number;
-	private sandwichLayerCount : number;
+class Sandwich extends DefenderEntity{
+    //create the unique properties for the defender "sandwich"
+    //check for sandwich sprite layer count (how much damage it has taken)
+    private sandwichLayerCount : number = 4;
+    //when the sandwich is upgraded to lvl 3, it increases the amount of layers in the sandwich by 3
+    private increaseSandwichLayers : boolean = false;
+    
+    /**
+     * passes through all the properties needed for the sandwich. the constructer has the base stats and the view
+     * @param view //the place where the sandwich will be found on the screen
+     * @param theDefenderLvl //starts at lvl 1
+     * @param theDeployCooldown //the cooldown for how fast the player can deploy the sandwich
+     * @param theAttackCooldown //the cooldown for how often the sandwich can attach
+     * @param theDefenderCost //the cost of deploying the sandwich
+     * @param theDefenderSoldCost //the money the player gets back when selling the sandwich
+     * @param theDefenderUpgradePoints //the points the player gets for their overall game when they upgrade the sandwich defender
+     * @param theDefenderAttackDamage //the attack damage for the sandwich
+     */
+    constructor (view : View, knockbackStrength : number){
+        const STATS = {
+            health : 40,
+            speed : 0,
+        };
+        const DEFENDERBASESTATS = {
+            defenderLvl : 1,
+            deployCooldown : 5,
+            attackCooldown : 0,
+            defenderCost : 25,
+            defenderSoldCost : 6,
+            defenderUpgradeCost : 30,
+            defenderUpgradePoints : 10,
+            defenderAttackDamage : 0
+        };
 
-	private isThinking:boolean = false;
+        super(view, STATS, DEFENDERBASESTATS, knockbackStrength);
+        
+    }
 
-	constructor(
-		view: View,
-		stats: { health: number; speed: number; regeneration: number }, 
-		theDefenderLvl : number,
-		theSpawnCooldown : number,
-		theAttackCooldown : number, 
-		theDefenderCost : number,
-		theDefenderSoldCost : number,
-		theDefenderUpgradePoints : number, 
-		theDefenderUpgradeCost : number,
-		theDefenderAttackDamage : number
-	){
-		super( view, stats, theDefenderLvl, theSpawnCooldown, theAttackCooldown, theDefenderCost, theDefenderSoldCost, theDefenderUpgradePoints, theDefenderUpgradeCost, theDefenderAttackDamage );
-	}
+    /**
+     * check whether the sandwich has taken enough hits to show visual damage
+     */
+    private checkSandwichStatus() : void{
+        //divide the max health by the total number of layers, and decrease the layers per increment
+        if (this.health <= (this.maxHealth/this.sandwichLayerCount)*this.sandwichLayerCount-1){
+            this.sandwichLayerCount --;
+        }
+        
+    }
 
-	private async waitForInteraction():Promise<EnemyEntity> {
-		return new Promise(() => {
+    /**
+     * when enemies come near, the sandwich will deflect damage
+     * @param target the enemy
+     * @returns if there is no target, do not deflect
+     */
+    public deflectDamage(target : EnemyEntity) : void{
+        //if there is no target or there is some modifier/cooldown that prevents them from hitting, do not attack
+        if (!target) {
+            return;
+        }
+        //otherwise, when the enemy comes by, the enemy will take damage based off of 10% of their attack damage
+        else{
+            target.takeDamage(this.enemyAttackDamage/10);
+        }
+        //check if there is a need for a sprite change for the sandwich to show damage
+        this.checkSandwichStatus();
 
-		});
-	}
+    }
 
-	public tick() {
-		if (!this.isThinking) this.brain();
+    /**
+     * check to see if the sandwich is at the max upgrade 
+     * if it is, it can now hit enemies from the front and behind
+     * @returns returns the boolean value of whether the sandwich can now attack front and back
+     */
+    public sandwichMaxUpgrade () : boolean {
+        //if the sandwich is at lvl 3, it is at max lvl and can use its new ability
+        if (this.defenderBaseStats.defenderLvl == 3){
+            this.increaseSandwichLayers = true;
+            this.sandwichLayerCount = this.sandwichLayerCount + 3;
+        }
+        //otherwise, stay doing the same of only attacking enemies in front of them
+        else{
+            this.increaseSandwichLayers = false;
+        }
 
-	}
+        return this.increaseSandwichLayers;
+    }
 
-	private async brain() {
-
-		this.isThinking = true;
-	
-		let hitByEnemy = await this.waitForInteraction();
-
-		this.isThinking = false;
-
-	}
 }
 
-export{Sandwich};
+export {Sandwich};
