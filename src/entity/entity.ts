@@ -74,11 +74,6 @@ export abstract class Entity {
 	 */
 	public direction:number = 0;
 
-	// stops entity movement
-	public stopMovement() {
-		this._targetPosition = null;
-	}
-
 	public wait(milliseconds:number):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve) => {
@@ -306,6 +301,7 @@ export abstract class Entity {
 	 */
 	public tick(deltaTime:number) {
 		if (this.stunned) {
+			this._targetPosition = null;
 			return;
 		};
 
