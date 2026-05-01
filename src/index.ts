@@ -4,6 +4,7 @@ import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
 import { Raccoon } from "./entity/enemy.types/raccoon.js";
+import { Strawberry } from "./entity/defender.types/strawberry.js";
 
 SpriteRenderer.verbose = false;
 SpriteRenderer.loadDefaults();
@@ -89,6 +90,6 @@ Engine.initialize(canvas);
 		Engine.showView("main-menu");
 	})
 
-	Raccoon.spawn(1, [ 100, 100 ], 100);
+	Strawberry.spawn(1, [ 100, 100 ], 100);
 
 })();

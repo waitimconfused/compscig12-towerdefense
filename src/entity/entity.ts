@@ -20,8 +20,6 @@ export type EntityEvent = {
 	triggered_by?: Entity | Error;
 };
 
-export type EntityState = "idle" | "walk" | "attack" | "dead";
-
 export type EntityStats = {
 	health: number;
 	max_health: number;
@@ -35,8 +33,7 @@ export abstract class Entity {
 	private index:number = 0;
 	public static idLength:number = 3;
 
-	private _state:EntityState = "idle";
-	public get state() { return this._state };
+	public state:string = "idle";
 	
 	public position:Position2D = [ 0, 0 ];
 
@@ -57,6 +54,7 @@ export abstract class Entity {
 
 	private internalTimers:EntityTimer[] = [];
 	public brainActive:boolean = false;
+	public animationOffset:number = 0;
 
 	public static entities:Entity[] = [];
 
@@ -126,7 +124,7 @@ export abstract class Entity {
 			}
 			
 			this._targetPosition = [ x, y ];
-			this._state = "walk";
+			this.state = "walk";
 
 			this.internalTimers.push({
 				type: "walk",
@@ -290,7 +288,7 @@ export abstract class Entity {
 	public tick(deltaTime:number) {
 
 		if (this.stats.health <= 0) {
-			this._state = "dead";
+			this.state = "dead";
 			this.wait(1000)
 			.then(() => {
 				this.index
@@ -298,7 +296,7 @@ export abstract class Entity {
 			});
 		}
 
-		if (!this.brainActive && this._state != "dead") {
+		if (!this.brainActive && this.state != "dead") {
 
 			this.brainActive = true;
 
@@ -318,7 +316,7 @@ export abstract class Entity {
 
 			if (triggerTime > performance.now()) continue;
 
-			this._state = "idle";
+			this.state = "idle";
 			timer.callback(undefined);
 			this.internalTimers.splice(i, 1);
 
@@ -331,7 +329,7 @@ export abstract class Entity {
 			if (this.position[0] == this._targetPosition[0] && this.position[1] == this._targetPosition[1]) {
 				
 				this._targetPosition = null;
-				this._state = "idle";
+				this.state = "idle";
 				this.interruptTimers("walk");
 
 			}
