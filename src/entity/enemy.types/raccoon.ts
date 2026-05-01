@@ -47,6 +47,7 @@ export class Raccoon extends EnemyEntity {
 	public async brain() {
 
 		await this.walkTo(MouseManager.x, MouseManager.y);
+		await this.wait(500);
 
 		// let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 
