@@ -3,5 +3,6 @@
 	"./defender/sandwich/sprite-collection.json",
 	"./defender/banana/sprite-collection.json",
 	"./defender/corn/sprite-collection.json",
-	"./defender/cherry/sprite-collection.json"
+	"./defender/cherry/sprite-collection.json",
+	"./enemies/racoon/sprite-collection.json"
 ]

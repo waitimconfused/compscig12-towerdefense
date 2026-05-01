@@ -1,7 +1,5 @@
 import { View } from "../view";
-import { Entity } from "../entity";
 import { EnemyEntity } from "../enemyEntity";
-import { DefenderEntity } from "../defenderentity";
 
 export class Frog extends EnemyEntity {
     public isLeaping : boolean;
@@ -24,13 +22,20 @@ export class Frog extends EnemyEntity {
         })
     }
 
-    /**
-     * Spawns Ant at given position
-     * @param x The x coordinate on the world map
-     * @param y The y coordinate on the world map
-     */
-    public spawn(x: number, y : number) : void {
-        this.setPosition(x,y);
+    public override render() : string {
+        switch (this.state) {
+            case 'idle':
+                return 'frog-idle';
+        
+            case 'run':
+                return 'frog-run';
+
+            case 'attack':
+                return 'frog-attack';
+
+            default:
+                return 'frog-idle';
+        }
     }
 
     public tick(): void {

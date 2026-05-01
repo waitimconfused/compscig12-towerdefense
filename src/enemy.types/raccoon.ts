@@ -39,15 +39,6 @@ export class Raccoon extends EnemyEntity {
     }
 
     /**
-     * Spawns Raccoon at given position
-     * @param x The x coordinate on the world map
-     * @param y The y coordinate on the world map
-     */
-    public spawn(x : number, y : number): void {
-        this.setPosition(x,y);
-    }
-
-    /**
      * Attempts to attack a defender
      * @param target The DefenderEntity to attack
      */

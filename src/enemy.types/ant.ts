@@ -1,6 +1,4 @@
 import { EnemyEntity } from "../enemyEntity.js";
-import { SpriteRenderer } from "../sprites.js";
-import { Position2D, RenderingContext } from "../types.js";
 import { View } from "../view.js";
 
 /**
@@ -31,15 +29,6 @@ export class Ant extends EnemyEntity {
                 'glass' : 0.2
             }
         })
-    }
-
-    /**
-     * Spawns Ant at given position
-     * @param x The x coordinate on the world map
-     * @param y The y coordinate on the world map
-     */
-    public spawn(x: number, y : number) : void {
-        this.setPosition(x,y);
     }
 
     /**
