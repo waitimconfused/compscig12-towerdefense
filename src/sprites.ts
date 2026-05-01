@@ -118,6 +118,11 @@ export type Sprite = {
 	 */
 	size: Position2D;
 
+	/**
+	 * An *optional* **amount of milliseconds** to offset the animation
+	 */
+	animation_offset?: number;
+
 };
 
 type RenderableSpriteData = {
@@ -291,7 +296,7 @@ export class SpriteRenderer {
 	 * @returns			A `RenderableSpriteData` object, or null (sprite
 	 * 					does not exist, or fatal error)
 	 */
-	private static getData(reference:string):RenderableSpriteData|null {
+	private static getData(reference:string, animation_offset?:number):RenderableSpriteData|null {
 
 		// If the sprite could not be found, log it in the console as an
 		// error, and return null.
@@ -357,7 +362,7 @@ export class SpriteRenderer {
 			// Calculate what frame should be shown, based on the time,
 			// animation offset, animation speed, and how many frames the
 			// animation has
-			let frameIndex = (performance.now() - offset) / speed;
+			let frameIndex = (performance.now() - offset - (animation_offset??0)) / speed;
 			frameIndex = Math.floor(frameIndex);
 			frameIndex = frameIndex % data.animation.frames.length;
 
@@ -389,7 +394,7 @@ export class SpriteRenderer {
 	public static drawSprite(reference:Sprite, context:RenderingContext):void {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference.name);
+		let data = this.getData(reference.name, reference.animation_offset);
 
 		// If the data cannot be rendered, don't do anything
 		if (!data) return;
@@ -458,7 +463,7 @@ export class SpriteRenderer {
 	public static getSpriteAsOffscreenCanvas(reference:Sprite):OffscreenCanvas {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference.name);
+		let data = this.getData(reference.name, reference.animation_offset);
 
 		// If the referenced sprite does not exist, return the (empty) `OffscreenCanvas`
 		if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);

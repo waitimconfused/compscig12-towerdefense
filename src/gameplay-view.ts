@@ -1,10 +1,10 @@
 import { View } from "./view.js";
-import { Entity, EntityState } from "./entity/entity.js";
+import { Entity } from "./entity/entity.js";
 import { SpriteRenderer } from "./sprites.js";
 import { Canvas, Position2D, RenderingContext } from "./types.js";
 import Engine from "./engine.js";
 
-type EntitySpriteTable = { [state in EntityState]: { sprite:string, origin:Position2D } };
+type EntitySpriteTable = { [state:string]: { sprite:string, origin:Position2D } };
 type EntitySpriteRuleset = { [entityType:string]: EntitySpriteTable };
 
 const entityRenderingLookup:EntitySpriteRuleset = {
@@ -24,6 +24,25 @@ const entityRenderingLookup:EntitySpriteRuleset = {
 		"dead": {
 			sprite: "sandwich-4",
 			origin: [ 0, 0 ]
+		}
+	},
+
+	"defender/strawberry": {
+		"idle": {
+			sprite: "strawberry-idling",
+			origin: [ 50, 50 ]
+		},
+		"attack": {
+			sprite: "raccoon-attacking",
+			origin: [ 50, 50 ]
+		},
+		"walk": {
+			sprite: "strawberry-flying",
+			origin: [ 50, 50 ]
+		},
+		"launch": {
+			sprite: "strawberry-launch",
+			origin: [ 50, 50 ]
 		}
 	}
 }
@@ -55,10 +74,13 @@ export default class GameplayView extends View {
 			
 			let reference = spriteRuleset[entity.state];
 
+			if (!reference) continue;
+
 			let offscreenSprite = SpriteRenderer.getSpriteAsOffscreenCanvas({
 				name: reference.sprite,
 				position: [ 0, 0 ],
-				size: [ 0, 0 ]
+				size: [ 0, 0 ],
+				animation_offset: entity.animationOffset
 			});
 
 			let flipX = entity.direction > Math.PI / 2;
