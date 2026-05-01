@@ -18,7 +18,7 @@ export class Raccoon extends EnemyEntity {
 	//private attackChance: number = 0.2;
 
 	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 10, damage: 10 }
+		{ health: 0, max_health: 100, speed: 0.2, damage: 10 }
 	];
 
 	public entityType:string = "enemy/raccoon";
@@ -46,14 +46,14 @@ export class Raccoon extends EnemyEntity {
 
 	public async brain() {
 
-		await this.walkTo(MouseManager.x, MouseManager.y);
+		// await this.walkTo(MouseManager.x, MouseManager.y);
 		await this.wait(500);
 
-		// let closestEntity = Entity.nearestEntity(this, DefenderEntity);
+		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 
-		// if (!closestEntity) return;
+		if (!closestEntity) return;
 
-		// let walkInterrupt = await this.walkTo(closestEntity.position[0], closestEntity.position[1]);
+		let walkInterrupt = await this.walkTo(closestEntity.position[0], closestEntity.position[1]);
 
 		// if (walkInterrupt) {
 		// 	// Raccoon was stopped from walking
