@@ -10,7 +10,7 @@ export class StatusEffects {
      * @param duration 
      * @returns 
      */
-    public async stun(target : Entity, duration : number) : Promise<void> {
+    public async stunEntity(target : Entity, duration : number) : Promise<void> {
 
         if (target.stunned) {
             return;
