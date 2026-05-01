@@ -24,6 +24,8 @@ export class StatusEffects {
             }
         );
 
+        target.stopMovement();
+
         await target.wait(duration);
 
         target.stunned = false;
