@@ -5,7 +5,7 @@ import { View } from "./view.js";
 class DefenderEntity extends Entity{
     //assign basic properties for all defenders
     //the defender level
-    private _defenderBaseStats: {
+    protected _defenderBaseStats: {
         defenderLvl : number,
         //the cooldown for how often the player can deploy a defender
         deployCooldown : number,
@@ -22,18 +22,18 @@ class DefenderEntity extends Entity{
         //defender attack damage
         defenderAttackDamage : number
     }
-    public get defenderBaseStats() {return this._defenderBaseStats};
+    protected get defenderBaseStats() {return this._defenderBaseStats};
 
     //the knockback strength of a defender - all have a knockback strength of 3
-    private _knockbackStrength : number;
+    protected _knockbackStrength : number;
     public get knockbackStrength() {return this._knockbackStrength};
    
     //check if defender has been stunned
-    private _isStunned : boolean = false;
+    protected _isStunned : boolean = false;
     public get isStunned() {return this._isStunned};
 
     //check if defender is in cooldown for attack
-    private _isOnAttackCooldown : boolean = false;
+    protected _isOnAttackCooldown : boolean = false;
     public get isOnAttackCooldown() {return this._isOnAttackCooldown};
 
     //whether or not the Cherry has any modifiers/cooldown that prevents them from currently attacking
@@ -41,12 +41,12 @@ class DefenderEntity extends Entity{
 
     //whether the defender has been slowed down
 
-    private _hasBeenSlowed : number;
+    protected _hasBeenSlowed : number;
     public get hasBeenSlowed() {return this._hasBeenSlowed};
 
     
 
-    constructor(
+    protected constructor(
         view: View,
         stats: {
             health : number; speed : number; regeneration: number
