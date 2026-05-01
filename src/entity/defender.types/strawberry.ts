@@ -1,4 +1,5 @@
 import { MouseManager } from "../../mouse.js";
+import { Position2D } from "../../types.js";
 import { DefenderEntity } from "../defender.js";
 import { EntityEvent, EntityStats } from "../entity.js";
 
@@ -18,7 +19,7 @@ export class Strawberry extends DefenderEntity {
 		this.state = "launch";
 		this.animationOffset = performance.now();
 
-		await this.wait(500);
+		await this.wait(600);
 
 		this.state = "walk";
 
@@ -27,7 +28,13 @@ export class Strawberry extends DefenderEntity {
 
 	public async brain() {
 
-		await this.walkTo( MouseManager.x, MouseManager.y );
+		let random:Position2D = [
+			Math.random() * 900 + 100,
+			Math.random() * 400 + 100
+		]
+
+		await this.walkTo( random[0], random[1] );
+		await this.wait(500);
 
 	}
 };
