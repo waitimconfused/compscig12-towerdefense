@@ -3,9 +3,10 @@ import { View, ViewObjectLayout } from "./view.js";
 
 
 type EngineStats = {
-	delta: number,
-	fps: number,
-	lastRenderCall: number
+	delta: number;
+	fps: number;
+	max_fps: number;
+	lastRenderCall: number;
 };
 
 type EngineTimer = {
@@ -28,11 +29,15 @@ export default class Engine {
 	private static canvas:HTMLCanvasElement;
 	private static context:RenderingContext;
 
-	private static _stats:EngineStats = { delta:0, fps:0, lastRenderCall:0 }
+	private static _stats:EngineStats = {
+		delta: 0,
+		fps: 0,
+		max_fps: 60,
+		lastRenderCall:0
+	};
 	public static get stats() { return {
 		delta: this._stats.delta,
 		fps: this._stats.fps,
-		lastRenderCall: this._stats.lastRenderCall
 	} }
 
 	private static _currentView:string;
@@ -99,20 +104,17 @@ export default class Engine {
 
 		this.cursor = "default";
 
-		if (Engine.windowVisible == false) {
-			console.log("PAUSED");
-			Engine.waitForVisible()
-				.then(() => {
-					console.log("PLAY");
-					this.render();
-				});
-			return;
-		}
-
 		let currentTime = performance.now();
 		
 		this._stats.delta = currentTime - this._stats.lastRenderCall;
+		
 		this._stats.fps = 1000 / this._stats.delta;
+		this._stats.fps = Math.round(this._stats.fps * 100) / 100;
+
+		if (this._stats.delta < 1000 / this._stats.max_fps) {
+			window.requestAnimationFrame(() => this.render());
+			return;
+		}
 
 		for (let i = 0; i < Engine.timers.length; i ++) {
 			let timer:EngineTimer = Engine.timers[i] as EngineTimer;
