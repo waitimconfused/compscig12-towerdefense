@@ -37,4 +37,8 @@ export class Frog extends EnemyEntity {
                 return 'frog-idle';
         }
     }
+
+    public tick(): void {
+        // Put "brain" related stuff here
+    }
 }

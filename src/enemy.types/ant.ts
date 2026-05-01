@@ -67,24 +67,7 @@ export class Ant extends EnemyEntity {
         super.takeDamage(finalDamage);
     }
 
-    public override render() : string {
-        /**
-         * Checks if the ant's state is idle, run, or attack
-         * Sets sprite reference to corresponding sprite sheet
-         */
-        switch (this.state) {
-            case 'idle':
-                return 'ant-idle';
-
-            case 'run':
-                return 'ant-run';
-
-            case 'attack':
-                return 'ant-attack';
-
-            default:
-                return 'ant-idle';
-
-        }
+    public tick () {
+        // Put "brain" related stuff here
     }
 }

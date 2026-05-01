@@ -1,8 +1,9 @@
 //import the vie and the basic entity class
 import { Entity } from "./entity.js";
+import { Canvas, RenderingContext } from "./types.js";
 import { View } from "./view.js";
 
-class DefenderEntity extends Entity{
+abstract class DefenderEntity extends Entity{
     //assign basic properties for all defenders
     //the defender level
     private defenderLvl : number;
@@ -64,6 +65,7 @@ class DefenderEntity extends Entity{
     public stun(stunduration : number) {
         
     };
+
 }
 
 export {DefenderEntity};

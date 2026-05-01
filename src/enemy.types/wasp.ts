@@ -33,19 +33,7 @@ export class Wasp extends EnemyEntity {
         }
     }
 
-    public override render() : string {
-        switch (this.state) {
-            case 'idle' :
-                return 'wasp-idle';
-            
-            case 'run' :
-                return 'wasp-run';
-            
-            case 'attack' :
-                return 'wasp-attack';
-            
-            default :
-                return 'wasp-idle';
-        }
+    public tick() {
+        // Put "brain" related stuff here
     }
 }

@@ -21,7 +21,7 @@ type EntityState = 'idle' | 'run' | 'attack';
  * Extended by specialized Entities
  * e.g. enemies, defenders
  */
-export class Entity {
+export abstract class Entity {
     public state : EntityState = 'idle';
 
     // World view or rendering system reference
@@ -76,11 +76,7 @@ export class Entity {
     }
 
 
-    public render(canvas:Canvas, context:RenderingContext) {
-
-        throw new Error("Entity render() function not implemented.");
-
-    }
+    public abstract tick():void;
 
     /**
      * Sets Entity end position to traverse toward

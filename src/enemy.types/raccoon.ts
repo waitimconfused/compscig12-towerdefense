@@ -58,19 +58,7 @@ export class Raccoon extends EnemyEntity {
         this.regen(2, 5);
     }
 
-    public override render() : string {
-        switch (this.state) {
-            case 'idle':
-                return 'raccoon-idle';
-
-            case 'run':
-                return 'raccoon-run';
-        
-            case 'attack':
-                return 'raccoon-attack';
-                
-            default:
-                return 'raccoon-idle';
-        }   
+    public tick() {
+        // Put "brain" related stuff here
     }
 }
