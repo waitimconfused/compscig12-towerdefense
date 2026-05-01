@@ -8,8 +8,8 @@ export class Strawberry extends DefenderEntity {
 	public entityType = "defender/strawberry";
 
 	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0, damage: 10 },
-		{ health: 0, max_health: 120, speed: 0, damage: 20 }
+		{ health: 0, max_health: 100, speed: 0.4, damage: 10 },
+		{ health: 0, max_health: 120, speed: 0.4, damage: 20 }
 	];
 
 	public override async walkTo(x: number, y: number): Promise<undefined | EntityEvent> {
@@ -29,12 +29,12 @@ export class Strawberry extends DefenderEntity {
 	public async brain() {
 
 		let random:Position2D = [
-			Math.random() * 900 + 100,
-			Math.random() * 400 + 100
-		]
+			Math.random() * window.innerWidth,
+			Math.random() * window.innerHeight
+		];
 
 		await this.walkTo( random[0], random[1] );
-		await this.wait(500);
+		await this.wait( Math.random() * 100 + 400 );
 
 	}
 };

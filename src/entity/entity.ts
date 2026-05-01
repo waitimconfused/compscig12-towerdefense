@@ -47,10 +47,10 @@ export abstract class Entity {
 	public static level:number = 0;
 
 	public static upgrades:EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 10, damage: 10 }
+		{ health: 0, max_health: 100, speed: 0.5, damage: 10 }
 	];
 
-	private _targetPosition:Position2D|null = null;
+	protected _targetPosition:Position2D|null = null;
 
 	private internalTimers:EntityTimer[] = [];
 	public brainActive:boolean = false;
@@ -144,8 +144,9 @@ export abstract class Entity {
 		if (!upgrade) return;
 
 		this.stats.damage = upgrade.damage;
-		this.stats.health = (this.stats.health / this.stats.max_health) * upgrade.max_health;
+		this.stats.health = upgrade.max_health;
 		this.stats.max_health = upgrade.max_health;
+		this.stats.speed = upgrade.speed;
 
 	}
 
@@ -177,7 +178,7 @@ export abstract class Entity {
 		for (let i = 0; i < count; i ++) {
 
 			// Keep track of where the current `Entity` should be spawned
-			let location:Position2D = position;
+			let location:Position2D = Array.from(position) as Position2D;
 
 			// If the `spreadAmount` has been set, randomize the placement of each
 			// `Entity` instance, by using a random angle (radians) and

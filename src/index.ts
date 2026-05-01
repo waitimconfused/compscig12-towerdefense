@@ -5,6 +5,7 @@ import { SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
 import { Raccoon } from "./entity/enemy.types/raccoon.js";
 import { Strawberry } from "./entity/defender.types/strawberry.js";
+import { Entity } from "./entity/entity.js";
 
 SpriteRenderer.verbose = false;
 SpriteRenderer.loadDefaults();
@@ -90,6 +91,9 @@ Engine.initialize(canvas);
 		Engine.showView("main-menu");
 	})
 
-	Strawberry.spawn(1, [ 100, 100 ], 100);
+	Strawberry.spawn(3, [ 100, 100 ], 100);
+	Raccoon.spawn(1, [ 100, 100 ], 100);
+
+	console.log(Entity.entities);
 
 })();
