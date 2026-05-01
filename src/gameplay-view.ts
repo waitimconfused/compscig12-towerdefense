@@ -1,18 +1,30 @@
 import { View } from "./view.js";
 import { Entity, EntityState } from "./entity/entity.js";
-import { Sprite, SpriteRenderer } from "./sprites.js";
-import { Canvas, RenderingContext } from "./types.js";
+import { SpriteRenderer } from "./sprites.js";
+import { Canvas, Position2D, RenderingContext } from "./types.js";
 import Engine from "./engine.js";
 
-type EntitySpriteTable = { [state in EntityState]: string };
+type EntitySpriteTable = { [state in EntityState]: { sprite:string, origin:Position2D } };
 type EntitySpriteRuleset = { [entityType:string]: EntitySpriteTable };
 
 const entityRenderingLookup:EntitySpriteRuleset = {
 	"enemy/raccoon": {
-		"idle": "raccoon-idling",
-		"attack": "raccoon-attacking",
-		"walk": "raccoon-walking",
-		"dead": "sandwich-4"
+		"idle": {
+			sprite: "raccoon-idling",
+			origin: [ 50, 50 ]
+		},
+		"attack": {
+			sprite: "raccoon-attacking",
+			origin: [ 50, 50 ]
+		},
+		"walk": {
+			sprite: "raccoon-walking",
+			origin: [ 50, 50 ]
+		},
+		"dead": {
+			sprite: "sandwich-4",
+			origin: [ 0, 0 ]
+		}
 	}
 }
 
@@ -43,17 +55,29 @@ export default class GameplayView extends View {
 			
 			let reference = spriteRuleset[entity.state];
 
-			if (entity.flipX) {
-				context.save();
-				context.scale(-1, 1);
-				context.restore();
-			}
-
-			SpriteRenderer.drawSprite({
-				name: reference,
-				position: entity.position,
+			let offscreenSprite = SpriteRenderer.getSpriteAsOffscreenCanvas({
+				name: reference.sprite,
+				position: [ 0, 0 ],
 				size: [ 0, 0 ]
-			}, context);
+			});
+
+			let flipX = entity.direction > Math.PI / 2;
+			let flipY = false;
+
+			context.save();
+			context.translate( entity.position[0], entity.position[1] );
+			context.translate(
+				( reference.origin[0] / 100) * offscreenSprite.width * (flipX ? 1 : -1),
+				( reference.origin[1] / -100) * offscreenSprite.height
+			);
+			context.scale(
+				flipX ? -1 : 1,
+				flipY ? -1 : 1
+			);
+			
+			context.drawImage(offscreenSprite, 0, 0);
+
+			context.restore();
 
 		}
 

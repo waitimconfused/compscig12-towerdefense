@@ -69,11 +69,10 @@ export abstract class Entity {
 		Entity.entities.push(this);
 	}
 
-	private _flipX:boolean = false;
-	private _flipY:boolean = false;
-
-	public get flipX() { return this._flipX };
-	public get flipY() { return this._flipY };
+	/**
+	 * Direction from the entity to a target, *measured in **radians***.
+	 */
+	public direction:number = 0;
 
 	public wait(milliseconds:number):Promise<undefined|EntityEvent> {
 
@@ -260,14 +259,11 @@ export abstract class Entity {
 			(targetPosition[0] - this.position[0])
 		);
 		if (targetPosition[0] < this.position[0]) direction += Math.PI;
-
-		this._flipX = (direction > Math.PI/2);
-
+		
 		let totalDistance = Math.hypot(
 			targetPosition[0] - this.position[0],
 			targetPosition[1] - this.position[1]
 		) || 0;
-
 		
 		let currentSpeed = this.stats.speed * deltaTime;
 		let magnitude = totalDistance < currentSpeed ? totalDistance : currentSpeed;
@@ -278,8 +274,10 @@ export abstract class Entity {
 
 			this.position[0] = Math.round( this.position[0] * 100 ) / 100;
 			this.position[1] = Math.round( this.position[1] * 100 ) / 100;
-
+			
+			this.direction = direction;
 		}
+
 	}
 
 	/**
