@@ -78,30 +78,7 @@ export class Ant extends EnemyEntity {
         super.takeDamage(finalDamage);
     }
 
-    public override render (canvas : OffscreenCanvas, context : RenderingContext) {
-        let spriteReference : string = '';
-
-        switch (this.state) {
-            case 'idle':
-                spriteReference = 'ant-idle';
-                break;
-
-            case 'run':
-                spriteReference = 'ant-run';
-                break;
-
-            case 'attack':
-                spriteReference = 'ant-attack';
-                break;
-
-            default:
-                break;
-        }
-
-        SpriteRenderer.drawSprite({
-            name: spriteReference,
-            position: this.position,
-            size: [ 0, 0 ]
-        }, context,)
+    public tick () {
+        // Put "brain" related stuff here
     }
 }

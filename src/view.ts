@@ -1,4 +1,5 @@
 import Engine from "./engine.js";
+import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import { Canvas, Position2D, RenderingContext } from "./types.js";
 
@@ -70,7 +71,7 @@ export class ViewCollection extends View {
 }
 
 export type ViewObjectLayout = { [name:string]: View|undefined };
-export type ViewCallbackFunction = ( (e:KeyboardEvent)=>void );
+export type ViewCallbackFunction = ( ()=>void );
 export type ViewElementStroke = {
 	colour: string,
 	size: number,
@@ -80,7 +81,7 @@ export type ViewElementStroke = {
 	dashOffset:number
 };
 
-class ViewElement {
+abstract class ViewElement {
 
 	private _position:Position2D|symbol = [ 0, 0 ];
 
@@ -92,7 +93,7 @@ class ViewElement {
 		}
 	}
 	
-	private clickEvent:ViewCallbackFunction|null = null;
+	private click:ViewCallbackFunction|null = null;
 
 	public stroke: ViewElementStroke = {
 		colour: "black",
@@ -106,6 +107,8 @@ class ViewElement {
 	public fill:string = "purple";
 
 	public rotation:number = 0;
+
+	public size:Position2D = [ 0, 0 ];
 
 	/**
 	 * @param anchor See `View.anchor`
@@ -124,9 +127,13 @@ class ViewElement {
 		return this;
 	}
 	
-	public setClickEvent(event: ViewCallbackFunction|null ): this {
-		this.clickEvent = event;
+	public setClickEvent(callback: ViewCallbackFunction|null ): this {
+		this.click = callback;
 		return this;
+	}
+
+	public dispatchEvent(type:"click") {
+		if (this.click) this.click();
 	}
 
 	public setRotation(degrees:number):this {
@@ -135,9 +142,7 @@ class ViewElement {
 		return this;
 	}
 
-	public render( canvas:Canvas, context:RenderingContext ) {
-
-	}
+	public abstract render( canvas:Canvas, context:RenderingContext ):void;
 
 }
 
@@ -160,7 +165,7 @@ export class ViewText extends ViewElement {
 		family: "serif",
 		size: 100,
 		style: "regular"
-	}
+	};
 
 	public alignment:ViewTextAlignment = {
 		x: "left",
@@ -172,33 +177,115 @@ export class ViewText extends ViewElement {
 		this.content = content;
 	}
 
-	public override render(canvas:Canvas, context:RenderingContext) {
+	private isMouseHovering(context:RenderingContext):boolean {
 
-		setGeneralStyles(context, this);
+		let inverseTransform = context.getTransform().inverse();
+
+		let mouseAsPoint:DOMPointInit = new DOMPoint(MouseManager.x, MouseManager.y);
+
+		let internalMousePoint = inverseTransform.transformPoint(mouseAsPoint);
+
+		let internalMouse:Position2D = [ internalMousePoint.x, internalMousePoint.y ];
 		
 		context.font = `bold ${this.font.size}px ${this.font.family}`;
 		context.textAlign = this.alignment.x;
 		context.textBaseline = this.alignment.y;
+		
+		let rawSize = context.measureText(this.content);
+		let size:Position2D = [rawSize.width, rawSize.fontBoundingBoxDescent + rawSize.fontBoundingBoxAscent];
+		this.size = size;
+		
+		
+		let offset:Position2D = [ 0, 0 ];
+		
+		switch (this.alignment.y) {
+			case "alphabetic":
+				offset[1] -= size[1] * 0.75;
+				break;
+			case "bottom":
+				offset[1] -= size[1];
+				break;
+			case "hanging":
+				offset[1] -= size[1] * 0.25;
+				break;
+			case "ideographic":
+				offset[1] -= size[1];
+				break;
+			case "middle":
+				offset[1] -= size[1] * 0.5;
+				break;
+			case "top":
+				offset[1] -= size[1] * 0.125;
+				break;
+		}
 
-		context.fillText( this.content, this.position[0], this.position[1] );
-		context.strokeText( this.content, this.position[0], this.position[1] );
+		switch (this.alignment.x) {
+			case "center":
+				offset[0] -= size[0] * 0.5;
+				break;
+			case "end":
+				offset[0] -= size[0];
+				break;
+			case "left":
+				// Do nothing
+				break;
+			case "right":
+				offset[0] -= size[0];
+				break;
+			case "start":
+				// Do nothing
+				break;
+		}
+			
+		if (internalMouse[0] < offset[0]) return false;
+		if (internalMouse[1] < offset[1]) return false;
+		if (internalMouse[0] > offset[0] + size[0]) return false;
+		if (internalMouse[1] > offset[1] + size[1]) return false;
+
+		return true;
+
+	}
+
+	public render(canvas:Canvas, context:RenderingContext) {
+
+		context.save();
+		setGeneralStyles(context, this);
+
+		let isHovering = this.isMouseHovering(context);
+
+		if (isHovering) Engine.cursor = "pointer";
+
+		if (isHovering && MouseManager.buttons.left) {
+			this.dispatchEvent("click");
+		}
+
+		context.font = `bold ${this.font.size}px ${this.font.family}`;
+		context.textAlign = this.alignment.x;
+		context.textBaseline = this.alignment.y;
+
+		context.fillText( this.content, 0, 0 );
+		context.strokeText( this.content, 0, 0 );
+
+		context.restore();
 	}
 
 }
 
 
 export class ViewRect extends ViewElement {
-	public size:Position2D = [ 0, 0 ];
+	public override size:Position2D = [ 0, 0 ];
 
 	public override render(canvas: Canvas, context: RenderingContext): void {
+		context.save();
 		setGeneralStyles(context, this);
 		
 		context.beginPath();
-		context.fillRect(this.position[0], this.position[1], this.size[0], this.size[1]);
+		context.fillRect(0, 0, this.size[0], this.size[1]);
 		context.closePath();
 
 		context.fill();
 		context.stroke();
+		context.restore();
 
 	}
 
@@ -214,7 +301,7 @@ export class ViewSprite extends ViewElement {
 
 	public reference:string;
 
-	public size:Position2D = [ 100, 100 ];
+	public override size:Position2D = [ 100, 100 ];
 
 	private _origin:Position2D = [ 0, 0 ];
 
@@ -255,8 +342,7 @@ export class ViewSprite extends ViewElement {
 
 		context.save();
 
-		context.translate( this.position[0], this.position[1] );
-		context.rotate(this.rotation);
+		setGeneralStyles(context, this);
 		context.translate( -this.origin[0]*this.size[0], -this.origin[1]*this.size[1] );
 
 		SpriteRenderer.drawSprite({
@@ -273,14 +359,26 @@ export class ViewSprite extends ViewElement {
 
 
 function setGeneralStyles( context:RenderingContext, viewElement:ViewElement ): void {
-	context.strokeStyle = viewElement.stroke.colour;
+
+	context.translate( viewElement.position[0], viewElement.position[1] );
+	context.rotate(viewElement.rotation);
+
+	if (
+		viewElement.stroke.colour != "none" &&
+		viewElement.stroke.colour != "transparent" &&
+		viewElement.stroke.size > 0
+	) {
+		context.strokeStyle = viewElement.stroke.colour;
 	
-	context.setLineDash( viewElement.stroke.dash ?? [0] );
-	context.lineDashOffset = viewElement.stroke.dashOffset;
-	
-	context.lineCap = viewElement.stroke.lineCap;
-	context.lineJoin = viewElement.stroke.lineJoin;
-	context.lineWidth = viewElement.stroke.size;
+		context.setLineDash( viewElement.stroke.dash ?? [0] );
+		context.lineDashOffset = viewElement.stroke.dashOffset;
+		
+		context.lineCap = viewElement.stroke.lineCap;
+		context.lineJoin = viewElement.stroke.lineJoin;
+		context.lineWidth = viewElement.stroke.size;
+	} else {
+		context.strokeStyle = "transparent";
+	}
 
 	context.fillStyle = viewElement.fill;
 }

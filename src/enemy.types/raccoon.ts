@@ -66,4 +66,8 @@ export class Raccoon extends EnemyEntity {
     public killDefender(): void {
         this.regen(2, 5);
     }
+
+    public tick() {
+        // Put "brain" related stuff here
+    }
 }

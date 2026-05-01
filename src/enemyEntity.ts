@@ -12,7 +12,7 @@ type EnemyDrops = {
  * 
  * Handles wave scaling
  */
-export class EnemyEntity extends Entity {
+export abstract class EnemyEntity extends Entity {
     // Current wave enemy is spawned in
     private waveNumber: number;
 

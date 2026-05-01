@@ -12,19 +12,28 @@ type EngineTimer = {
 	start: number;
 	duration: number;
 	complete: ()=>void
-}
+};
+
+type CSSCursor = (
+	"auto" | "default" | "none" |
+	"context-menu" | "help" | "pointer" | "progress" | "wait" |
+	"cell" | "crosshair" | "text" | "vertical-text" |
+	"alias" | "copy" | "move" | "no-drop" | "not-allowed" | "grab" | "grabbing" |
+	"all-scroll" | "col-resize" | "row-resize" | "n-resize" | "e-resize" | "s-resize" | "w-resize" | "ne-resize" | "nw-resize" | "se-resize" | "sw-resize" | "ew-resize" | "ns-resize" | "nesw-resize" | "nwse-resize" |
+	"zoom-in" | "zoom-out"
+);
 
 export default class Engine {
 
-	private canvas:HTMLCanvasElement;
-	private context:RenderingContext;
+	private static canvas:HTMLCanvasElement;
+	private static context:RenderingContext;
 
-	private _stats:EngineStats = { delta:0, fps:0, lastRenderCall:0 }
+	private static _stats:EngineStats = { delta:0, fps:0, lastRenderCall:0 }
 
-	private _currentView:string;
-	public get currentView() { return this._currentView; }
+	private static _currentView:string;
+	public static get currentView() { return this._currentView; }
 
-	private views:ViewObjectLayout = {};
+	private static views:ViewObjectLayout = {};
 
 	public static windowVisible:boolean = true;
 
@@ -41,9 +50,16 @@ export default class Engine {
 		bottomCenter:	Symbol("Anchor:bl"),
 		bottomRight:	Symbol("Anchor:br"),
 	}
-	static timers:EngineTimer[] = [];
 
-	constructor( canvas:HTMLCanvasElement ) {
+	public static cursor:CSSCursor = "default";
+
+	public static timers:EngineTimer[] = [];
+
+	constructor() {
+		throw new TypeError("Engine is not a constructor");
+	}
+
+	public static initialize( canvas:HTMLCanvasElement ) {
 		this.canvas = canvas;
 		this.context = canvas.getContext("2d") as RenderingContext;
 
@@ -51,7 +67,7 @@ export default class Engine {
 
 	}
 
-	public createView(name:string, view:View) {
+	public static createView(name:string, view:View) {
 
 		if (name in this.views) throw new Error(`Cannot create duplicate view of "${name}".`);
 
@@ -61,9 +77,9 @@ export default class Engine {
 
 	}
 
-	public showView(name:string):View|null {
+	public static showView(name:string):View|null {
 
-		if (name in this.views) {
+		if (name in this.views == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 		
 		} else {
@@ -74,8 +90,9 @@ export default class Engine {
 		
 	}
 
-	
-	private render() {
+	private static render() {
+
+		this.cursor = "default";
 
 		if (Engine.windowVisible == false) {
 			console.log("PAUSED");
@@ -111,6 +128,8 @@ export default class Engine {
 			let view:View = this.views[this._currentView] as View;
 			view.render( this.canvas, this.context );
 		}
+
+		this.canvas.style.cursor = this.cursor;
 
 		this._stats.lastRenderCall = currentTime;
 		window.requestAnimationFrame(() => this.render());

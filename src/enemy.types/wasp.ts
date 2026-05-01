@@ -36,4 +36,8 @@ export class Wasp extends EnemyEntity {
             this.stats.speed += 0.1;
         }
     }
+
+    public tick() {
+        // Put "brain" related stuff here
+    }
 }

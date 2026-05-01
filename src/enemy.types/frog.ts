@@ -32,4 +32,8 @@ export class Frog extends EnemyEntity {
     public spawn(x: number, y : number) : void {
         this.setPosition(x,y);
     }
+
+    public tick(): void {
+        // Put "brain" related stuff here
+    }
 }

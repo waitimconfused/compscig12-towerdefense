@@ -1,28 +1,48 @@
+import { Ant } from "./enemy.types/ant.js";
 import Engine, { wait } from "./engine.js";
+import GameplayView from "./gameplay-view.js";
+import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
 
 SpriteRenderer.loadDefaults();
 
+MouseManager.preventContextMenu = true;
+MouseManager.preventScroll = true;
+MouseManager.preventZoom = true;
+
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
-const engine = new Engine( canvas );
+Engine.initialize(canvas);
 
 // Main Menu
 (async () => {
 
 	var menuView = new View();
-	engine.createView("main-menu", menuView);
+	Engine.createView("main-menu", menuView);
 
-	menuView.addElement(
-		new ViewText("MAIN MENU")
-	);
+	let title = new ViewText("Tower Defense");
+	title.alignment.x = "start";
+	title.alignment.y = "top";
+	title.setAnchor( Engine.anchor.centerCenter );
+	title.stroke.colour = "none";
+	title.stroke.size = 0;
+	menuView.addElement(title);
 
-	let strawberry = new ViewSprite("strawberry-base")
-	strawberry.setAnchor( Engine.anchor.centerCenter );
-	strawberry.setOrigin(0.5, 0.5);
-	strawberry.setSize(160, 204);
-	menuView.addElement(strawberry);
+
+	let playButton = new ViewText("Play");
+	playButton.setClickEvent(() => {
+		Engine.showView("gameplay");
+	});
+	playButton.setAnchor( Engine.anchor.bottomCenter );
+	playButton.alignment.x = "center";
+	playButton.alignment.y = "bottom";
+	menuView.addElement(playButton);
+
+	let asset = new ViewSprite("sandwich-3");
+	menuView.addElement(asset);
+	asset.setAnchor( Engine.anchor.centerCenter );
+	asset.setSize(291, 224);
 
 	// await wait(1000);
 	// strawberry.setReference("defender/strawberry:idle");
@@ -34,7 +54,7 @@ const engine = new Engine( canvas );
 (() => {
 
 	var inventoryView = new ViewCollection;
-	engine.createView("inventory", inventoryView);
+	Engine.createView("inventory", inventoryView);
 
 	var stats = new View;
 	inventoryView.createView("page-1", stats);
@@ -52,5 +72,18 @@ const engine = new Engine( canvas );
 		.moveTo( 100, 100 )
 	);
 
+
+})();
+
+// Gameplay View
+(() => {
+
+	var gameplayView = new ViewCollection;
+	Engine.createView("gameplay", gameplayView);
+
+	let stopButton = new ViewText("<");
+	// stopButton.font.size = 16;
+	// stopButton.stroke.size = 0;
+	gameplayView.addElement(stopButton);
 
 })();
