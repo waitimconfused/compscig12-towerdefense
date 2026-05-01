@@ -24,7 +24,13 @@ export class Frog extends EnemyEntity {
 		// If there was no defender, stop.
 		if (!closestEntity) return;
 
-		await this.walkTo(closestEntity.position[0], closestEntity.position[1]);
+		let interrupt = await this.walkTo(
+			closestEntity.position[0],
+			closestEntity.position[1]
+		);
 
+		if (interrupt) {
+			
+		}
 	}
 }
