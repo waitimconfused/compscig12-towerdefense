@@ -1,21 +1,33 @@
-import { DefenderEntity } from "./defender";
-import { EnemyEntity } from "./enemy";
 import { Entity } from "./entity";
 
+/**
+ * Class to handle status effects of entities
+ */
 export class StatusEffects {
+    /**
+     * 
+     * @param target 
+     * @param duration 
+     * @returns 
+     */
+    public async stun(target : Entity, duration : number) : Promise<void> {
 
-    public async stun(attacker : Entity, duration : number) : Promise<void> {
+        if (target.stunned) {
+            return;
+        }
 
+        target.stunned = true;
         
-
-        await attacker.wait(duration);
-
-        attacker.interruptTimers(
+        target.interruptTimers(
             null, {
-            triggered_by : attacker,
-            interrupt_type : 'attacked'
+                interrupt_type : 'stunned'
             }
         );
+
+        await target.wait(duration);
+
+        target.stunned = false;
+        target.state = 'idle';
     }
 
     public regen() : void {

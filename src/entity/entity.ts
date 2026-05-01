@@ -12,7 +12,7 @@ type EntityTimer = {
 };
 
 export type EntityEventType = "wait" | "jump" | "walk";
-export type EntityEventInterrupt = "attacked" | "error";
+export type EntityEventInterrupt = "attacked" | "error" | 'stunned';
 
 export type EntityEvent = {
 	type?: EntityEventType | undefined;
@@ -28,6 +28,8 @@ export type EntityStats = {
 }
 
 export abstract class Entity {
+
+	public stunned : boolean = false;
 
 	public abstract entityType:string;
 	private index:number = 0;
@@ -72,6 +74,11 @@ export abstract class Entity {
 	 */
 	public direction:number = 0;
 
+	// stops entity movement
+	public stopMovement() {
+		this._targetPosition = null;
+	}
+
 	public wait(milliseconds:number):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve) => {
@@ -105,6 +112,12 @@ export abstract class Entity {
 	 * @returns 
 	 */
 	public attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
+		if (this.stunned) {
+			return Promise.resolve({
+				interrupt_type: 'stunned'
+			})
+		}
+
 		return new Promise((resolve) => {
 			entity.dealDamage(this.stats.damage, this);
 			resolve(undefined);
@@ -113,6 +126,12 @@ export abstract class Entity {
 
 	public walkTo(x:number, y:number):Promise<undefined|EntityEvent> {
 		
+		if (this.stunned) {
+			return Promise.resolve({
+				interrupt_type: 'stunned'
+			})
+		}
+
 		return new Promise((completed) => {
 
 			x = Math.round( x * 100 ) / 100;
@@ -286,6 +305,9 @@ export abstract class Entity {
 	 * It keeps the `brain()` running.
 	 */
 	public tick(deltaTime:number) {
+		if (this.stunned) {
+			return;
+		};
 
 		if (this.stats.health <= 0) {
 			this.state = "dead";
