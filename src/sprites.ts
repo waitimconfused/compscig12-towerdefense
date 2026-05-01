@@ -133,6 +133,8 @@ type RenderableSpriteData = {
 
 export class SpriteRenderer {
 
+	public static verbose:boolean = true;
+
 	/**
 	 * An object to store a list of **registered** `SpriteData` objects.
 	 */
@@ -171,13 +173,13 @@ export class SpriteRenderer {
 	public static registerData(data:SpriteData) {
 
 		// Create a console.log group
-		console.groupCollapsed(`Creating sprite: "${data.name}"`);
+		if (this.verbose) console.groupCollapsed(`Creating sprite: "${data.name}"`);
 
 		// If a sprite with the same name has already been
 		// registered, log an error and stop
 		if (data.name in this.registeredSprites) {
-			console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
-			console.groupEnd();
+			if (this.verbose) console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
+			if (this.verbose) console.groupEnd();
 			return;
 		}
 		
@@ -188,9 +190,9 @@ export class SpriteRenderer {
 			if (src in this.images == false) {
 				this.images[src] = new Image;
 				this.images[src].src = src;
-				console.log(`Loading image from "${src}".`);
+				if (this.verbose) console.log(`Loading image from "${src}".`);
 			} else {
-				console.log(`Using preloaded image "${src}".`);
+				if (this.verbose) console.log(`Using preloaded image "${src}".`);
 			}
 			
 			data.source = this.images[src] as HTMLImageElement;
@@ -206,7 +208,7 @@ export class SpriteRenderer {
 			// If neither `duration` or `frame_duration` are set, send a warning
 			if (!data.animation?.duration && !data.animation?.frame_duration) {
 				// Send a warning to the console, with styling!
-				console.warn(
+				if (this.verbose) console.warn(
 					"Animation%c duration%c and%c frame_duration%c unset. Will default to%c 100ms/frame%c.",
 					"font-style: italic; font-weight: bold",
 					"",
@@ -219,7 +221,7 @@ export class SpriteRenderer {
 			// If both `duration` and `frame_duration` are set, send a warning
 			} else if (data.animation?.duration && data.animation?.frame_duration) {
 				// Send a warning to the console, with styling!
-				console.warn(
+				if (this.verbose) console.warn(
 					"Animation%c duration%c and%c frame_duration%c are both set. Will default to%c duration%c.",
 					"font-style: italic; font-weight: bold",
 					"",
@@ -253,9 +255,9 @@ export class SpriteRenderer {
 				if (src in this.images == false) {
 					this.images[src] = new Image;
 					this.images[src].src = src;
-					console.log(`Loading image from "${src} for frame #${i+1}".`);
+					if (this.verbose) console.log(`Loading image from "${src} for frame #${i+1}".`);
 				} else {
-					console.log(`Using preloaded image "${src}" for frame #${i+1}".`);
+					if (this.verbose) console.log(`Using preloaded image "${src}" for frame #${i+1}".`);
 				}
 				
 				// Update the source to be an image
@@ -272,8 +274,8 @@ export class SpriteRenderer {
 		this.registeredSprites[data.name] = data;
 
 		// Close the console group
-		console.log("Sprite has been registered.");
-		console.groupEnd();
+		if (this.verbose) console.log("Sprite has been registered.");
+		if (this.verbose) console.groupEnd();
 
 
 	}
@@ -392,20 +394,57 @@ export class SpriteRenderer {
 		// If the data cannot be rendered, don't do anything
 		if (!data) return;
 		
-		// Draw an image on the passed `RenderingContext`
-		context.drawImage(
+		// Try rendering the image onto the canvas
+		try {
+			// Draw an image on the passed `RenderingContext`
+			context.drawImage(
 
-			// The image to be drawn
-			data.image,
+				// The image to be drawn
+				data.image,
 
-			// The position/size of where to crop (inside the image)
-			data.crop.x, data.crop.y,
-			data.crop.w, data.crop.h,
+				// The position/size of where to crop (inside the image)
+				data.crop.x, data.crop.y,
+				data.crop.w, data.crop.h,
 
-			// The position/size of where to put the (cropped) image on the given canvas
-			reference.position[0], reference.position[1],
-			reference.size[0], reference.size[1]
-		);
+				// The position/size of where to put the (cropped) image on the given canvas
+				reference.position[0], reference.position[1],
+				reference.size[0] || data.crop.w, reference.size[1] || data.crop.h
+			);
+		} catch (e) {
+			// The image cannot be rendered.
+			// Will show a black-white
+
+			let halfWidth = (reference.size[0] || data.crop.w)/2;
+			let halfHeight = (reference.size[1] || data.crop.h)/2;
+
+			context.fillStyle = "#000000";
+			context.fillRect(
+				reference.position[0],
+				reference.position[1],
+				halfWidth,
+				halfHeight
+			);
+			context.fillRect(
+				reference.position[0] + halfWidth,
+				reference.position[1] + halfHeight,
+				halfWidth,
+				halfHeight
+			);
+
+			context.fillStyle = "#FF00FF";
+			context.fillRect(
+				reference.position[0] + halfWidth,
+				reference.position[1],
+				halfWidth,
+				halfHeight
+			);
+			context.fillRect(
+				reference.position[0],
+				reference.position[1] + halfHeight,
+				halfWidth,
+				halfHeight
+			);
+		}
 
 	}
 

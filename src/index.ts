@@ -1,10 +1,11 @@
-import { Ant } from "./enemy.types/ant.js";
-import Engine, { wait } from "./engine.js";
+import Engine from "./engine.js";
 import GameplayView from "./gameplay-view.js";
 import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
+import { Raccoon } from "./entity/enemy.types/raccoon.js";
 
+SpriteRenderer.verbose = false;
 SpriteRenderer.loadDefaults();
 
 MouseManager.preventContextMenu = true;
@@ -78,12 +79,16 @@ Engine.initialize(canvas);
 // Gameplay View
 (() => {
 
-	var gameplayView = new ViewCollection;
+	var gameplayView = new GameplayView;
 	Engine.createView("gameplay", gameplayView);
 
 	let stopButton = new ViewText("<");
-	// stopButton.font.size = 16;
-	// stopButton.stroke.size = 0;
 	gameplayView.addElement(stopButton);
+
+	stopButton.setClickEvent(() => {
+		Engine.showView("main-menu");
+	})
+
+	Raccoon.spawn(10, [ 100, 100 ], 50);
 
 })();
