@@ -89,6 +89,6 @@ Engine.initialize(canvas);
 		Engine.showView("main-menu");
 	})
 
-	Raccoon.spawn(10, [ 100, 100 ], 50);
+	Raccoon.spawn(1, [ 100, 100 ], 100);
 
 })();

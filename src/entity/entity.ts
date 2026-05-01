@@ -1,3 +1,4 @@
+import { MouseManager } from "../mouse.js";
 import { Position2D } from "../types.js";
 
 type EntityTimer = {
@@ -42,7 +43,7 @@ export abstract class Entity {
 	public stats:EntityStats = {
 		health: 100,
 		max_health: 100,
-		speed: 10,
+		speed: 0.5,
 		damage: 0
 	};
 
@@ -67,6 +68,12 @@ export abstract class Entity {
 
 		Entity.entities.push(this);
 	}
+
+	private _flipX:boolean = false;
+	private _flipY:boolean = false;
+
+	public get flipX() { return this._flipX };
+	public get flipY() { return this._flipY };
 
 	public wait(milliseconds:number):Promise<undefined|EntityEvent> {
 
@@ -110,8 +117,6 @@ export abstract class Entity {
 	public walkTo(x:number, y:number):Promise<undefined|EntityEvent> {
 		
 		return new Promise((completed) => {
-
-			console.log(x, y);
 
 			x = Math.round( x * 100 ) / 100;
 			y = Math.round( y * 100 ) / 100;
@@ -247,24 +252,25 @@ export abstract class Entity {
 
 	}
 
-	public movementTick(targetPosition:Position2D) {
+	public movementTick(targetPosition:Position2D, deltaTime:number) {
 		if (!targetPosition) return;
 
 		let direction = Math.atan(
-			(targetPosition[0] - this.position[0]) /
-			(targetPosition[1] - this.position[1])
+			(targetPosition[1] - this.position[1]) /
+			(targetPosition[0] - this.position[0])
 		);
 		if (targetPosition[0] < this.position[0]) direction += Math.PI;
+
+		this._flipX = (direction > Math.PI/2);
 
 		let totalDistance = Math.hypot(
 			targetPosition[0] - this.position[0],
 			targetPosition[1] - this.position[1]
 		) || 0;
 
-
-		let magnitude = totalDistance < this.stats.speed ? totalDistance : this.stats.speed;
-
-		// console.log("Walking from", this.position, "to", targetPosition);
+		
+		let currentSpeed = this.stats.speed * deltaTime;
+		let magnitude = totalDistance < currentSpeed ? totalDistance : currentSpeed;
 
 		if (magnitude != 0) {
 			this.position[0] += magnitude * Math.cos(direction);
@@ -283,7 +289,7 @@ export abstract class Entity {
 	 * 
 	 * It keeps the `brain()` running.
 	 */
-	public tick() {
+	public tick(deltaTime:number) {
 
 		if (this.stats.health <= 0) {
 			this._state = "dead";
@@ -322,12 +328,12 @@ export abstract class Entity {
 
 		if (this._targetPosition) {
 
-			this.movementTick(this._targetPosition);
+			this.movementTick(this._targetPosition, deltaTime);
 			
 			if (this.position[0] == this._targetPosition[0] && this.position[1] == this._targetPosition[1]) {
 				
-				console.log("target reached.");
 				this._targetPosition = null;
+				this._state = "idle";
 				this.interruptTimers("walk");
 
 			}

@@ -2,6 +2,7 @@ import { View } from "./view.js";
 import { Entity, EntityState } from "./entity/entity.js";
 import { Sprite, SpriteRenderer } from "./sprites.js";
 import { Canvas, RenderingContext } from "./types.js";
+import Engine from "./engine.js";
 
 type EntitySpriteTable = { [state in EntityState]: string };
 type EntitySpriteRuleset = { [entityType:string]: EntitySpriteTable };
@@ -35,16 +36,22 @@ export default class GameplayView extends View {
 		for (let i = 0; i < Entity.entities.length; i ++) {
 			let entity:Entity = Entity.entities[i] as Entity;
 
-			entity.tick();
+			entity.tick(Engine.stats.delta);
 
 			let spriteRuleset = entityRenderingLookup[entity.entityType];
 			if (!spriteRuleset) continue;
 			
 			let reference = spriteRuleset[entity.state];
 
+			if (entity.flipX) {
+				context.save();
+				context.scale(-1, 1);
+				context.restore();
+			}
+
 			SpriteRenderer.drawSprite({
 				name: reference,
-				position: [ 100, 100 ],
+				position: entity.position,
 				size: [ 0, 0 ]
 			}, context);
 

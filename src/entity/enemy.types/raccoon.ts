@@ -2,6 +2,7 @@ import { EnemyEntity } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
 import { Position2D } from "../../types.js";
 import { Entity, EntityStats } from "../entity.js";
+import { MouseManager } from "../../mouse.js";
 
 /**
  * Creates a Raccoon as an EnemyEntity
@@ -44,9 +45,8 @@ export class Raccoon extends EnemyEntity {
 	}
 
 	public async brain() {
-		console.log("ASD");
 
-		await this.walkTo(Math.random()*100, Math.random()*100);
+		await this.walkTo(MouseManager.x, MouseManager.y);
 
 		// let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 

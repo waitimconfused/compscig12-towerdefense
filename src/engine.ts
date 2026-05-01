@@ -29,6 +29,11 @@ export default class Engine {
 	private static context:RenderingContext;
 
 	private static _stats:EngineStats = { delta:0, fps:0, lastRenderCall:0 }
+	public static get stats() { return {
+		delta: this._stats.delta,
+		fps: this._stats.fps,
+		lastRenderCall: this._stats.lastRenderCall
+	} }
 
 	private static _currentView:string;
 	public static get currentView() { return this._currentView; }
