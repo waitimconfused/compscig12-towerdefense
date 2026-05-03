@@ -30,6 +30,7 @@ export type EntityStats = {
 export abstract class Entity {
 
 	public stunned : boolean = false;
+	public currentRegenStacks: number = 0;
 
 	public abstract entityType:string;
 	private index:number = 0;
