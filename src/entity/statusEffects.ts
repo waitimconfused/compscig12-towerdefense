@@ -1,3 +1,4 @@
+import { Frog } from "./enemy.types/frog";
 import { Entity } from "./entity";
 
 /**
@@ -76,7 +77,28 @@ export class StatusEffects {
         regeneratingEntity.currentRegenStacks--;
     }
 
-    public async slowEntity(target : Entity) : Promise<void> {
+    public async slowEntity(target : Entity, duration : number) : Promise<void> {
+        let slowMutliplier : number = 0.8;
 
+        target.slowStacks++;
+        const CURRENT_STACKS : number = target.slowStacks;
+
+        if (target instanceof Frog) {
+            // disable frog jump when leap method created
+        }
+
+        if (!target.slowed) {
+            target.slowed = true;
+            target.stats.speed *= slowMutliplier;
+        }
+
+        
+        await target.wait(duration);
+        
+        // Removes slow if stack is the last one applied to the entity
+        if (CURRENT_STACKS == target.slowStacks) {
+            target.stats.speed /= slowMutliplier;
+            target.slowed = false;
+        }
     }
 }
