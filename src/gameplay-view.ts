@@ -29,7 +29,7 @@ const entityRenderingLookup:EntitySpriteRuleset = {
 
 	"defender/strawberry": {
 		"idle": {
-			sprite: "strawberry-idling",
+			sprite: "sandwich-4",
 			origin: [ 50, 50 ]
 		},
 		"attack": {
@@ -67,7 +67,13 @@ export default class GameplayView extends View {
 		for (let i = 0; i < Entity.entities.length; i ++) {
 			let entity:Entity = Entity.entities[i] as Entity;
 
+			let previousState = entity.state;
+
 			entity.tick(Engine.stats.delta);
+
+			let newState = entity.state;
+
+			if (newState != previousState) entity.animationOffset = performance.now();
 
 			let spriteRuleset = entityRenderingLookup[entity.entityType];
 			if (!spriteRuleset) continue;

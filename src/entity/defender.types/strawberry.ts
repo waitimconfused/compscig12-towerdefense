@@ -17,9 +17,8 @@ export class Strawberry extends DefenderEntity {
 		if (this.position[0] == x && this.position[1] == y) return;
 
 		this.state = "launch";
-		this.animationOffset = performance.now();
 
-		await this.wait(600);
+		await this.wait(100);
 
 		this.state = "walk";
 
