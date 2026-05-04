@@ -1,6 +1,6 @@
 //import the defenderentity, enemyentity, and view classes
 import { DefenderEntity } from "../defenderentity.js";
-import {EnemyEntity} from "enemyEntity.js";
+import { EnemyEntity } from "../enemyEntity.js";
 import { View } from "../view.js";
 
 class Sandwich extends DefenderEntity{

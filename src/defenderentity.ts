@@ -74,24 +74,7 @@ class DefenderEntity extends Entity{
         this.position = [x,y];
     }
     
-    /**
-     * begin the hit cooldown for the defender
-     * @param time time in milliseconds
-     * @returns returns a promise that resolves after the attackcooldown in milliseconds has passed
-     */
-    public beginHitCooldown(time : number) : Promise<void>{
-        return wait(this.beginHitCooldown*1000);
-    }
-
-    /**
-     * begin the deploy cooldown for the defender
-     * @param time time in milliseconds
-     * @returns returns a promise that resolves after the deploycooldown in milliseconds has passed
-     */
-    public beginDeployCooldown(time : number) : Promise<void>{
-        return wait(this.beginDeployCooldown*1000);
-    }
-
+  
     /**
      * check if the defender can hit enemies at the moment
      * @returns returns whether they can or cannot through a boolean
@@ -110,13 +93,14 @@ class DefenderEntity extends Entity{
         return this.canHit;
     }
 
-    public spawnMovingDefender(x:number, y:number) : void{
-        this.position = [x,y];
-    }
 
     public stun(stunduration : number) {
         
     };
+
+    public tick() {
+        // Put "brain" related stuff here
+    }
 
 }
 
