@@ -1,0 +1,6 @@
+
+class Strawberry {
+
+}
+
+export {Strawberry};
