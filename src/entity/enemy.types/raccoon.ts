@@ -30,9 +30,9 @@ export class Raccoon extends EnemyEntity {
 	 * @param view The game view to reference
 	 * @param waveNumber Current wave number
 	 */
-	constructor(position:Position2D) {
+	constructor(position:Position2D, waveNumber : number) {
 
-		super(position);
+		super(position, waveNumber);
 
 		// this.setDrops({
 		// 	coins : 1,

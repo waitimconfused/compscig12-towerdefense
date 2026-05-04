@@ -17,29 +17,34 @@ export class Ant extends EnemyEntity {
 		{ health: 0, max_health: 120, speed: 0, damage: 20 }
 	];
 
+	public override drops = {
+		coins: 2,
+		points: 5,
+		materials: {
+			wood: 0.1
+		}
+	};
 
 	public async brain() {
-
-		// Get the closest DEFENDER entity
-		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
-
-		// If there was no defender, stop.
-		if (!closestEntity) return;
-
-		let interrupt = await this.walkTo(
-			closestEntity.position[0],
-			closestEntity.position[1]
-		);
-
-		if (interrupt) {
-			// Ant stopped walking
-		
-		} else {
-			
-			// Attack the closest entity
-			this.attackEntity(closestEntity);
+		while (this.stats.health > 0) {
+			// Get the closest DEFENDER entity
+			let closestEntity = Entity.nearestEntity(this, DefenderEntity);
+	
+			if (!closestEntity) {
+				await this.wait(100);
+				continue;
+			}
+	
+			let interrupt = await this.walkTo(
+				closestEntity.position[0],
+				closestEntity.position[1]
+			);
+	
+			if (!interrupt) {
+				this.attackEntity(closestEntity);
+			}
+	
+			await this.wait(100);
 		}
-
 	}
-
 }

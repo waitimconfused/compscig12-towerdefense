@@ -10,27 +10,58 @@ export class Frog extends EnemyEntity {
 	public isLeaping:boolean;
 	public canLeap:boolean = true;
 
-	// Override the default movement style
-	// to add a jumping behaviour
-	public override movementTick(targetPosition:Position2D) {
-		// !TODO
+	public override drops = {
+		coins: 5,
+		points: 10,
+		materials: {
+			jar : 0.2
+		}
+	};
+
+	private leapCooldown : number = 0;
+	
+	private async tryLeap(target: DefenderEntity) {
+	
+		this.isLeaping = true;
+	
+		// Cannot deal damage but can't take damage when leaping
+		this.stunned = true;
+		this.invulnerable = true;
+	
+		await this.walkTo(
+			// placeholder for now
+			target.position[0] + 2,
+			target.position[1]
+		);
+	
+		this.isLeaping = false;
+		this.stunned = false;
+		this.invulnerable = false;
 	}
 
 	public async brain() {
-
-		// Get the closest DEFENDER entity
-		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
-
-		// If there was no defender, stop.
-		if (!closestEntity) return;
-
-		let interrupt = await this.walkTo(
-			closestEntity.position[0],
-			closestEntity.position[1]
-		);
-
-		if (interrupt) {
+		while (this.stats.health > 0) {
+			const TARGET = Entity.nearestEntity(this, DefenderEntity);
 			
+			if (!TARGET) {
+				await this.wait(200);
+				continue;
+			}
+			
+			// Try leap occasionally
+			if (this.canLeap && this.leapCooldown <= 0) {
+				this.tryLeap(TARGET);
+				this.leapCooldown = 3000;
+			}
+			
+			// normal movement
+			await this.walkTo(
+				TARGET.position[0],
+				TARGET.position[1]
+			);
+			
+			this.leapCooldown -= 200;
+			await this.wait(200);
 		}
 	}
 }
