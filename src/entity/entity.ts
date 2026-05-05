@@ -12,7 +12,7 @@ type EntityTimer = {
 };
 
 export type EntityEventType = "wait" | "jump" | "walk";
-export type EntityEventInterrupt = "attacked" | "error" | 'stunned';
+export type EntityEventInterrupt = "attacked" | "error" | 'stunned' | 'slowed';
 
 export type EntityEvent = {
 	type?: EntityEventType | undefined;
@@ -31,6 +31,9 @@ export abstract class Entity {
 
 	public stunned : boolean = false;
 	public currentRegenStacks: number = 0;
+	public slowed : boolean = false;
+	public slowStacks : number = 0;
+	public invulnerable: boolean = false;
 
 	public abstract entityType:string;
 	private index:number = 0;
@@ -93,6 +96,10 @@ export abstract class Entity {
 	 * @param attacker
 	 */
 	public dealDamage(dealtDamage:number, attacker:Entity) {
+		if (this.invulnerable) {
+			return;
+		}
+
 		this.stats.health -= dealtDamage;
 
 		this.interruptTimers(null, {
