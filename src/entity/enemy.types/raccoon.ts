@@ -55,26 +55,26 @@ export class Raccoon extends EnemyEntity {
 
 		let walkInterrupt = await this.walkTo(closestEntity.position[0], closestEntity.position[1]);
 
-		// if (walkInterrupt) {
-		// 	// Raccoon was stopped from walking
+		if (walkInterrupt) {
+			// Raccoon was stopped from walking
 		
-		// } else {
-		// 	let attackInterrupt = await this.attackEntity(closestEntity);
+		} else {
+			let attackInterrupt = await this.attackEntity(closestEntity);
 
-		// 	if (attackInterrupt) {
-		// 		// Raccoon was stopped from attacking
+			if (attackInterrupt) {
+				// Raccoon was stopped from attacking
 			
-		// 	} else if (closestEntity.stats.health <= 0) {
-		// 		// Entity was defeated!
+			} else if (closestEntity.stats.health <= 0) {
+				// Entity was defeated!
 
-		// 		this.stats.health += 20; // Small regeneration boost
+				this.stats.health += 20; // Small regeneration boost
 
-		// 		// Make sure the health can't exceed the maximum health
-		// 		this.stats.health = Math.min( this.stats.health, this.stats.max_health );
+				// Make sure the health can't exceed the maximum health
+				this.stats.health = Math.min( this.stats.health, this.stats.max_health );
 
-		// 	}
+			}
 
-		// }
+		}
 
 	}
 
