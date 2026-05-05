@@ -18,7 +18,7 @@ export class Strawberry extends DefenderEntity {
 
 		this.state = "launch";
 
-		await this.wait(100);
+		await this.wait(600);
 
 		this.state = "walk";
 

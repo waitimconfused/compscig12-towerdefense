@@ -123,6 +123,11 @@ export type Sprite = {
 	 */
 	animation_offset?: number;
 
+	/**
+	 * An *optional* list of frame indexes to use from an animation
+	 */
+	animation_frames?: number[]
+
 };
 
 type RenderableSpriteData = {
@@ -296,18 +301,18 @@ export class SpriteRenderer {
 	 * @returns			A `RenderableSpriteData` object, or null (sprite
 	 * 					does not exist, or fatal error)
 	 */
-	private static getData(reference:string, animation_offset?:number):RenderableSpriteData|null {
+	private static getData(reference:Sprite, animation_offset?:number):RenderableSpriteData|null {
 
 		// If the sprite could not be found, log it in the console as an
 		// error, and return null.
-		if (reference in this.registeredSprites == false) {
-			console.error(`Failed to find SpriteData with name "${reference}".`);
+		if (reference.name in this.registeredSprites == false) {
+			console.error(`Failed to find SpriteData with name "${reference.name}".`);
 			return null;
 		}
 
 		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
 		// Safe to assume that it's a `SpriteData` object, as we checked above
-		let data:SpriteData = this.registeredSprites[reference] as SpriteData;
+		let data:SpriteData = this.registeredSprites[reference.name] as SpriteData;
 
 		// If (for some reason) the `SpriteData.source` is **not** an
 		// image, log it and return null.
@@ -334,6 +339,8 @@ export class SpriteRenderer {
 			// the following `if` statements
 			let duration:number = 0;
 
+			let frameCount = reference?.animation_frames?.length ?? data.animation.frames.length;
+
 			// If the animation duration has been set, use it
 			// Meaning, `duration` is the default
 			if (data.animation.duration) {
@@ -343,18 +350,18 @@ export class SpriteRenderer {
 			} else if (data.animation.frame_duration) {
 				// Set duration to the frame duration * number of frames
 				// to get the length of the animation
-				duration = data.animation.frame_duration * data.animation.frames.length;
+				duration = data.animation.frame_duration * frameCount;
 			
 			// If neither `duration` or `frame_duration` has been set,
 			// Use `100ms/frame` (`frame_duration=100`)
 			} else {
 				// Set duration to 100ms * number of frames
 				// to get the length of the animation
-				duration = 100 * data.animation.frames.length;
+				duration = 100 * frameCount;
 			}
 
 			// Calculate the speed of the animation
-			let speed:number = duration / data.animation.frames.length;
+			let speed:number = duration / frameCount;
 			
 			// Store the animation offset, defaulting to 0ms
 			let offset:number = data.animation?.offset ?? 0;
@@ -364,10 +371,15 @@ export class SpriteRenderer {
 			// animation has
 			let frameIndex = (performance.now() - offset - (animation_offset??0)) / speed;
 			frameIndex = Math.floor(frameIndex);
-			frameIndex = frameIndex % data.animation.frames.length;
+			frameIndex = frameIndex % frameCount;
 
 			// Store a reference to the correct animation frame
 			let frame = data.animation.frames[frameIndex];
+
+			if (reference.animation_frames) {
+				let realFrameIndex = reference.animation_frames[frameIndex] as number;
+				frame = data.animation.frames[ realFrameIndex ];
+			}
 
 			// If the frame has a specific source (not inherited), set
 			// used image to it.
@@ -394,7 +406,7 @@ export class SpriteRenderer {
 	public static drawSprite(reference:Sprite, context:RenderingContext):void {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference.name, reference.animation_offset);
+		let data = this.getData(reference, reference.animation_offset);
 
 		// If the data cannot be rendered, don't do anything
 		if (!data) return;
@@ -463,7 +475,7 @@ export class SpriteRenderer {
 	public static getSpriteAsOffscreenCanvas(reference:Sprite):OffscreenCanvas {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference.name, reference.animation_offset);
+		let data = this.getData(reference, reference.animation_offset);
 
 		// If the referenced sprite does not exist, return the (empty) `OffscreenCanvas`
 		if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);
