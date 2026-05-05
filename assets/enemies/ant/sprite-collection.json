@@ -1,0 +1,60 @@
+[
+	{
+		"name": "ant-idling",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 472,
+			"h": 85
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 0, "w": 113, "h": 85 } },
+				{ "crop": { "x": 118, "y": 0, "w": 113, "h": 85 } },
+				{ "crop": { "x": 236, "y": 0, "w": 113, "h": 85 } },
+				{ "crop": { "x": 354, "y": 0, "w": 113, "h": 85 } }
+			]
+		}
+	},
+	{
+		"name": "ant-walking",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 90,
+			"w": 492,
+			"h": 84
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 90, "w": 118, "h": 84 } },
+				{ "crop": { "x": 123, "y": 90, "w": 118, "h": 84 } },
+				{ "crop": { "x": 246, "y": 90, "w": 118, "h": 84 } },
+				{ "crop": { "x": 369, "y": 90, "w": 118, "h": 84 } }
+			]
+		}
+	},
+	{
+		"name": "ant-attacking",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 179,
+			"w": 615,
+			"h": 101
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 179, "w": 118, "h": 101 } },
+				{ "crop": { "x": 123, "y": 179, "w": 118, "h": 101 } },
+				{ "crop": { "x": 246, "y": 179, "w": 118, "h": 101 } },
+				{ "crop": { "x": 369, "y": 179, "w": 118, "h": 101 } },
+				{ "crop": { "x": 492, "y": 179, "w": 118, "h": 101 } }
+			]
+		}
+	}
+]

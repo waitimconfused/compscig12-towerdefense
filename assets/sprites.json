@@ -4,5 +4,8 @@
 	"./defender/banana/sprite-collection.json",
 	"./defender/corn/sprite-collection.json",
 	"./defender/cherry/sprite-collection.json",
-	"./enemies/raccoon/sprite-collection.json"
+	"./enemies/raccoon/sprite-collection.json",
+	"./enemies/ant/sprite-collection.json",
+	"./enemies/frog/sprite-collection.json",
+	"./enemies/wasp/sprite-collection.json"
 ]
