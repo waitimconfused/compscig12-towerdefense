@@ -20,16 +20,6 @@ export abstract class EnemyEntity extends Entity {
         materials : {}
     }
 
-    constructor(position : Position2D, waveNumber : number) {
-        super(position);
-
-        // someone should add some sort of path system with position 2d
-        // all enemies will follow the path from left to right maybe???
-
-        this.waveNumber = waveNumber
-        this.stats.health = this.stats.health * (this.healthScale ** (waveNumber - 1))
-    }
-
     protected giveReward(coins : number, points : number) : void {
         // add coins and points after player interface created
     }

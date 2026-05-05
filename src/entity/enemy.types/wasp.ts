@@ -9,19 +9,6 @@ export class Wasp extends EnemyEntity {
 
 	public isFlying: boolean = true;
 
-	constructor(position: Position2D, waveNumber : number) {
-
-		super(position, waveNumber);
-
-		// this.setDrops({
-		//     coins : 1,
-		//     points : 1,
-		//     materialDropRate : {
-		//         'Fake Honey' : 0.25
-		//     }
-		// });
-	}
-
 	// Override the default movement style
 	// to add a flying behaviour
 	public override movementTick(targetPosition: Position2D): void {

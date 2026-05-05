@@ -23,27 +23,6 @@ export class Raccoon extends EnemyEntity {
 
 	public entityType:string = "enemy/raccoon";
 
-	
-
-	/**
-	 * Constructs a Raccoon enemy
-	 * @param view The game view to reference
-	 * @param waveNumber Current wave number
-	 */
-	constructor(position:Position2D, waveNumber : number) {
-
-		super(position, waveNumber);
-
-		// this.setDrops({
-		// 	coins : 1,
-		// 	points : 2,
-		// 	materialDropRate : {
-		// 		'wood' : 0.3,
-		// 		'jar' : 0.3
-		// 	}
-		// });
-	}
-
 	public async brain() {
 
 		// await this.walkTo(MouseManager.x, MouseManager.y);
