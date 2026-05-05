@@ -118,6 +118,16 @@ export type Sprite = {
 	 */
 	size: Position2D;
 
+	/**
+	 * An *optional* **amount of milliseconds** to offset the animation
+	 */
+	animation_offset?: number;
+
+	/**
+	 * An *optional* list of frame indexes to use from an animation
+	 */
+	animation_frames?: number[]
+
 };
 
 type RenderableSpriteData = {
@@ -132,6 +142,8 @@ type RenderableSpriteData = {
 
 
 export class SpriteRenderer {
+
+	public static verbose:boolean = true;
 
 	/**
 	 * An object to store a list of **registered** `SpriteData` objects.
@@ -171,13 +183,13 @@ export class SpriteRenderer {
 	public static registerData(data:SpriteData) {
 
 		// Create a console.log group
-		console.groupCollapsed(`Creating sprite: "${data.name}"`);
+		if (this.verbose) console.groupCollapsed(`Creating sprite: "${data.name}"`);
 
 		// If a sprite with the same name has already been
 		// registered, log an error and stop
 		if (data.name in this.registeredSprites) {
-			console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
-			console.groupEnd();
+			if (this.verbose) console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
+			if (this.verbose) console.groupEnd();
 			return;
 		}
 		
@@ -188,9 +200,9 @@ export class SpriteRenderer {
 			if (src in this.images == false) {
 				this.images[src] = new Image;
 				this.images[src].src = src;
-				console.log(`Loading image from "${src}".`);
+				if (this.verbose) console.log(`Loading image from "${src}".`);
 			} else {
-				console.log(`Using preloaded image "${src}".`);
+				if (this.verbose) console.log(`Using preloaded image "${src}".`);
 			}
 			
 			data.source = this.images[src] as HTMLImageElement;
@@ -206,7 +218,7 @@ export class SpriteRenderer {
 			// If neither `duration` or `frame_duration` are set, send a warning
 			if (!data.animation?.duration && !data.animation?.frame_duration) {
 				// Send a warning to the console, with styling!
-				console.warn(
+				if (this.verbose) console.warn(
 					"Animation%c duration%c and%c frame_duration%c unset. Will default to%c 100ms/frame%c.",
 					"font-style: italic; font-weight: bold",
 					"",
@@ -219,7 +231,7 @@ export class SpriteRenderer {
 			// If both `duration` and `frame_duration` are set, send a warning
 			} else if (data.animation?.duration && data.animation?.frame_duration) {
 				// Send a warning to the console, with styling!
-				console.warn(
+				if (this.verbose) console.warn(
 					"Animation%c duration%c and%c frame_duration%c are both set. Will default to%c duration%c.",
 					"font-style: italic; font-weight: bold",
 					"",
@@ -253,9 +265,9 @@ export class SpriteRenderer {
 				if (src in this.images == false) {
 					this.images[src] = new Image;
 					this.images[src].src = src;
-					console.log(`Loading image from "${src} for frame #${i+1}".`);
+					if (this.verbose) console.log(`Loading image from "${src} for frame #${i+1}".`);
 				} else {
-					console.log(`Using preloaded image "${src}" for frame #${i+1}".`);
+					if (this.verbose) console.log(`Using preloaded image "${src}" for frame #${i+1}".`);
 				}
 				
 				// Update the source to be an image
@@ -272,8 +284,8 @@ export class SpriteRenderer {
 		this.registeredSprites[data.name] = data;
 
 		// Close the console group
-		console.log("Sprite has been registered.");
-		console.groupEnd();
+		if (this.verbose) console.log("Sprite has been registered.");
+		if (this.verbose) console.groupEnd();
 
 
 	}
@@ -289,18 +301,18 @@ export class SpriteRenderer {
 	 * @returns			A `RenderableSpriteData` object, or null (sprite
 	 * 					does not exist, or fatal error)
 	 */
-	private static getData(reference:string):RenderableSpriteData|null {
+	private static getData(reference:Sprite, animation_offset?:number):RenderableSpriteData|null {
 
 		// If the sprite could not be found, log it in the console as an
 		// error, and return null.
-		if (reference in this.registeredSprites == false) {
-			console.error(`Failed to find SpriteData with name "${reference}".`);
+		if (reference.name in this.registeredSprites == false) {
+			console.error(`Failed to find SpriteData with name "${reference.name}".`);
 			return null;
 		}
 
 		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
 		// Safe to assume that it's a `SpriteData` object, as we checked above
-		let data:SpriteData = this.registeredSprites[reference] as SpriteData;
+		let data:SpriteData = this.registeredSprites[reference.name] as SpriteData;
 
 		// If (for some reason) the `SpriteData.source` is **not** an
 		// image, log it and return null.
@@ -327,6 +339,8 @@ export class SpriteRenderer {
 			// the following `if` statements
 			let duration:number = 0;
 
+			let frameCount = reference?.animation_frames?.length ?? data.animation.frames.length;
+
 			// If the animation duration has been set, use it
 			// Meaning, `duration` is the default
 			if (data.animation.duration) {
@@ -336,18 +350,18 @@ export class SpriteRenderer {
 			} else if (data.animation.frame_duration) {
 				// Set duration to the frame duration * number of frames
 				// to get the length of the animation
-				duration = data.animation.frame_duration * data.animation.frames.length;
+				duration = data.animation.frame_duration * frameCount;
 			
 			// If neither `duration` or `frame_duration` has been set,
 			// Use `100ms/frame` (`frame_duration=100`)
 			} else {
 				// Set duration to 100ms * number of frames
 				// to get the length of the animation
-				duration = 100 * data.animation.frames.length;
+				duration = 100 * frameCount;
 			}
 
 			// Calculate the speed of the animation
-			let speed:number = duration / data.animation.frames.length;
+			let speed:number = duration / frameCount;
 			
 			// Store the animation offset, defaulting to 0ms
 			let offset:number = data.animation?.offset ?? 0;
@@ -355,12 +369,17 @@ export class SpriteRenderer {
 			// Calculate what frame should be shown, based on the time,
 			// animation offset, animation speed, and how many frames the
 			// animation has
-			let frameIndex = (performance.now() - offset) / speed;
+			let frameIndex = (performance.now() - offset - (animation_offset??0)) / speed;
 			frameIndex = Math.floor(frameIndex);
-			frameIndex = frameIndex % data.animation.frames.length;
+			frameIndex = frameIndex % frameCount;
 
 			// Store a reference to the correct animation frame
 			let frame = data.animation.frames[frameIndex];
+
+			if (reference.animation_frames) {
+				let realFrameIndex = reference.animation_frames[frameIndex] as number;
+				frame = data.animation.frames[ realFrameIndex ];
+			}
 
 			// If the frame has a specific source (not inherited), set
 			// used image to it.
@@ -387,25 +406,62 @@ export class SpriteRenderer {
 	public static drawSprite(reference:Sprite, context:RenderingContext):void {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference.name);
+		let data = this.getData(reference, reference.animation_offset);
 
 		// If the data cannot be rendered, don't do anything
 		if (!data) return;
 		
-		// Draw an image on the passed `RenderingContext`
-		context.drawImage(
+		// Try rendering the image onto the canvas
+		try {
+			// Draw an image on the passed `RenderingContext`
+			context.drawImage(
 
-			// The image to be drawn
-			data.image,
+				// The image to be drawn
+				data.image,
 
-			// The position/size of where to crop (inside the image)
-			data.crop.x, data.crop.y,
-			data.crop.w, data.crop.h,
+				// The position/size of where to crop (inside the image)
+				data.crop.x, data.crop.y,
+				data.crop.w, data.crop.h,
 
-			// The position/size of where to put the (cropped) image on the given canvas
-			reference.position[0], reference.position[1],
-			reference.size[0], reference.size[1]
-		);
+				// The position/size of where to put the (cropped) image on the given canvas
+				reference.position[0], reference.position[1],
+				reference.size[0] || data.crop.w, reference.size[1] || data.crop.h
+			);
+		} catch (e) {
+			// The image cannot be rendered.
+			// Will show a black-white
+
+			let halfWidth = (reference.size[0] || data.crop.w)/2;
+			let halfHeight = (reference.size[1] || data.crop.h)/2;
+
+			context.fillStyle = "#000000";
+			context.fillRect(
+				reference.position[0],
+				reference.position[1],
+				halfWidth,
+				halfHeight
+			);
+			context.fillRect(
+				reference.position[0] + halfWidth,
+				reference.position[1] + halfHeight,
+				halfWidth,
+				halfHeight
+			);
+
+			context.fillStyle = "#FF00FF";
+			context.fillRect(
+				reference.position[0] + halfWidth,
+				reference.position[1],
+				halfWidth,
+				halfHeight
+			);
+			context.fillRect(
+				reference.position[0],
+				reference.position[1] + halfHeight,
+				halfWidth,
+				halfHeight
+			);
+		}
 
 	}
 
@@ -419,7 +475,7 @@ export class SpriteRenderer {
 	public static getSpriteAsOffscreenCanvas(reference:Sprite):OffscreenCanvas {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference.name);
+		let data = this.getData(reference, reference.animation_offset);
 
 		// If the referenced sprite does not exist, return the (empty) `OffscreenCanvas`
 		if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);
