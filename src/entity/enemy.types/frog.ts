@@ -41,23 +41,23 @@ export class Frog extends EnemyEntity {
 
 	public async brain() {
 		while (this.stats.health > 0) {
-			const TARGET = Entity.nearestEntity(this, DefenderEntity);
+			let target = Entity.nearestEntity(this, DefenderEntity);
 			
-			if (!TARGET) {
+			if (!target) {
 				await this.wait(200);
 				continue;
 			}
 			
 			// Try leap occasionally
 			if (this.canLeap && this.leapCooldown <= 0) {
-				this.tryLeap(TARGET);
+				this.tryLeap(target);
 				this.leapCooldown = 3000;
 			}
 			
 			// normal movement
 			await this.walkTo(
-				TARGET.position[0],
-				TARGET.position[1]
+				target.position[0],
+				target.position[1]
 			);
 			
 			this.leapCooldown -= 200;

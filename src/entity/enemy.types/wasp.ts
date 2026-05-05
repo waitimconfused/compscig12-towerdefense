@@ -9,9 +9,9 @@ export class Wasp extends EnemyEntity {
 
 	public isFlying: boolean = true;
 
-	constructor(position: Position2D) {
+	constructor(position: Position2D, waveNumber : number) {
 
-		super(position);
+		super(position, waveNumber);
 
 		// this.setDrops({
 		//     coins : 1,

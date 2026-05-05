@@ -33,4 +33,4 @@ export abstract class EnemyEntity extends Entity {
     protected giveReward(coins : number, points : number) : void {
         // add coins and points after player interface created
     }
-};
+}
