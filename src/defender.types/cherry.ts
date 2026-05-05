@@ -44,6 +44,24 @@ class Cherry extends DefenderEntity{
         
     }
 
+    public override render() : string {
+        switch (this.state) {
+            case 'idle':
+                return 'cherry-idling';
+        
+            case 'run':
+                return 'cherry-skipping';
+
+            case 'attack':
+                return 'cherry-forward-attacking';
+
+            case 'upgrade-attack':
+                return 'cherry-backward-attacking';
+            default:
+                return 'cherry-idling';
+        }
+    }
+
     /**
      * check to see if the cherry was able to stun enemy
      * @param target the enemy
@@ -107,6 +125,10 @@ class Cherry extends DefenderEntity{
      */
     public killedEnemy(target: EnemyEntity) : void{
         target.getClosestEntity();
+    }
+
+    public tick(): void {
+        // Put "brain" related stuff here
     }
 }
 
