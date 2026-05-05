@@ -1,6 +1,6 @@
 //import the defenderentity, enemyentity, and view classes
 import { DefenderEntity } from "../defenderentity.js";
-import {EnemyEntity} from "enemyEntity.js";
+import { EnemyEntity } from "../enemyEntity";
 import { View } from "../view.js";
 
 class Cherry extends DefenderEntity{
@@ -27,6 +27,7 @@ class Cherry extends DefenderEntity{
         const STATS = {
             health : 20,
             speed : 0.6,
+            regeneration : 0,
         };
         const DEFENDERBASESTATS = {
             defenderLvl : 1,

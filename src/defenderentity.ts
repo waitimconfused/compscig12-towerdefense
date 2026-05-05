@@ -2,7 +2,7 @@
 import { Entity } from "./entity.js";
 import { View } from "./view.js";
 
-class DefenderEntity extends Entity{
+abstract class DefenderEntity extends Entity{
     //assign basic properties for all defenders
     //the defender level
     protected _defenderBaseStats: {

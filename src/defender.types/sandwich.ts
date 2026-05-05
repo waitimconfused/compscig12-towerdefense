@@ -25,6 +25,7 @@ class Sandwich extends DefenderEntity{
         const STATS = {
             health : 40,
             speed : 0,
+            regeneration : 0,
         };
         const DEFENDERBASESTATS = {
             defenderLvl : 1,
@@ -50,6 +51,13 @@ class Sandwich extends DefenderEntity{
             this.sandwichLayerCount --;
         }
         
+    }
+
+    public override takeDamage(damage: number): void {
+        //create a variable in case there will be other factors that will effect the base damage of the defender in the future
+        let finalDamage = damage;
+        //change the defender's health after it has been inflicted with damage
+        super.takeDamage(finalDamage);
     }
 
     /**
