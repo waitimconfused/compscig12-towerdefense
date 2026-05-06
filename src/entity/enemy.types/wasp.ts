@@ -58,4 +58,5 @@ export class Wasp extends EnemyEntity {
 		}
 
 	}
+
 }

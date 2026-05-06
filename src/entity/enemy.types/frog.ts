@@ -1,7 +1,6 @@
-import { Position2D } from "../../types.js";
 import { DefenderEntity } from "../defender.js";
 import { EnemyEntity } from "../enemy.js";
-import { Entity, EntityEventInterrupt } from "../entity.js";
+import { Entity } from "../entity.js";
 
 export class Frog extends EnemyEntity {
 
