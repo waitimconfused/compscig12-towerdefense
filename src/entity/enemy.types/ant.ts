@@ -12,7 +12,7 @@ export class Ant extends EnemyEntity {
 
 	public entityType = "enemy/ant";
 	
-	public static override upgrades: EntityStats[] = [
+	public static override : EntityStats[] = [
 		{ health: 0, max_health: 100, speed: 0, damage: 10 },
 		{ health: 0, max_health: 120, speed: 0, damage: 20 }
 	];
@@ -21,30 +21,29 @@ export class Ant extends EnemyEntity {
 		coins: 2,
 		points: 5,
 		materials: {
-			wood: 0.1
+			wood: 0.2,
+			glassLemonade : 0.1
 		}
-	};
+	}
 
 	public async brain() {
-		while (this.stats.health > 0) {
-			// Get the closest DEFENDER entity
-			let closestEntity = Entity.nearestEntity(this, DefenderEntity);
+		await this.wait(100);
+		
+		// Get the closest DEFENDER entity
+		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 	
-			if (!closestEntity) {
-				await this.wait(100);
-				continue;
-			}
-	
-			let interrupt = await this.walkTo(
-				closestEntity.position[0],
-				closestEntity.position[1]
-			);
-	
-			if (!interrupt) {
-				this.attackEntity(closestEntity);
-			}
-	
-			await this.wait(100);
+		if (!closestEntity) {
+			return;
 		}
+	
+		let interrupt = await this.walkTo(
+			closestEntity.position[0],
+			closestEntity.position[1]
+		);
+	
+		if (!interrupt) {
+			this.attackEntity(closestEntity);
+		}
+	
 	}
 }

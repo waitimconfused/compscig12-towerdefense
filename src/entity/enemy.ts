@@ -1,3 +1,4 @@
+import { Player } from "../player.js";
 import { Position2D } from "../types.js";
 import { Entity } from "./entity.js";
 
@@ -17,19 +18,20 @@ export abstract class EnemyEntity extends Entity {
     protected abstract drops : EnemyDrops;
 
 	public die() {
+        
 		this.state = "dead";
 
 		for (let item in this.drops.materials) {
-			let count:number = this.drops.materials[item] as number;
+			let probability : number = this.drops.materials[item] as number;
 
-			// Example: Inventory.give( key, count );
-			console.log(`Dropped "${item}" x${count}`);
-
+            if (Math.random() <= probability) {
+                
+            }
 		}
 
 	}
 
     protected giveReward(coins : number, points : number) : void {
-        // add coins and points after player interface created
+        
     }
 }

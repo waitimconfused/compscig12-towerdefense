@@ -26,7 +26,10 @@ export class Raccoon extends EnemyEntity {
 	protected drops: EnemyDrops = {
 		coins: 10,
 		points: 10,
-		materials: {}
+		materials: {
+			wood : 0.3,
+			jar : 0.3
+		}
 	};
 
 	public async brain() {
