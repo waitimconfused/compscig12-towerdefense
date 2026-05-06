@@ -1,4 +1,3 @@
-import { MouseManager } from "../mouse.js";
 import { Position2D } from "../types.js";
 
 type EntityTimer = {
