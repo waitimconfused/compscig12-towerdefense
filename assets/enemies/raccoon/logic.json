@@ -1,0 +1,14 @@
+{
+	"type": "enemy/raccoon",
+
+	"states": {
+		"idle": {
+			"sprite": "raccoon-idle",
+			"render_origin": [ 50, 100 ]
+		},
+		"walk": {
+			"sprite": "raccoon-walking",
+			"render_origin": [ 50, 100 ]
+		}
+	}
+}

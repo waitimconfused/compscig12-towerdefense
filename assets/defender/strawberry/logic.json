@@ -1,0 +1,18 @@
+{
+	"type": "defender/strawberry",
+
+	"states": {
+		"idle": {
+			"sprite": "strawberry-idle",
+			"render_origin": [ 50, 100 ]
+		},
+		"launch": {
+			"sprite": "strawberry-launching",
+			"render_origin": [ 50, 100 ]
+		},
+		"walk": {
+			"sprite": "raccoon-walking",
+			"render_origin": [ 50, 100 ]
+		}
+	}
+}
