@@ -1,4 +1,4 @@
-import { EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
 import { Position2D } from "../../types.js";
 import { Entity, EntityStats } from "../entity.js";
@@ -22,6 +22,12 @@ export class Raccoon extends EnemyEntity {
 	];
 
 	public entityType:string = "enemy/raccoon";
+
+	protected drops: EnemyDrops = {
+		coins: 10,
+		points: 10,
+		materials: {}
+	};
 
 	public async brain() {
 

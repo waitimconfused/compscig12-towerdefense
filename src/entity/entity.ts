@@ -62,6 +62,8 @@ export abstract class Entity {
 	public brainActive:boolean = false;
 	public animationOffset:number = 0;
 
+	protected abstract die():void;
+
 	public static entities:Entity[] = [];
 
 	constructor(position:Position2D) {
@@ -315,10 +317,10 @@ export abstract class Entity {
 		};
 
 		if (this.stats.health <= 0) {
-			this.state = "dead";
+			this.die();
+			
 			this.wait(1000)
 			.then(() => {
-				this.index
 				Entity.entities.splice(this.index, 1);
 			});
 		}
