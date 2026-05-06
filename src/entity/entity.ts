@@ -62,6 +62,9 @@ export abstract class Entity {
 	public brainActive:boolean = false;
 	public animationOffset:number = 0;
 
+	/**
+	 * This function will be called when the entity's health is <= `0`.
+	 */
 	protected abstract die():void;
 
 	public static entities:Entity[] = [];
@@ -318,6 +321,7 @@ export abstract class Entity {
 
 		if (this.stats.health <= 0) {
 			this.die();
+			this.state = "dead";
 			
 			this.wait(1000)
 			.then(() => {
