@@ -1,7 +1,7 @@
 import { Position2D } from "../types.js";
 import { Entity } from "./entity.js";
 
-type EnemyDrops = {
+export type EnemyDrops = {
     coins : number,
     points : number,
     materials : { [key : string] : number }
@@ -14,21 +14,20 @@ export abstract class EnemyEntity extends Entity {
     // Kenneth can figure this out haha
     // protected path : Position2D[];
 
-    protected drops : EnemyDrops = {
-        coins : 0,
-        points : 0,
-        materials : {}
-    }
+    protected abstract drops : EnemyDrops;
 
-    constructor(position : Position2D, waveNumber : number) {
-        super(position);
+	public die() {
+		this.state = "dead";
 
-        // someone should add some sort of path system with position 2d
-        // all enemies will follow the path from left to right maybe???
+		for (let item in this.drops.materials) {
+			let count:number = this.drops.materials[item] as number;
 
-        this.waveNumber = waveNumber
-        this.stats.health = this.stats.health * (this.healthScale ** (waveNumber - 1))
-    }
+			// Example: Inventory.give( key, count );
+			console.log(`Dropped "${item}" x${count}`);
+
+		}
+
+	}
 
     protected giveReward(coins : number, points : number) : void {
         // add coins and points after player interface created

@@ -1,0 +1,5 @@
+{
+	"editor.insertSpaces": false,
+	"javascript.preferences.importModuleSpecifierEnding": "js",
+	"python.analysis.showOnlyDirectDependenciesInAutoImport": false
+}

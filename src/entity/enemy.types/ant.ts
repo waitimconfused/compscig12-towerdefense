@@ -1,5 +1,5 @@
 import { DefenderEntity } from "../defender.js";
-import { EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { Entity, EntityStats } from "../entity.js";
 
 /**
@@ -17,7 +17,7 @@ export class Ant extends EnemyEntity {
 		{ health: 0, max_health: 120, speed: 0, damage: 20 }
 	];
 
-	public override drops = {
+	protected drops:EnemyDrops = {
 		coins: 2,
 		points: 5,
 		materials: {

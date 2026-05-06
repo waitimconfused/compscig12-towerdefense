@@ -1,4 +1,4 @@
-import { EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
 import { Position2D } from "../../types.js";
 import { Entity, EntityStats } from "../entity.js";
@@ -23,26 +23,11 @@ export class Raccoon extends EnemyEntity {
 
 	public entityType:string = "enemy/raccoon";
 
-	
-
-	/**
-	 * Constructs a Raccoon enemy
-	 * @param view The game view to reference
-	 * @param waveNumber Current wave number
-	 */
-	constructor(position:Position2D, waveNumber : number) {
-
-		super(position, waveNumber);
-
-		// this.setDrops({
-		// 	coins : 1,
-		// 	points : 2,
-		// 	materialDropRate : {
-		// 		'wood' : 0.3,
-		// 		'jar' : 0.3
-		// 	}
-		// });
-	}
+	protected drops: EnemyDrops = {
+		coins: 10,
+		points: 10,
+		materials: {}
+	};
 
 	public async brain() {
 
