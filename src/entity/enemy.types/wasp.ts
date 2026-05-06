@@ -12,9 +12,9 @@ export class Wasp extends EnemyEntity {
 	protected drops: EnemyDrops = {
 		coins: 5,
 		points: 10,
-		materials: {
-			honey : 0.25
-		}
+		materials: [
+			{ type : 'honey', chance : 0.25, amount : 2 }
+		]
 	};
 
 	// Override the default movement style

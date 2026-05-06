@@ -1,5 +1,5 @@
 import { DefenderEntity } from "../defender.js";
-import { EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { Entity } from "../entity.js";
 
 export class Frog extends EnemyEntity {
@@ -9,13 +9,13 @@ export class Frog extends EnemyEntity {
 	public isLeaping:boolean;
 	public canLeap:boolean = true;
 
-	public override drops = {
+	public drops : EnemyDrops = {
 		coins: 5,
 		points: 10,
-		materials: {
-			jar : 0.2
-		}
-	};
+		materials : [
+			{ type : 'jar', chance : 0.3, amount : 1 }
+		]
+	}
 
 	private leapCooldown : number = 0;
 	

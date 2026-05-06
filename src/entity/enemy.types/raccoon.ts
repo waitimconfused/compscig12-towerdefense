@@ -18,7 +18,7 @@ export class Raccoon extends EnemyEntity {
 	//private attackChance: number = 0.2;
 
 	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.2, damage: 10 }
+		{ health: 0, max_health: 100, speed: 0.2, baseSpeed: 0.2, damage: 10 }
 	];
 
 	public entityType:string = "enemy/raccoon";
@@ -26,10 +26,10 @@ export class Raccoon extends EnemyEntity {
 	protected drops: EnemyDrops = {
 		coins: 10,
 		points: 10,
-		materials: {
-			wood : 0.3,
-			jar : 0.3
-		}
+		materials: [
+			{ type : 'wood', chance : 0.5, amount : 1 },
+			{ type : 'jar', chance : 0.2, amount : 1 }
+		]
 	};
 
 	public async brain() {

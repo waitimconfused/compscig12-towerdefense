@@ -13,17 +13,16 @@ export class Ant extends EnemyEntity {
 	public entityType = "enemy/ant";
 	
 	public static override : EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0, damage: 10 },
-		{ health: 0, max_health: 120, speed: 0, damage: 20 }
+		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10 },
 	];
 
-	protected drops:EnemyDrops = {
+	protected drops : EnemyDrops = {
 		coins: 2,
 		points: 5,
-		materials: {
-			wood: 0.2,
-			glassLemonade : 0.1
-		}
+		materials: [
+			{ type : 'wood', chance : 0.2, amount : 2 },
+			{ type : 'glassLemonade', chance : 0.1, amount : 1 }
+		]
 	}
 
 	public async brain() {

@@ -39,9 +39,15 @@ export type EntityStats = {
 	speed: number;
 	
 	/**
+	 * The base speed of the entity
+	 */
+	baseSpeed : number;
+
+	/**
 	 * How much damage the entity inflicts on another entity
 	 */
 	damage: number;
+
 }
 
 export abstract class Entity {
@@ -52,7 +58,8 @@ export abstract class Entity {
 	public stunned:boolean = false;
 
 	/**
-	 *! HELP! I'm not sure what this is used for!
+	 * Tracks number of regneration stacks currently active on an entity
+	 * Prevents regeneration from stacking infinitely
 	 */
 	public currentRegenStacks:number = 0;
 	
@@ -62,7 +69,7 @@ export abstract class Entity {
 	public slowed:boolean = false;
 
 	/**
-	 *! HELP! I'm not sure what this is used for!
+	 * 
 	 */
 	public slowStacks:number = 0;
 
@@ -101,6 +108,7 @@ export abstract class Entity {
 		health: 100,
 		max_health: 100,
 		speed: 0.5,
+		baseSpeed : 0.5,
 		damage: 0
 	};
 
@@ -118,7 +126,7 @@ export abstract class Entity {
 	 * The upgrades are applied in relation to `Entity.level`
 	 */
 	public static upgrades:EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, damage: 10 }
+		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10 }
 	];
 
 	/**
