@@ -3,16 +3,16 @@
 
 	"states": {
 		"idle": {
-			"sprite": "strawberry-idle",
-			"render_origin": [ 50, 100 ]
+			"sprite": "strawberry-idling",
+			"origin": [ 50, 100 ]
 		},
 		"launch": {
-			"sprite": "strawberry-launching",
-			"render_origin": [ 50, 100 ]
+			"sprite": "strawberry-launch",
+			"origin": [ 50, 100 ]
 		},
 		"walk": {
-			"sprite": "raccoon-walking",
-			"render_origin": [ 50, 100 ]
+			"sprite": "strawberry-flying",
+			"origin": [ 50, 100 ]
 		}
 	}
 }
