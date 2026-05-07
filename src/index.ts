@@ -101,22 +101,3 @@ Engine.initialize(canvas);
 	console.log(Entity.entities);
 
 })();
-
-
-
-
-let upgrade = {
-	health: 100
-	// ...
-}
-
-let storeUpgrades = Object.keys(upgrade);
-
-for (let i = 0; i < storeUpgrades.length; i ++) {
-	let key = storeUpgrades[i] as string;
-
-	let baseValue = upgrade[key];
-
-	this.stats[key] = baseValue + baseValue/2;
-
-}
