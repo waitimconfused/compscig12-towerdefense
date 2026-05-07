@@ -6,6 +6,7 @@ import { View, ViewCollection, ViewSprite, ViewText } from "./view.js";
 import { Raccoon } from "./entity/enemy.types/raccoon.js";
 import { Strawberry } from "./entity/defender.types/strawberry.js";
 import { Entity } from "./entity/entity.js";
+import { Sandwich } from "./entity/defender.types/sandwich.js";
 
 SpriteRenderer.verbose = false;
 SpriteRenderer.loadDefaults();
@@ -91,8 +92,9 @@ Engine.initialize(canvas);
 		Engine.showView("main-menu");
 	})
 
-	Strawberry.spawn(3, [ 100, 100 ], 100);
+	// Strawberry.spawn(3, [ 100, 100 ], 100);
 	Raccoon.spawn(1, [ 100, 100 ], 100);
+	Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
 
 	console.log(Entity.entities);
 

@@ -1,6 +1,58 @@
 {
 	"type": "defender/strawberry",
 
+	"logic": [
+
+		{
+			"rule": "state=='idle'",
+
+			"layers": [
+				{
+					"sprite": "strawberry-idling",
+					"origin": [ 50, 100 ]
+				},
+				{
+					"sprite": "strawberry-face-1",
+					"origin": [ 50, 100 ],
+					"offset": [ 0, -50 ]
+				}
+			]
+		},
+
+		{
+			"rule": "state=='launch'",
+
+			"layers": [
+				{
+					"sprite": "strawberry-launch",
+					"origin": [ 50, 100 ]
+				},
+				{
+					"sprite": "strawberry-face-1",
+					"origin": [ 50, 100 ],
+					"offset": [ 0, -50 ]
+				}
+			]
+		},
+
+		{
+			"rule": "state=='walk'",
+
+			"layers": [
+				{
+					"sprite": "strawberry-flying",
+					"origin": [ 50, 100 ]
+				},
+				{
+					"sprite": "strawberry-face-1",
+					"origin": [ 50, 100 ],
+					"offset": [ 0, -50 ]
+				}
+			]
+		}
+
+	],
+
 	"states": {
 		"idle": {
 			"sprite": "strawberry-idling",

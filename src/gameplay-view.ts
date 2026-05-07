@@ -5,26 +5,10 @@ import { Canvas, Position2D, RenderingContext } from "./types.js";
 import Engine from "./engine.js"
 
 import spriteAssets from "../assets/sprites.json" with { type: "json" };
+import { BasicSprite, RawSpriteLogic, rulesToFunction } from "./entity/logicflow.js";
+import { Strawberry } from "./entity/defender.types/strawberry.js";
 
-type SpriteStateMachine = {
-	[ state: string ]: {
-
-		/**
-		 * The ID/reference to what sprite should be
-		 * rendered.
-		 */
-		sprite: string,
-
-		/**
-		 * With the values in the range `0%`-`100%`, which
-		 * corresponds to the percentage of where the
-		 * image's origin should be put.
-		 */
-		origin:Position2D
-	}
-};
-
-type SpriteRenderingRuleset = { [entityType:string]: SpriteStateMachine };
+type SpriteRenderingRuleset = { [entityType:string]: (entity:Entity)=>BasicSprite[] };
 
 // To be filled in later in the code
 var entityRenderingLookup:SpriteRenderingRuleset = {};
@@ -60,34 +44,44 @@ export default class GameplayView extends View {
 			let spriteRuleset = entityRenderingLookup[entity.entityType];
 			if (!spriteRuleset) continue;
 			
-			let reference = spriteRuleset[entity.state];
+			let layers = spriteRuleset(entity);
 
-			if (!reference) continue;
+			if (!layers) continue;
 
-			let offscreenSprite = SpriteRenderer.getSpriteAsOffscreenCanvas({
-				name: reference.sprite,
-				position: [ 0, 0 ],
-				size: [ 0, 0 ],
-				animation_offset: entity.animationOffset
-			});
+			for (let i = 0; i < layers.length; i ++) {
+				let reference = layers[i];
 
-			let flipX = entity.direction > Math.PI / 2;
-			let flipY = false;
+				if (!reference) continue;
 
-			this.gameplayContext.save();
-			this.gameplayContext.translate( entity.position[0], entity.position[1] );
-			this.gameplayContext.translate(
-				( reference.origin[0] / 100) * offscreenSprite.width * (flipX ? 1 : -1),
-				( reference.origin[1] / -100) * offscreenSprite.height
-			);
-			this.gameplayContext.scale(
-				flipX ? -1 : 1,
-				flipY ? -1 : 1
-			);
-			
-			this.gameplayContext.drawImage(offscreenSprite, 0, 0);
+				let offscreenSprite = SpriteRenderer.getSpriteAsOffscreenCanvas({
+					name: reference.sprite,
+					position: [ 0, 0 ],
+					size: [ 0, 0 ],
+					animation_offset: entity.animationOffset
+				});
 
-			this.gameplayContext.restore();
+				let flipX = entity.direction > Math.PI / 2;
+				let flipY = false;
+
+				this.gameplayContext.save();
+				this.gameplayContext.translate( entity.position[0], entity.position[1] );
+				this.gameplayContext.translate(
+					( reference.origin[0] / 100) * offscreenSprite.width * (flipX ? 1 : -1),
+					( reference.origin[1] / -100) * offscreenSprite.height
+				);
+				if (reference?.offset) this.gameplayContext.translate(
+					reference.offset[0],
+					reference.offset[1]
+				);
+				this.gameplayContext.scale(
+					flipX ? -1 : 1,
+					flipY ? -1 : 1
+				);
+				
+				this.gameplayContext.drawImage(offscreenSprite, 0, 0);
+
+				this.gameplayContext.restore();
+			}
 
 		}
 
@@ -100,15 +94,6 @@ export default class GameplayView extends View {
 }
 
 
-type RawSpriteLogic = {
-
-	/**
-	 * Matches to `entity.entityType`
-	 */
-	type: string;
-
-	states: SpriteStateMachine;
-};
 
 for (let i = 0; i < spriteAssets.logic.length; i ++) {
 
@@ -121,6 +106,7 @@ for (let i = 0; i < spriteAssets.logic.length; i ++) {
 
 	let data:RawSpriteLogic = module.default;
 
-	entityRenderingLookup[data.type] = data.states;
+	let generatedRule = rulesToFunction(data.logic);
 
+	entityRenderingLookup[data.type] = generatedRule;
 }

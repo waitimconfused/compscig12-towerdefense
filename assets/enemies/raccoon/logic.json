@@ -1,6 +1,29 @@
 {
 	"type": "enemy/raccoon",
 
+	"logic": [
+		{
+			"rule": "state=='idle'",
+
+			"layers": [
+				{
+					"sprite": "raccoon-idling",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='walk'",
+
+			"layers": [
+				{
+					"sprite": "raccoon-walking",
+					"origin": [ 50, 100 ]
+				}
+			]
+		}
+	],
+
 	"states": {
 		"idle": {
 			"sprite": "raccoon-idling",

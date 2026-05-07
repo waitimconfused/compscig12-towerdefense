@@ -1,0 +1,46 @@
+{
+	"type": "defender/sandwich",
+
+	"logic": [
+		{
+			"rule": "max_health*0.75 <= health",
+
+			"layers": [
+				{
+					"sprite": "sandwich-4",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "max_health*0.5 <= health && health < max_health*0.75",
+
+			"layers": [
+				{
+					"sprite": "sandwich-3",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "max_health*0.25 <= health && health < max_health*0.5",
+
+			"layers": [
+				{
+					"sprite": "sandwich-2",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "health < max_health*0.25",
+
+			"layers": [
+				{
+					"sprite": "sandwich-1",
+					"origin": [ 50, 100 ]
+				}
+			]
+		}
+	]
+}

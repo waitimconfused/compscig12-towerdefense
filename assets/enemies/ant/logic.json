@@ -1,0 +1,36 @@
+{
+	"type": "enemy/ant",
+
+	"logic": [
+		{
+			"rule": "state=='idle'",
+
+			"layers": [
+				{
+					"sprite": "ant-idling",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='walk'",
+
+			"layers": [
+				{
+					"sprite": "ant-walking",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='attack'",
+
+			"layers": [
+				{
+					"sprite": "ant-attacking",
+					"origin": [ 50, 100 ]
+				}
+			]
+		}
+	]
+}

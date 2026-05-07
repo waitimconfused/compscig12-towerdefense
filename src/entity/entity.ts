@@ -402,6 +402,8 @@ export abstract class Entity {
 			// Create a new instance of whatever class was used for the spawning
 			// @ts-ignore
 			let instance:Entity = new this(location);
+
+			console.log("Spawned from", this);
 			
 			// Add the instance to the list of entities
 			entities.push(instance);

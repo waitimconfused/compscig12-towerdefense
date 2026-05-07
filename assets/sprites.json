@@ -13,6 +13,7 @@
 
 	"logic": [
 		"./defender/strawberry/logic.json",
+		"./defender/sandwich/logic.json",
 		"./enemies/raccoon/logic.json"
 	]
 }
