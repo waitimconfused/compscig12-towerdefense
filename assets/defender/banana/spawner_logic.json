@@ -1,0 +1,16 @@
+{
+	"type": "defender/banana_spawner",
+
+	"logic": [
+		{
+			"rule": "state=='idle'",
+
+			"layers": [
+				{
+					"sprite": "ant-idling",
+					"origin": [ 50, 0 ]
+				}
+			]
+		}
+	]
+}
