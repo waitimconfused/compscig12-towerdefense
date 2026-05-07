@@ -51,20 +51,5 @@
 			]
 		}
 
-	],
-
-	"states": {
-		"idle": {
-			"sprite": "strawberry-idling",
-			"origin": [ 50, 100 ]
-		},
-		"launch": {
-			"sprite": "strawberry-launch",
-			"origin": [ 50, 100 ]
-		},
-		"walk": {
-			"sprite": "strawberry-flying",
-			"origin": [ 50, 100 ]
-		}
-	}
+	]
 }
