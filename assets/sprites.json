@@ -1,11 +1,18 @@
-[
-	"./defender/strawberry/sprite-collection.json",
-	"./defender/sandwich/sprite-collection.json",
-	"./defender/banana/sprite-collection.json",
-	"./defender/corn/sprite-collection.json",
-	"./defender/cherry/sprite-collection.json",
-	"./enemies/raccoon/sprite-collection.json",
-	"./enemies/ant/sprite-collection.json",
-	"./enemies/frog/sprite-collection.json",
-	"./enemies/wasp/sprite-collection.json"
-]
+{
+	"assets": [
+		"./defender/strawberry/sprite-collection.json",
+		"./defender/sandwich/sprite-collection.json",
+		"./defender/banana/sprite-collection.json",
+		"./defender/corn/sprite-collection.json",
+		"./defender/cherry/sprite-collection.json",
+		"./enemies/raccoon/sprite-collection.json",
+		"./enemies/ant/sprite-collection.json",
+		"./enemies/frog/sprite-collection.json",
+		"./enemies/wasp/sprite-collection.json"
+	],
+
+	"logic": [
+		"./defender/strawberry/logic.json",
+		"./enemies/raccoon/logic.json"
+	]
+}

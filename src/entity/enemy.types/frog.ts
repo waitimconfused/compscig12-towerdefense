@@ -1,7 +1,6 @@
-import { Position2D } from "../../types.js";
 import { DefenderEntity } from "../defender.js";
-import { EnemyEntity } from "../enemy.js";
-import { Entity, EntityEventInterrupt } from "../entity.js";
+import { EnemyDrops, EnemyEntity } from "../enemy.js";
+import { Entity } from "../entity.js";
 
 export class Frog extends EnemyEntity {
 
@@ -10,13 +9,13 @@ export class Frog extends EnemyEntity {
 	public isLeaping:boolean;
 	public canLeap:boolean = true;
 
-	public override drops = {
+	public drops : EnemyDrops = {
 		coins: 5,
 		points: 10,
-		materials: {
-			jar : 0.2
-		}
-	};
+		materials : [
+			{ type : 'jar', chance : 0.3, amount : 1 }
+		]
+	}
 
 	private leapCooldown : number = 0;
 	
@@ -40,28 +39,20 @@ export class Frog extends EnemyEntity {
 	}
 
 	public async brain() {
-		while (this.stats.health > 0) {
-			let target = Entity.nearestEntity(this, DefenderEntity);
-			
-			if (!target) {
-				await this.wait(200);
-				continue;
-			}
-			
-			// Try leap occasionally
-			if (this.canLeap && this.leapCooldown <= 0) {
-				this.tryLeap(target);
-				this.leapCooldown = 3000;
-			}
-			
-			// normal movement
-			await this.walkTo(
-				target.position[0],
-				target.position[1]
-			);
-			
-			this.leapCooldown -= 200;
-			await this.wait(200);
+		await this.wait(200);
+		let target = Entity.nearestEntity(this, DefenderEntity) as DefenderEntity;
+		
+		if (!target) return;
+		
+		// Try leap occasionally
+		if (this.canLeap) {
+			this.tryLeap(target);
 		}
+		
+		// normal movement
+		await this.walkTo(
+			target.position[0],
+			target.position[1]
+		);
 	}
 }

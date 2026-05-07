@@ -1,5 +1,5 @@
 import { DefenderEntity } from "../defender.js";
-import { EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { Entity, EntityStats } from "../entity.js";
 
 /**
@@ -12,39 +12,37 @@ export class Ant extends EnemyEntity {
 
 	public entityType = "enemy/ant";
 	
-	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0, damage: 10 },
-		{ health: 0, max_health: 120, speed: 0, damage: 20 }
+	public static override : EntityStats[] = [
+		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10 },
 	];
 
-	public override drops = {
+	protected drops : EnemyDrops = {
 		coins: 2,
 		points: 5,
-		materials: {
-			wood: 0.1
-		}
-	};
+		materials: [
+			{ type : 'wood', chance : 0.2, amount : 2 },
+			{ type : 'glassLemonade', chance : 0.1, amount : 1 }
+		]
+	}
 
 	public async brain() {
-		while (this.stats.health > 0) {
-			// Get the closest DEFENDER entity
-			let closestEntity = Entity.nearestEntity(this, DefenderEntity);
+		await this.wait(100);
+		
+		// Get the closest DEFENDER entity
+		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 	
-			if (!closestEntity) {
-				await this.wait(100);
-				continue;
-			}
-	
-			let interrupt = await this.walkTo(
-				closestEntity.position[0],
-				closestEntity.position[1]
-			);
-	
-			if (!interrupt) {
-				this.attackEntity(closestEntity);
-			}
-	
-			await this.wait(100);
+		if (!closestEntity) {
+			return;
 		}
+	
+		let interrupt = await this.walkTo(
+			closestEntity.position[0],
+			closestEntity.position[1]
+		);
+	
+		if (!interrupt) {
+			this.attackEntity(closestEntity);
+		}
+	
 	}
 }

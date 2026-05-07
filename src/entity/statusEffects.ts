@@ -78,10 +78,11 @@ export class StatusEffects {
     }
 
     public async slowEntity(target : Entity, duration : number) : Promise<void> {
-        let slowMutliplier : number = 0.8;
+        const SLOW_MULTIPLIER : number = 0.8;
 
         target.slowStacks++;
-        const CURRENT_STACKS : number = target.slowStacks;
+
+        let thisSlowStacks : number = target.slowStacks;
 
         if (target instanceof Frog) {
             // disable frog jump when leap method created
@@ -89,15 +90,15 @@ export class StatusEffects {
 
         if (!target.slowed) {
             target.slowed = true;
-            target.stats.speed *= slowMutliplier;
+            target.stats.speed = target.stats.baseSpeed * SLOW_MULTIPLIER;
         }
 
         
         await target.wait(duration);
         
         // Removes slow if stack is the last one applied to the entity
-        if (CURRENT_STACKS == target.slowStacks) {
-            target.stats.speed /= slowMutliplier;
+        if (thisSlowStacks == target.slowStacks) {
+            target.stats.speed = target.stats.baseSpeed;
             target.slowed = false;
         }
     }

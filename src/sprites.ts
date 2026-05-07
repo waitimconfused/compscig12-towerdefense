@@ -8,7 +8,7 @@
 import { Position2D, RenderingContext } from "./types.js";
 
 // Get the list of path to `SpriteData`-related files (JSON)
-import pathsToSpriteData from "../assets/sprites.json" with { type: "json" };
+import spriteAssets from "../assets/sprites.json" with { type: "json" };
 
 /**
  * Used in `sprite.RegisterData()` to create a sprite that can be
@@ -559,8 +559,8 @@ export class SpriteRenderer {
 		let references:string[] = [];
 
 		// Loop through each path, and load the `SpriteData` object(s)
-		for (let i = 0; i < pathsToSpriteData.length; i ++) {
-			let path:string = pathsToSpriteData[i] as string;
+		for (let i = 0; i < spriteAssets.assets.length; i ++) {
+			let path:string = spriteAssets.assets[i] as string;
 
 			// Make path relative to the ./assets/ folder
 			path = new URL( path, location.origin+"/assets/" ).href;

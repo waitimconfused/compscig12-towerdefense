@@ -1,8 +1,9 @@
-import { Position2D } from "../../types";
-import { EnemyEntity } from "../enemy";
-import { Entity, EntityStats } from "../entity";
+import { DefenderEntity } from "../defender.js";
+import { Position2D } from "../../types.js";
+import { EnemyEntity } from "../enemy.js";
+import { Entity, EntityStats } from "../entity.js";
 
-export class Cherry extends Entity {
+export class Cherry extends DefenderEntity {
 
 	public entityType:string = "defender/cherry";
 
@@ -11,7 +12,7 @@ export class Cherry extends Entity {
 	];
 
 	public override movementTick(targetPosition: Position2D, deltaTime: number): void {
-		
+		super.movementTick(targetPosition, deltaTime);
 	}
 
 	public async brain() {

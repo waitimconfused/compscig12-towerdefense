@@ -1,4 +1,4 @@
-import { EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
 import { Entity } from "../entity.js";
 import { Position2D } from "../../types.js";
@@ -9,9 +9,18 @@ export class Wasp extends EnemyEntity {
 
 	public isFlying: boolean = true;
 
+	protected drops: EnemyDrops = {
+		coins: 5,
+		points: 10,
+		materials: [
+			{ type : 'honey', chance : 0.25, amount : 2 }
+		]
+	};
+
 	// Override the default movement style
 	// to add a flying behaviour
-	public override movementTick(targetPosition: Position2D): void {
+	public override movementTick(targetPosition:Position2D, deltaTime:number): void {
+		super.movementTick(targetPosition, deltaTime);
 		// TODO
 	}
 
@@ -45,4 +54,5 @@ export class Wasp extends EnemyEntity {
 		}
 
 	}
+
 }

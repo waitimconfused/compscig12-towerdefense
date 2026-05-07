@@ -10,14 +10,11 @@ SpriteRenderer.verbose = false;
 
 var references:string[] = await SpriteRenderer.loadDefaults();
 
-for (let i = 0; i < pathsToSpriteData.length; i ++) {
-}
-
 var canvases:{ [sprite:string]: HTMLCanvasElement } = {};
 
-for (let i = 0; i < pathsToSpriteData.length; i ++) {
+for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 	
-	let path = pathsToSpriteData[i] as string;
+	let path = pathsToSpriteData.assets[i] as string;
 	let absolutePath = new URL( path, location.origin+"/assets/" ).pathname;
 	let spriteData:SpriteData|SpriteData[] = (await import(absolutePath, { with: { type: "json" } })).default;
 	
