@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tower Defense // Asset Exporter</title>
 	<link rel="stylesheet" href="/styles/assets-internal.css">
+	<link rel="shortcut icon" type="image/png" id="favicon">
 </head>
 <body>
 
@@ -51,11 +52,12 @@
 	<script type="module" src="../dist/assets/exporter.js"></script>
 	<script>
 		const nav = document.querySelector("nav");
-
+		
 		document.addEventListener("scroll", () => {
 			if (window.scrollY >= 8) nav.style.borderBottom = "1px solid black";
 			else nav.style.borderBottom = "";
 		});
-	</script>
+		</script>
+		<script src="./dist/favicon.js"></script>
 </body>
 </html>
