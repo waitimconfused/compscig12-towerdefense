@@ -25,7 +25,7 @@ export class Corn extends Entity{
 	/**
 	 * WIP when the corn dies
 	 */
-	protected die(): void {
+	protected override die(): void {
 		
 	}
 
@@ -36,7 +36,7 @@ export class Corn extends Entity{
 	 */
 	public async brain() {
 		//store the cloest enemy entity nearby from the Corn
-		let closestEntity = Entity.nearestEntity(this, EnemyEntity);
+		let closestEntity = Entity.nearestEntity(this, EnemyEntity) as EnemyEntity | undefined;
 
 		//if there are no entities nearby, don't continue running the code
 		if (!closestEntity) return;
@@ -47,7 +47,7 @@ export class Corn extends Entity{
 		//if the distance between the enemy and the corn is less than or equal to 45 pixels, start attacking
 		//the corn will shoot/summon a kernal between the position of the Corn and the enemy
 		if (distance <= 45){
-			new Kernal(this.position, closestEntity.position);
+			new Kernal(this.position, closestEntity);
 			
 			//change the Corn's state to shooting
 			this.state = "shoot";

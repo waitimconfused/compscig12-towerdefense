@@ -18,13 +18,22 @@ export class Kernal extends Corn{
 
 	}
 
+	//WIP when the kernal dies
 	protected override die(){
 
 	}
 
+	/**
+	 * /**
+	 * the brain checks for events that happen around and to the Kernal
+	 * as of now it is used to check for enemies nearby
+	 */
 	public override async brain(): Promise<void> {
+		//get the kernalto keep on travelling to the target/enemy's position
 		await this.walkTo(this.target.position[0], this.target.position[1]);
+		//when it has, attack the target
 		this.attackEntity(this.target);
+		//when the enemy has been attacked, set the kernal's health to 0, disappearing from the playing field
 		this.stats.health = 0;
 
 	}
