@@ -5,6 +5,7 @@
 		"./defender/banana/sprite-collection.json",
 		"./defender/corn/sprite-collection.json",
 		"./defender/cherry/sprite-collection.json",
+
 		"./enemies/raccoon/sprite-collection.json",
 		"./enemies/ant/sprite-collection.json",
 		"./enemies/frog/sprite-collection.json",
@@ -13,6 +14,10 @@
 
 	"logic": [
 		"./defender/strawberry/logic.json",
+		"./defender/sandwich/logic.json",
+		"./defender/banana/spawner_logic.json",
+		"./defender/banana/entity_logic.json",
+
 		"./enemies/raccoon/logic.json"
 	]
 }

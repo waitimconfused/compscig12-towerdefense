@@ -13,7 +13,7 @@ export class Sandwich extends DefenderEntity {
 
 	public async brain() {
 
-		await this.wait(1000);
+		await this.wait(500);
 
 	}
 };

@@ -1,18 +1,67 @@
 {
 	"type": "defender/strawberry",
 
-	"states": {
-		"idle": {
-			"sprite": "strawberry-idling",
-			"origin": [ 50, 100 ]
+	"logic": [
+
+
+
+
+
+		{
+			"rule": "state=='idle' && entity.phsycho == 0",
+
+			"layers": [
+				{
+					"sprite": "strawberry-idling",
+					"origin": [ 50, 100 ]
+				},
+				{
+					"sprite": "strawberry-face-1",
+					"origin": [ 50, 100 ],
+					"offset": [ 0, -50 ]
+				}
+			]
 		},
-		"launch": {
-			"sprite": "strawberry-launch",
-			"origin": [ 50, 100 ]
+
+
+
+
+
+
+
+
+
+		{
+			"rule": "state=='launch'",
+
+			"layers": [
+				{
+					"sprite": "strawberry-launch",
+					"origin": [ 50, 100 ]
+				},
+				{
+					"sprite": "strawberry-face-1",
+					"origin": [ 50, 100 ],
+					"offset": [ 0, -50 ]
+				}
+			]
 		},
-		"walk": {
-			"sprite": "strawberry-flying",
-			"origin": [ 50, 100 ]
+
+		{
+			"rule": "state=='walk'",
+
+			"layers": [
+				{
+					"sprite": "strawberry-flying",
+					"origin": [ 50, 100 ]
+				},
+				{
+					"sprite": "strawberry-face-1",
+					"origin": [ 50, 100 ],
+					"offset": [ 0, -50 ]
+				}
+			]
 		}
-	}
+
+	]
 }

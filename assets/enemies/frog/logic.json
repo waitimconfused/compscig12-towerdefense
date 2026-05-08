@@ -1,0 +1,26 @@
+{
+	"type": "enemy/frog",
+
+	"logic": [
+		{
+			"rule": "state=='idle'",
+
+			"layers": [
+				{
+					"sprite": "frog-idling",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='walk'",
+
+			"layers": [
+				{
+					"sprite": "frog-jumping",
+					"origin": [ 50, 100 ]
+				}
+			]
+		}
+	]
+}

@@ -1,5 +1,5 @@
 {
-	"type": "enemy/raccoon",
+	"type": "enemy/ant",
 
 	"logic": [
 		{
@@ -7,7 +7,7 @@
 
 			"layers": [
 				{
-					"sprite": "raccoon-idling",
+					"sprite": "ant-idling",
 					"origin": [ 50, 100 ]
 				}
 			]
@@ -17,7 +17,7 @@
 
 			"layers": [
 				{
-					"sprite": "raccoon-walking",
+					"sprite": "ant-walking",
 					"origin": [ 50, 100 ]
 				}
 			]
@@ -27,7 +27,7 @@
 
 			"layers": [
 				{
-					"sprite": "raccoon-attacking",
+					"sprite": "ant-attacking",
 					"origin": [ 50, 100 ]
 				}
 			]

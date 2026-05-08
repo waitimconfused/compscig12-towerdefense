@@ -1,7 +1,7 @@
 import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
 import { Position2D } from "../../types.js";
-import { Entity, EntityStats } from "../entity.js";
+import { Entity, EntityEvent, EntityStats } from "../entity.js";
 import { MouseManager } from "../../mouse.js";
 
 /**
@@ -31,6 +31,16 @@ export class Raccoon extends EnemyEntity {
 			{ type : 'jar', chance : 0.2, amount : 1 }
 		]
 	};
+
+	public override async attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
+		this.state = "attack";
+
+		return this.wait(600).then( (interrupt) => {
+			this.state = "idle";
+			if (interrupt != undefined) return interrupt;
+			return super.attackEntity(entity);
+		} );
+	}
 
 	public async brain() {
 
