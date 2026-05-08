@@ -18,10 +18,8 @@ export class Kernal extends Corn{
 
 	}
 
-	//WIP when the kernal dies
-	protected override die(){
-
-	}
+	//this method needs to exist, but will not have anything in it because the kernal's death is done in the brain
+	protected override die(){}
 
 	/**
 	 * /**
