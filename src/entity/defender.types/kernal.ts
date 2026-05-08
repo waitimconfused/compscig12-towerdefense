@@ -1,6 +1,35 @@
-import { Corn } from "../../defender.types/corn.js";
+import { Corn } from "./corn.js";
+import { Entity, EntityEvent, EntityEventType, EntityStats } from "../entity.js";
+import { Position2D } from "../../types.js";
+import { EnemyEntity } from "../enemy.js";
 
-class Kernal extends Corn{
+//the kernal is created via the Corn, and is a child of the corn
+export class Kernal extends Corn{
+	//store who the target is
+	private target : EnemyEntity;
+	
+	//label the kind of entity corn is - a defender
+	public override entityType = "defender/kernal";
+
+	//use the corn's position and store the tracked target into the kerna's target property
+	constructor(position: Position2D, target: EnemyEntity){
+		super(position);
+		this.target = target;
+
+	}
+
+	protected override die(){
+
+	}
+
+	public override async brain(): Promise<void> {
+		await this.walkTo(this.target.position[0], this.target.position[1]);
+		this.attackEntity(this.target);
+		this.stats.health = 0;
+
+	}
+
+
 	//old code
 	// //the corn will be the entity related to Corn that does the actual damage to the enemies
 	// public override attackEnemy(target : EnemyEntity): void {

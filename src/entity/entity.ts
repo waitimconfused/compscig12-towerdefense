@@ -48,6 +48,31 @@ export type EntityStats = {
 	 */
 	damage: number;
 
+	/**
+	 *the knockback the entity does against another entity
+	 */
+	knockback : number;
+
+	/**
+	 * the entity's spawn cooldown
+	 */
+	spawnCooldown : number;
+
+	/**
+	 * the entity's attack cooldown
+	 */
+	attackCooldown : number;
+
+	/**
+	 * the entity's purchase cost
+	 */
+	entityPurchaseCost : number;
+
+	/**
+	 * the entity's resale cost
+	 */
+	entityResaleCost : number;
+
 }
 
 export abstract class Entity {
@@ -104,13 +129,7 @@ export abstract class Entity {
 	/**
 	 * Keep track of the entities stats (health, speed, etc.)
 	 */
-	public stats:EntityStats = {
-		health: 100,
-		max_health: 100,
-		speed: 0.5,
-		baseSpeed : 0.5,
-		damage: 0
-	};
+	public stats:EntityStats;
 
 	/**
 	 * Keep track of what level the Entity is.
@@ -126,7 +145,7 @@ export abstract class Entity {
 	 * The upgrades are applied in relation to `Entity.level`
 	 */
 	public static upgrades:EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10 }
+		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10, knockback:3, spawnCooldown: 5, attackCooldown: 3, entityPurchaseCost: 10, entityResaleCost:5 }
 	];
 
 	/**
@@ -321,6 +340,7 @@ export abstract class Entity {
 
 	}
 
+	
 	/**
 	 * Update the entities stats, determined by `Entity.upgrades`
 	 */
@@ -686,6 +706,11 @@ export abstract class Entity {
 
 		// Return the nearest found entity, if one exists (`undefined`)
 		return nearest;
+
+	}
+
+	public static getDistance(origin:Entity, target: Entity) : number {
+		return Math.hypot(target.position[0] - origin.position[0], target.position[1] - origin.position[1]);
 
 	}
 
