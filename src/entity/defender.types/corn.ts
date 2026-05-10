@@ -21,7 +21,7 @@ export class Corn extends Entity{
 	 */
 	public static override upgrades: EntityStats[] = [
 		{ health: 0, max_health: 25, speed: 1, baseSpeed : 0.5, damage: 15, 
-			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:18, upgradeEntityCost:53},
+			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:18, upgradeEntityCost:53, aoeRange:10},
 	];
 
 	/**
@@ -46,9 +46,10 @@ export class Corn extends Entity{
 		//store the distance between the enemy and the corn
 		let distance = Entity.getDistance(this, closestEntity);
 
-		//if the distance between the enemy and the corn is less than or equal to 45 pixels, start attacking
+		//if the distance between the enemy and the corn is less than or equal to 45 pixels, 
+		// and Corn has not been stunned, start attacking
 		//the corn will shoot/summon a kernal between the position of the Corn and the enemy
-		if (distance <= 45){
+		if (distance <= 45 && this.stunned == false){
 			new Kernal(this.position, closestEntity);
 			
 			//change the Corn's state to shooting

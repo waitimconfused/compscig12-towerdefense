@@ -94,9 +94,16 @@ export type EntityStats = {
 	regenDuration?: number;
 
 	/**
+	 * the range of an Entity's area of effect attack (if they have the ability to do aoe attacks)
+	 */
+	aoeRange?: number;
+
+
+	/**
 	 * the cost of upgrading an entity (only applicable to Defenders)
 	 */
 	upgradeEntityCost?: number;
+	
 }
 
 export abstract class Entity {
@@ -738,6 +745,46 @@ export abstract class Entity {
 		return nearest;
 
 	}
+
+	/**
+	 * find the total Entities in range of a specific Entity
+	 * used for finding the amount of entities that will be affected by an area of effect event
+	 * @param origin Specifies what entity is asking for the nearest entity
+	 * @param range the pixel distance of the effect
+	 * @param selector What kind of Entity should be selected. *(Optional)*
+	 * @returns 
+	 */
+	public static totalEntitiesInRange(origin:Entity, range:number, selector?: typeof Entity): Entity[]{
+		//create an object array to collect the specific entities that will be effected
+		let entitiesInRange : Entity[] = [];
+
+		// Loop through each Entity instance
+		for (let i = 0; i<this.entities.length;i++){
+			//get the current entity
+			let entity = this.entities[i] as Entity;
+
+			// If a selector has been set, and the entity is
+			// not an instance of it, move onto the next entity
+			if (selector && entity instanceof selector == false) continue;
+
+			// Get the distance between the origin entity and the current entity
+			let distance = Math.hypot(
+				entity.position[0] - origin.position[0],
+				entity.position[1] - origin.position[1]
+			);
+
+			// if the distance is within range, they Entity will be affected
+			// Update the stored entity and the stored distance
+			if (distance <= range) {
+				//update the list of entities in range
+				entitiesInRange.push(entity);
+			}
+		}
+
+		//return the list of Entities in range of the Entity
+		return entitiesInRange;
+	}
+
 
 	public static getDistance(origin:Entity, target: Entity) : number {
 		return Math.hypot(target.position[0] - origin.position[0], target.position[1] - origin.position[1]);
