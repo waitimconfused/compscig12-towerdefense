@@ -93,7 +93,6 @@ export class StatusEffects {
 
         if (!target.slowed) {
             target.slowed = true;
-            target.stats.speed = constructor.upgrades[0].speed;
         }
 
         
@@ -101,7 +100,7 @@ export class StatusEffects {
         
         // Removes slow if stack is the last one applied to the entity
         if (thisSlowStacks == target.slowStacks) {
-            target.stats.speed = target.stats.baseSpeed;
+            target.stats.speed = target.stats.speed = constructor.upgrades[0].speed;;
             target.slowed = false;
         }
     }

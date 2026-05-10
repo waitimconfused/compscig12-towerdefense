@@ -15,7 +15,7 @@ export class Ant extends EnemyEntity {
 	public entityType = "enemy/ant";
 	
 	public static stats : EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10 },
+		{ health: 0, max_health: 100, speed: 0.5, damage: 10 },
 	]
 
 	public drops : EnemyDrops = {
@@ -26,6 +26,8 @@ export class Ant extends EnemyEntity {
 			{ type : 'glassLemonade', chance : 0.1, amount : 1 }
 		]
 	}
+
+	public override healthScale: number = 1.1;
 
 	public async brain() {
 		await this.wait(100);

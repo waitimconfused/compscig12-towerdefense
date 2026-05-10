@@ -21,7 +21,7 @@ export type EnemyDrops = {
 
 export abstract class EnemyEntity extends Entity {
 	protected waveNumber : number;
-    protected healthScale : number;
+    protected abstract healthScale : number;
     protected abstract drops : EnemyDrops;
     protected spawnLocation : Position2D = [0,0];
 
@@ -67,7 +67,7 @@ export abstract class EnemyEntity extends Entity {
             return;
         }
 
-        this.stats.max_health += upgrades.max_health + 50 * this.waveNumber;
-        this.stats.health += upgrades.health + 50 * this.waveNumber;
+        this.stats.max_health += this.healthScale * (50 * this.waveNumber);
+        this.stats.health += this.stats.max_health;
     }
 }

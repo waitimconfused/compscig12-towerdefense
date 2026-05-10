@@ -3,6 +3,7 @@ import { DefenderEntity } from "../defender.js";
 import { Position2D } from "../../types.js";
 import { Entity, EntityEvent, EntityStats } from "../entity.js";
 import { MouseManager } from "../../mouse.js";
+import { StatusEffects } from "../statusEffects.js";
 
 /**
  * Creates a Raccoon as an EnemyEntity
@@ -10,18 +11,11 @@ import { MouseManager } from "../../mouse.js";
  * Raccoons are high hp enemies that deal damage and randomly attack and stun defenders on the path
  */
 export class Raccoon extends EnemyEntity {
-	// Duration in seconds that defender is stunned for when hit
-	//private stunDuration: number = 5;
-	
-	// Probability of attacking with each attempt
-	// 20% chance of attacking
-	//private attackChance: number = 0.2;
+	public entityType:string = "enemy/raccoon";
 
 	public static override upgrades: EntityStats[] = [
 		{ health: 0, max_health: 100, speed: 0.2, baseSpeed: 0.2, damage: 10 }
 	];
-
-	public entityType:string = "enemy/raccoon";
 
 	protected drops: EnemyDrops = {
 		coins: 10,
@@ -31,6 +25,8 @@ export class Raccoon extends EnemyEntity {
 			{ type : 'jar', chance : 0.2, amount : 1 }
 		]
 	};
+
+	public override healthScale: number = 1.2;
 
 	public override async attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
 		this.state = "attack";
@@ -44,36 +40,23 @@ export class Raccoon extends EnemyEntity {
 
 	public async brain() {
 
-		// await this.walkTo(MouseManager.x, MouseManager.y);
 		await this.wait(500);
 
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 
 		if (!closestEntity) return;
 
-		let walkInterrupt = await this.walkTo(closestEntity.position[0], closestEntity.position[1]);
+		let walkInterrupt = await this.walkTo(
+			closestEntity.position[0], closestEntity.position[1]
+		);
 
-		if (walkInterrupt) {
-			// Raccoon was stopped from walking
-		
-		} else {
-			let attackInterrupt = await this.attackEntity(closestEntity);
+		if (!walkInterrupt) {
+			let defenderHealth = closestEntity.stats.health;
 
-			if (attackInterrupt) {
-				// Raccoon was stopped from attacking
-			
-			} else if (closestEntity.stats.health <= 0) {
-				// Entity was defeated!
-
-				this.stats.health += 20; // Small regeneration boost
-
-				// Make sure the health can't exceed the maximum health
-				this.stats.health = Math.min( this.stats.health, this.stats.max_health );
-
+			if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
+				await StatusEffects.regenEntity(this, 5000, 3);
 			}
-
 		}
 
 	}
-
 }

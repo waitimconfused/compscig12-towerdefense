@@ -1,6 +1,6 @@
 import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
-import { Entity } from "../entity.js";
+import { Entity, EntityStats } from "../entity.js";
 import { Position2D } from "../../types.js";
 
 export class Wasp extends EnemyEntity {
@@ -9,6 +9,10 @@ export class Wasp extends EnemyEntity {
 
 	public isFlying: boolean = true;
 
+	public static override upgrades: EntityStats[] = [
+		{ health: 0, max_health: 25, speed: 0.2, baseSpeed: 0.2, damage: 10 }
+	];
+
 	protected drops: EnemyDrops = {
 		coins: 5,
 		points: 10,
@@ -16,6 +20,8 @@ export class Wasp extends EnemyEntity {
 			{ type : 'honey', chance : 0.25, amount : 2 }
 		]
 	};
+
+	public override healthScale: number = 1.2;
 
 	// Override the default movement style
 	// to add a flying behaviour

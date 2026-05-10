@@ -42,11 +42,6 @@ export type EntityStats = {
 	speed: number;
 	
 	/**
-	 * The base speed of the entity
-	 */
-	baseSpeed : number;
-
-	/**
 	 * How much damage the entity inflicts on another entity
 	 */
 	damage: number;
@@ -148,7 +143,7 @@ export abstract class Entity {
 	 * The upgrades are applied in relation to `Entity.level`
 	 */
 	public static upgrades:EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10, knockback:3, spawnCooldown: 5, attackCooldown: 3, entityPurchaseCost: 10, entityResaleCost:5 }
+		{ health: 0, max_health: 100, speed: 0.5, damage: 10, knockback:3, spawnCooldown: 5, attackCooldown: 3, entityPurchaseCost: 10, entityResaleCost:5 }
 	];
 
 	/**
