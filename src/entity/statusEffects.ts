@@ -12,7 +12,7 @@ export class StatusEffects {
      * @param duration How long the target entity is stunned for
      * @returns If target is already stunned
      */
-    public async stunEntity(target : Entity, duration : number) : Promise<void> {
+    public static async stunEntity(target : Entity, duration : number) : Promise<void> {
 
         // Target can only be stunned once for the duration of the stun
         if (target.stunned) {
@@ -44,7 +44,7 @@ export class StatusEffects {
      * @param regenerationAmount The amount the entity regenerates every tick (100ms)
      * @returns If Entity has more than 3 regeneration stacks
      */
-    public async regenEntity(regeneratingEntity : Entity, duration : number, regenerationAmount : number) : Promise<void> {
+    public static async regenEntity(regeneratingEntity : Entity, duration : number, regenerationAmount : number) : Promise<void> {
         if (regeneratingEntity.currentRegenStacks >= 3) {
             return;
         }
@@ -52,7 +52,7 @@ export class StatusEffects {
         regeneratingEntity.currentRegenStacks++;
 
         // Initializes tick rate and total time count
-        const TICK_RATE : number = 100;
+        const TICK_RATE : number = 500;
         let totalTime : number = 0;
         
         // Regenerates entity as long as the total time is less than duration
@@ -77,7 +77,7 @@ export class StatusEffects {
         regeneratingEntity.currentRegenStacks--;
     }
 
-    public async slowEntity(target : Entity, duration : number) : Promise<void> {
+    public static async slowEntity(target : Entity, duration : number) : Promise<void> {
         let constructor = target.constructor as typeof Entity;
         if (!constructor.upgrades[0]) {
             return;

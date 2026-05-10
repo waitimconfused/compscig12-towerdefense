@@ -2,6 +2,7 @@ import { Position2D } from "../../types.js";
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { Entity, EntityStats } from "../entity.js";
+import { StatusEffects } from "../statusEffects.js";
 
 /**
  * Creates an Ant as an EnemyEntity
@@ -36,13 +37,24 @@ export class Ant extends EnemyEntity {
 			return;
 		}
 	
+		// Walk toward defender
 		let interrupt = await this.walkTo(
 			closestEntity.position[0],
 			closestEntity.position[1]
 		);
 	
+		// Attack if nothing was interrupted
 		if (!interrupt) {
-			this.attackEntity(closestEntity);
+			// Store defender health
+			let defenderHealth = closestEntity.stats.health;
+
+			// Attacks closest entity
+			await this.attackEntity(closestEntity);
+
+			if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
+				await StatusEffects.regenEntity(this, 5000, 2);
+			}
+
 		}
 	
 	}

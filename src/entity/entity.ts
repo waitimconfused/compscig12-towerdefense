@@ -1,4 +1,5 @@
 import { Position2D } from "../types.js";
+import { Ant } from "./enemy.types/ant.js";
 
 type EntityTimer = {
 	type: "wait" | "walk";
@@ -12,6 +13,8 @@ type EntityTimer = {
 
 export type EntityEventType = "wait" | "jump" | "walk";
 export type EntityEventInterrupt = "success" | "error" | "attacked" | "stunned" | "slowed";
+
+export type DamageType = 'melee' | 'ranged' | 'aoe';
 
 export type EntityEvent = {
 	interrupt_type?: EntityEventInterrupt;
@@ -242,15 +245,21 @@ export abstract class Entity {
 	 * @param dealtDamage	Amount of damage that has been dealt
 	 * @param attacker		What enemy dealt damage to this entity
 	 */
-	public dealDamage(dealtDamage:number, attacker:Entity):Promise<undefined|EntityEvent> {
-		
+	public dealDamage(dealtDamage:number, attacker:Entity, damageType : DamageType = 'melee'):Promise<undefined|EntityEvent> {
+
 		return new Promise((resolve) => {
 			if (this.invulnerable) {
 				resolve(undefined);
 				return;
 			}
 
-			this.stats.health -= dealtDamage;
+			let finalDamage = dealtDamage;
+
+			if (attacker instanceof Ant && damageType == 'aoe') {
+				finalDamage * 1.25;
+			}
+
+			this.stats.health -= finalDamage;
 
 			this.interruptTimers(null, {
 				triggered_by: attacker,
