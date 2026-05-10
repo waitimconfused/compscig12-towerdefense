@@ -251,7 +251,7 @@ export abstract class Entity {
 			let finalDamage = dealtDamage;
 
 			if (attacker instanceof Ant && damageType == 'aoe') {
-				finalDamage * 1.25;
+				finalDamage *= 1.25;
 			}
 
 			this.stats.health -= finalDamage;
