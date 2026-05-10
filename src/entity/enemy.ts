@@ -1,6 +1,6 @@
 import { Player } from "../player.js";
 import { Position2D } from "../types.js";
-import { Entity } from "./entity.js";
+import { Entity, EntityStats } from "./entity.js";
 
 export type MaterialType = 'jar' | 'wood' | 'honey' | 'glassLemonade'
 
@@ -23,19 +23,23 @@ export abstract class EnemyEntity extends Entity {
 	protected waveNumber : number;
     protected healthScale : number;
     protected abstract drops : EnemyDrops;
+    protected spawnLocation : Position2D = [0,0];
 
     /**
-     * Changes enemy state to dead on death
-     * Handles drops for enemy death
+     * Changes enemy state to dead on death and calculates rewards
      * 
      * @returns Coins, points, and materials enemies drop on death
      */
 	public die() {  
         this.state = 'dead';
 
+        this.calculateRewards();
+	}
+    
+    protected calculateRewards() {
         // Initializes an empty array to store materials
         let dropsOnDeath : MaterialDrop[] = [];
-
+    
         // Loops through all materials of the enemy
         for (let drop of this.drops.materials) {
             // Checks if material drops on enemy death
@@ -47,11 +51,23 @@ export abstract class EnemyEntity extends Entity {
                 })
             }
         }
-
+    
         return {
             coins : this.drops.coins,
             points : this.drops.points,
             materials : dropsOnDeath
         }
-	}
+    }
+    
+    private increaseHealth() : void {
+        let constructor = this.constructor as typeof EnemyEntity;
+        let upgrades = constructor.upgrades[0];
+
+        if (!upgrades) {
+            return;
+        }
+
+        this.stats.max_health += upgrades.max_health + 50 * this.waveNumber;
+        this.stats.health += upgrades.health + 50 * this.waveNumber;
+    }
 }

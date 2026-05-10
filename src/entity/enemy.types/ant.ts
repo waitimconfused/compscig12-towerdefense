@@ -1,3 +1,4 @@
+import { Position2D } from "../../types.js";
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity } from "../enemy.js";
 import { Entity, EntityStats } from "../entity.js";
@@ -12,11 +13,11 @@ export class Ant extends EnemyEntity {
 
 	public entityType = "enemy/ant";
 	
-	public static override : EntityStats[] = [
+	public static stats : EntityStats[] = [
 		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10 },
-	];
+	]
 
-	protected drops : EnemyDrops = {
+	public drops : EnemyDrops = {
 		coins: 2,
 		points: 5,
 		materials: [
@@ -44,5 +45,20 @@ export class Ant extends EnemyEntity {
 			this.attackEntity(closestEntity);
 		}
 	
+	}
+
+	public static clusterSpawn(waveNumber : number) : void {
+		let spawnSpecialCluster = Math.random();
+		let cluster : number = Math.min(waveNumber, 20);
+		let randomAnts : number = Math.floor(Math.random() * 6 + 3);
+		let count : number;
+
+		if (spawnSpecialCluster < 0.1) {
+			count = cluster;
+		} else {
+			count = randomAnts;
+		}
+
+		this.spawn(count, [0,0], 2);
 	}
 }

@@ -78,7 +78,10 @@ export class StatusEffects {
     }
 
     public async slowEntity(target : Entity, duration : number) : Promise<void> {
-        const SLOW_MULTIPLIER : number = 0.8;
+        let constructor = target.constructor as typeof Entity;
+        if (!constructor.upgrades[0]) {
+            return;
+        }
 
         target.slowStacks++;
 
@@ -90,7 +93,7 @@ export class StatusEffects {
 
         if (!target.slowed) {
             target.slowed = true;
-            target.stats.speed = target.stats.baseSpeed * SLOW_MULTIPLIER;
+            target.stats.speed = constructor.upgrades[0].speed;
         }
 
         
