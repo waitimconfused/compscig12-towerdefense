@@ -4,11 +4,13 @@ import { DefenderEntity } from "../defender.js";
 import { MouseManager } from "../../mouse.js";
 import { Position2D } from "../../types.js";
 import { Kernal } from "./kernal.js";
+import { Wasp } from "../enemy.types/wasp.js";
 
 /**
  * create the class Corn that extends from Entity
  */
 export class Corn extends Entity{
+	protected kernalAOE : boolean = false;
 
 	/**label the kind of entity corn is - a defender */
 	public override entityType = "defender/corn";
@@ -19,7 +21,7 @@ export class Corn extends Entity{
 	 */
 	public static override upgrades: EntityStats[] = [
 		{ health: 0, max_health: 25, speed: 1, baseSpeed : 0.5, damage: 15, 
-			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:18 },
+			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:18, upgradeEntityCost:53},
 	];
 
 	/**
@@ -35,8 +37,8 @@ export class Corn extends Entity{
 	 * @returns if there are no enemies nearby, get out of teh brain
 	 */
 	public async brain() {
-		//store the cloest enemy entity nearby from the Corn
-		let closestEntity = Entity.nearestEntity(this, EnemyEntity) as EnemyEntity | undefined;
+		//store the cloest aerial entity nearby from the Corn (only wasp)
+		let closestEntity = Entity.nearestEntity(this, Wasp) as EnemyEntity | undefined;
 
 		//if there are no entities nearby, don't continue running the code
 		if (!closestEntity) return;
@@ -58,9 +60,5 @@ export class Corn extends Entity{
 			//once done waiting revert Corn's animation back to idling
 			this.state = "idle";
 		}
-
-
 	}
-	
-
 }

@@ -10,19 +10,13 @@ export class Cherry extends DefenderEntity {
 	//available to use when at level 3 or higher
 	private static canAttackFrontBack : boolean = false;
 
-	//Cherry's chance to stun
-	private static stunChance : number  = 25;
-
-	//length of stun chery can inflict (5 seconds)
-	private static stunEnemyDuration : number = 5000;
-
 	/**label the kind of entity cherry is - a defender */
 	public entityType : string = "defender/cherry";
 
 	//Cherry base stats (lvl 1)
 	public static override upgrades: EntityStats[] = [
 		{ health: 0, max_health: 20, speed: 2, baseSpeed : 2, damage: 6, 
-			knockback:2, spawnCooldown: 3, attackCooldown: 3, entityPurchaseCost:10, entityResaleCost:5, },
+			knockback:2, spawnCooldown: 3, attackCooldown: 3, entityPurchaseCost:10, entityResaleCost:5, stunChance:25, stunDuration:5000, upgradeEntityCost:15 },
 	];
 
 	//hide nearestEntity method from Entity, because Cherry needs to find the nearest Entity front and back of it
@@ -83,9 +77,9 @@ export class Cherry extends DefenderEntity {
 			}	
 		}
 
-		
 		return {frontNearest, backNearest};
 	}
+
 	/**
 	 * check to see if the cherry was able to stun enemy
 	 * @param target the enemy
@@ -104,6 +98,9 @@ export class Cherry extends DefenderEntity {
 		return;
 	}
 	
+	//call method that unlocks Cherry's skill
+	//unlockSkill(canAttackFrontBack);
+
 	public async brain() {
 
 		const cherryNearestEntity : {front: Entity |undefined, back: Entity |undefined} = Cherry.nearestEntity(this,EnemyEntity) as Entity | undefined;

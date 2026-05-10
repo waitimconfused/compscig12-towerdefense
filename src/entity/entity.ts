@@ -46,7 +46,7 @@ export type EntityStats = {
 	/**
 	 * How much damage the entity inflicts on another entity
 	 */
-	damage: number;
+	damage?: number;
 
 	/**
 	 *the knockback the entity does against another entity
@@ -73,6 +73,30 @@ export type EntityStats = {
 	 */
 	entityResaleCost : number;
 
+	/**
+	 * the chance for entity to stun target (if they have the ability to stun entities)
+	 */
+	stunChance?: number;
+
+	/**
+	 * the duration the entity stuns the target for (if they have the ability to stun entities)
+	 */
+	stunDuration?: number;
+
+	/**
+	 * the duration the entity slows the target for (if they have the ability to slow entities)
+	 */
+	slowDuration?: number;
+
+	/**
+	 * the duration the entity regenerates their health for (if they have the ability to regenerate)
+	 */
+	regenDuration?: number;
+
+	/**
+	 * the cost of upgrading an entity (only applicable to Defenders)
+	 */
+	upgradeEntityCost?: number;
 }
 
 export abstract class Entity {
@@ -145,7 +169,7 @@ export abstract class Entity {
 	 * The upgrades are applied in relation to `Entity.level`
 	 */
 	public static upgrades:EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, damage: 10, knockback:3, spawnCooldown: 5, attackCooldown: 3, entityPurchaseCost: 10, entityResaleCost:5 }
+		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, knockback:3, spawnCooldown: 5, attackCooldown: 3, entityPurchaseCost: 10, entityResaleCost:5 }
 	];
 
 	/**
@@ -283,7 +307,7 @@ export abstract class Entity {
 			}
 
 			// Deal damage to the entity
-			entity.dealDamage(this.stats.damage, this);
+			entity.dealDamage(this.stats.damage as number, this);
 			
 			// Resolve the promise, without providing a reason
 			resolve(undefined);
@@ -350,6 +374,7 @@ export abstract class Entity {
 		let upgrade = constructer.upgrades[0] as EntityStats;
 		let lvlIncrease = 2;
 		let storeUpgrades = Object.keys(upgrade);
+		Entity.level += 1;
 
 		/**
 		 * level up entity 
@@ -361,8 +386,9 @@ export abstract class Entity {
 			//@ts-ignore
 			let baseState = upgrade[statType] as number;
 			//@ts-ignore
-			this.stats[statType] = baseState + baseState/lvlIncrease;
+			this.stats[statType] = baseState + Math.floor(baseState/lvlIncrease);
 		}
+
 	}
 
 	/**
