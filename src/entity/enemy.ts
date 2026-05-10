@@ -59,7 +59,7 @@ export abstract class EnemyEntity extends Entity {
         }
     }
     
-    private increaseHealth() : void {
+    public increaseHealth() : void {
         let constructor = this.constructor as typeof EnemyEntity;
         let upgrades = constructor.upgrades[0];
 

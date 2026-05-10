@@ -15,7 +15,7 @@ export class Ant extends EnemyEntity {
 	public entityType = "enemy/ant";
 	
 	public static stats : EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, damage: 10 },
+		{ health: 0, max_health: 100, speed: 0.5, damage: 10 }
 	]
 
 	public drops : EnemyDrops = {

@@ -7,7 +7,7 @@ export class Frog extends EnemyEntity {
 	public override entityType:string = "enemy/frog";
 
 	public static stats : EntityStats[] = [
-		{ health: 0, max_health: 75, speed: 0.75, damage: 0 },
+		{ health: 0, max_health: 75, speed: 0.75, damage: 0 }
 	]
 
 	public isLeaping:boolean;

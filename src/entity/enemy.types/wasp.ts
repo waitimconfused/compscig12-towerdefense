@@ -25,13 +25,6 @@ export class Wasp extends EnemyEntity {
 
 	public override healthScale: number = 1.2;
 
-	// Override the default movement style
-	// to add a flying behaviour
-	public override movementTick(targetPosition:Position2D, deltaTime:number): void {
-		super.movementTick(targetPosition, deltaTime);
-		// TODO
-	}
-
 	public async brain() {
 		await this.wait(5000);
 
