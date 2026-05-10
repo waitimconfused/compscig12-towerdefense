@@ -15,6 +15,64 @@ export class Cherry extends DefenderEntity {
 		super.movementTick(targetPosition, deltaTime);
 	}
 
+	//hide nearestEntity method from Entity, because Cherry needs to find the nearest Entity front and back of it
+	//if Cherry has been upgraded
+	public nearestEntity(origin:Entity, selector?:typeof Entity):{frontNearest:Entity|undefined, backNearest:Entity|undefined} {
+		
+		// Keep track of the nearest found entity (starts as undefined)
+		let frontNearest:Entity|undefined = undefined;
+
+		let backNearest:Entity|undefined = undefined;
+
+		// Keep track of the distance to the closest entity (starts as `Infinity`)
+		let frontNearestDistance = Infinity;
+
+		let backNearestDistance = Infinity;
+		// Loop through each Entity instance
+		for (let i = 0; i < Entity.entities.length; i ++) {
+
+			// Get the current entity
+			let entity = Entity.entities[i] as Entity;
+
+			// If a selector has been set, and the entity is
+			// not an instance of it, move onto the next entity
+			if (selector && entity instanceof selector == false) continue;
+
+			// Get the distance between the origin entity and the current entity
+			let distance = Math.hypot(
+				entity.position[0] - origin.position[0],
+				entity.position[1] - origin.position[1]
+			);
+
+			//check whether the entity's x and y values are more or less than the Cherry
+			//if the x and y is greater, then the entity is behind the Cherry
+			//if the x and y is less, then the entity is in front of the Cherry
+			//after checking the entity's position, check if it's any closer than the last recorded enemy
+			if (entity.position[0] < origin.position[0] && entity.position[1] < origin.position[1]){
+				// If the distance is less than the past nearest distance,
+				// Update the stored entity and the stored distance
+				if (distance < frontNearestDistance) {
+					frontNearest = entity;
+					frontNearestDistance = distance;
+				}
+			}
+			else{
+				// If the distance is less than the past nearest distance,
+				// Update the stored entity and the stored distance
+				if (distance < backNearestDistance) {
+					backNearest = entity;
+					backNearestDistance = distance;
+				}
+			}	
+		
+		}
+
+		// Return the nearest found entity, if one exists (`undefined`)
+		return {frontNearest, backNearest};
+
+	}
+
+
 	public async brain() {
 
 		await this.wait(1000);

@@ -342,25 +342,27 @@ export abstract class Entity {
 
 	
 	/**
-	 * Update the entities stats, determined by `Entity.upgrades`
+	 * Update the entities stats, using their base stats as reference
 	 */
-	public reloadStats() {
+	
+	public reloadStats(): void {
+		let constructer = this.constructor as typeof Entity;
+		let upgrade = constructer.upgrades[0] as EntityStats;
+		let lvlIncrease = 2;
+		let storeUpgrades = Object.keys(upgrade);
 
-		// Get a reference to this entities constructor class
-		let constructor = this.constructor as typeof Entity;
-
-		// Get the latest upgrade data
-		let upgrade = constructor.upgrades[constructor.level];
-
-		// If the new upgrade doesn't exist, stop
-		if (!upgrade) return;
-
-		// Update the stats
-		this.stats.damage = upgrade.damage;
-		this.stats.health = upgrade.max_health;
-		this.stats.max_health = upgrade.max_health;
-		this.stats.speed = upgrade.speed;
-
+		/**
+		 * level up entity 
+		 */
+		for (let i = 0; i < storeUpgrades.length; i++){
+			//grab and store the key from the upgrades
+			let statType = storeUpgrades[i] as string;
+			//grab and store the value of the key from upgrades
+			//@ts-ignore
+			let baseState = upgrade[statType] as number;
+			//@ts-ignore
+			this.stats[statType] = baseState + baseState/lvlIncrease;
+		}
 	}
 
 	/**
