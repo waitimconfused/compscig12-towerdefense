@@ -1,10 +1,14 @@
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity } from "../enemy.js";
-import { Entity } from "../entity.js";
+import { Entity, EntityStats } from "../entity.js";
 
 export class Frog extends EnemyEntity {
 
 	public override entityType:string = "enemy/frog";
+
+	public static stats : EntityStats[] = [
+		{ health: 0, max_health: 75, speed: 0.75, damage: 0 },
+	]
 
 	public isLeaping:boolean;
 	public canLeap:boolean = true;
@@ -17,7 +21,7 @@ export class Frog extends EnemyEntity {
 		]
 	}
 
-	private leapCooldown : number = 0;
+	public override healthScale: number = 1.15;
 	
 	private async tryLeap(target: DefenderEntity) {
 	

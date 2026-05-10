@@ -84,24 +84,29 @@ export class StatusEffects {
         }
 
         target.slowStacks++;
+        
+        target.slowed = true;
 
-        let thisSlowStacks : number = target.slowStacks;
-
-        if (target instanceof Frog) {
-            // disable frog jump when leap method created
+        if (target.slowStacks == 1) {
+            target.stats.speed *= 0.75
         }
-
-        if (!target.slowed) {
-            target.slowed = true;
+        
+        if (target.entityType == 'enemy/frog') {
+            (target as Frog).canLeap = false;
         }
-
         
         await target.wait(duration);
-        
+
+        target.slowStacks--;
+
         // Removes slow if stack is the last one applied to the entity
-        if (thisSlowStacks == target.slowStacks) {
-            target.stats.speed = target.stats.speed = constructor.upgrades[0].speed;;
+        if (target.slowStacks <= 0) {
+            target.stats.speed = constructor.upgrades[0].speed;;
             target.slowed = false;
+
+            if (target.entityType == 'enemy/frog') {
+                (target as Frog).canLeap = true;
+            }
         }
     }
 }

@@ -46,12 +46,14 @@ export class Raccoon extends EnemyEntity {
 
 		if (!closestEntity) return;
 
-		let walkInterrupt = await this.walkTo(
+		let interrupt = await this.walkTo(
 			closestEntity.position[0], closestEntity.position[1]
 		);
 
-		if (!walkInterrupt) {
+		if (!interrupt) {
 			let defenderHealth = closestEntity.stats.health;
+
+			await this.attackEntity(closestEntity);
 
 			if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
 				await StatusEffects.regenEntity(this, 5000, 3);

@@ -9,6 +9,8 @@ export class Wasp extends EnemyEntity {
 
 	public isFlying: boolean = true;
 
+	public speedStacks : number = 0;
+
 	public static override upgrades: EntityStats[] = [
 		{ health: 0, max_health: 25, speed: 0.2, baseSpeed: 0.2, damage: 10 }
 	];
@@ -30,35 +32,27 @@ export class Wasp extends EnemyEntity {
 		// TODO
 	}
 
-
 	public async brain() {
+		await this.wait(5000);
+
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 
 		if (!closestEntity) return;
 
-		let walkInterrupt = await this.walkTo(closestEntity.position[0], closestEntity.position[1]);
+		let interrupt = await this.walkTo(
+			closestEntity.position[0], closestEntity.position[1]
+		)
 
-		if (walkInterrupt) {
-			// Raccoon was stopped from walking
-
-		} else {
+		if (!interrupt) {
 			let attackInterrupt = await this.attackEntity(closestEntity);
 
 			if (attackInterrupt) {
-				// Raccoon was stopped from attacking
+				// Wasp was stopped from attacking
 
 			} else if (closestEntity.stats.health <= 0) {
-				// Entity was defeated!
-
-				this.stats.health += 20; // Small regeneration boost
-
-				// Make sure the health can't exceed the maximum health
-				this.stats.health = Math.min(this.stats.health, this.stats.max_health);
-
+				this.stats.speed *= Math.pow(1.1, this.speedStacks)
+				this.speedStacks++;
 			}
-
 		}
-
 	}
-
 }
