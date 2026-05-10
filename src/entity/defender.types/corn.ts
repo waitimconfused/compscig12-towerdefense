@@ -19,7 +19,7 @@ export class Corn extends Entity{
 	 */
 	public static override upgrades: EntityStats[] = [
 		{ health: 0, max_health: 25, speed: 1, baseSpeed : 0.5, damage: 15, 
-			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:5 },
+			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:18 },
 	];
 
 	/**

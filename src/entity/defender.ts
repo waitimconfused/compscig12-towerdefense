@@ -3,7 +3,7 @@ import { Entity, EntityStats } from "./entity.js";
 
 export abstract class DefenderEntity extends Entity{
 	//whether the entity type has been upgraded
-	protected unlockSkill: boolean = false;
+	protected skillUnlocked: boolean = false;
 
 	constructor(position: Position2D){
 		super(position);
@@ -21,8 +21,12 @@ export abstract class DefenderEntity extends Entity{
 	public override reloadStats(): void {
 		super.reloadStats();
 		if (DefenderEntity.level >= 3){
-			this.unlockSkill = true;
+			this.skillUnlocked = true;
 		}
+	}
+
+	protected unlockSkill(activateSkill : boolean){
+		activateSkill = true;
 	}
 
 	
