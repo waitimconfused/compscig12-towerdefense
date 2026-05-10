@@ -23,9 +23,6 @@ const sources:FaviconProbability[] = [
 	return favicon1[0] - favicon2[0];
 }) as FaviconProbability[];
 
-console.log(sources);
-
-
 const favicon = document.getElementById("favicon") as HTMLLinkElement;
 
 let random = Math.random();

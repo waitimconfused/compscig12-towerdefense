@@ -1,6 +1,42 @@
-import { Corn } from "../../defender.types/corn.js";
+import { Corn } from "./corn.js";
+import { Entity, EntityEvent, EntityEventType, EntityStats } from "../entity.js";
+import { Position2D } from "../../types.js";
+import { EnemyEntity } from "../enemy.js";
 
-class Kernal extends Corn{
+//the kernal is created via the Corn, and is a child of the corn
+export class Kernal extends Corn{
+	//store who the target is
+	private target : EnemyEntity;
+	
+	//label the kind of entity corn is - a defender
+	public override entityType = "defender/kernal";
+
+	//use the corn's position and store the tracked target into the kerna's target property
+	constructor(position: Position2D, target: EnemyEntity){
+		super(position);
+		this.target = target;
+
+	}
+
+	//this method needs to exist, but will not have anything in it because the kernal's death is done in the brain
+	protected override die(){}
+
+	/**
+	 * /**
+	 * the brain checks for events that happen around and to the Kernal
+	 * as of now it is used to check for enemies nearby
+	 */
+	public override async brain(): Promise<void> {
+		//get the kernalto keep on travelling to the target/enemy's position
+		await this.walkTo(this.target.position[0], this.target.position[1]);
+		//when it has, attack the target
+		this.attackEntity(this.target);
+		//when the enemy has been attacked, set the kernal's health to 0, disappearing from the playing field
+		this.stats.health = 0;
+
+	}
+
+
 	//old code
 	// //the corn will be the entity related to Corn that does the actual damage to the enemies
 	// public override attackEnemy(target : EnemyEntity): void {
