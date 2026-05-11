@@ -1,5 +1,4 @@
 import { Position2D } from "../types.js";
-// import { Ant } from "./enemy.types/ant.js";
 
 type EntityTimer = {
 	type: "wait" | "walk";
@@ -261,10 +260,6 @@ export abstract class Entity {
 			}
 
 			let finalDamage = dealtDamage;
-
-			// if (attacker instanceof Ant && damageType == 'aoe') {
-			// 	finalDamage *= 1.25;
-			// }
 
 			this.stats.health -= finalDamage;
 

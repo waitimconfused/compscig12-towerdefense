@@ -1,7 +1,7 @@
 import { Position2D } from "../../types.js";
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity } from "../enemy.js";
-import { Entity, EntityStats } from "../entity.js";
+import { DamageType, Entity, EntityEvent, EntityStats } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 
 /**
@@ -28,6 +28,32 @@ export class Ant extends EnemyEntity {
 	}
 
 	public override healthScale: number = 1.1;
+
+	public override dealDamage(dealtDamage:number, attacker:Entity, damageType : DamageType = 'melee'):Promise<undefined|EntityEvent> {
+
+		return new Promise((resolve) => {
+			if (this.invulnerable) {
+				resolve(undefined);
+				return;
+			}
+
+			let finalDamage = dealtDamage;
+
+			if (damageType == 'aoe') {
+				finalDamage *= 1.25;
+			}
+
+			this.stats.health -= finalDamage;
+
+			this.interruptTimers(null, {
+				triggered_by: attacker,
+				interrupt_type: "attacked"
+			});
+
+			resolve(undefined);
+		});
+
+	}
 
 	public async brain() {
 		await this.wait(100);
