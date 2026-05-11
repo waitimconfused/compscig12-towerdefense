@@ -29,13 +29,25 @@ export class Raccoon extends EnemyEntity {
 	public override healthScale: number = 1.2;
 
 	public override async attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
+		if (this.stunned) {
+			return;
+		}
+
 		this.state = "attack";
 
-		return this.wait(600).then( (interrupt) => {
-			this.state = "idle";
-			if (interrupt != undefined) return interrupt;
-			return super.attackEntity(entity);
-		} );
+		let interrupt = await this.wait(400);
+
+		if (interrupt) {
+			this.state = 'idle';
+		}
+
+		let result = await super.attackEntity(entity);
+
+		await this.wait(200);
+
+		this.state = 'idle';
+
+		return result;
 	}
 
 	public async brain() {
