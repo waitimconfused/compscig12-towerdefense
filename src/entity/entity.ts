@@ -1,5 +1,5 @@
 import { Position2D } from "../types.js";
-import { Ant } from "./enemy.types/ant.js";
+// import { Ant } from "./enemy.types/ant.js";
 
 type EntityTimer = {
 	type: "wait" | "walk";
@@ -74,6 +74,8 @@ export type EntityStats = {
 }
 
 export abstract class Entity {
+
+	protected _id:string;
 
 	/**
 	 * Keep track of if the entity is stunned
@@ -181,7 +183,7 @@ export abstract class Entity {
 	 * *Alive-ish*: Entities probably have a death
 	 * animation which is played before removing itself from the list
 	 */
-	public static entities:Entity[] = [];
+	public static entities:Map<string, Entity> = new Map();
 
 	constructor(position:Position2D) {
 
@@ -191,8 +193,18 @@ export abstract class Entity {
 		// Reload the entity stats (health, speed, etc.)
 		this.reloadStats();
 
+		let count = Entity.entities.size;
+
+		this._id = "";
+
+		while (this._id == "" || Entity.entities.has(this._id)) {
+			this._id = Math.floor(Math.random() * count)
+						.toString(16)
+						.padStart(count, "0");
+		}
+
 		// Add this entity to the list of active entities
-		Entity.entities.push(this);
+		Entity.entities.set(this._id, this);
 	}
 
 	/**
@@ -250,9 +262,9 @@ export abstract class Entity {
 
 			let finalDamage = dealtDamage;
 
-			if (attacker instanceof Ant && damageType == 'aoe') {
-				finalDamage *= 1.25;
-			}
+			// if (attacker instanceof Ant && damageType == 'aoe') {
+			// 	finalDamage *= 1.25;
+			// }
 
 			this.stats.health -= finalDamage;
 
@@ -449,12 +461,14 @@ export abstract class Entity {
 		// Increase the level by `1s
 		this.level += 1;
 
+		let entities = [ ...Entity.entities.values() ];
+
 		// Loop through each Entity, and reload it's
 		// stats if it's an instance of the same Entity class
-		for (let i = 0; i < Entity.entities.length; i ++) {
+		for (let i = 0; i < entities.length; i ++) {
 			
 			// Get the current entity
-			let entity = Entity.entities[i] as Entity;
+			let entity = entities[i] as Entity;
 
 			// If it isn't an instance of this class, move onto the next one
 			if (entity instanceof this == false) continue;
@@ -584,14 +598,8 @@ export abstract class Entity {
 			// entity from the list of Entity objects
 			this.wait(1000).then(() => {
 
-				// Get the index of this entity inside the global Entity list
-				let index = Entity.entities.indexOf(this);
-
-				// If the index is valid, remove the entity
-				if (index >= 0) {
-					// Remove this entity from the Entity list
-					Entity.entities.splice(index, 1);
-				}
+				// Remove this entity from the Entity.entities map
+				Entity.entities.delete(this._id);
 
 			});
 		}
@@ -685,11 +693,14 @@ export abstract class Entity {
 		// Keep track of the distance to the closest entity (starts as `Infinity`)
 		let nearestDistance = Infinity;
 
+		// Get an array of all entities
+		let entities = [ ...Entity.entities.values() ]
+
 		// Loop through each Entity instance
-		for (let i = 0; i < this.entities.length; i ++) {
+		for (let i = 0; i < entities.length; i ++) {
 
 			// Get the current entity
-			let entity = this.entities[i] as Entity;
+			let entity = entities[i] as Entity;
 
 			// If a selector has been set, and the entity is
 			// not an instance of it, move onto the next entity

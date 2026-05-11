@@ -98,6 +98,4 @@ Engine.initialize(canvas);
 	BananaSpawner.spawn(1, [ window.innerWidth/2, 0 ]);
 	// Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
 
-	console.log(Entity.entities);
-
 })();
