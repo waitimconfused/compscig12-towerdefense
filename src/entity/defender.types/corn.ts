@@ -20,7 +20,7 @@ export class Corn extends Entity{
 	 * through the DefenderEntity class, it will be able to level up, with reference to its base stats
 	 */
 	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 25, speed: 1, baseSpeed : 0.5, damage: 15, 
+		{ health: 0, max_health: 25, speed: 1, baseSpeed : 1, damage: 15, 
 			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:18, upgradeEntityCost:53, aoeRange:10},
 	];
 
@@ -30,6 +30,9 @@ export class Corn extends Entity{
 	protected override die(): void {
 		
 	}
+
+	//call method to unlock corn's skill
+	//unlockSkill(kernalAOE);
 
 	/**
 	 * the brain checks for events that happen around and to the Corn

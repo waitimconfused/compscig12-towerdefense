@@ -36,14 +36,14 @@ export class Kernal extends Corn{
 
 				//if there are no enemies around, don't even run the rest
 				if (entitiesNearKernal.length == 0){
-					return;
+					resolve(undefined);
 				}
 
 				//dealDamage - loop through the entire array of entitiesNearKernal and do 1/3 of the corn's damage
 				let blastDamage = this.stats.damage as number/3;
 
 				for (let i = 0;i<entitiesNearKernal.length;i++){
-					(entitiesNearKernal[i] as Entity).stats.health -= blastDamage;
+					(entitiesNearKernal[i] as Entity).dealDamage(blastDamage,entitiesNearKernal[i] as Entity) ;
 				}
 			}
 
@@ -53,7 +53,6 @@ export class Kernal extends Corn{
 	}
 
 	/**
-	 * /**
 	 * the brain checks for events that happen around and to the Kernal
 	 * as of now it is used to check for enemies nearby
 	 */

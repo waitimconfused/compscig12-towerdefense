@@ -36,12 +36,12 @@ export type EntityStats = {
 	/**
 	 * The movement speed of the entity
 	 */
-	speed: number;
+	speed?: number;
 	
 	/**
 	 * The base speed of the entity
 	 */
-	baseSpeed : number;
+	baseSpeed?: number;
 
 	/**
 	 * How much damage the entity inflicts on another entity
@@ -61,7 +61,7 @@ export type EntityStats = {
 	/**
 	 * the entity's attack cooldown
 	 */
-	attackCooldown : number;
+	attackCooldown?: number;
 
 	/**
 	 * the entity's purchase cost
@@ -176,7 +176,7 @@ export abstract class Entity {
 	 * The upgrades are applied in relation to `Entity.level`
 	 */
 	public static upgrades:EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, baseSpeed : 0.5, knockback:3, spawnCooldown: 5, attackCooldown: 3, entityPurchaseCost: 10, entityResaleCost:5 }
+		{ health: 0, max_health: 100, knockback:3, spawnCooldown: 5, entityPurchaseCost: 10, entityResaleCost:5 }
 	];
 
 	/**
@@ -566,7 +566,7 @@ export abstract class Entity {
 		);
 		
 		// Get the actual speed, adjusted using the deltaTime
-		let currentSpeed = this.stats.speed * deltaTime;
+		let currentSpeed = (this.stats.speed as number) * deltaTime;
 		
 		// If the distance is less than the step size, move
 		// directly to the target position, and stop
@@ -727,10 +727,7 @@ export abstract class Entity {
 			if (selector && entity instanceof selector == false) continue;
 
 			// Get the distance between the origin entity and the current entity
-			let distance = Math.hypot(
-				entity.position[0] - origin.position[0],
-				entity.position[1] - origin.position[1]
-			);
+			let distance = this.getDistance(origin,entity);
 
 			// If the distance is less than the past nearest distance,
 			// Update the stored entity and the stored distance
@@ -768,10 +765,7 @@ export abstract class Entity {
 			if (selector && entity instanceof selector == false) continue;
 
 			// Get the distance between the origin entity and the current entity
-			let distance = Math.hypot(
-				entity.position[0] - origin.position[0],
-				entity.position[1] - origin.position[1]
-			);
+			let distance = this.getDistance(origin,entity);
 
 			// if the distance is within range, they Entity will be affected
 			// Update the stored entity and the stored distance
