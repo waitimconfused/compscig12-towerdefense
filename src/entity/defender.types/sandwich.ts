@@ -3,7 +3,7 @@ import { EntityStats } from "../entity.js";
 
 export class Sandwich extends DefenderEntity {
 	//when upgraded, the sandwich defenders become BIG
-	private bigSandwich : boolean  = false;
+	private bigSandwich : boolean = false;
 
 	//label what the type of entity this is - sandwich Defender
 	public entityType = "defender/sandwich";
@@ -14,6 +14,9 @@ export class Sandwich extends DefenderEntity {
 			knockback:3, spawnCooldown: 3, entityPurchaseCost:15, 
 			entityResaleCost:7, upgradeEntityCost:35 },
 	];
+	
+	//call method that unlocks Sandwich's skill
+	//unlockSkill(bigSandwich);
 
 	/**
 	 * the brain checks for events that happen around and to the Kernal
