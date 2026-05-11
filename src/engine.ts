@@ -83,7 +83,7 @@ export default class Engine {
 
 		this.views[name] = view;
 
-		if (!this._currentView) this._currentView = name;
+		if (!this._currentView) this.showView(name);
 
 	}
 
@@ -91,10 +91,13 @@ export default class Engine {
 
 		if (name in this.views == false) {
 			console.error(`Cannot show unset view of "${name}".`);
-		
-		} else {
-			this._currentView = name;
+			return null;
 		}
+
+		this.views[this._currentView]?.dispatchEvent("hide");
+		this._currentView = name;
+
+		this.views[name]?.dispatchEvent("show");
 
 		return this.views[name] ?? null;
 		

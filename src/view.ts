@@ -3,13 +3,39 @@ import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import { Canvas, Position2D, RenderingContext } from "./types.js";
 
+type ViewListenerType = "show" | "hide";
+type ViewListenerCallback = ()=>void;
+
+type ViewListenerGroup = {
+	[type in ViewListenerType]: ViewListenerCallback[];
+}
+
 export class View {
 
 	private elements:ViewElement[] = [];
+
+	protected listeners:ViewListenerGroup = {
+		show: [],
+		hide: []
+	}
 	
 	public addElement( ...elements:ViewElement[] ):this {
 		this.elements.push(...elements);
 		return this;
+	}
+
+	public addEventListener(type:ViewListenerType, callback:ViewListenerCallback):this {
+		this.listeners[type].push(callback);
+		return this;
+	}
+
+	public dispatchEvent(type:ViewListenerType) {
+
+		for (let i = 0; i < this.listeners[type].length; i ++) {
+			let callback = this.listeners[type][i] as ViewListenerCallback;
+			callback();
+		}
+
 	}
 	
 	public render( canvas:Canvas, context:RenderingContext ) {
@@ -41,7 +67,7 @@ export class ViewCollection extends View {
 
 		this.views[name] = view;
 
-		if (!this._currentView) this._currentView = name;
+		if (!this._currentView) this.showView(name);
 		return this;
 
 	}
@@ -50,10 +76,13 @@ export class ViewCollection extends View {
 
 		if (name in this.views == false) {
 			console.error(`Cannot show unset view of "${name}".`);
-		
-		} else {
-			this._currentView = name;
+			return null;
 		}
+
+		this.views[this._currentView]?.dispatchEvent("hide");
+		this._currentView = name;
+
+		this.views[name]?.dispatchEvent("show");
 
 		return this.views[name] ?? null;
 		

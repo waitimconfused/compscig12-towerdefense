@@ -91,13 +91,14 @@ Engine.initialize(canvas);
 
 	stopButton.setClickEvent(() => {
 		Engine.showView("main-menu");
-	})
+	});
+
+	gameplayView.addEventListener("show", () => {
+		BananaSpawner.spawn(1, [ window.innerWidth/2, 0 ]);
+	});
 
 	// Strawberry.spawn(3, [ 100, 100 ], 100);
 	// Raccoon.spawn(1, [ 100, 100 ], 100);
-	BananaSpawner.spawn(1, [ window.innerWidth/2, 0 ]);
 	// Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
-
-	console.log(Entity.entities);
 
 })();
