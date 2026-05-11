@@ -360,6 +360,10 @@ export abstract class Entity {
 		// Get a reference to this entities constructor class
 		let constructor = this.constructor as typeof Entity;
 
+		if (constructor.upgrades.length == 0) {
+			throw new Error(`All Entity classes must have at least one upgrade.\nViolator class: ${constructor.name}`);
+		}
+
 		// Get the latest upgrade data
 		let upgrade = constructor.upgrades[constructor.level];
 
@@ -578,6 +582,8 @@ export abstract class Entity {
 	 * ***DO NOT OVERWRITE***
 	 */
 	public tick(deltaTime:number) {
+
+		console.log(this.stats, (this.constructor as typeof Entity).upgrades);
 
 		// If the entity's health is <= 0, kill it
 		if (this.stats.health <= 0) {
