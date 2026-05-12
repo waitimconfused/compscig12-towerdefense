@@ -1,4 +1,4 @@
-export type InventoryItemTag = string;
+export type InventoryItemTag = "coin" | "point" | "jar" | "wood" | "honey" | "lemonade_glass";
 export type InventoryItemCount = number;
 
 export default class Inventory {
