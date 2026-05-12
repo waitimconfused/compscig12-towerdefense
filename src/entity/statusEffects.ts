@@ -44,7 +44,7 @@ export class StatusEffects {
      * @param regenerationAmount The amount the entity regenerates every tick (100ms)
      * @returns If Entity has more than 3 regeneration stacks
      */
-    public static async regenEntity(regeneratingEntity : Entity, duration : number, regenerationAmount : number) : Promise<void> {
+    public static async regenerateEntity(regeneratingEntity : Entity, duration : number, regenerationAmount : number) : Promise<void> {
         if (regeneratingEntity.currentRegenerationStacks >= 3) {
             return;
         }
@@ -59,7 +59,7 @@ export class StatusEffects {
         
         // Regenerates entity as long as the total time is less than duration
         while (totalTime < duration) {
-            // Checks if entity is dead, breaks loop and removes all regen stacks
+            // Checks if entity is dead, breaks loop and removes all regeneration stacks
             if (regeneratingEntity.stats.health <= 0) {
                 regeneratingEntity.currentRegenerationStacks = 0;
                 break;

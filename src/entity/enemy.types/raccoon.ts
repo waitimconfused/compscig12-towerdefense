@@ -75,7 +75,7 @@ export class Raccoon extends EnemyEntity {
 			await this.attackEntity(closestEntity);
 
 			if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
-				await StatusEffects.regenEntity(this, 5000, 3);
+				await StatusEffects.regenerateEntity(this, 5000, 3);
 			}
 		}
 
