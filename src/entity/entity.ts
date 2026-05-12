@@ -192,9 +192,16 @@ export abstract class Entity {
 		// Reload the entity stats (health, speed, etc.)
 		this.reloadStats();
 
+		// Set the ID to an empty string
 		this._id = "";
 
+		// While the ID is an empty string (starting value) or
+		// the ID is already used inside the global entity list,
+		// randomize the ID
 		while (this._id == "" || Entity.entities.has(this._id)) {
+			
+			// Generate a random number (length=6) in base 16,
+			// with the left-most digits filled with "0"
 			this._id = Math.floor(Math.random() * 999999)
 						.toString(16)
 						.padStart(6, "0");
