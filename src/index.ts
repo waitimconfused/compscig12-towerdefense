@@ -7,7 +7,7 @@ import { Raccoon } from "./entity/enemy.types/raccoon.js";
 import { Strawberry } from "./entity/defender.types/strawberry.js";
 import { Entity } from "./entity/entity.js";
 import { Sandwich } from "./entity/defender.types/sandwich.js";
-import { BananaSpawner } from "./entity/defender.types/banana.js";
+import { Banana, BananaSpawner } from "./entity/defender.types/banana.js";
 
 SpriteRenderer.verbose = false;
 SpriteRenderer.loadDefaults();

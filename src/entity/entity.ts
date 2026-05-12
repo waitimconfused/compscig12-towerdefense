@@ -192,14 +192,12 @@ export abstract class Entity {
 		// Reload the entity stats (health, speed, etc.)
 		this.reloadStats();
 
-		let count = Entity.entities.size;
-
 		this._id = "";
 
 		while (this._id == "" || Entity.entities.has(this._id)) {
-			this._id = Math.floor(Math.random() * count)
+			this._id = Math.floor(Math.random() * 999999)
 						.toString(16)
-						.padStart(count, "0");
+						.padStart(6, "0");
 		}
 
 		// Add this entity to the list of active entities
@@ -361,20 +359,29 @@ export abstract class Entity {
 		let constructor = this.constructor as typeof Entity;
 
 		if (constructor.upgrades.length == 0) {
-			throw new Error(`All Entity classes must have at least one upgrade.\nViolator class: ${constructor.name}`);
+			throw new Error(`Entity ${constructor.name} must have at least one upgrade.`);
 		}
 
 		// Get the latest upgrade data
 		let upgrade = constructor.upgrades[constructor.level];
 
 		// If the new upgrade doesn't exist, stop
-		if (!upgrade) return;
+		if (!upgrade) {
+			throw new Error(`Entity ${constructor.name} does not have an upgrade for level ${constructor.level}.`);
+		}
 
-		// Update the stats
-		this.stats.damage = upgrade.damage;
-		this.stats.health = upgrade.max_health;
-		this.stats.max_health = upgrade.max_health;
-		this.stats.speed = upgrade.speed;
+		if (!this.stats) this.stats = {} as EntityStats;
+
+		let storeUpgrades = Object.keys(upgrade);
+
+		for (let i = 0; i < storeUpgrades.length; i++){
+
+			//grab and store the key from the upgrades
+			let statType = storeUpgrades[i] as string;
+
+			//@ts-ignore
+			this.stats[statType] = upgrade[statType] as number;
+		}
 
 	}
 
@@ -432,13 +439,13 @@ export abstract class Entity {
 
 				
 			}
+			console.log("Spawned", this.name);
 			
 			// Ignore the following line, because TypeScript has a problem with it
 			// Create a new instance of whatever class was used for the spawning
 			// @ts-ignore
 			let instance:Entity = new this(location);
 
-			console.log("Spawned from", this);
 			
 			// Add the instance to the list of entities
 			entities.push(instance);
@@ -583,8 +590,6 @@ export abstract class Entity {
 	 */
 	public tick(deltaTime:number) {
 
-		console.log(this.stats, (this.constructor as typeof Entity).upgrades);
-
 		// If the entity's health is <= 0, kill it
 		if (this.stats.health <= 0) {
 
@@ -695,7 +700,7 @@ export abstract class Entity {
 		let nearestDistance = Infinity;
 
 		// Get an array of all entities
-		let entities = [ ...Entity.entities.values() ]
+		let entities = [ ...Entity.entities.values() ];
 
 		// Loop through each Entity instance
 		for (let i = 0; i < entities.length; i ++) {

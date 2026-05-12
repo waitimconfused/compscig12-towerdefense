@@ -12,6 +12,8 @@ export abstract class DefenderEntity extends Entity{
 	}
 
 	public override reloadStats(): void {
+		super.reloadStats();
+
 		let constructer = this.constructor as typeof DefenderEntity;
 		let upgrade = constructer.upgrades[0] as EntityStats;
 		let lvlIncrease = 2;
@@ -27,7 +29,7 @@ export abstract class DefenderEntity extends Entity{
 			//@ts-ignore
 			let baseState = upgrade[statType] as number;
 			//@ts-ignore
-			this.stats[statType] = baseState + baseState/lvlIncrease;
+			this.stats[statType] += baseState/lvlIncrease;
 		}
 		
 

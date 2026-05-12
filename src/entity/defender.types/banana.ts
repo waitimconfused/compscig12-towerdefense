@@ -1,27 +1,38 @@
+import { Position2D } from "../../types.js";
+import { DefenderEntity } from "../defender.js";
 import { Entity, EntityStats } from "../entity.js";
 
-export class BananaSpawner extends Entity {
+export class BananaSpawner extends DefenderEntity {
 	public override entityType: string = "defender/banana_spawner";
 
-	public static override upgrades: EntityStats[] = [];
+	public static override upgrades: EntityStats[] = [
+		{
+			health: 100,
+			max_health: 100,
+			speed: 0.1,
+			damage: 10,
+			knockback: 10,
+			spawnCooldown: 10,
+			attackCooldown: 10,
+			entityPurchaseCost: 10,
+			entityResaleCost: 10
+		}
+	];
 
 	protected override die(): void {}
 
 	public override async brain() {
 
-		await this.wait(5000);
+		await this.wait(1000);
+		console.log("Spawning Banana");
 		Banana.spawn(1, this.position);
 
 	}
 }
 
-class Banana extends Entity {
+export class Banana extends BananaSpawner {
 	
 	public override entityType: string = "defender/banana_entity";
-
-	public static override upgrades: EntityStats[] = [];
-
-	protected override die(): void {}
 
 	public override async brain() {
 
