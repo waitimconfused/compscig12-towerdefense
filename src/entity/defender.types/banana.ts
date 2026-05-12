@@ -1,19 +1,17 @@
-import { Position2D } from "../../types.js";
-import { DefenderEntity } from "../defender.js";
-import { Entity, EntityStats } from "../entity.js";
+import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
 export class BananaSpawner extends DefenderEntity {
 	public override entityType: string = "defender/banana_spawner";
 
-	public static override upgrades: EntityStats[] = [
+	public static override upgrades:DefenderEntityStats[] = [
 		{
 			health: 100,
 			max_health: 100,
 			speed: 0.1,
 			damage: 10,
-			knockback: 10,
-			spawnCooldown: 10,
-			attackCooldown: 10,
+			knockBack: 10,
+			spawnCoolDown: 10,
+			attackCoolDown: 10,
 			entityPurchaseCost: 10,
 			entityResaleCost: 10
 		}

@@ -1,13 +1,13 @@
-import { DefenderEntity } from "../defender.js";
+import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { Position2D } from "../../types.js";
 import { EnemyEntity } from "../enemy.js";
-import { Entity, EntityStats } from "../entity.js";
+import { Entity } from "../entity.js";
 
 export class Cherry extends DefenderEntity {
 
 	public entityType:string = "defender/cherry";
 
-	public static override upgrades: EntityStats[] = [
+	public static override upgrades:DefenderEntityStats[] = [
 
 	];
 
@@ -52,10 +52,10 @@ export class Cherry extends DefenderEntity {
 		// /**
 		//  * cherry attacks enemy
 		//  * @param target the enemy
-		//  * @returns if there is no target or there is some modifier/cooldown that prevents them from hitting, do not attack
+		//  * @returns if there is no target or there is some modifier/cool-down that prevents them from hitting, do not attack
 		//  */
 		// public attackEnemy(target : EnemyEntity) : void{
-		// 	//if there is no target or there is some modifier/cooldown that prevents them from hitting, do not attack
+		// 	//if there is no target or there is some modifier/cool-down that prevents them from hitting, do not attack
 		// 	if (!target || this.canHit == false) {
 		// 		return;
 		// 	}

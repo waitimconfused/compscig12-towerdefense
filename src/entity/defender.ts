@@ -1,7 +1,21 @@
 import { Position2D } from "../types.js";
 import { Entity, EntityStats } from "./entity.js";
 
+export interface DefenderEntityStats extends EntityStats {
+	/**
+	 * the entity's purchase cost
+	 */
+	entityPurchaseCost : number;
+
+	/**
+	 * the entity's resale cost
+	 */
+	entityResaleCost : number;
+}
+
 export abstract class DefenderEntity extends Entity{
+
+	static override upgrades: DefenderEntityStats[];
 
 	protected die(): void {
 		
@@ -14,8 +28,8 @@ export abstract class DefenderEntity extends Entity{
 	public override reloadStats(): void {
 		super.reloadStats();
 
-		let constructer = this.constructor as typeof DefenderEntity;
-		let upgrade = constructer.upgrades[0] as EntityStats;
+		let constructor = this.constructor as typeof DefenderEntity;
+		let upgrade = constructor.upgrades[0] as EntityStats;
 		let lvlIncrease = 2;
 		let storeUpgrades = Object.keys(upgrade);
 

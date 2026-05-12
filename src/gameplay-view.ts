@@ -5,7 +5,7 @@ import { Canvas, Position2D, RenderingContext } from "./types.js";
 import Engine from "./engine.js"
 
 import spriteAssets from "../assets/sprites.json" with { type: "json" };
-import { BasicSprite, RawSpriteLogic, rulesToFunction } from "./entity/logicflow.js";
+import { BasicSprite, RawSpriteLogic, rulesToFunction } from "./entity/logic-flow.js";
 import { Strawberry } from "./entity/defender.types/strawberry.js";
 
 type SpriteRenderingRuleset = { [entityType:string]: (entity:Entity)=>BasicSprite[] };

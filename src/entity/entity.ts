@@ -23,7 +23,7 @@ export type EntityEvent = {
 /**
  * Structure for entity stats.
  */
-export type EntityStats = {
+export interface EntityStats {
 	
 	/**
 	 * The current entity health
@@ -46,29 +46,19 @@ export type EntityStats = {
 	damage: number;
 
 	/**
-	 *the knockback the entity does against another entity
+	 *the knock-back the entity does against another entity
 	 */
-	knockback : number;
+	knockBack : number;
 
 	/**
-	 * the entity's spawn cooldown
+	 * the entity's spawn cool-down
 	 */
-	spawnCooldown : number;
+	spawnCoolDown : number | undefined;
 
 	/**
-	 * the entity's attack cooldown
+	 * the entity's attack cool-down
 	 */
-	attackCooldown : number;
-
-	/**
-	 * the entity's purchase cost
-	 */
-	entityPurchaseCost : number;
-
-	/**
-	 * the entity's resale cost
-	 */
-	entityResaleCost : number;
+	attackCoolDown : number | undefined;
 
 }
 
@@ -82,10 +72,10 @@ export abstract class Entity {
 	public stunned:boolean = false;
 
 	/**
-	 * Tracks number of regneration stacks currently active on an entity
+	 * Tracks number of regeneration stacks currently active on an entity
 	 * Prevents regeneration from stacking infinitely
 	 */
-	public currentRegenStacks:number = 0;
+	public currentRegenerationStacks:number = 0;
 	
 	/**
 	 * Keep track of if the entity has the slowness modifier
@@ -143,9 +133,7 @@ export abstract class Entity {
 	 * 
 	 * The upgrades are applied in relation to `Entity.level`
 	 */
-	public static upgrades:EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, damage: 10, knockback:3, spawnCooldown: 5, attackCooldown: 3, entityPurchaseCost: 10, entityResaleCost:5 }
-	];
+	public static upgrades:EntityStats[];
 
 	/**
 	 * Keep track of what the location the entity is trying to walk to
@@ -512,7 +500,7 @@ export abstract class Entity {
 			// Get the current timer
 			let timer = this.internalTimers[i] as EntityTimer;
 
-			// If there is a set selecter, and the timer's type does not
+			// If there is a set selector, and the timer's type does not
 			// match the selector, go to the next timer
 			if (selector && timer.type != selector) continue;
 

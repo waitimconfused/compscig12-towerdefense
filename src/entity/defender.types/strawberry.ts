@@ -1,15 +1,34 @@
-import { MouseManager } from "../../mouse.js";
 import { Position2D } from "../../types.js";
-import { DefenderEntity } from "../defender.js";
+import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { EntityEvent, EntityStats } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
 
 	public entityType = "defender/strawberry";
 
-	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.4, damage: 10 },
-		{ health: 0, max_health: 120, speed: 0.4, damage: 20 }
+	public static override upgrades: DefenderEntityStats[] = [
+		{
+			health: 100,
+			max_health: 100,
+			speed: 0.4,
+			damage: 10,
+			knockBack: 10,
+			entityPurchaseCost: 10,
+			entityResaleCost: 10,
+			attackCoolDown: undefined,
+			spawnCoolDown: undefined
+		},
+		{
+			health: 120,
+			max_health: 120,
+			speed: 0.4,
+			damage: 20,
+			knockBack: 10,
+			entityPurchaseCost: 10,
+			entityResaleCost: 10,
+			attackCoolDown: undefined,
+			spawnCoolDown: undefined
+		},
 	];
 
 	public override async walkTo(x: number, y: number): Promise<undefined | EntityEvent> {

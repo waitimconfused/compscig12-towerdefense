@@ -15,6 +15,10 @@ type EngineTimer = {
 	complete: ()=>void
 };
 
+/**
+ * All values that can be used in CSS's `cursor` property
+ * EG: `cursor: help`, `cursor: pointer`, `cursor: auto`
+ */
 type CSSCursor = (
 	"auto" | "default" | "none" |
 	"context-menu" | "help" | "pointer" | "progress" | "wait" |
@@ -44,8 +48,6 @@ export default class Engine {
 	public static get currentView() { return this._currentView; }
 
 	private static views:ViewObjectLayout = {};
-
-	public static windowVisible:boolean = true;
 
 	public static anchor = {
 		topLeft:		Symbol("Anchor:tl"),
@@ -145,19 +147,6 @@ export default class Engine {
 		window.requestAnimationFrame(() => this.render());
 	}
 
-	public static async waitForVisible():Promise<true> {
-		return new Promise((resolve) => {
-
-			let anonymous = () => {
-				document.removeEventListener("visibilitychange", anonymous);
-				resolve(true);
-			};
-
-			document.addEventListener("visibilitychange", anonymous);
-
-		});
-	}
-
 	public static resolveAnchor(anchor:symbol):Position2D|null {
 
 		switch (anchor) {
@@ -209,13 +198,3 @@ export function wait(time:number):Promise<void> {
   })
 
 }
-
-document.addEventListener("visibilitychange", (event) => {
-
-	if (document.visibilityState == "visible") {
-		Engine.windowVisible = true;
-	} else {
-		Engine.windowVisible = false;
-	}
-
-});

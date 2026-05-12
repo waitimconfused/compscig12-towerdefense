@@ -45,11 +45,11 @@ export class StatusEffects {
      * @returns If Entity has more than 3 regeneration stacks
      */
     public static async regenEntity(regeneratingEntity : Entity, duration : number, regenerationAmount : number) : Promise<void> {
-        if (regeneratingEntity.currentRegenStacks >= 3) {
+        if (regeneratingEntity.currentRegenerationStacks >= 3) {
             return;
         }
 
-        regeneratingEntity.currentRegenStacks++;
+        regeneratingEntity.currentRegenerationStacks++;
 
         // Initializes tick rate and total time count
         const TICK_RATE : number = 500;
@@ -59,7 +59,7 @@ export class StatusEffects {
         while (totalTime < duration) {
             // Checks if entity is dead, breaks loop and removes all regen stacks
             if (regeneratingEntity.stats.health <= 0) {
-                regeneratingEntity.currentRegenStacks = 0;
+                regeneratingEntity.currentRegenerationStacks = 0;
                 break;
             }
 
@@ -74,7 +74,7 @@ export class StatusEffects {
             totalTime += TICK_RATE;
         }
 
-        regeneratingEntity.currentRegenStacks--;
+        regeneratingEntity.currentRegenerationStacks--;
     }
 
     public static async slowEntity(target : Entity, duration : number) : Promise<void> {

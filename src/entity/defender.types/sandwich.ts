@@ -1,13 +1,21 @@
-import { DefenderEntity } from "../defender.js";
-import { EntityStats } from "../entity.js";
+import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
 export class Sandwich extends DefenderEntity {
 
 	public entityType = "defender/sandwich";
 
-	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0, damage: 10 },
-		{ health: 0, max_health: 120, speed: 0, damage: 20 }
+	public static override upgrades: DefenderEntityStats[] = [
+		{
+			health: 100,
+			max_health: 100,
+			speed: 0,
+			damage: 10,
+			knockBack: 10,
+			entityPurchaseCost: 10,
+			entityResaleCost: 10,
+			attackCoolDown: undefined,
+			spawnCoolDown: undefined
+		}
 	];
 
 

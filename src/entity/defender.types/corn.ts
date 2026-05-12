@@ -1,9 +1,7 @@
-import { Entity, EntityEvent, EntityEventType, EntityStats } from "../entity.js";
+import { Entity } from "../entity.js";
 import { EnemyEntity } from "../enemy.js";
-import { DefenderEntity } from "../defender.js";
-import { MouseManager } from "../../mouse.js";
-import { Position2D } from "../../types.js";
-import { Kernal } from "./kernal.js";
+import { DefenderEntityStats } from "../defender.js";
+import { Kernel } from "./kernel.js";
 
 /**
  * create the class Corn that extends from Entity
@@ -17,9 +15,18 @@ export class Corn extends Entity{
 	 * the corn's lvl 1 stats
 	 * through the DefenderEntity class, it will be able to level up, with reference to its base stats
 	 */
-	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 25, speed: 1, baseSpeed : 0.5, damage: 15, 
-			knockback:3, spawnCooldown: 7, attackCooldown: 3, entityPurchaseCost:35, entityResaleCost:5 },
+	public static override upgrades: DefenderEntityStats[] = [
+		{
+			health: 0,
+			max_health: 25,
+			speed: 1,
+			damage: 15, 
+			knockBack: 3,
+			spawnCoolDown: 7,
+			attackCoolDown: 3,
+			entityPurchaseCost: 35,
+			entityResaleCost: 5
+		},
 	];
 
 	/**
@@ -35,7 +42,7 @@ export class Corn extends Entity{
 	 * @returns if there are no enemies nearby, get out of teh brain
 	 */
 	public async brain() {
-		//store the cloest enemy entity nearby from the Corn
+		//store the closest enemy entity nearby from the Corn
 		let closestEntity = Entity.nearestEntity(this, EnemyEntity) as EnemyEntity | undefined;
 
 		//if there are no entities nearby, don't continue running the code
@@ -45,9 +52,9 @@ export class Corn extends Entity{
 		let distance = Entity.getDistance(this, closestEntity);
 
 		//if the distance between the enemy and the corn is less than or equal to 45 pixels, start attacking
-		//the corn will shoot/summon a kernal between the position of the Corn and the enemy
+		//the corn will shoot/summon a kernel between the position of the Corn and the enemy
 		if (distance <= 45){
-			new Kernal(this.position, closestEntity);
+			new Kernel(this.position, closestEntity);
 			
 			//change the Corn's state to shooting
 			this.state = "shoot";
