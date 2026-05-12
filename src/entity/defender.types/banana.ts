@@ -1,9 +1,15 @@
 import { Entity, EntityStats } from "../entity.js";
 
 export class BananaSpawner extends Entity {
+	protected canRollTwice : boolean = false;
+
 	public override entityType: string = "defender/banana_spawner";
 
-	public static override upgrades: EntityStats[] = [];
+	public static override upgrades: EntityStats[] = [
+		{ health: 0, max_health: 30, speed: 1.5, baseSpeed : 1.5, damage: 620, 
+			knockback:3, spawnCooldown: 15, entityPurchaseCost:30, 
+			entityResaleCost:15, slowDuration : 10000, upgradeEntityCost:45 },
+	];
 
 	protected override die(): void {}
 
@@ -15,7 +21,7 @@ export class BananaSpawner extends Entity {
 	}
 }
 
-class Banana extends Entity {
+export class Banana extends Entity {
 	
 	public override entityType: string = "defender/banana_entity";
 
