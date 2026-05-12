@@ -1,4 +1,4 @@
-import { EnemyDrops, EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
 import { Entity, EntityStats } from "../entity.js";
 import { Position2D } from "../../types.js";
@@ -11,8 +11,16 @@ export class Wasp extends EnemyEntity {
 
 	public speedStacks : number = 0;
 
-	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 25, speed: 0.2, baseSpeed: 0.2, damage: 10 }
+	public static override upgrades: EnemyEntityStats[] = [
+		{
+			health: 25,
+			max_health: 25,
+			speed: 0.2,
+			damage: 10,
+			knockBack: 10,
+			spawnCoolDown: 10,
+			attackCoolDown: 10
+		}
 	];
 
 	protected drops: EnemyDrops = {

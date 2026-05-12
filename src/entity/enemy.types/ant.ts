@@ -1,7 +1,6 @@
-import { Position2D } from "../../types.js";
 import { DefenderEntity } from "../defender.js";
-import { EnemyDrops, EnemyEntity } from "../enemy.js";
-import { DamageType, Entity, EntityEvent, EntityStats } from "../entity.js";
+import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
+import { DamageType, Entity, EntityEvent } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 
 /**
@@ -14,8 +13,16 @@ export class Ant extends EnemyEntity {
 
 	public entityType = "enemy/ant";
 	
-	public static stats : EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.5, damage: 10 }
+	public static stats : EnemyEntityStats[] = [
+		{
+			health: 100,
+			max_health: 100,
+			speed: 0.1,
+			damage: 10,
+			knockBack: 10,
+			spawnCoolDown: 10,
+			attackCoolDown: 10
+		}
 	]
 
 	public drops : EnemyDrops = {

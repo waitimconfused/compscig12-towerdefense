@@ -1,13 +1,21 @@
 import { DefenderEntity } from "../defender.js";
-import { EnemyDrops, EnemyEntity } from "../enemy.js";
-import { Entity, EntityStats } from "../entity.js";
+import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
+import { Entity } from "../entity.js";
 
 export class Frog extends EnemyEntity {
 
 	public override entityType:string = "enemy/frog";
 
-	public static stats : EntityStats[] = [
-		{ health: 0, max_health: 75, speed: 0.75, damage: 0 }
+	public static stats:EnemyEntityStats[] = [
+		{
+			health: 75,
+			max_health: 75,
+			speed: 0.75,
+			damage: 0,
+			knockBack: 10,
+			spawnCoolDown: 10,
+			attackCoolDown: 10
+		}
 	]
 
 	public isLeaping:boolean;

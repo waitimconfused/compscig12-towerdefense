@@ -23,7 +23,7 @@ export class Corn extends Entity{
 			damage: 15, 
 			knockBack: 3,
 			spawnCoolDown: 7,
-			attackCoolDown: 3,
+			attackCoolDown: undefined,
 			entityPurchaseCost: 35,
 			entityResaleCost: 5
 		},

@@ -1,4 +1,4 @@
-import { EnemyDrops, EnemyEntity } from "../enemy.js";
+import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
 import { Position2D } from "../../types.js";
 import { Entity, EntityEvent, EntityStats } from "../entity.js";
@@ -13,8 +13,16 @@ import { StatusEffects } from "../statusEffects.js";
 export class Raccoon extends EnemyEntity {
 	public entityType:string = "enemy/raccoon";
 
-	public static override upgrades: EntityStats[] = [
-		{ health: 0, max_health: 100, speed: 0.2, baseSpeed: 0.2, damage: 10 }
+	public static override upgrades: EnemyEntityStats[] = [
+		{
+			health: 100,
+			max_health: 100,
+			speed: 0.2,
+			damage: 10,
+			knockBack: 10,
+			spawnCoolDown: 10,
+			attackCoolDown: 10
+		}
 	];
 
 	protected drops: EnemyDrops = {

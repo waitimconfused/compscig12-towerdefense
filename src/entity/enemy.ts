@@ -7,7 +7,7 @@ export type MaterialType = 'jar' | 'wood' | 'honey' | 'glassLemonade'
 export type MaterialDrop = {
     type : MaterialType,
     amount : number;
-}
+};
 
 export type EnemyDrops = {
     coins: number;
@@ -17,13 +17,27 @@ export type EnemyDrops = {
         chance: number;
         amount: number;
     }[];
-}
+};
+
+export interface EnemyEntityStats extends EntityStats {
+	/**
+	 * the entity's spawn cool-down
+	 */
+	spawnCoolDown : number;
+
+	/**
+	 * the entity's attack cool-down
+	 */
+	attackCoolDown : number;
+};
 
 export abstract class EnemyEntity extends Entity {
 	protected waveNumber : number;
     protected abstract healthScale : number;
     protected abstract drops : EnemyDrops;
     protected spawnLocation : Position2D = [0,0];
+
+	public static override upgrades: EnemyEntityStats[];
 
     /**
      * Changes enemy state to dead on death and calculates rewards

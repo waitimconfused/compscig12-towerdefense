@@ -11,7 +11,7 @@ export class BananaSpawner extends DefenderEntity {
 			damage: 10,
 			knockBack: 10,
 			spawnCoolDown: 10,
-			attackCoolDown: 10,
+			attackCoolDown: undefined,
 			entityPurchaseCost: 10,
 			entityResaleCost: 10
 		}
