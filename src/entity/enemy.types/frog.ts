@@ -1,6 +1,6 @@
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
-import { Entity } from "../entity.js";
+import { Entity, EntityEvent } from "../entity.js";
 
 export class Frog extends EnemyEntity {
 
@@ -37,13 +37,17 @@ export class Frog extends EnemyEntity {
 		// Cannot deal damage but can't take damage when leaping
 		this.stunned = true;
 		this.invulnerable = true;
-	
+		this.state = 'walk';
+
 		await this.walkTo(
 			// placeholder for now
 			target.position[0] + 2,
 			target.position[1]
 		);
-	
+		
+		await this.wait(600);
+		
+		this.state = 'idle'
 		this.isLeaping = false;
 		this.stunned = false;
 		this.invulnerable = false;

@@ -40,7 +40,7 @@ export class Raccoon extends EnemyEntity {
 			return;
 		}
 
-		this.state = "attack";
+		this.state = 'attack';
 
 		let interrupt = await this.wait(400);
 

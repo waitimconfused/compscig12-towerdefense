@@ -1,6 +1,6 @@
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
-import { Entity } from "../entity.js";
+import { Entity, EntityEvent } from "../entity.js";
 
 export class Wasp extends EnemyEntity {
 
@@ -30,6 +30,28 @@ export class Wasp extends EnemyEntity {
 	};
 
 	public override healthScale: number = 1.2;
+
+	public override async attackEntity(entity: Entity): Promise<undefined | EntityEvent> {
+		if (this.stunned) {
+			return;
+		}
+
+		this.state = 'attack'
+
+		let interrupt = await this.wait(500);
+
+		if (interrupt) {
+			this.state = 'idle';
+		}
+
+		let result = await super.attackEntity(entity);
+
+		await this.wait(200);
+
+		this.state = 'idle'
+
+		return;
+	}
 
 	public async brain() {
 		await this.wait(5000);

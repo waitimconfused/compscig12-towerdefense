@@ -1,3 +1,4 @@
+import { isBigIntLiteral } from "typescript";
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { DamageType, Entity, EntityEvent } from "../entity.js";
@@ -59,6 +60,28 @@ export class Ant extends EnemyEntity {
 			resolve(undefined);
 		});
 
+	}
+
+	public override async attackEntity(entity: Entity): Promise<undefined | EntityEvent> {
+		if (this.stunned) {
+			return;
+		}
+
+		this.state = 'attack'
+
+		let interrupt = await this.wait(400);
+
+		if (interrupt) {
+			this.state = 'idle'
+		}
+
+		let result = await super.attackEntity(entity);
+
+		await this.wait(100);
+
+		this.state = 'idle';
+
+		return result;
 	}
 
 	public async brain() {
