@@ -146,6 +146,14 @@ export abstract class Entity {
 	 * isn't currently running
 	 */
 	private brainActive:boolean = false;
+
+	/**
+	 * Keep track of if the entity is dead
+	 * 
+	 * Used in `tick()`, for determining when to run
+	 * the `die()` function only once
+	 */
+	private isDead:boolean = false;
 	
 	/**
 	 * Keep track of what offset to apply to the sprite when
@@ -581,7 +589,9 @@ export abstract class Entity {
 	public tick(deltaTime:number) {
 
 		// If the entity's health is <= 0, kill it
-		if (this.stats.health <= 0) {
+		if (this.stats.health <= 0 && this.isDead == false) {
+
+			this.isDead = true;
 
 			// Call the `die()` function,
 			// for last-minute actions like dropping items
