@@ -17,8 +17,7 @@ export class Corn extends Entity{
 	 */
 	public static override upgrades: DefenderEntityStats[] = [
 		{
-			health: 0,
-			max_health: 25,
+			health: 25,
 			speed: 1,
 			damage: 15, 
 			knockBack: 3,

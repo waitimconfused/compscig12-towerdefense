@@ -6,7 +6,6 @@ export class BananaSpawner extends DefenderEntity {
 	public static override upgrades:DefenderEntityStats[] = [
 		{
 			health: 100,
-			max_health: 100,
 			speed: 0.1,
 			damage: 10,
 			knockBack: 10,

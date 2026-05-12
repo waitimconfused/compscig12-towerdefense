@@ -31,11 +31,6 @@ export interface EntityStats {
 	health: number;
 
 	/**
-	 * The upper-limit on what the entity's health value can be
-	 */
-	max_health: number;
-
-	/**
 	 * The movement speed of the entity
 	 */
 	speed: number;

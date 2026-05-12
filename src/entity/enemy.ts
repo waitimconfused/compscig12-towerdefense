@@ -81,7 +81,6 @@ export abstract class EnemyEntity extends Entity {
             return;
         }
 
-        this.stats.max_health *= Math.pow(this.healthScale, this.waveNumber);
-        this.stats.health = this.stats.max_health;
+        this.stats.health *= Math.pow(this.healthScale, this.waveNumber);
     }
 }

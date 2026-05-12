@@ -1,5 +1,5 @@
 import { Frog } from "./enemy.types/frog";
-import { Entity } from "./entity";
+import { Entity, EntityStats } from "./entity";
 
 /**
  * Class to handle status effects of entities
@@ -51,6 +51,8 @@ export class StatusEffects {
 
         regeneratingEntity.currentRegenerationStacks++;
 
+		let regeneratingEntityConstructor = regeneratingEntity.constructor as typeof Entity;
+
         // Initializes tick rate and total time count
         const TICK_RATE : number = 500;
         let totalTime : number = 0;
@@ -63,10 +65,16 @@ export class StatusEffects {
                 break;
             }
 
+			let level = regeneratingEntityConstructor.level;
+			let currentUpgrade = regeneratingEntityConstructor.upgrades[level] as EntityStats;
+
             // Adds the regeneration amount to the entity's health stat
             // Gets the lower value of the increased health and maximum health
             // (Entity cannot exceed its maximum health)
-            regeneratingEntity.stats.health = Math.min(regeneratingEntity.stats.health + regenerationAmount, regeneratingEntity.stats.max_health);
+            regeneratingEntity.stats.health = Math.min(
+				regeneratingEntity.stats.health + regenerationAmount,
+				currentUpgrade.health
+			);
 
             // Delay by tick rate
             await regeneratingEntity.wait(TICK_RATE);

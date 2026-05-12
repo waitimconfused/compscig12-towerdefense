@@ -9,7 +9,6 @@ export class Frog extends EnemyEntity {
 	public static stats:EnemyEntityStats[] = [
 		{
 			health: 75,
-			max_health: 75,
 			speed: 0.75,
 			damage: 0,
 			knockBack: 10,

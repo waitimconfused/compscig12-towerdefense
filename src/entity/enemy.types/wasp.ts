@@ -13,7 +13,6 @@ export class Wasp extends EnemyEntity {
 	public static override upgrades: EnemyEntityStats[] = [
 		{
 			health: 25,
-			max_health: 25,
 			speed: 0.2,
 			damage: 10,
 			knockBack: 10,

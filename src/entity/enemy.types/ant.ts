@@ -16,7 +16,6 @@ export class Ant extends EnemyEntity {
 	public static stats : EnemyEntityStats[] = [
 		{
 			health: 100,
-			max_health: 100,
 			speed: 0.1,
 			damage: 10,
 			knockBack: 10,

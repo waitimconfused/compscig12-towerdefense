@@ -9,7 +9,6 @@ export class Strawberry extends DefenderEntity {
 	public static override upgrades: DefenderEntityStats[] = [
 		{
 			health: 100,
-			max_health: 100,
 			speed: 0.4,
 			damage: 10,
 			knockBack: 10,
@@ -20,7 +19,6 @@ export class Strawberry extends DefenderEntity {
 		},
 		{
 			health: 120,
-			max_health: 120,
 			speed: 0.4,
 			damage: 20,
 			knockBack: 10,

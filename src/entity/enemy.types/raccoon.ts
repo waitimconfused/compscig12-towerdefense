@@ -16,7 +16,6 @@ export class Raccoon extends EnemyEntity {
 	public static override upgrades: EnemyEntityStats[] = [
 		{
 			health: 100,
-			max_health: 100,
 			speed: 0.2,
 			damage: 10,
 			knockBack: 10,
