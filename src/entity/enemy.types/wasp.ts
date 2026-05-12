@@ -1,7 +1,6 @@
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { DefenderEntity } from "../defender.js";
-import { Entity, EntityStats } from "../entity.js";
-import { Position2D } from "../../types.js";
+import { Entity } from "../entity.js";
 
 export class Wasp extends EnemyEntity {
 
