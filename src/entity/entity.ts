@@ -370,14 +370,14 @@ export abstract class Entity {
 
 		if (!this.stats) this.stats = {} as EntityStats;
 
-		let storeUpgrades = Object.keys(upgrade);
+		let storeUpgrades = Object.keys(upgrade) as (keyof typeof upgrade)[];
 
 		for (let i = 0; i < storeUpgrades.length; i++){
 
-			//grab and store the key from the upgrades
-			let statType = storeUpgrades[i] as string;
+			// Get the key from the current upgrade
+			let statType = storeUpgrades[i] as keyof typeof upgrade;
 
-			//@ts-ignore
+			// Update the current entity stats
 			this.stats[statType] = upgrade[statType] as number;
 		}
 

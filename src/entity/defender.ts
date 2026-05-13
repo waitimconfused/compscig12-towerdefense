@@ -17,6 +17,18 @@ export abstract class DefenderEntity extends Entity{
 
 	static override upgrades: DefenderEntityStats[];
 
+	/**
+	 * Value used inside `this.reloadStats()` to determine
+	 * how to increase the entity's stats
+	 * 
+	 * This is because only one upgrade is to be specified
+	 * for each `Defender`. This initial upgrade is used to
+	 * determine the following stats for any following wave.
+	 * 
+	 * Usage: `new_stat = base_stat / levelIncrease`
+	 */
+	private static levelIncrease:number = 2;
+
 	protected die(): void {
 		
 	}
@@ -30,20 +42,21 @@ export abstract class DefenderEntity extends Entity{
 
 		let constructor = this.constructor as typeof DefenderEntity;
 		let upgrade = constructor.upgrades[0] as EntityStats;
-		let lvlIncrease = 2;
 		let storeUpgrades = Object.keys(upgrade);
 
 		/**
 		 * level up the the defender 
 		 */
 		for (let i = 0; i < storeUpgrades.length; i++){
-			//grab and store the key from the upgrades
-			let statType = storeUpgrades[i] as string;
-			//grab and store the value of the key from upgrades
-			//@ts-ignore
+			
+			// Get the key of the upgraded stat
+			let statType = storeUpgrades[i] as keyof typeof upgrade;
+			
+			// Get the upgraded stat value
 			let baseState = upgrade[statType] as number;
-			//@ts-ignore
-			this.stats[statType] += baseState/lvlIncrease;
+
+			// Update the entity stats
+			this.stats[statType] += baseState / constructor.levelIncrease;
 		}
 		
 
