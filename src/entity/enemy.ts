@@ -81,21 +81,3 @@ export abstract class EnemyEntity extends Entity {
         this.stats.health *= Math.pow(this.healthScale, this.waveNumber);
     }
 }
-
-export class TileController {
-    protected _canvas : HTMLCanvasElement;
-    protected _ctx : CanvasRenderingContext2D;
-    protected _tileColour : string;
-
-    protected _tile : EnemyEntity;
-
-    public get tile() : EnemyEntity { return this._tile };
-    public get tileColour() : string { return this._tileColour };
-    public get x() : number { return 1 };
-    public get y() : number { return 1 };
-    public get width() : number { return 1 };
-    public get height() : number { return 1 };
-    
-
-
-}
