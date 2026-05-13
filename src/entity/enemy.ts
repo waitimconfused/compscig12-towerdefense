@@ -37,6 +37,8 @@ export abstract class EnemyEntity extends Entity {
     protected abstract drops : EnemyDrops;
     protected spawnLocation : Position2D = [0,0];
 
+	declare public stats: EnemyEntityStats;
+
 	public static override upgrades: EnemyEntityStats[];
 
     /**

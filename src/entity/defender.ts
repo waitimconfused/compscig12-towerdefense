@@ -15,6 +15,8 @@ export interface DefenderEntityStats extends EntityStats {
 
 export abstract class DefenderEntity extends Entity{
 
+	declare public stats: DefenderEntityStats;
+
 	static override upgrades: DefenderEntityStats[];
 
 	/**
@@ -41,7 +43,7 @@ export abstract class DefenderEntity extends Entity{
 		super.reloadStats();
 
 		let constructor = this.constructor as typeof DefenderEntity;
-		let upgrade = constructor.upgrades[0] as EntityStats;
+		let upgrade = constructor.upgrades[0] as DefenderEntityStats;
 		let storeUpgrades = Object.keys(upgrade);
 
 		/**
