@@ -11,7 +11,7 @@ import { Entity, EntityEvent } from "../entity.js";
  */
 export class Frog extends EnemyEntity {
 	// Frog entity type
-	public override entityType:string = "enemy/frog";
+	public entityType:string = "enemy/frog";
 
 	// Initial stats of Frog
 	public static stats:EnemyEntityStats[] = [
@@ -57,7 +57,7 @@ export class Frog extends EnemyEntity {
 
 		await this.walkTo(
 			// placeholder for now, walk to nearest part on the path
-			this.position[0] + 2,
+			this.position[0] + 100,
 			this.position[1]
 		);
 		
