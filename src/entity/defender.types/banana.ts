@@ -1,4 +1,5 @@
 import { Entity, EntityStats } from "../entity.js";
+import { BananaPeel } from "./bananaPeel.js";
 
 export class BananaSpawner extends Entity {
 	protected canRollTwice : boolean = false;
@@ -37,6 +38,8 @@ export class Banana extends Entity {
 		if (interrupt) return;
 
 		this.stats.health = 0;
+
+		new BananaPeel(this.position);
 
 	}
 

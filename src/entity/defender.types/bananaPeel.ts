@@ -6,5 +6,9 @@ import { Banana } from "./banana.js";
 export class BananaPeel extends Banana{
 	public override entityType: string = "defender/banana_peel";
 
-	protected override die(): void {}
+	protected override die(): void {};
+
+	public override async brain(): Promise<void> {
+		
+	}
 }
