@@ -18,7 +18,7 @@ export class BananaSpawner extends DefenderEntity {
 		stunChance : 0,
 		stunDuration : 0,
 		slowDuration : 5000,
-		regenDuration : 0,
+		regenerationDuration : 0,
 		aoeRange : 20,
 		upgradeEntityCost : 35,
 		entityPurchaseCost: 30,

@@ -19,7 +19,7 @@ export class Sandwich extends DefenderEntity {
 			stunChance : 0,
 			stunDuration : 0,
 			slowDuration : 0, 
-			regenDuration : 0,
+			regenerationDuration : 0,
 			aoeRange : 0,
 			upgradeEntityCost : 30
 		};
@@ -27,10 +27,6 @@ export class Sandwich extends DefenderEntity {
 	//call method that unlocks Sandwich's skill
 	//unlockSkill(bigSandwich);
 
-	/**
-	 * the brain checks for events that happen around and to the Kernal
-	 * as of now it is used to check for enemies nearby
-	 */
 	public async brain() {
 
 		await this.wait(500);

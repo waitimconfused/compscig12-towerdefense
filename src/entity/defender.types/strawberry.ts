@@ -26,7 +26,7 @@ export class Strawberry extends DefenderEntity {
 			stunChance : 0,
 			stunDuration : 0,
 			slowDuration : 0,
-			regenDuration : 0,
+			regenerationDuration : 0,
 			aoeRange : 0,
 			upgradeEntityCost : 15,
 			entityPurchaseCost: 10,
@@ -61,7 +61,7 @@ export class Strawberry extends DefenderEntity {
 
 	public override reloadStats(): void {
 		super.reloadStats();
-		//if the chance of the strawberry being pyschotic is not 100% - 
+		//if the chance of the strawberry being psychotic is not 100% - 
 		// keep on increasing the chance by the current probability divided by 3
 		if (Strawberry.psychoticStateProb != 100){
 			Strawberry.psychoticStateProb += Strawberry.psychoticStateProb/3;	
