@@ -1,8 +1,11 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
-
+import { EnemyEntity } from "../enemy.js";
+import { Entity } from "../entity.js";
+import { StatusEffects } from "../statusEffects.js";
 export class BananaSpawner extends DefenderEntity {
+	protected canRollTwice : boolean = false;
 	public override entityType: string = "defender/banana_spawner";
-
+	
 	public static override upgrades:DefenderEntityStats[] = [
 		{
 			health: 100,
@@ -11,6 +14,12 @@ export class BananaSpawner extends DefenderEntity {
 			knockBack: 10,
 			spawnCoolDown: 10,
 			attackCoolDown: undefined,
+			stunChance : undefined,
+			stunDuration : undefined,
+			slowDuration : undefined,
+			regenDuration : undefined,
+			aoeRange : undefined,
+			upgradeEntityCost : 15,
 			entityPurchaseCost: 10,
 			entityResaleCost: 10
 		}
@@ -40,6 +49,28 @@ export class Banana extends BananaSpawner {
 
 		this.stats.health = 0;
 
+		new BananaPeel(this.position);
+
 	}
 
+}
+
+export class BananaPeel extends Banana{
+	public override entityType: string = "defender/banana_peel";
+
+
+	protected override die(): void {};
+
+
+	public slowEnemies() : void{
+		let slowInRange = Entity.totalEntitiesInRange(this,20, EnemyEntity);
+
+		for (let i = 0; i<slowInRange.length;i++){
+			StatusEffects.slowEntity(slowInRange[i] as Entity, this.stats.slowDuration as number);
+		}
+	}
+
+	public override async brain(): Promise<void> {
+		this.slowEnemies();
+	}
 }

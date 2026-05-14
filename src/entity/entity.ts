@@ -55,6 +55,36 @@ export interface EntityStats {
 	 */
 	attackCoolDown : number | undefined;
 
+	/**
+	 * the chance for entity to stun target (if they have the ability to stun entities)
+	 */
+	stunChance : number | undefined;
+
+	/**
+	 * the duration the entity stuns the target for (if they have the ability to stun entities)
+	 */
+	stunDuration : number | undefined;
+
+	/**
+	 * the duration the entity slows the target for (if they have the ability to slow entities)
+	 */
+	slowDuration : number | undefined;
+
+	/**
+	 * the duration the entity regenerates their health for (if they have the ability to regenerate)
+	 */
+	regenDuration : number | undefined;
+
+	/**
+	 * the range of an Entity's area of effect attack (if they have the ability to do aoe attacks)
+	 */
+	aoeRange : number | undefined;
+
+	/**
+	 * the cost of upgrading an entity (only applicable to Defenders)
+	 */
+	upgradeEntityCost : number | undefined;
+	
 }
 
 export abstract class Entity {
@@ -128,7 +158,16 @@ export abstract class Entity {
 	 * 
 	 * The upgrades are applied in relation to `Entity.level`
 	 */
-	public static upgrades:EntityStats[];
+	public static baseStats:EntityStats;
+
+	public static statIncreaseMultiplier : number = 1;
+
+	/**
+	 * the maxiumum value of the `Entity.level`
+	 * 
+	 * if set to `0`, then there is no max level
+	 */
+	public static maxLevel : number = 0;
 
 	/**
 	 * Keep track of what the location the entity is trying to walk to
@@ -290,7 +329,7 @@ export abstract class Entity {
 			}
 
 			// Deal damage to the entity
-			entity.dealDamage(this.stats.damage, this);
+			entity.dealDamage(this.stats.damage as number, this);
 			
 			// Resolve the promise, without providing a reason
 			resolve(undefined);
@@ -349,36 +388,31 @@ export abstract class Entity {
 
 	
 	/**
-	 * Update the entities stats, determined by `Entity.upgrades`
+	 * Update the entities stats, using their base stats as reference
 	 */
-	public reloadStats() {
-
-		// Get a reference to this entities constructor class
+	
+	public reloadStats(): void {
 		let constructor = this.constructor as typeof Entity;
+		let upgrade = constructor.baseStats as EntityStats;
+		let level = constructor.level;
+		let statIncreaseMultiplier = constructor.statIncreaseMultiplier;
+		let storeUpgrades = Object.keys(upgrade) as (keyof typeof upgrade)[];
 
-		if (constructor.upgrades.length == 0) {
-			throw new Error(`Entity ${constructor.name} must have at least one upgrade.`);
-		}
-
-		// Get the latest upgrade data
-		let upgrade = constructor.upgrades[constructor.level];
-
-		// If the new upgrade doesn't exist, stop
-		if (!upgrade) {
-			throw new Error(`Entity ${constructor.name} does not have an upgrade for level ${constructor.level}.`);
+		if (!constructor.baseStats) {
+			throw new Error(`Entity ${constructor.name} must specify baseStats.`);
 		}
 
 		if (!this.stats) this.stats = {} as EntityStats;
-
-		let storeUpgrades = Object.keys(upgrade) as (keyof typeof upgrade)[];
 
 		for (let i = 0; i < storeUpgrades.length; i++){
 
 			// Get the key from the current upgrade
 			let statType = storeUpgrades[i] as keyof typeof upgrade;
+			let statValue = upgrade[statType] as number;
 
 			// Update the current entity stats
-			this.stats[statType] = upgrade[statType] as number;
+			// this.stats[statType] = upgrade[statType]  + upgrade[statType] * lvlIncrease/2 * level;
+			this.stats[statType] = statValue * ( 1 + level*statIncreaseMultiplier );
 		}
 
 	}
@@ -460,7 +494,7 @@ export abstract class Entity {
 	 */
 	public static upgrade() {
 
-		if (this.level < this.upgrades.length)
+		if (this.level < this.maxLevel) return;
 
 		// Increase the level by `1s
 		this.level += 1;
@@ -553,7 +587,7 @@ export abstract class Entity {
 		);
 		
 		// Get the actual speed, adjusted using the deltaTime
-		let currentSpeed = this.stats.speed * deltaTime;
+		let currentSpeed = (this.stats.speed as number) * deltaTime;
 		
 		// If the distance is less than the step size, move
 		// directly to the target position, and stop
@@ -713,10 +747,7 @@ export abstract class Entity {
 			if (selector && entity instanceof selector == false) continue;
 
 			// Get the distance between the origin entity and the current entity
-			let distance = Math.hypot(
-				entity.position[0] - origin.position[0],
-				entity.position[1] - origin.position[1]
-			);
+			let distance = this.getDistance(origin,entity);
 
 			// If the distance is less than the past nearest distance,
 			// Update the stored entity and the stored distance
@@ -731,6 +762,45 @@ export abstract class Entity {
 		return nearest;
 
 	}
+
+	/**
+	 * find the total Entities in range of a specific Entity
+	 * used for finding the amount of entities that will be affected by an area of effect event
+	 * @param origin Specifies what entity is asking for the nearest entity
+	 * @param range the pixel distance of the effect
+	 * @param selector What kind of Entity should be selected. *(Optional)*
+	 * @returns 
+	 */
+	public static totalEntitiesInRange(origin:Entity, range:number, selector?: typeof Entity): Entity[]{
+		//create an object array to collect the specific entities that will be effected
+		let entitiesInRange : Entity[] = [];
+		// Get an array of all entities
+		let entities = [ ...Entity.entities.values() ];
+
+		// Loop through each Entity instance
+		for (let i = 0; i<entities.length;i++){
+			//get the current entity
+			let entity = entities[i] as Entity;
+
+			// If a selector has been set, and the entity is
+			// not an instance of it, move onto the next entity
+			if (selector && entity instanceof selector == false) continue;
+
+			// Get the distance between the origin entity and the current entity
+			let distance = this.getDistance(origin,entity);
+
+			// if the distance is within range, they Entity will be affected
+			// Update the stored entity and the stored distance
+			if (distance <= range) {
+				//update the list of entities in range
+				entitiesInRange.push(entity);
+			}
+		}
+
+		//return the list of Entities in range of the Entity
+		return entitiesInRange;
+	}
+
 
 	public static getDistance(origin:Entity, target: Entity) : number {
 		return Math.hypot(target.position[0] - origin.position[0], target.position[1] - origin.position[1]);

@@ -1,12 +1,16 @@
 import { Entity } from "../entity.js";
 import { EnemyEntity } from "../enemy.js";
 import { DefenderEntityStats } from "../defender.js";
-import { Kernel } from "./kernel.js";
+import { MouseManager } from "../../mouse.js";
+import { Position2D } from "../../types.js";
+import { Kernal } from "./kernal.js";
+import { Wasp } from "../enemy.types/wasp.js";
 
 /**
  * create the class Corn that extends from Entity
  */
 export class Corn extends Entity{
+	protected kernalAOE : boolean = false;
 
 	/**label the kind of entity corn is - a defender */
 	public override entityType = "defender/corn";
@@ -22,7 +26,13 @@ export class Corn extends Entity{
 			damage: 15, 
 			knockBack: 3,
 			spawnCoolDown: 7,
-			attackCoolDown: undefined,
+			attackCoolDown: 5,
+			stunChance : undefined,
+			stunDuration : undefined,
+			slowDuration : undefined,
+			regenDuration : undefined,
+			aoeRange : 10,
+			upgradeEntityCost : 45,
 			entityPurchaseCost: 35,
 			entityResaleCost: 5
 		},
@@ -34,6 +44,9 @@ export class Corn extends Entity{
 	protected override die(): void {
 		
 	}
+
+	//call method to unlock corn's skill
+	//unlockSkill(kernalAOE);
 
 	/**
 	 * the brain checks for events that happen around and to the Corn
@@ -50,10 +63,11 @@ export class Corn extends Entity{
 		//store the distance between the enemy and the corn
 		let distance = Entity.getDistance(this, closestEntity);
 
-		//if the distance between the enemy and the corn is less than or equal to 45 pixels, start attacking
-		//the corn will shoot/summon a kernel between the position of the Corn and the enemy
-		if (distance <= 45){
-			new Kernel(this.position, closestEntity);
+		//if the distance between the enemy and the corn is less than or equal to 45 pixels, 
+		// and Corn has not been stunned, start attacking
+		//the corn will shoot/summon a kernal between the position of the Corn and the enemy
+		if (distance <= 45 && this.stunned == false){
+			new Kernal(this.position, closestEntity);
 			
 			//change the Corn's state to shooting
 			this.state = "shoot";
@@ -64,9 +78,5 @@ export class Corn extends Entity{
 			//once done waiting revert Corn's animation back to idling
 			this.state = "idle";
 		}
-
-
 	}
-	
-
 }

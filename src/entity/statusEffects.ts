@@ -96,7 +96,7 @@ export class StatusEffects {
         target.slowed = true;
 
         if (target.slowStacks == 1) {
-            target.stats.speed *= 0.75
+            target.stats.speed *= 0.75;
         }
         
         if (target.entityType == 'enemy/frog') {

@@ -59,7 +59,16 @@ export abstract class DefenderEntity extends Entity{
 			this.stats[statType] += baseState / constructor.levelIncrease;
 		}
 		
+	}
 
+	
+	/**
+	 * if the type of Defender is level 3 or higher, they have unlocked their unique skill 
+	 * override reloadStats to check for Defender upgrade
+	 */
+
+	protected unlockSkill(activateSkill : boolean){
+		activateSkill = true;
 	}
 
 	
