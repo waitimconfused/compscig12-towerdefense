@@ -66,7 +66,7 @@ export class StatusEffects {
             }
 
 			let level = regeneratingEntityConstructor.level;
-			let currentUpgrade = regeneratingEntityConstructor.upgrades[level] as EntityStats;
+			let currentUpgrade = regeneratingEntityConstructor.baseStats as EntityStats;
 
             // Adds the regeneration amount to the entity's health stat
             // Gets the lower value of the increased health and maximum health
@@ -87,7 +87,7 @@ export class StatusEffects {
 
     public static async slowEntity(target : Entity, duration : number) : Promise<void> {
         let constructor = target.constructor as typeof Entity;
-        if (!constructor.upgrades[0]) {
+        if (!constructor.baseStats) {
             return;
         }
 
@@ -109,7 +109,7 @@ export class StatusEffects {
 
         // Removes slow if stack is the last one applied to the entity
         if (target.slowStacks <= 0) {
-            target.stats.speed = constructor.upgrades[0].speed;;
+            target.stats.speed = constructor.baseStats.speed;;
             target.slowed = false;
 
             if (target.entityType == 'enemy/frog') {
