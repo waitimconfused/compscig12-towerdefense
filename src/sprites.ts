@@ -255,9 +255,7 @@ export class SpriteRenderer {
 				
 				// If the frame's source is already an image, continue onto the
 				// next frame 
-				if ( frame?.source instanceof HTMLImageElement) {
-					continue;
-				}
+				if ( frame?.source instanceof HTMLImageElement) continue;
 
 				// Store the path to the source (frame.source will be replaced)
 				let src:string = frame.source as string;

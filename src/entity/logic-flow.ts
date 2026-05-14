@@ -26,7 +26,7 @@ export type RawSpriteLogic = {
 var variableMap:{ [name:string]: string } = {
 	state: "entity.state",
 	health: "entity.stats.health",
-	max_health: "entity.stats.max_health"
+	max_health: "entity.constructor.upgrades[entity.constructor.level].health"
 }
 
 export function rulesToFunction(logic:Rule[]):(entity:Entity)=>BasicSprite[] {

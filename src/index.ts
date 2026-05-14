@@ -8,6 +8,8 @@ import { Strawberry } from "./entity/defender.types/strawberry.js";
 import { Entity } from "./entity/entity.js";
 import { Sandwich } from "./entity/defender.types/sandwich.js";
 import { Banana, BananaSpawner } from "./entity/defender.types/banana.js";
+import { Frog } from "./entity/enemy.types/frog.js";
+import { Ant } from "./entity/enemy.types/ant.js";
 
 SpriteRenderer.verbose = false;
 SpriteRenderer.loadDefaults();
@@ -94,7 +96,8 @@ Engine.initialize(canvas);
 	});
 
 	gameplayView.addEventListener("show", () => {
-		BananaSpawner.spawn(1, [ window.innerWidth/2, 0 ]);
+		Ant.spawn(1, [ window.innerWidth/2,window.innerHeight/2 ]);
+		Sandwich.spawn(1, [ window.innerWidth/2,window.innerHeight/2 ]);
 	});
 
 	// Strawberry.spawn(3, [ 100, 100 ], 100);

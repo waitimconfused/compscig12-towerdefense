@@ -31,7 +31,7 @@ export default class GameplayView extends View {
 		super.render(canvas, context);
 
 		let entities = [ ...Entity.entities.values() ];
-		console.log(entities);
+		// console.log(entities);
 
 		for (let i = 0; i < entities.length; i ++) {
 			let entity:Entity = entities[i] as Entity;
