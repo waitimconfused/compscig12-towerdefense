@@ -96,7 +96,7 @@ Engine.initialize(canvas);
 	});
 
 	gameplayView.addEventListener("show", () => {
-		Ant.spawn(1, [ window.innerWidth/2,window.innerHeight/2 ]);
+		Raccoon.spawn(1, [ window.innerWidth/2,window.innerHeight/2 ]);
 		Sandwich.spawn(1, [ window.innerWidth/2,window.innerHeight/2 ]);
 	});
 

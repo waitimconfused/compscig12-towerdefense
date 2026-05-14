@@ -13,22 +13,20 @@ import { StatusEffects } from "../statusEffects.js";
 export class Raccoon extends EnemyEntity {
 	public entityType:string = "enemy/raccoon";
 
-	public static stats: EnemyEntityStats[] = [
-		{
-			health: 100,
-			speed: 0.2,
-			damage: 10,
-			knockBack: 10,
-			spawnCoolDown: 10,
-			attackCoolDown: 10,
-			stunChance: 0,
-			stunDuration: 0,
-			slowDuration: 0,
-			regenDuration: 0,
-			aoeRange: 0,
-			upgradeEntityCost: 0
-		}
-	];
+	public static override baseStats: EnemyEntityStats = {
+		health: 100,
+		speed: 0.2,
+		damage: 10,
+		knockBack: 10,
+		spawnCoolDown: 10,
+		attackCoolDown: 10,
+		stunChance: 0,
+		stunDuration: 0,
+		slowDuration: 0,
+		regenDuration: 0,
+		aoeRange: 0,
+		upgradeEntityCost: 0
+	};
 
 	protected drops: EnemyDrops = {
 		coins: 10,
