@@ -31,7 +31,7 @@ export class KeyboardManager {
 	 * @param type		Specifies what kind of action the key is doing (down, up)
 	 * 
 	 * @param key		What key is being pressed (or RegExp for matching
-	 * 					any, or a list, or something emse)
+	 * 					any, or a list, or something else)
 	 * 
 	 * @param callback	Function to call when the requested keyboard event occurs 
 	 */

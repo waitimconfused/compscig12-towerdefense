@@ -73,7 +73,7 @@ export interface EntityStats {
 	/**
 	 * the duration the entity regenerates their health for (if they have the ability to regenerate)
 	 */
-	regenDuration : number | undefined;
+	regenerationDuration : number | undefined;
 
 	/**
 	 * the range of an Entity's area of effect attack (if they have the ability to do aoe attacks)
@@ -163,9 +163,9 @@ export abstract class Entity {
 	public static statIncreaseMultiplier : number = 1;
 
 	/**
-	 * the maxiumum value of the `Entity.level`
+	 * The maximum value of the `Entity.level`
 	 * 
-	 * if set to `0`, then there is no max level
+	 * If set to `0`, then there is no max level
 	 */
 	public static maxLevel : number = 0;
 

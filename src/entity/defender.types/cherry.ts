@@ -29,7 +29,7 @@ export class Cherry extends DefenderEntity {
 			stunChance : undefined,
 			stunDuration : undefined,
 			slowDuration : undefined,
-			regenDuration : undefined,
+			regenerationDuration : undefined,
 			aoeRange : undefined,
 			upgradeEntityCost : 15,
 			entityPurchaseCost: 10,
@@ -147,7 +147,7 @@ export class Cherry extends DefenderEntity {
 			this.attackEntity(closestFrontEntity);
 			this.attemptStun(closestFrontEntity);
 
-			this.state = "frontattack";
+			this.state = "front-attack";
 			
 			if (!closestBackEntity) return;
 			
@@ -159,7 +159,7 @@ export class Cherry extends DefenderEntity {
 				this.attackEntity(closestBackEntity);
 				this.attemptStun(closestBackEntity);
 
-				this.state = "backattack";
+				this.state = "back-attack";
 			}
 
 			await this.wait(5000);

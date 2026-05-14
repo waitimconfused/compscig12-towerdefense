@@ -26,7 +26,7 @@ export class Ant extends EnemyEntity {
 			stunChance: 0,
 			stunDuration: 0,
 			slowDuration: 0,
-			regenDuration: 0,
+			regenerationDuration: 0,
 			aoeRange: 0,
 			upgradeEntityCost: 0
 		}
@@ -46,7 +46,7 @@ export class Ant extends EnemyEntity {
 
 	/**
 	 * Override, Ant takes more damage from AOE type attacks
-	 * @param dealtDamage Amount of damage dealth
+	 * @param dealtDamage Amount of damage dealt
 	 * @param attacker The entity that attacked
 	 * @param damageType Damage type default of melee
 	 * @returns Undefined or EntityEvent with interrupt type and origin of attack trigger
@@ -68,7 +68,7 @@ export class Ant extends EnemyEntity {
 				finalDamage *= 1.25;
 			}
 
-			// Decrease Ant health by final damage dealth
+			// Decrease Ant health by final damage dealt
 			this.stats.health -= finalDamage;
 
 			// Interrupts Ant timers
