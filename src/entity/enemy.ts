@@ -39,7 +39,7 @@ export abstract class EnemyEntity extends Entity {
 
 	declare public stats: EnemyEntityStats;
 
-	public static override upgrades: EnemyEntityStats[];
+	public static override baseStats: EnemyEntityStats;
 
     /**
      * Changes enemy state to dead on death and calculates rewards
@@ -68,16 +68,5 @@ export abstract class EnemyEntity extends Entity {
 				Inventory.give(drop.type, drop.amount);
             }
         }
-    }
-    
-    public increaseHealth() : void {
-        let constructor = this.constructor as typeof EnemyEntity;
-        let upgrades = constructor.upgrades[0];
-
-        if (!upgrades) {
-            return;
-        }
-
-        this.stats.health *= Math.pow(this.healthScale, this.waveNumber);
     }
 }
