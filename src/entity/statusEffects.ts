@@ -12,7 +12,7 @@ export class StatusEffects {
      * @param duration How long the target entity is stunned for
      * @returns If target is already stunned
      */
-    public async stunEntity(target : Entity, duration : number) : Promise<void> {
+    public static async stunEntity(target : Entity, duration : number) : Promise<void> {
 
         // Target can only be stunned once for the duration of the stun
         if (target.stunned) {
@@ -77,7 +77,7 @@ export class StatusEffects {
         regeneratingEntity.currentRegenStacks--;
     }
 
-    public async slowEntity(target : Entity, duration : number) : Promise<void> {
+    public static async slowEntity(target : Entity, duration : number) : Promise<void> {
         const SLOW_MULTIPLIER : number = 0.8;
 
         target.slowStacks++;

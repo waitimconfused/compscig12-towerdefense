@@ -5,6 +5,11 @@ import { Entity, EntityEvent, EntityStats } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 import { MouseManager } from "../../mouse.js";
 
+type DirectionalTargets = {
+	front : Entity | undefined,
+	back : Entity | undefined
+};
+
 export class Cherry extends DefenderEntity {
 	//the ability for Cherry to attack front and back
 	//available to use when at level 3 or higher
@@ -16,17 +21,17 @@ export class Cherry extends DefenderEntity {
 	//Cherry base stats (lvl 1)
 	public static override upgrades: EntityStats[] = [
 		{ health: 0, max_health: 20, speed: 2, baseSpeed : 2, damage: 6, 
-			knockback:2, spawnCooldown: 3, attackCooldown: 3, entityPurchaseCost:10, entityResaleCost:5, stunChance:25, stunDuration:5000, upgradeEntityCost:15 },
+			knockback:2, spawnCooldown: 3, attackCooldown: 3, entityPurchaseCost:10, entityResaleCost:5, stunChance:0.25, stunDuration:5000, upgradeEntityCost:15 },
 	];
 
 	//hide nearestEntity method from Entity, because Cherry needs to find the nearest Entity front and back of it
 	//if Cherry has been upgraded
-	public nearestEntity(origin:Entity, selector?:typeof Entity):{frontNearest : Entity | undefined, backNearest : Entity | undefined} {
+	public nearestEntity(origin:Entity, selector?:typeof Entity):DirectionalTargets {
 		
 		// Keep track of the nearest found entity (starts as undefined)
-		let frontNearest:Entity|undefined = undefined;
+		let front:Entity|undefined = undefined;
 
-		let backNearest:Entity|undefined = undefined;
+		let back:Entity|undefined = undefined;
 
 		// Keep track of the distance to the closest entity (starts as `Infinity`)
 		let frontNearestDistance = Infinity;
@@ -50,49 +55,54 @@ export class Cherry extends DefenderEntity {
 
 			//if Cherry has not been upgraded, only update the distance of the front enemy
 			if (Cherry.canAttackFrontBack == true){
-				if (distance < frontNearestDistance) {
-					frontNearest = entity;
-					frontNearestDistance = distance;
+				//check whether the entity's x and y values are more or less than the Cherry
+				//if the x and y is greater, then the entity is behind the Cherry
+				//if the x and y is less, then the entity is in front of the Cherry
+				//after checking the entity's position, check if it's any closer than the last recorded enemy
+				if (entity.position[0] < origin.position[0] && entity.position[1] < origin.position[1]){
+					// If the distance is less than the past nearest distance,
+					// Update the stored entity and the stored distance
+					if (distance < frontNearestDistance) {
+						front = entity;
+						frontNearestDistance = distance;
+					}
 				}
-			}
-			//check whether the entity's x and y values are more or less than the Cherry
-			//if the x and y is greater, then the entity is behind the Cherry
-			//if the x and y is less, then the entity is in front of the Cherry
-			//after checking the entity's position, check if it's any closer than the last recorded enemy
-			else if (entity.position[0] < origin.position[0] && entity.position[1] < origin.position[1]){
-				// If the distance is less than the past nearest distance,
-				// Update the stored entity and the stored distance
-				if (distance < frontNearestDistance) {
-					frontNearest = entity;
-					frontNearestDistance = distance;
+				else {
+					back = entity;
+					backNearestDistance = distance;
 				}
 			}
 			else{
 				// If the distance is less than the past nearest distance,
 				// Update the stored entity and the stored distance
 				if (distance < backNearestDistance) {
-					backNearest = entity;
+					back = entity;
 					backNearestDistance = distance;
 				}
 			}	
 		}
 
-		return {frontNearest, backNearest};
+		return {front, back};
 	}
 
 	/**
 	 * check to see if the cherry was able to stun enemy
 	 * @param target the enemy
 	 */
-	private async attemptStun(target : EnemyEntity) : Promise<void> {
+	private async attemptStun(target : Entity) : Promise<void> {
 		//roll to see if the Cherry stuns the enemy
 		//roll a number between 1-100
-		let rollForStun =  Math.floor(Math.random()*(100 - 1 + 1) + 1);
+		let rollForStun : number =  Math.random();
 
+
+		//make sure stunChance is a number
+		if (this.stats.stunChance == undefined) {
+			return;
+		}
 		//if the cherry rolls a number less than or equal to 25, they have stunned the enemy
-		if (rollForStun<= Cherry.stunChance){
-			let callForStun = new StatusEffects();
-			await callForStun.stunEntity(target,Cherry.stunEnemyDuration);
+		if (rollForStun <= this.stats.stunChance){
+			
+			await StatusEffects.stunEntity(target as Entity,this.stats.stunDuration as number);
 		}
 		//otherwise, return that it was not able to
 		return;
@@ -103,13 +113,13 @@ export class Cherry extends DefenderEntity {
 
 	public async brain() {
 
-		const cherryNearestEntity : {front: Entity |undefined, back: Entity |undefined} = Cherry.nearestEntity(this,EnemyEntity) as Entity | undefined;
+		let cherryNearestEntity = this.nearestEntity(this,EnemyEntity);
 
 		await this.wait(1000);
 
-		let closestFrontEntity : Entity | undefined = cherryNearestEntity.front;
+		let closestFrontEntity = cherryNearestEntity.front;
 
-		let closestBackEntity : Entity | undefined = cherryNearestEntity.back;
+		let closestBackEntity = cherryNearestEntity.back;
 
 		//if can't find Entity - return
 		if (!closestFrontEntity) return;
@@ -126,7 +136,7 @@ export class Cherry extends DefenderEntity {
 			
 			if (!closestBackEntity) return;
 			
-			let backtEnemyDistance = Entity.getDistance(this, closestBackEntity);
+			let backEnemyDistance = Entity.getDistance(this, closestBackEntity);
 
 			if (Cherry.canAttackFrontBack == true && backEnemyDistance <=45){
 				await this.wait (500);

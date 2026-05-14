@@ -61,7 +61,7 @@ export class Kernal extends Corn{
 		await this.walkTo(this.target.position[0], this.target.position[1]);
 
 		//when it has, attack the target
-		Kernal.attackEntity(this.target);
+		this.attackEntity(this.target);
 
 		//when the enemy has been attacked, set the kernal's health to 0, disappearing from the playing field
 		this.stats.health = 0;
