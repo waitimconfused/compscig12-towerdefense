@@ -1,5 +1,4 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
-import { Position2D } from "../../types.js";
 import { EnemyEntity } from "../enemy.js";
 import { Entity } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
@@ -17,25 +16,23 @@ export class Cherry extends DefenderEntity {
 	/**label the kind of entity cherry is - a defender */
 	public entityType : string = "defender/cherry";
 
-		//change stats to correspond cherry (copy and pasted from banana)
-		public static override upgrades:DefenderEntityStats[] = [
-		{
-			health: 100,
-			speed: 0.1,
-			damage: 10,
-			knockBack: 10,
-			spawnCoolDown: 10,
-			attackCoolDown: undefined,
-			stunChance : undefined,
-			stunDuration : undefined,
-			slowDuration : undefined,
-			regenDuration : undefined,
-			aoeRange : undefined,
-			upgradeEntityCost : 15,
-			entityPurchaseCost: 10,
-			entityResaleCost: 10
-		}
-	];
+	//baseStats of Cherry Entity
+	public static override baseStats:DefenderEntityStats = {
+		health: 20,
+		speed: 0.50,
+		damage: 10,
+		knockBack: 2,
+		spawnCoolDown: 3,
+		attackCoolDown: 3,
+		stunChance : 0.25,
+		stunDuration : 4,
+		slowDuration : undefined,
+		regenDuration : undefined,
+		aoeRange : undefined,
+		upgradeEntityCost : 15,
+		entityPurchaseCost: 10,
+		entityResaleCost: 5
+	};
 
 	//hide nearestEntity method from Entity, because Cherry needs to find the nearest Entity front and back of it
 	//if Cherry has been upgraded

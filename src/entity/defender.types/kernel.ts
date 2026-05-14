@@ -2,7 +2,7 @@ import { Corn } from "./corn.js";
 import { Position2D } from "../../types.js";
 import { EnemyEntity } from "../enemy.js";
 import { DefenderEntityStats } from "../defender.js";
-import { Entity } from "../entity.js";
+import { Entity, EntityEvent } from "../entity.js";
 
 //the kernel is created via the Corn, and is a child of the corn
 export class Kernel extends Corn{

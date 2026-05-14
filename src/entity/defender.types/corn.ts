@@ -19,24 +19,22 @@ export class Corn extends Entity{
 	 * the corn's lvl 1 stats
 	 * through the DefenderEntity class, it will be able to level up, with reference to its base stats
 	 */
-	public static override upgrades: DefenderEntityStats[] = [
-		{
-			health: 25,
-			speed: 1,
-			damage: 15, 
-			knockBack: 3,
-			spawnCoolDown: 7,
-			attackCoolDown: 5,
-			stunChance : undefined,
-			stunDuration : undefined,
-			slowDuration : undefined,
-			regenDuration : undefined,
-			aoeRange : 10,
-			upgradeEntityCost : 45,
-			entityPurchaseCost: 35,
-			entityResaleCost: 5
-		},
-	];
+	public static override baseStats: DefenderEntityStats = {
+		health: 25,
+		speed: 3,
+		damage: 15, 
+		knockBack: 3,
+		spawnCoolDown: 7,
+		attackCoolDown: 5,
+		stunChance : 0,
+		stunDuration : 0,
+		slowDuration : 0,
+		regenDuration : 0,
+		aoeRange : 10,
+		upgradeEntityCost : 40,
+		entityPurchaseCost: 35,
+		entityResaleCost: 17
+	};
 
 	/**
 	 * WIP when the corn dies

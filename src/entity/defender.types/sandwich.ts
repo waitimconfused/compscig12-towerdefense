@@ -7,24 +7,22 @@ export class Sandwich extends DefenderEntity {
 	//label what the type of entity this is - sandwich Defender
 	public entityType = "defender/sandwich";
 
-	public static override upgrades: DefenderEntityStats[] = [
-		{
+	public static override baseStats : DefenderEntityStats ={
 			health: 40,
 			speed: 0,
-			damage: 10,
-			knockBack: 10,
-			entityPurchaseCost: 15,
-			entityResaleCost: 7,
+			damage: 0,
+			knockBack: 3,
+			entityPurchaseCost: 25,
+			entityResaleCost: 12,
 			attackCoolDown: 0,
 			spawnCoolDown: 5, 
-			stunChance : undefined,
-			stunDuration : undefined,
-			slowDuration : undefined, 
-			regenDuration : undefined,
-			aoeRange : undefined,
-			upgradeEntityCost : 25
-		}
-	];
+			stunChance : 0,
+			stunDuration : 0,
+			slowDuration : 0, 
+			regenDuration : 0,
+			aoeRange : 0,
+			upgradeEntityCost : 30
+		};
 	
 	//call method that unlocks Sandwich's skill
 	//unlockSkill(bigSandwich);
