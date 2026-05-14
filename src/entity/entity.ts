@@ -216,6 +216,10 @@ export abstract class Entity {
 
 	constructor(position:Position2D) {
 
+		let constructor = this.constructor as typeof Entity;
+		
+		if (!constructor.baseStats) throw new Error(`Entity ${constructor.name} does not have baseStats.`)
+
 		// Set the position
 		this.position = position;
 
