@@ -53,7 +53,6 @@ export function rulesToFunction(logic:Rule[]):(entity:Entity)=>BasicSprite[] {
 	}
 
 	let generatedFunction = Function("entity", string) as (entity:Entity)=>BasicSprite[];
-	console.log(`function chooseSprite(entity) {\n${ string.split("\n").map(s=>"\t"+s).join("\n") }\n}`)
 
 	return generatedFunction;
 
