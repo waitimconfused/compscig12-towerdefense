@@ -3,6 +3,7 @@ import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { EntityEvent } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
+	/**the readonly name of the entity Strawberry - to prevent spelling mistakes*/
 	public static readonly DEFENDER_NAME = "Strawberry";
 	/**
 	 * The increased chance for Strawberry to be psychotic

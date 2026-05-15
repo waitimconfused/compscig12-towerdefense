@@ -1,6 +1,7 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
 export class Sandwich extends DefenderEntity {
+	/**the readonly name of the entity Sandwich - to prevent spelling mistakes*/
 	public static readonly DEFENDER_NAME = "Sandwich";
 
 	/**

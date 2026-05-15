@@ -12,6 +12,7 @@ type DirectionalTargets = {
 };
 
 export class Cherry extends DefenderEntity {
+	/**the readonly name of the entity Cherry - to prevent spelling mistakes*/
 	public static readonly DEFENDER_NAME = "Cherry";
 	/**
 	 * The ability for Cherry to attack enemies in front and behind them

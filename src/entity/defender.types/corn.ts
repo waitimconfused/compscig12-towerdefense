@@ -7,6 +7,7 @@ import { Position2D } from "../../types.js";
  * create the class Corn that extends from Entity
  */
 export class Corn extends Entity{
+	/**the readonly name of the entity Corn - to prevent spelling mistakes*/
 	public static readonly DEFENDER_NAME = "Corn";
 
 	protected kernelAOE : boolean = false;

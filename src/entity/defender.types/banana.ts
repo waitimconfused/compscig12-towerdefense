@@ -4,6 +4,7 @@ import { Entity } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 
 export class BananaSpawner extends DefenderEntity {
+	/**the readonly name of the entity Banana - to prevent spelling mistakes*/
 	public static readonly DEFENDER_NAME = "Banana";
 	/**
 	 * The ability for Banana to attack twice (roll over the field twice)
