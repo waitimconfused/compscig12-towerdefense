@@ -9,12 +9,12 @@ import { Position2D } from "../../types.js";
 export class Corn extends Entity{
 	protected kernelAOE : boolean = false;
 
-	/**label the kind of entity corn is - a defender */
+	/**Label the kind of entity corn is - a defender */
 	public override entityType = "defender/corn";
 
 	/**
-	 * the corn's lvl 1 stats
-	 * through the DefenderEntity class, it will be able to level up, with reference to its base stats
+	 * The corn's lvl 1 stats
+	 * Through the DefenderEntity class, it will be able to level up, with reference to its base stats
 	 */
 	public static override baseStats: DefenderEntityStats = {
 		health: 25,

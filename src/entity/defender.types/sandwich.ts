@@ -1,12 +1,16 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
 export class Sandwich extends DefenderEntity {
-	//when upgraded, the sandwich defenders become BIG
+	/**
+	 * The ability for Sandwich to get a significant amount of HP and knockback
+	 * This is available to use when at level 3 and up
+	 */
 	private bigSandwich : boolean = false;
 
-	//label what the type of entity this is - sandwich Defender
+	/** Label what the type of entity sandwich is - a Defender*/
 	public entityType = "defender/sandwich";
 
+	/**Sandwich base stats */
 	public static override baseStats : DefenderEntityStats = {
 			health: 40,
 			speed: 0,
@@ -24,8 +28,8 @@ export class Sandwich extends DefenderEntity {
 			upgradeEntityCost : 30
 		};
 	
-	//call method that unlocks Sandwich's skill
-	//unlockSkill(bigSandwich);
+	//Call method that unlocks Sandwich's skill
+	//UnlockSkill(bigSandwich);
 
 	public async brain() {
 

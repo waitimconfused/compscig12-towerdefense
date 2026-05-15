@@ -10,10 +10,10 @@ export class BananaSpawner extends DefenderEntity {
 	 */
 	protected canRollTwice : boolean = false;
 
-	/** Label what the type of entity this is - the banana spawner*/
+	/** Label what the type of entity the banana spawner is - a part of Defender*/
 	public override entityType : string = "defender/banana_spawner";
 	
-	/** Banana's baseStats (will be given to the Banana once it spawns from the BananaSpawner)*/
+	/** Banana's base stats (will be given to the Banana once it spawns from the BananaSpawner)*/
 	public static override baseStats : DefenderEntityStats = {
 		health: 30,
 		speed: 0.1,
@@ -46,7 +46,7 @@ export class BananaSpawner extends DefenderEntity {
 }
 
 export class Banana extends BananaSpawner {
-	//Label what the type of entity this is - the banana 
+	/**Label what the type of entity banana is - a defender*/
 	public override entityType: string = "defender/banana_entity";
 
 	/**
@@ -70,7 +70,7 @@ export class Banana extends BananaSpawner {
 }
 
 export class BananaPeel extends Banana{
-	//Label what the type of entity this is - the banana peel 
+	/**Label what the type of entity the banana peel is - a part of Defender*/
 	public override entityType: string = "defender/banana_peel";
 
 	//This method needs to exist, but will not have anything in it because the Kernel's death is done in the brain

@@ -43,7 +43,7 @@ export abstract class DefenderEntity extends Entity{
 		super.reloadStats();
 
 		let constructor = this.constructor as typeof DefenderEntity;
-		let upgrade = constructor.upgrades[0] as DefenderEntityStats;
+		let upgrade = constructor.baseStats as EntityStats;
 		let storeUpgrades = Object.keys(upgrade);
 
 		/**
@@ -62,7 +62,6 @@ export abstract class DefenderEntity extends Entity{
 		}
 		
 	}
-
 	
 	/**
 	 * if the type of Defender is level 3 or higher, they have unlocked their unique skill 
@@ -73,7 +72,6 @@ export abstract class DefenderEntity extends Entity{
 		activateSkill = true;
 	}
 
-	
 
 };
 
