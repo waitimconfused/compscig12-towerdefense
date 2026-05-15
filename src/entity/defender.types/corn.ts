@@ -39,7 +39,7 @@ export class Corn extends Entity{
 	/**
 	 * WIP when the corn dies
 	 */
-	protected override die(): void {
+	protected override onDeath(): void {
 		
 	}
 
@@ -98,7 +98,7 @@ export class Kernel extends Corn{
 	}
 
 	//this method needs to exist, but will not have anything in it because the Kernel's death is done in the brain
-	protected override die(): void {}
+	protected override onDeath(): void {}
 
 	public override attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
 		return new Promise ((resolve) =>{

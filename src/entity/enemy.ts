@@ -46,7 +46,7 @@ export abstract class EnemyEntity extends Entity {
      * 
      * @returns Coins, points, and materials enemies drop on death
      */
-	public die() {  
+	public onDeath() {  
         this.state = 'dead';
 
         this.dropItems();

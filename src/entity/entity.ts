@@ -203,7 +203,7 @@ export abstract class Entity {
 	/**
 	 * This function will be called when the entity's health is <= `0`.
 	 */
-	protected abstract die():void;
+	protected abstract onDeath():void|Promise<void>;
 
 	/**
 	 * A list of all *alive-ish* (or rather, active) entities to be updated and
@@ -633,19 +633,17 @@ export abstract class Entity {
 
 			// Call the `die()` function,
 			// for last-minute actions like dropping items
-			this.die();
-
-			// Set the entity state to `"dead"`
-			this.state = "dead";
+			let deathReturnValue = this.onDeath();
 			
-			// Wait 1000 ms (1 sec), then remove this
-			// entity from the list of Entity objects
-			this.wait(1000).then(() => {
+			if (deathReturnValue instanceof Promise) {
 
-				// Remove this entity from the Entity.entities map
+				deathReturnValue.then(() => {
+					Entity.entities.delete(this._id);
+				})
+
+			} else {
 				Entity.entities.delete(this._id);
-
-			});
+			}
 		}
 
 		// Restart the brain if it isn't running

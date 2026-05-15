@@ -31,7 +31,7 @@ export abstract class DefenderEntity extends Entity{
 	 */
 	private static levelIncrease:number = 2;
 
-	protected die(): void {
+	protected onDeath(): void {
 		
 	}
 

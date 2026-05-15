@@ -34,7 +34,7 @@ export class BananaSpawner extends DefenderEntity {
 	}
 
 	/** This method needs to exist, but will not have anything in it because the Kernel's death is done in the brain*/
-	protected override die(): void {}
+	protected override onDeath(): void {}
 
 	/**The brain spawns the Banana onto the field*/
 	public override async brain() {
@@ -76,7 +76,7 @@ export class BananaPeel extends Banana{
 	public override entityType: string = "defender/banana_peel";
 
 	//This method needs to exist, but will not have anything in it because the Kernel's death is done in the brain
-	protected override die(): void {}
+	protected override onDeath(): void {}
 
 	//Slow enemies that come in range of the BananaPeel
 	public slowEnemies() : void{
