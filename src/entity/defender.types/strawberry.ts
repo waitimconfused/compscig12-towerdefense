@@ -15,25 +15,22 @@ export class Strawberry extends DefenderEntity {
 
 	public entityType = "defender/strawberry";
 
-	public static override upgrades: DefenderEntityStats[] = [
-		{
-			health: 20,
-			speed: 0.4,
-			damage: 10,
-			knockBack: 10,
-			spawnCoolDown : 3,
-			attackCoolDown : 3,
-			stunChance : 0,
-			stunDuration : 0,
-			slowDuration : 0,
-			regenerationDuration : 0,
-			aoeRange : 0,
-			upgradeEntityCost : 15,
-			entityPurchaseCost: 10,
-			entityResaleCost: 10,
-		},
-		
-	];
+	public static override baseStats: DefenderEntityStats = {
+		health: 20,
+		speed: 0.4,
+		damage: 10,
+		knockBack: 10,
+		spawnCoolDown : 3,
+		attackCoolDown : 3,
+		stunChance : 0,
+		stunDuration : 0,
+		slowDuration : 0,
+		regenerationDuration : 0,
+		aoeRange : 0,
+		upgradeEntityCost : 15,
+		entityPurchaseCost: 10,
+		entityResaleCost: 10,
+	};
 
 	//the mental state of the strawberry comes in 3 levels
 	private rollForMentalState() : void{

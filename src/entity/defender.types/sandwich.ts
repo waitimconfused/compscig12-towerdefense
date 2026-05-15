@@ -7,7 +7,7 @@ export class Sandwich extends DefenderEntity {
 	//label what the type of entity this is - sandwich Defender
 	public entityType = "defender/sandwich";
 
-	public static override baseStats : DefenderEntityStats ={
+	public static override baseStats : DefenderEntityStats = {
 			health: 40,
 			speed: 0,
 			damage: 0,

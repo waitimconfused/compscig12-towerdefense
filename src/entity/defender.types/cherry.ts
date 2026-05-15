@@ -3,20 +3,25 @@ import { EnemyEntity } from "../enemy.js";
 import { Entity } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 
+/**
+ * Create a type for storing the nearest entity in front and behind the Cherry
+ */
 type DirectionalTargets = {
 	front : Entity | undefined,
 	back : Entity | undefined
 };
 
 export class Cherry extends DefenderEntity {
-	//the ability for Cherry to attack front and back
-	//available to use when at level 3 or higher
+	/**
+	 * The ability for Cherry to attack enemies in front and behind them
+	 * 	This is available to use when at level 3 and up
+	 */
 	private static canAttackFrontBack : boolean = false;
-
-	/**label the kind of entity cherry is - a defender */
+	
+	/** Label the kind of entity cherry is - a defender */
 	public entityType : string = "defender/cherry";
 
-	//baseStats of Cherry Entity
+	/** baseStats of Cherry Entity*/
 	public static override baseStats:DefenderEntityStats = {
 		health: 20,
 		speed: 0.50,
@@ -32,45 +37,48 @@ export class Cherry extends DefenderEntity {
 		upgradeEntityCost : 15,
 		entityPurchaseCost: 10,
 		entityResaleCost: 5
-	};
+	}
 
-	//hide nearestEntity method from Entity, because Cherry needs to find the nearest Entity front and back of it
-	//if Cherry has been upgraded
-	public nearestEntity(origin:Entity, selector?:typeof Entity):DirectionalTargets {
+	/** Hide nearestEntity method from Entity to detect Entities in front and behind it
+	 * this is needed when Cherry is upgraded and can use their skill
+	*/
+	public nearestEntity(origin:Entity, selector?:typeof Entity) : DirectionalTargets {
 		
-		// Keep track of the nearest found entity (starts as undefined)
+		//Keep track of the nearest found entity (starts as undefined)
 		let front:Entity|undefined = undefined;
 
 		let back:Entity|undefined = undefined;
 
-		// Keep track of the distance to the closest entity (starts as `Infinity`)
+		//Keep track of the distance to the closest entity (starts as `Infinity`)
 		let frontNearestDistance = Infinity;
 
 		let backNearestDistance = Infinity;
 
+		//Get all the entities currently active
 		let entities = [...Entity.entities.values()];
+
 		// Loop through each Entity instance
 		for (let i = 0; i < entities.length; i ++) {
 
-			// Get the current entity
+			//Get the current entity
 			let entity = entities[i] as Entity;
 
-			// If a selector has been set, and the entity is
-			// not an instance of it, move onto the next entity
+			//If a selector has been set, and the entity is
+			//If not an instance of it, move onto the next entity
 			if (selector && entity instanceof selector == false) continue;
 
-			// Get the distance between the origin entity and the current entity
+			//Get the distance between the origin entity and the current entity
 			let distance = Math.hypot(
 				entity.position[0] - origin.position[0],
 				entity.position[1] - origin.position[1]
 			);
 
-			//if Cherry has not been upgraded, only update the distance of the front enemy
+			//If Cherry has not been upgraded, only update the distance of the front enemy
 			if (Cherry.canAttackFrontBack == true){
-				//check whether the entity's x and y values are more or less than the Cherry
-				//if the x and y is greater, then the entity is behind the Cherry
-				//if the x and y is less, then the entity is in front of the Cherry
-				//after checking the entity's position, check if it's any closer than the last recorded enemy
+				//Check whether the entity's x and y values are more or less than the Cherry
+				//If the x and y is greater, then the entity is behind the Cherry
+				//If the x and y is less, then the entity is in front of the Cherry
+				//After checking the entity's position, check if it's any closer than the last recorded enemy
 				if (entity.position[0] < origin.position[0] && entity.position[1] < origin.position[1]){
 					// If the distance is less than the past nearest distance,
 					// Update the stored entity and the stored distance
@@ -85,8 +93,8 @@ export class Cherry extends DefenderEntity {
 				}
 			}
 			else{
-				// If the distance is less than the past nearest distance,
-				// Update the stored entity and the stored distance
+				//If the distance is less than the past nearest distance,
+				//Update the stored entity and the stored distance
 				if (distance < backNearestDistance) {
 					back = entity;
 					backNearestDistance = distance;
@@ -98,31 +106,29 @@ export class Cherry extends DefenderEntity {
 	}
 
 	/**
-	 * check to see if the cherry was able to stun enemy
-	 * @param target the enemy
+	 * Check to see if the cherry was able to stun enemy
+	 * @param target The enemy
 	 */
 	private async attemptStun(target : Entity) : Promise<void> {
-		//roll to see if the Cherry stuns the enemy
-		//roll a number between 1-100
+		//Roll to see if the Cherry stuns the enemy
+		//Roll a number between 1-100
 		let rollForStun : number =  Math.random();
 
-
-		//make sure stunChance is a number
+		//Make sure stunChance is a number
 		if (this.stats.stunChance == undefined) {
 			return;
 		}
-		//if the cherry rolls a number less than or equal to 25, they have stunned the enemy
+		//If the cherry rolls a number less than or equal to 25, they have stunned the enemy
 		if (rollForStun <= this.stats.stunChance){
 			
 			await StatusEffects.stunEntity(target as Entity,this.stats.stunDuration as number);
 		}
-		//otherwise, return that it was not able to
+		//Otherwise, return that it was not able to
 		return;
 	}
 	
-	//call method that unlocks Cherry's skill
-	//unlockSkill(canAttackFrontBack);
-
+	//Call method that unlocks Cherry's skill
+	//UnlockSkill(canAttackFrontBack);
 	public async brain() {
 
 		let cherryNearestEntity = this.nearestEntity(this,EnemyEntity);
@@ -133,7 +139,7 @@ export class Cherry extends DefenderEntity {
 
 		let closestBackEntity = cherryNearestEntity.back;
 
-		//if can't find Entity - return
+		//If Entity not found - return
 		if (!closestFrontEntity) return;
 
 		await this.walkTo(closestFrontEntity.position[0], closestFrontEntity.position[1]);

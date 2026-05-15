@@ -85,7 +85,7 @@ export class Kernel extends Corn{
 	//label the kind of entity corn is - a defender
 	public override entityType = "defender/Kernel";
 
-	static override upgrades: DefenderEntityStats[] = [];
+	static override baseStats: DefenderEntityStats;
 
 	//use the corn's position and store the tracked target into the kernel's target property
 	constructor(position: Position2D, target: EnemyEntity){
@@ -95,7 +95,7 @@ export class Kernel extends Corn{
 	}
 
 	//this method needs to exist, but will not have anything in it because the Kernel's death is done in the brain
-	protected override die(){}
+	protected override die(): void {}
 
 	public override attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
 		return new Promise ((resolve) =>{

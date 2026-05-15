@@ -4,10 +4,16 @@ import { Entity } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 
 export class BananaSpawner extends DefenderEntity {
+	/**
+	 * The ability for Banana to attack twice (roll over the field twice)
+	 * 	This is available to use when at level 3 and up
+	 */
 	protected canRollTwice : boolean = false;
 
+	/** Label what the type of entity this is - the banana spawner*/
 	public override entityType : string = "defender/banana_spawner";
 	
+	/** Banana's baseStats (will be given to the Banana once it spawns from the BananaSpawner)*/
 	public static override baseStats : DefenderEntityStats = {
 		health: 30,
 		speed: 0.1,
@@ -23,23 +29,30 @@ export class BananaSpawner extends DefenderEntity {
 		upgradeEntityCost : 35,
 		entityPurchaseCost: 30,
 		entityResaleCost: 15
-	};
+	}
 
+	/** This method needs to exist, but will not have anything in it because the Kernel's death is done in the brain*/
 	protected override die(): void {}
 
+	/**The brain spawns the Banana onto the field*/
 	public override async brain() {
-
 		await this.wait(1000);
+
 		console.log("Spawning Banana");
+
 		Banana.spawn(1, this.position);
 		
 	}
 }
 
 export class Banana extends BananaSpawner {
-	
+	//Label what the type of entity this is - the banana 
 	public override entityType: string = "defender/banana_entity";
 
+	/**
+	 * The brain checks for events that happen around and to the BananaPeel
+	 * As of now it moves across the screen vertically, dies and calls the BananaPeel
+	 */
 	public override async brain() {
 
 		//TODO: Replace "Y" value to be MAX-Y-VALUE
@@ -49,6 +62,7 @@ export class Banana extends BananaSpawner {
 
 		this.stats.health = 0;
 
+		//when the Banana dies, it leaves its banana peel (create a BananaPeel)
 		new BananaPeel(this.position);
 
 	}
@@ -56,18 +70,27 @@ export class Banana extends BananaSpawner {
 }
 
 export class BananaPeel extends Banana{
+	//Label what the type of entity this is - the banana peel 
 	public override entityType: string = "defender/banana_peel";
 
-	protected override die(): void {};
+	//This method needs to exist, but will not have anything in it because the Kernel's death is done in the brain
+	protected override die(): void {}
 
+	//Slow enemies that come in range of the BananaPeel
 	public slowEnemies() : void{
+		//Get the range of entities around the BananaPeel
 		let slowInRange = Entity.totalEntitiesInRange(this,20, EnemyEntity);
 
-		for (let i = 0; i<slowInRange.length;i++){
+		//Go through the array and slow the enemies in range
+		for (let i = 0; i < slowInRange.length; i++){
 			StatusEffects.slowEntity(slowInRange[i] as Entity, this.stats.slowDuration as number);
 		}
 	}
 
+	/**
+	 * The brain checks for events that happen around and to the BananaPeel
+	 * As of now it is used to slow enemies that come in range of it
+	 */
 	public override async brain(): Promise<void> {
 		this.slowEnemies();
 	}

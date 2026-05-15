@@ -17,7 +17,7 @@ export abstract class DefenderEntity extends Entity{
 
 	declare public stats: DefenderEntityStats;
 
-	static override upgrades: DefenderEntityStats[];
+	static override baseStats: DefenderEntityStats;
 
 	/**
 	 * Value used inside `this.reloadStats()` to determine
