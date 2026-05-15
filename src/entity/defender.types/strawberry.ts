@@ -1,6 +1,6 @@
 import { Position2D } from "../../types.js";
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
-import { EntityEvent, EntityStats } from "../entity.js";
+import { EntityEvent } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
 	/**
