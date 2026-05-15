@@ -7,7 +7,7 @@
 
 			"layers": [
 				{
-					"sprite": "sandwich-4",
+					"sprite": "sandwich-four",
 					"origin": [ 50, 100 ]
 				}
 			]
@@ -17,7 +17,7 @@
 
 			"layers": [
 				{
-					"sprite": "sandwich-3",
+					"sprite": "sandwich-three",
 					"origin": [ 50, 100 ]
 				}
 			]
@@ -27,7 +27,7 @@
 
 			"layers": [
 				{
-					"sprite": "sandwich-2",
+					"sprite": "sandwich-two",
 					"origin": [ 50, 100 ]
 				}
 			]
@@ -37,7 +37,7 @@
 
 			"layers": [
 				{
-					"sprite": "sandwich-1",
+					"sprite": "sandwich-one",
 					"origin": [ 50, 100 ]
 				}
 			]
