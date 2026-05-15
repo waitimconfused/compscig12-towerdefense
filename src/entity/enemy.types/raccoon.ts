@@ -11,7 +11,10 @@ import { StatusEffects } from "../statusEffects.js";
  * Raccoons are high hp enemies that deal damage and randomly attack and stun defenders on the path
  */
 export class Raccoon extends EnemyEntity {
-	public entityType:string = "enemy/raccoon";
+	/**the readonly name of the entity Raccoon - to prevent spelling mistakes*/
+	public static readonly ENEMY_NAME = "Raccoon";
+	
+	public entityType : string = "enemy/raccoon";
 
 	public static override baseStats: EnemyEntityStats = {
 		health: 100,
@@ -23,7 +26,7 @@ export class Raccoon extends EnemyEntity {
 		stunChance: 0,
 		stunDuration: 0,
 		slowDuration: 0,
-		regenDuration: 0,
+		regenerationDuration: 0,
 		aoeRange: 0,
 		upgradeEntityCost: 0
 	};

@@ -10,27 +10,27 @@ import { Entity, EntityEvent } from "../entity.js";
  * 
  */
 export class Frog extends EnemyEntity {
+	/**the readonly name of the entity Frog - to prevent spelling mistakes*/
+	public static readonly ENEMY_NAME = "Frog";
 	// Frog entity type
 	public entityType:string = "enemy/frog";
 
 	// Initial stats of Frog
-	public static stats:EnemyEntityStats[] = [
-		{
-			health: 75,
-			speed: 0.75,
-			damage: 0,
-			knockBack: 10,
-			spawnCoolDown: 10,
-			attackCoolDown: 10,
-			stunChance: 0,
-			stunDuration: 0,
-			slowDuration: 0,
-			regenDuration: 0,
-			aoeRange: 0,
-			upgradeEntityCost: 0
-		}
-	]
-
+	public static stats:EnemyEntityStats = {
+		health: 75,
+		speed: 0.75,
+		damage: 0,
+		knockBack: 10,
+		spawnCoolDown: 10,
+		attackCoolDown: 10,
+		stunChance: 0,
+		stunDuration: 0,
+		slowDuration: 0,
+		regenerationDuration: 0,
+		aoeRange: 0,
+		upgradeEntityCost: 0
+	}
+	
 	// Frog can or is leaping
 	public isLeaping:boolean;
 	public canLeap:boolean = true;

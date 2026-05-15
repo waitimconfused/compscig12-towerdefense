@@ -3,6 +3,8 @@ import { DefenderEntity } from "../defender.js";
 import { Entity, EntityEvent } from "../entity.js";
 
 export class Wasp extends EnemyEntity {
+	/**the readonly name of the entity Wasp - to prevent spelling mistakes*/
+	public static readonly ENEMY_NAME = "Wasp";
 
 	public entityType: string = "enemy/wasp";
 
@@ -10,22 +12,20 @@ export class Wasp extends EnemyEntity {
 
 	public speedStacks : number = 0;
 
-	public static stats: EnemyEntityStats[] = [
-		{
-			health: 25,
-			speed: 0.2,
-			damage: 10,
-			knockBack: 10,
-			spawnCoolDown: 10,
-			attackCoolDown: 10,
-			stunChance: 0,
-			stunDuration: 0,
-			slowDuration: 0,
-			regenDuration: 0,
-			aoeRange: 0,
-			upgradeEntityCost: 0
-		}
-	];
+	public static stats: EnemyEntityStats = {
+		health: 25,
+		speed: 0.2,
+		damage: 10,
+		knockBack: 10,
+		spawnCoolDown: 10,
+		attackCoolDown: 10,
+		stunChance: 0,
+		stunDuration: 0,
+		slowDuration: 0,
+		regenerationDuration: 0,
+		aoeRange: 0,
+		upgradeEntityCost: 0
+	}
 
 	protected drops: EnemyDrops = {
 		coins: 5,

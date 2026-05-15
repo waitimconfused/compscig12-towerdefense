@@ -11,27 +11,28 @@ import { StatusEffects } from "../statusEffects.js";
  * Vulnerable to AOE, health increases every wave by 10%
  */
 export class Ant extends EnemyEntity {
+	/**the readonly name of the entity Ant - to prevent spelling mistakes*/
+	public static readonly ENEMY_NAME = "Ant";
+
 	// Ant entity type
 	public entityType = "enemy/ant";
 	
 	// Stats of Ant
-	public static stats : EnemyEntityStats[] = [
-		{
-			health: 100,
-			speed: 0.1,
-			damage: 10,
-			knockBack: 10,
-			spawnCoolDown: 10,
-			attackCoolDown: 10,
-			stunChance: 0,
-			stunDuration: 0,
-			slowDuration: 0,
-			regenerationDuration: 0,
-			aoeRange: 0,
-			upgradeEntityCost: 0
-		}
-	]
-
+	public static stats : EnemyEntityStats = {
+		health: 100,
+		speed: 0.1,
+		damage: 10,
+		knockBack: 10,
+		spawnCoolDown: 10,
+		attackCoolDown: 10,
+		stunChance: 0,
+		stunDuration: 0,
+		slowDuration: 0,
+		regenerationDuration: 0,
+		aoeRange: 0,
+		upgradeEntityCost: 0
+	}
+	
 	// Items Ant can drop
 	public drops : EnemyDrops = {
 		coins: 2,
