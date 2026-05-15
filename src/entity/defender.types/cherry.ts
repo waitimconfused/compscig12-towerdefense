@@ -12,6 +12,7 @@ type DirectionalTargets = {
 };
 
 export class Cherry extends DefenderEntity {
+	public static readonly DEFENDER_NAME = "Cherry";
 	/**
 	 * The ability for Cherry to attack enemies in front and behind them
 	 * 	This is available to use when at level 3 and up

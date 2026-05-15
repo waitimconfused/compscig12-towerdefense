@@ -3,6 +3,7 @@ import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { EntityEvent } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
+	public static readonly DEFENDER_NAME = "Strawberry";
 	/**
 	 * The increased chance for Strawberry to be psychotic
 	 * 	This is available to use when at level 3 and up

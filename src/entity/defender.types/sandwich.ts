@@ -1,6 +1,8 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
 export class Sandwich extends DefenderEntity {
+	public static readonly DEFENDER_NAME = "Sandwich";
+
 	/**
 	 * The ability for Sandwich to get a significant amount of HP and knockback
 	 * This is available to use when at level 3 and up
