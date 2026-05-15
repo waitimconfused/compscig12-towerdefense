@@ -33,6 +33,8 @@ export default class Engine {
 	private static canvas:HTMLCanvasElement;
 	private static context:RenderingContext;
 
+	public static haltOnError:boolean = true;
+
 	private static _stats:EngineStats = {
 		delta: 0,
 		fps: 0,
@@ -138,7 +140,28 @@ export default class Engine {
 
 		if (this._currentView in this.views) {
 			let view:View = this.views[this._currentView] as View;
-			view.render( this.canvas, this.context );
+			
+			try {
+				view.render( this.canvas, this.context );
+			} catch(e) {
+
+				// Reformat and log the error to the console
+				logFormattedError(e as Error);
+				
+				// If the haltOnError flag is true, stop rendering
+				if (Engine.haltOnError == true) {
+					// Warn that the engine has been stopped, with styles!
+					console.warn(
+						"Halting engine. (Prevent halting by setting %cEngine.haltOnError=false%c)",
+						"font-style: italic",
+						"font-style: normal"
+					);
+					// Stop before the `window.requestAnimationFrame` can be called
+					return;
+				}
+
+			}
+
 		}
 
 		this.canvas.style.cursor = this.cursor;
@@ -197,4 +220,66 @@ export function wait(time:number):Promise<void> {
 		});
   })
 
+}
+
+function logFormattedError(error:Error) {
+				
+	// Get the errors type/name, message, and files/stack
+	let name:string = error.name as string;
+	let message:string = error.message as string;
+	let stack:string = error.stack as string;
+
+	type StackParts = [string, string];
+	type LineParts = [ string, string ];
+
+	// Remove all files after "FrameRequestCallback"
+	let regex:RegExp = /^([\s\S]*?)FrameRequestCallback/g;
+	let stackStart:StackParts = stack.match(regex) as StackParts;
+	stack = stackStart[0].replace("\nFrameRequestCallback", "");
+
+	// Get a list of all lines inside the stack
+	let lines:string[] = stack.split("\n");
+
+	// Keep track of how long the max pre-link string is
+	let maxPreLinkLength:number = 0;
+
+	// Loop through each line, and get the max length of the pre-link part
+	for (let i = 0; i < lines.length; i ++) {
+		let line:string = lines[i] as string;
+
+		let lineParts:LineParts = line.split("@") as LineParts;
+
+		let preLink:string = lineParts[0];
+		
+		maxPreLinkLength = Math.max(maxPreLinkLength, preLink.length);
+	}
+
+	// Loop through each line, reformatting the line to have
+	// a consistent separation between pre-links and links
+	for (let i = 0; i < lines.length; i ++) {
+		let line:string = lines[i] as string;
+		let lineParts:LineParts = line.split("@") as LineParts;
+
+		// Get the pre-link and link
+		let preLink:string = lineParts[0];
+		let link:string = lineParts[1];
+
+		// Reformat the links to have the locations in brackets					
+		link = link.replace(/:(\d+):(\d+)/gm, " (line $1, char $2)");
+
+		// Generate the number of spaces to go between the pre-link and the link+location
+		let separator = " ".repeat(maxPreLinkLength + 3 - preLink.length);
+
+		// Update the line string
+		line = preLink + separator + link;
+		
+		// Put the updated line string back into the array
+		lines[i] = line;
+	}
+
+	// Join all the lines with newlines
+	stack = lines.join("\n");
+
+	// Log the error
+	console.error(`${name}: ${message}\n${stack}`);
 }
