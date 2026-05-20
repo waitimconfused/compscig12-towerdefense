@@ -1,13 +1,11 @@
+import { StaticClass } from "./types.js";
+
 export type InventoryItemTag = "coin" | "point" | "jar" | "wood" | "honey" | "lemonade_glass";
 export type InventoryItemCount = number;
 
-export default class Inventory {
+export default class Inventory extends StaticClass {
 
 	public static items = new Map<InventoryItemTag, InventoryItemCount>();
-
-	constructor() {
-		throw new TypeError("Inventory is not a constructor");
-	}
 
 	/**
 	 * 

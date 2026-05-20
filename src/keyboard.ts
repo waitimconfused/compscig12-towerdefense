@@ -3,6 +3,8 @@
  * Detecting keyboard inputs
  */
 
+import { StaticClass } from "./types.js";
+
 type KeyboardListenerType = "up" | "down";
 type KeyboardListenerCallback = (event: KeyboardEvent) => void;
 type KeyboardListener = {
@@ -15,11 +17,7 @@ type KeyboardListener = {
 // Array to store a list of event listeners (see `KeyboardListener`)
 var eventListeners: KeyboardListener[] = [];
 
-export class KeyboardManager {
-
-	constructor() {
-		throw new TypeError("KeyboardManager is not a constructor");
-	}
+export class KeyboardManager extends StaticClass {
 
 	/**
 	 * Array to store a list of what keyboard buttons are being pressed

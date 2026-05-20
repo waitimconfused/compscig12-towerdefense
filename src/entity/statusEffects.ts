@@ -1,10 +1,11 @@
-import { Frog } from "./enemy.types/frog";
-import { Entity, EntityStats } from "./entity";
+import { Frog } from "./enemy.types/frog.js";
+import { Entity, EntityStats } from "./entity.js";
+import { StaticClass } from "../types.js";
 
 /**
  * Class to handle status effects of entities
  */
-export class StatusEffects {
+export class StatusEffects extends StaticClass {
     /**
      * Stuns the target entity for a specified duration
      * Stunned enemies cannot perform any actions

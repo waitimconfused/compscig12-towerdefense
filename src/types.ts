@@ -38,3 +38,27 @@ export type RenderingContext = CanvasRenderingContext2D | OffscreenCanvasRenderi
  * rendered on (`Canvas` and `OffscreenCanvas`)
  */
 export type Canvas = HTMLCanvasElement | OffscreenCanvas;
+
+/**
+ * The `StaticClass` (and the extensions of it) are a static class.
+ * 
+ * No instances are to be made.
+ * 
+ * *Attempting to **create an instance** of it results in **throwing a `TypeError`.***
+ */
+export class StaticClass {
+
+	constructor() {
+
+		// Get the class's constructor
+		let constructor = this.constructor as typeof StaticClass;
+		
+		// Get the name of the class (eg: `"StaticClass"`)
+		let className = constructor.name;
+
+		// Throw a TypeError
+		throw new TypeError(`${className} is not a constructor`);
+
+	}
+
+}

@@ -5,7 +5,7 @@
 
 // Get basic types for positioning (`Position2D`) and canvas
 // contexts (`RenderingContext`) that can be rendered on
-import { Position2D, RenderingContext } from "./types.js";
+import { Position2D, RenderingContext, StaticClass } from "./types.js";
 
 // Get the list of path to `SpriteData`-related files (JSON)
 import spriteAssets from "../assets/sprites.json" with { type: "json" };
@@ -141,7 +141,7 @@ type RenderableSpriteData = {
 }
 
 
-export class SpriteRenderer {
+export class SpriteRenderer extends StaticClass {
 
 	public static verbose:boolean = true;
 
@@ -155,12 +155,6 @@ export class SpriteRenderer {
 	 * been registered using `SpriteRenderer.registerData()`.
 	 */
 	private static images:{[x:string]:HTMLImageElement|undefined} = {};
-
-	constructor() {
-		// The `SpriteRenderer` class is a static class. No instances
-		// are to be made.
-		throw new TypeError("SpriteRenderer is not a constructor");
-	}
 
 	/**
 	 * Get whether or not a sprite has been registered, via a given name

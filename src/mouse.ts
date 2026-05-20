@@ -1,3 +1,5 @@
+import { StaticClass } from "./types.js";
+
 type MouseButtons = "left" | "right" | "wheel" | "back" | "forward" | "eraser";
 
 type MouseButtonObject = { [button in MouseButtons]: boolean };
@@ -26,7 +28,7 @@ function getMouseButtonsFromEvent(event:PointerEvent):MouseButtonObject {
 	return object;
 }
 
-export class MouseManager {
+export class MouseManager extends StaticClass {
 
 	public static x:number = 0;
 	public static y:number = 0;
@@ -44,10 +46,6 @@ export class MouseManager {
 		eraser: false
 	};
 	
-	constructor() {
-		throw new TypeError("MouseManager is not a constructor");
-	}
-
 }
 
 
