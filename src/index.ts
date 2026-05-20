@@ -1,4 +1,5 @@
 import Engine from "./engine.js";
+import Inventory from "./inventory.js";
 import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import viewFiles from "./view/files.json" with { type: "json" };
@@ -9,6 +10,8 @@ SpriteRenderer.loadDefaults();
 MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
 MouseManager.preventZoom = true;
+
+Inventory.load();
 
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
