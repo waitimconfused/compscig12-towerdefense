@@ -1,5 +1,5 @@
 import GameplayView from "../../gameplay-view.js";
-import { View, ViewCollection, ViewSprite, ViewText } from "../view.js";
+import { View, ViewCollection, ViewRect, ViewSprite, ViewText } from "../view.js";
 import { Raccoon } from "../../entity/enemy.types/raccoon.js";
 import { Strawberry } from "../../entity/defender.types/strawberry.js";
 import { Entity } from "../../entity/entity.js";
@@ -18,18 +18,18 @@ Engine.createView("gameplay", gameplayView);
 let stopButton = new ViewText("<");
 gameplayView.addElement(stopButton);
 
-stopButton.setClickEvent(() => {
+stopButton.addEventListener("click", () => {
 	Engine.showView("main-menu");
 });
 
-let inventoryButton = new ViewText("[]");
+let inventoryButton = new ViewSprite("sandwich-three");
 gameplayView.addElement(inventoryButton);
 inventoryButton.setAnchor( Engine.anchor.topRight );
-inventoryButton.alignment.x = "end";
-inventoryButton.alignment.y = "top";
+inventoryButton.moveTo(-100, 100);
+inventoryButton.setSize(50, 50);
 
-inventoryButton.setClickEvent(() => {
-	Engine.showView("inventory");
+inventoryButton.addEventListener("click", () => {
+	Engine.showView("inventory/page-1");
 });
 
 gameplayView.addEventListener("show", () => {

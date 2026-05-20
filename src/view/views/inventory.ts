@@ -19,6 +19,13 @@ page1.addEventListener("show", () => {
 		.moveTo( 100, 100 )
 	);
 
+	let stopButton = new ViewText("<");
+	page1.addElement(stopButton);
+	
+	stopButton.addEventListener("click", () => {
+		Engine.showView("gameplay");
+	});
+
 	let items = Inventory.items.entries();
 
 	let y = 0;

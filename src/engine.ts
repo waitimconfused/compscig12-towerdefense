@@ -110,17 +110,7 @@ export default class Engine {
 		if (subViewNames && view instanceof ViewCollection) {
 			view.showView(subViewNames);
 		}
-		
-		for (let i = 1; i < viewNames.length; i ++) {
-			
-			let name = viewNames[i] as string;
-			
-			if (view instanceof ViewCollection == false) continue;
-			
-			view.showView(name);
-			
-		}
-		
+
 		this.views[this._currentView]?.dispatchEvent("hide");
 		view.dispatchEvent("show");
 		this._currentView = viewName;

@@ -3,6 +3,9 @@ import { MouseManager } from "../mouse.js";
 import { SpriteRenderer } from "../sprites.js";
 import { Canvas, Position2D, RenderingContext } from "../types.js";
 
+type ViewElementEventType = "click";
+type ViewElementEventListener = { type: ViewElementEventType, callback: ()=> void };
+
 type ViewListenerType = "show" | "hide";
 type ViewListenerCallback = ()=>void;
 
@@ -148,6 +151,8 @@ abstract class ViewElement {
 	private _anchor:symbol = Engine.anchor.topLeft;
 	private _position:Position2D = [ 0, 0 ];
 
+	protected eventListeners:ViewElementEventListener[] = [];
+
 	/**
 	 * The real position of the `ViewElement`.
 	 * 
@@ -215,13 +220,25 @@ abstract class ViewElement {
 		return this;
 	}
 	
-	public setClickEvent(callback: ViewCallbackFunction|null ): this {
-		this.click = callback;
+	public addEventListener(type:ViewElementEventType, callback: ViewCallbackFunction ): this {
+		
+		this.eventListeners.push({ type, callback });
+
 		return this;
 	}
 
-	public dispatchEvent(type:"click") {
-		if (this.click) this.click();
+	public dispatchEvent(type:ViewElementEventType) {
+		
+		for (let i = 0; i < this.eventListeners.length; i ++) {
+
+			let listener = this.eventListeners[i] as ViewElementEventListener;
+
+			if (listener.type != type) continue;
+
+			listener.callback();
+
+		}
+
 	}
 
 	public setRotation(degrees:number):this {
@@ -229,6 +246,8 @@ abstract class ViewElement {
 		this.rotation = degrees * Math.PI / 180;
 		return this;
 	}
+
+	protected abstract isMouseHovering(context:RenderingContext): boolean;
 
 	public abstract render( canvas:Canvas, context:RenderingContext ):void;
 
@@ -265,7 +284,7 @@ export class ViewText extends ViewElement {
 		this.content = content;
 	}
 
-	private isMouseHovering(context:RenderingContext):boolean {
+	protected override isMouseHovering(context:RenderingContext):boolean {
 
 		let inverseTransform = context.getTransform().inverse();
 
@@ -334,17 +353,20 @@ export class ViewText extends ViewElement {
 
 	}
 
-	public render(canvas:Canvas, context:RenderingContext) {
+	public override render(canvas:Canvas, context:RenderingContext) {
 
 		context.save();
 		setGeneralStyles(context, this);
 
 		let isHovering = this.isMouseHovering(context);
 
-		if (isHovering) Engine.cursor = "pointer";
+		if (isHovering && this.eventListeners.find(e=>e.type=="click")) {
+			Engine.cursor = "pointer";
+		}
 
 		if (isHovering && MouseManager.buttons.left) {
 			this.dispatchEvent("click");
+			MouseManager.buttons.left = false;
 		}
 
 		context.font = `bold ${this.font.size}px ${this.font.family}`;
@@ -363,9 +385,46 @@ export class ViewText extends ViewElement {
 export class ViewRect extends ViewElement {
 	public override size:Position2D = [ 0, 0 ];
 
+	public setSize(width:number, height:number): this {
+		this.size[0] = width;
+		this.size[1] = height;
+
+		return this;
+	}
+
+	protected override isMouseHovering(context: RenderingContext): boolean {
+		
+		let inverseTransform = context.getTransform().inverse();
+
+		let mouseAsPoint:DOMPointInit = new DOMPoint(MouseManager.x, MouseManager.y);
+
+		let internalMousePoint = inverseTransform.transformPoint(mouseAsPoint);
+
+		let internalMouse:Position2D = [ internalMousePoint.x, internalMousePoint.y ];
+
+		if (internalMouse[0] < 0) return false;
+		if (internalMouse[1] < 0) return false;
+		if (internalMouse[0] > this.size[0]) return false;
+		if (internalMouse[1] > this.size[1]) return false;
+
+		return true;
+
+	}
+
 	public override render(canvas: Canvas, context: RenderingContext): void {
 		context.save();
 		setGeneralStyles(context, this);
+
+		let isHovering = this.isMouseHovering(context);
+
+		if (isHovering && this.eventListeners.find(e=>e.type=="click")) {
+			Engine.cursor = "pointer";
+		}
+
+		if (isHovering && MouseManager.buttons.left) {
+			this.dispatchEvent("click");
+			MouseManager.buttons.left = false;
+		}
 		
 		context.beginPath();
 		context.fillRect(0, 0, this.size[0], this.size[1]);
@@ -376,18 +435,26 @@ export class ViewRect extends ViewElement {
 		context.restore();
 
 	}
-
-	public setSize(width:number, height:number): this {
-		this.size[0] = width;
-		this.size[1] = height;
-
-		return this;
-	}
 }
 
 export class ViewSprite extends ViewElement {
 
-	public reference:string;
+	protected _reference:string;
+
+	public set reference(string:string) {
+		this._reference = string;
+
+		let sprite = SpriteRenderer.getSpriteAsOffscreenCanvas({
+			name: string,
+			position: [ 0, 0 ],
+			size: [ 0, 0 ]
+		});
+
+		this.size = [ sprite.width, sprite.height ];
+
+	}
+
+	public get reference() { return this._reference; }
 
 	public override size:Position2D = [ 100, 100 ];
 
@@ -431,7 +498,17 @@ export class ViewSprite extends ViewElement {
 		context.save();
 
 		setGeneralStyles(context, this);
-		context.translate( -this.origin[0]*this.size[0], -this.origin[1]*this.size[1] );
+
+		let isHovering = this.isMouseHovering(context);
+
+		if (isHovering && this.eventListeners.find(e=>e.type=="click")) {
+			Engine.cursor = "pointer";
+		}
+
+		if (isHovering && MouseManager.buttons.left) {
+			this.dispatchEvent("click");
+			MouseManager.buttons.left = false;
+		}
 
 		SpriteRenderer.drawSprite({
 			name: this.reference,
@@ -442,6 +519,23 @@ export class ViewSprite extends ViewElement {
 		context.restore();
 
 
+	}
+
+	protected override isMouseHovering(context: RenderingContext): boolean {
+		let inverseTransform = context.getTransform().inverse();
+
+		let mouseAsPoint:DOMPointInit = new DOMPoint(MouseManager.x, MouseManager.y);
+
+		let internalMousePoint = inverseTransform.transformPoint(mouseAsPoint);
+
+		let internalMouse:Position2D = [ internalMousePoint.x, internalMousePoint.y ];
+
+		if (internalMouse[0] < 0) return false;
+		if (internalMouse[1] < 0) return false;
+		if (internalMouse[0] > this.size[0]) return false;
+		if (internalMouse[1] > this.size[1]) return false;
+
+		return true;
 	}
 }
 
