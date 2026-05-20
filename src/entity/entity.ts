@@ -2,16 +2,25 @@ import { Position2D } from "../types.js";
 
 type EntityTimer = {
 	type: "wait" | "walk";
-	callback: (result:EntityEvent|undefined) => void;
+	complete: (result?:EntityEvent) => void;
+	fail: (result?:EntityEvent) => void;
 	
 	/**
 	 * Time when the timer should be triggered.
 	 */
 	trigger_time?: number
+
+	/**
+	 * Gets ran each frame that the timer is running
+	 * 
+	 * *Optional*
+	 */
+	tick?: EntityTimerTicker
 };
 
 export type EntityEventType = "wait" | "jump" | "walk";
 export type EntityEventInterrupt = "success" | "error" | "attacked" | "stunned" | "slowed";
+export type EntityTimerTicker = () => void
 
 export type DamageType = 'melee' | 'ranged' | 'aoe';
 
@@ -262,9 +271,9 @@ export abstract class Entity {
 	 * 						the timer has been interrupted (like if
 	 * 						the entity was attacked)
 	 */
-	public wait(milliseconds:number):Promise<undefined|EntityEvent> {
+	public wait(milliseconds:number, ticker?:EntityTimerTicker):Promise<undefined|EntityEvent> {
 
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 
 			// Add an internal WAIT timer
 			this.internalTimers.push({
@@ -276,7 +285,9 @@ export abstract class Entity {
 				
 				// The resolution function to call when
 				// the timer is up
-				callback: resolve,
+				complete: resolve,
+				fail: reject,
+				tick: ticker,
 			})
 		});
 
@@ -352,7 +363,7 @@ export abstract class Entity {
 	 */
 	public walkTo(x:number, y:number):Promise<undefined|EntityEvent> {
 
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 
 			// If the entity is stunned, resolve the promise,
 			// with the reason that it is stunned
@@ -383,7 +394,8 @@ export abstract class Entity {
 			// said position due to some reason
 			this.internalTimers.push({
 				type: "walk",
-				callback: resolve,
+				complete: resolve,
+				fail: reject
 			});
 
 		});
@@ -532,6 +544,8 @@ export abstract class Entity {
 	 * @param reason 	Reason for why the timer was interrupted.
 	 * 					Eg: It was attacked, by Billy `{ interrupt_type:"attacked", triggered_by:billy }`
 	 * 					*(Optional)*
+	 * 					If reason ***was not*** provided, the timer will be treated as a success
+	 * 					If a reason ***was*** provided, the timer will be treated as a failure, unless the reason has `{ interrupt_type: "success" }`
 	 */
 	public interruptTimers(selector:EntityEventType|null, reason?:EntityEvent) {
 
@@ -547,7 +561,8 @@ export abstract class Entity {
 
 			// The timer should be interrupted.
 			// Trigger the callback function
-			timer.callback(reason);
+			if (reason && reason.interrupt_type != "success") timer.fail(reason);
+			else timer.complete(reason);
 
 			// Remove the timer from `internalTimers`.
 			this.internalTimers.splice(i, 1);
@@ -677,11 +692,13 @@ export abstract class Entity {
 			// Get the time when the timer should be triggered
 			let triggerTime = timer.trigger_time as number;
 
+			if (timer.tick) timer.tick();
+
 			// If the time isn't in the past, go to the next timer
 			if (triggerTime > performance.now()) continue;
 
 			// Call the timer's callback function
-			timer.callback(undefined);
+			timer.complete(undefined);
 
 			// Remove the timer from the internal timer list
 			this.internalTimers.splice(i, 1);
@@ -708,7 +725,7 @@ export abstract class Entity {
 				this.state = "idle";
 
 				// Clear walking timers, saying that the action was a success
-				this.interruptTimers("walk", { interrupt_type: "success" });
+				this.interruptTimers("walk");
 
 			}
 
