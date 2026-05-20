@@ -1,4 +1,4 @@
-import GameplayView from "../../gameplay-view.js";
+import GameplayView from "../gameplay-view.js";
 import { View, ViewCollection, ViewRect, ViewSprite, ViewText } from "../view.js";
 import { Raccoon } from "../../entity/enemy.types/raccoon.js";
 import { Strawberry } from "../../entity/defender.types/strawberry.js";
