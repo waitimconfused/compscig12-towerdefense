@@ -8,9 +8,9 @@ Engine.createView("inventory", inventoryView);
 var page1 = new View;
 inventoryView.createView("page-1", page1);
 
-page1.addEventListener("show", () => {
+Inventory.give("honey", 30);
 
-	console.log("Viewing stats!");
+page1.addEventListener("show", () => {
 
 	while ( page1.children.length > 0 ) page1.removeElement(page1.children[0]);
 	
@@ -30,6 +30,7 @@ page1.addEventListener("show", () => {
 
 		page1.addElement(
 			new ViewText(`${item}: ${count}`)
+			.setAnchor(Engine.anchor.centerCenter)
 			.moveTo(100, 100 + y * 50)
 		);
 		y += 1;

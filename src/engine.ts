@@ -170,7 +170,7 @@ export default class Engine {
 		window.requestAnimationFrame(() => this.render());
 	}
 
-	public static resolveAnchor(anchor:symbol):Position2D|null {
+	public static resolveAnchor(anchor:symbol):Position2D {
 
 		switch (anchor) {
 			case Engine.anchor.topLeft:
@@ -205,7 +205,7 @@ export default class Engine {
 				
 			default:
 				console.error(`Unknown anchor "${anchor.description}".`);
-				return null;
+				return [ 0, 0 ];
 		}
 	}
 }
