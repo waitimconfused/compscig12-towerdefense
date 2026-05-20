@@ -3,21 +3,34 @@ import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import viewFiles from "./view/files.json" with { type: "json" };
 
-SpriteRenderer.verbose = false;
-SpriteRenderer.loadDefaults();
 
+
+// Set which view to show once all the loading is done
+const defaultView = "main-menu";
+
+// Turn off comments
+SpriteRenderer.verbose = false;
+
+// Disable all the mouse events we don't want
 MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
 MouseManager.preventZoom = true;
 
+
+
+// Get a reference to the canvas we are going to render onto
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
+// Load all sprites (files listed in /assets/sprites.json -> .assets)
+SpriteRenderer.loadDefaults();
+
+// Initialize the Engine, using the defined canvas
 Engine.initialize(canvas);
 
-for (let i = 0; i < viewFiles.files.length; i ++) {
+for (let i = 0; i < viewFiles.views.length; i ++) {
 
 	// Get the current path to the file
-	let path = viewFiles.files[i] as string;
+	let path = viewFiles.views[i] as string;
 
 	// Replace __.ts with __.js
 	path = path.replace(/\.ts$/, ".js");
@@ -32,5 +45,5 @@ for (let i = 0; i < viewFiles.files.length; i ++) {
 
 }
 
-// Show the main-menu view
-Engine.showView("main-menu");
+// Show the default view
+Engine.showView(defaultView);
