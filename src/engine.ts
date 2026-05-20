@@ -1,5 +1,5 @@
 import { Position2D, RenderingContext } from "./types.js";
-import { View, ViewObjectLayout } from "./view/view.js";
+import { View, ViewCollection, ViewObjectLayout } from "./view/view.js";
 
 
 type EngineStats = {
@@ -93,18 +93,40 @@ export default class Engine {
 
 	public static showView(name:string):View|null {
 
-		if (name in this.views == false) {
+		
+		let viewNames = name.split("/");
+		
+		let viewName = viewNames.shift() as string;
+		let subViewNames = viewNames.join("/");
+		
+		if (viewName in this.views == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 			return null;
 		}
 
-		this.views[this._currentView]?.dispatchEvent("hide");
-		this._currentView = name;
-
-		this.views[name]?.dispatchEvent("show");
-
-		return this.views[name] ?? null;
+		let view:View = this.views[viewName] as View;
 		
+		
+		if (subViewNames && view instanceof ViewCollection) {
+			view.showView(subViewNames);
+		}
+		
+		for (let i = 1; i < viewNames.length; i ++) {
+			
+			let name = viewNames[i] as string;
+			
+			if (view instanceof ViewCollection == false) continue;
+			
+			view.showView(name);
+			
+		}
+		
+		this.views[this._currentView]?.dispatchEvent("hide");
+		view.dispatchEvent("show");
+		this._currentView = viewName;
+		
+		return view ?? null;
+
 	}
 
 	private static render() {

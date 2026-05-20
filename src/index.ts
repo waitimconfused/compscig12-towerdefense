@@ -24,17 +24,15 @@ const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvas
 // Load all sprites (files listed in /assets/sprites.json -> .assets)
 SpriteRenderer.loadDefaults();
 
-// Initialize the Engine, using the defined canvas
-Engine.initialize(canvas);
 
 for (let i = 0; i < viewFiles.views.length; i ++) {
-
+	
 	// Get the current path to the file
 	let path = viewFiles.views[i] as string;
-
+	
 	// Replace __.ts with __.js
 	path = path.replace(/\.ts$/, ".js");
-
+	
 	// Turn the path into an absolute path
 	let absolutePath = new URL( path, location.origin+"/dist/view/" ).pathname;
 	
@@ -42,8 +40,10 @@ for (let i = 0; i < viewFiles.views.length; i ++) {
 	// Even though it doesn't export anything, the code gets ran
 	// This makes it so that the views each file creates get loaded
 	await import(absolutePath);
-
+	
 }
-
 // Show the default view
 Engine.showView(defaultView);
+
+// Initialize the Engine, using the defined canvas
+Engine.initialize(canvas);

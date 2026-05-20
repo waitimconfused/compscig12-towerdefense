@@ -85,18 +85,40 @@ export class ViewCollection extends View {
 
 	public showView(name:string):View|null {
 
-		if (name in this.views == false) {
+		
+		let viewNames = name.split("/");
+		
+		let viewName = viewNames.shift() as string;
+		let subViewNames = viewNames.join("/");
+		
+		if (viewName in this.views == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 			return null;
 		}
 
-		this.views[this._currentView]?.dispatchEvent("hide");
-		this._currentView = name;
-
-		this.views[name]?.dispatchEvent("show");
-
-		return this.views[name] ?? null;
+		let view:View = this.views[viewName] as View;
 		
+		
+		if (subViewNames && view instanceof ViewCollection) {
+			view.showView(subViewNames);
+		}
+		
+		for (let i = 1; i < viewNames.length; i ++) {
+			
+			let name = viewNames[i] as string;
+			
+			if (view instanceof ViewCollection == false) continue;
+			
+			view.showView(name);
+			
+		}
+		
+		this.views[this._currentView]?.dispatchEvent("hide");
+		view.dispatchEvent("show");
+		this._currentView = viewName;
+		
+		return view ?? null;
+
 	}
 
 	public override render(canvas:Canvas, context:RenderingContext) {
