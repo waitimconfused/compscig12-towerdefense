@@ -3,7 +3,7 @@ export type InventoryItemCount = number;
 
 export default class Inventory {
 
-	private static map = new Map<InventoryItemTag, InventoryItemCount>();
+	public static items = new Map<InventoryItemTag, InventoryItemCount>();
 
 	constructor() {
 		throw new TypeError("Inventory is not a constructor");
@@ -18,7 +18,7 @@ export default class Inventory {
 
 		let count = this.getCount(tag);
 
-		this.map.set(tag, count + quantity);
+		this.items.set(tag, count + quantity);
 
 	}
 
@@ -38,12 +38,12 @@ export default class Inventory {
 
 		if (value < quantity) return false;
 
-		this.map.set(tag, value - quantity);
+		this.items.set(tag, value - quantity);
 		return true;
 	}
 
 	public static getCount(tag:InventoryItemTag):InventoryItemCount {
-		return this.map.get(tag) ?? 0;
+		return this.items.get(tag) ?? 0;
 	}
 
 }

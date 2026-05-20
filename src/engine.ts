@@ -1,5 +1,5 @@
 import { Position2D, RenderingContext } from "./types.js";
-import { View, ViewObjectLayout } from "./view.js";
+import { View, ViewObjectLayout } from "./view/view.js";
 
 
 type EngineStats = {

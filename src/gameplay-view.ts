@@ -1,4 +1,4 @@
-import { View } from "./view.js";
+import { View } from "./view/view.js";
 import { Entity } from "./entity/entity.js";
 import { SpriteRenderer } from "./sprites.js";
 import { Canvas, Position2D, RenderingContext } from "./types.js";

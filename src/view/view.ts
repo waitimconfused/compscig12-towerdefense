@@ -1,7 +1,7 @@
-import Engine from "./engine.js";
-import { MouseManager } from "./mouse.js";
-import { SpriteRenderer } from "./sprites.js";
-import { Canvas, Position2D, RenderingContext } from "./types.js";
+import Engine from "../engine.js";
+import { MouseManager } from "../mouse.js";
+import { SpriteRenderer } from "../sprites.js";
+import { Canvas, Position2D, RenderingContext } from "../types.js";
 
 type ViewListenerType = "show" | "hide";
 type ViewListenerCallback = ()=>void;
@@ -12,7 +12,7 @@ type ViewListenerGroup = {
 
 export class View {
 
-	private elements:ViewElement[] = [];
+	public children:ViewElement[] = [];
 
 	protected listeners:ViewListenerGroup = {
 		show: [],
@@ -20,7 +20,18 @@ export class View {
 	}
 	
 	public addElement( ...elements:ViewElement[] ):this {
-		this.elements.push(...elements);
+		this.children.push(...elements);
+		return this;
+	}
+
+	public removeElement( element?:ViewElement ):this {
+
+		if (!element) return this;
+		
+		let index = this.children.indexOf(element);
+
+		this.children.splice(index, 1);
+
 		return this;
 	}
 
@@ -40,8 +51,8 @@ export class View {
 	
 	public render( canvas:Canvas, context:RenderingContext ) {
 
-		for (let i = 0; i < this.elements.length; i ++) {
-			let element:ViewElement = this.elements[i] as ViewElement;
+		for (let i = 0; i < this.children.length; i ++) {
+			let element:ViewElement = this.children[i] as ViewElement;
 			element.render(canvas, context);
 		}
 
