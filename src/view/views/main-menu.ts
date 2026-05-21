@@ -1,5 +1,7 @@
 import Engine from "../../engine.js";
-import { View, ViewSprite, ViewText } from "../view.js";
+import { ViewSprite } from "../elements/sprite.js";
+import { ViewText } from "../elements/text.js";
+import { View } from "../view.js";
 
 var menuView = new View();
 Engine.createView("main-menu", menuView);

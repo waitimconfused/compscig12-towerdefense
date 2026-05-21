@@ -1,6 +1,7 @@
 import Engine from "../../engine.js";
 import Inventory from "../../inventory.js";
-import { View, ViewCollection, ViewText } from "../view.js";
+import { ViewText } from "../elements/text.js";
+import { View, ViewCollection } from "../view.js";
 
 var inventoryView = new ViewCollection;
 Engine.createView("inventory", inventoryView);
@@ -40,6 +41,7 @@ page1.addEventListener("show", () => {
 			.setAnchor(Engine.anchor.centerCenter)
 			.moveTo(100, 100 + y * 50)
 		);
+
 		y += 1;
 
 	}
