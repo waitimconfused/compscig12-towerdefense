@@ -37,6 +37,7 @@ gameplayView.addEventListener("show", () => {
 	if (hasPlayed) return;
 
 	Raccoon.spawn(1, [ 0, 0 ]);
+	console.log(Sandwich.level);
 	Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
 
 	hasPlayed = true;
