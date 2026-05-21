@@ -32,8 +32,6 @@ export interface EnemyEntityStats extends EntityStats {
 };
 
 export abstract class EnemyEntity extends Entity {
-	protected waveNumber : number;
-    protected abstract healthScale : number;
     protected abstract drops : EnemyDrops;
     protected spawnLocation : Position2D = [0,0];
 
@@ -68,5 +66,11 @@ export abstract class EnemyEntity extends Entity {
 				Inventory.give(drop.type, drop.amount);
             }
         }
+    }
+
+    public increaasHelath() {
+        let constructor = this.constructor;
+
+        
     }
 }

@@ -35,7 +35,7 @@ export class Wasp extends EnemyEntity {
 		]
 	};
 
-	public override healthScale: number = 1.2;
+	public healthScale: number = 1.2;
 
 	public override async attackEntity(entity: Entity): Promise<undefined | EntityEvent> {
 		if (this.stunned) {

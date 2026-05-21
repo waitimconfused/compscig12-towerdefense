@@ -43,8 +43,6 @@ export class Frog extends EnemyEntity {
 			{ type : 'jar', chance : 0.3, amount : 1 }
 		]
 	}
-
-	public override healthScale: number = 1.15;
 	
 	/**
 	 * Attempt to leap
@@ -91,4 +89,6 @@ export class Frog extends EnemyEntity {
 		// 	target.position[1]
 		// );
 	}
+
+	
 }

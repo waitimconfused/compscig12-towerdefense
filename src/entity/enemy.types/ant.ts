@@ -1,8 +1,9 @@
-import { isBigIntLiteral } from "typescript";
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { DamageType, Entity, EntityEvent } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
+import { Position2D } from "../../types.js";
+import { Wave } from "../../wave.js";
 
 /**
  * Creates an Ant as an EnemyEntity
@@ -43,7 +44,7 @@ export class Ant extends EnemyEntity {
 		]
 	}
 
-	public override healthScale: number = 1.1;
+	public healthScale: number = 1.1;
 
 	/**
 	 * Override, Ant takes more damage from AOE type attacks
@@ -158,26 +159,27 @@ export class Ant extends EnemyEntity {
 	 * Spawns a cluster of ants at a small chance
 	 * @param waveNumber The current wave number
 	 */
-	public static clusterSpawn(waveNumber : number) : void {
+	public static override spawn(count:number, position:Position2D, spread?:number) : Entity[] {
 		// Rolls a random number
 		let spawnSpecialCluster = Math.random();
-		
+
 		// Spawns waveNumber amount of Ant(s) up to a maximum of 20
-		let cluster : number = Math.min(waveNumber, 15) + 5;
+		let cluster : number = Math.min(Wave.getWave(), 15) + 5;
 
 		// Spawns 3-8 ants
 		let randomAnts : number = Math.floor(Math.random() * 6 + 3);
 		
 		// Tracks number of ants to spawn
-		let count : number;
 
 		// Spawns a cluster of ants at a 10% chance
 		// Otherwise spawns 3-8 ants
 		if (spawnSpecialCluster <= 0.1) {
-			count = cluster;
+			count += cluster;
 		} else {
-			count = randomAnts;
+			count += randomAnts;
 		}
+
+		return [];
 
 		// Spawn count number of Ant(s) at the enemy base
 		this.spawn(count, [0,0], 2);
