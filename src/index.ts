@@ -37,3 +37,6 @@ for (let i = 0; i < viewFiles.files.length; i ++) {
 
 // Show the main-menu view
 Engine.showView("main-menu");
+
+let loader:HTMLDivElement = document.getElementById("loading") as HTMLDivElement;
+loader.remove();
