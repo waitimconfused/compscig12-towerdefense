@@ -1,5 +1,6 @@
 {
 	"editor.insertSpaces": false,
 	"javascript.preferences.importModuleSpecifierEnding": "js",
-	"python.analysis.showOnlyDirectDependenciesInAutoImport": false
+	"python.analysis.showOnlyDirectDependenciesInAutoImport": false,
+	"git.postCommitCommand": "sync"
 }
