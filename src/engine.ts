@@ -99,7 +99,7 @@ export default class Engine {
 		let viewName = viewNames.shift() as string;
 		let subViewNames = viewNames.join("/");
 		
-		if (this.views.has(name) == false) {
+		if (this.views.has(viewName) == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 			return null;
 		}
