@@ -92,7 +92,7 @@ export class ViewCollection extends View {
 		let viewName = viewNames.shift() as string;
 		let subViewNames = viewNames.join("/");
 		
-		if (viewName in this.views == false) {
+		if (this.views.has(name) == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 			return null;
 		}
@@ -114,8 +114,9 @@ export class ViewCollection extends View {
 			
 		}
 		
-		let currentView:View = this.views.get(this._currentView) as View;
-		currentView.dispatchEvent("hide");
+		let currentView:View|undefined = this.views.get(this._currentView);
+		if (currentView) currentView.dispatchEvent("hide");
+
 		view.dispatchEvent("show");
 		this._currentView = viewName;
 		
@@ -146,8 +147,8 @@ export type ViewElementStroke = {
 
 export abstract class ViewElement {
 
-	private _anchor:symbol = Engine.anchor.topLeft;
-	private _position:Position2D = [ 0, 0 ];
+	protected _anchor:symbol = Engine.anchor.topLeft;
+	protected _position:Position2D = [ 0, 0 ];
 
 	protected eventListeners:ViewElementEventListener[] = [];
 
@@ -171,8 +172,6 @@ export abstract class ViewElement {
 
 	}
 	
-	private click:ViewCallbackFunction|null = null;
-
 	public stroke: ViewElementStroke = {
 		colour: "black",
 		size: 5,

@@ -99,7 +99,7 @@ export default class Engine {
 		let viewName = viewNames.shift() as string;
 		let subViewNames = viewNames.join("/");
 		
-		if (viewName in this.views == false) {
+		if (this.views.has(name) == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 			return null;
 		}
@@ -110,8 +110,8 @@ export default class Engine {
 			view.showView(subViewNames);
 		}
 
-		let currentView:View = this.views.get(this._currentView) as View;
-		currentView.dispatchEvent("hide");
+		let currentView:View|undefined = this.views.get(this._currentView);
+		if (currentView) currentView.dispatchEvent("hide");
 
 		view.dispatchEvent("show");
 		this._currentView = viewName;
@@ -151,7 +151,7 @@ export default class Engine {
 
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		if (this._currentView in this.views) {
+		if (this.views.has(this._currentView)) {
 			let view:View = this.views.get(this._currentView) as View;
 			
 			try {
