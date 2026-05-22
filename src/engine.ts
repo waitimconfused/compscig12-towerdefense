@@ -53,15 +53,15 @@ export default class Engine {
 
 	public static anchor = {
 		topLeft:		Symbol("Anchor:tl"),
-		topCenter:		Symbol("Anchor:tl"),
+		topCenter:		Symbol("Anchor:tc"),
 		topRight:		Symbol("Anchor:tr"),
 
 		centerLeft:		Symbol("Anchor:cl"),
-		centerCenter:	Symbol("Anchor:cl"),
+		centerCenter:	Symbol("Anchor:cc"),
 		centerRight:	Symbol("Anchor:cr"),
 
 		bottomLeft:		Symbol("Anchor:bl"),
-		bottomCenter:	Symbol("Anchor:bl"),
+		bottomCenter:	Symbol("Anchor:bc"),
 		bottomRight:	Symbol("Anchor:br"),
 	}
 
