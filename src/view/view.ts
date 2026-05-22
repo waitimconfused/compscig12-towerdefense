@@ -126,7 +126,7 @@ export class ViewCollection extends View {
 
 	public override render(canvas:Canvas, context:RenderingContext) {
 
-		if (this._currentView in this.views) {
+		if (this.views.has(this._currentView)) {
 			let view:View = this.views.get(this._currentView) as View;
 			view.render( canvas, context );
 		}
