@@ -66,7 +66,7 @@ export class ViewCollection extends View {
 	private _currentView:string;
 	public get currentView() { return this._currentView; }
 
-	private views:ViewObjectLayout = {};
+	private views:Map<string, View> = new Map<string, View>();
 
 	public override addElement(...element: ViewElement[]): this {
 		console.error(`"ViewElement" instances cannot be added to "ViewCollection".`);
@@ -75,9 +75,9 @@ export class ViewCollection extends View {
 
 	public createView(name:string, view:View):this {
 
-		if (name in this.views) throw new Error(`Cannot create duplicate view of "${name}".`);
+		if ( this.views.has(name) ) throw new Error(`Cannot create duplicate view of "${name}".`);
 
-		this.views[name] = view;
+		this.views.set(name, view);
 
 		if (!this._currentView) this.showView(name);
 		return this;
@@ -97,7 +97,7 @@ export class ViewCollection extends View {
 			return null;
 		}
 
-		let view:View = this.views[viewName] as View;
+		let view:View = this.views.get(viewName) as View;
 		
 		
 		if (subViewNames && view instanceof ViewCollection) {
@@ -114,7 +114,8 @@ export class ViewCollection extends View {
 			
 		}
 		
-		this.views[this._currentView]?.dispatchEvent("hide");
+		let currentView:View = this.views.get(this._currentView) as View;
+		currentView.dispatchEvent("hide");
 		view.dispatchEvent("show");
 		this._currentView = viewName;
 		
@@ -125,7 +126,7 @@ export class ViewCollection extends View {
 	public override render(canvas:Canvas, context:RenderingContext) {
 
 		if (this._currentView in this.views) {
-			let view:View = this.views[this._currentView] as View;
+			let view:View = this.views.get(this._currentView) as View;
 			view.render( canvas, context );
 		}
 
@@ -133,7 +134,6 @@ export class ViewCollection extends View {
 
 }
 
-export type ViewObjectLayout = { [name:string]: View|undefined };
 export type ViewCallbackFunction = ( ()=>void );
 export type ViewElementStroke = {
 	colour: string,
