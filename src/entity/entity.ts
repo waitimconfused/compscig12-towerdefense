@@ -88,12 +88,6 @@ export interface EntityStats {
 	 * the range of an Entity's area of effect attack (if they have the ability to do aoe attacks)
 	 */
 	aoeRange : number | undefined;
-
-	/**
-	 * the cost of upgrading an entity (only applicable to Defenders)
-	 */
-	upgradeEntityCost : number | undefined;
-	
 }
 
 export abstract class Entity {

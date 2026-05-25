@@ -6,7 +6,7 @@ export abstract class Tool extends Entity{
 	 * Create a map of the specific tool requirements for the tool to be created
 	 * Map is used because order of tool requirements does not matter
 	 */
-	toolRequirements : Map<InventoryItemTag,number>;
+	public abstract toolRequirements : Map<InventoryItemTag,number>;
 
 	/**
 	 * Check to see if the player can create the tool
