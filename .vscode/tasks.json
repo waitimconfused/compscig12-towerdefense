@@ -6,7 +6,7 @@
 			"detail": "Pulls from the workspace's git repo, and recompiles TypeScript files.",
 			
 			"type": "shell",
-			"command": "clear && echo '> Pulling from GitHub...' && git pull && echo '> Finished Pulled from GitHub.' && echo '> Recompiling TypeScript...' && npx tsc; echo '> Recompiling complete.' && sleep 2",
+			"command": "clear && echo '> Pulling from GitHub...' && git pull && echo '> Finished Pulled from GitHub.' && echo '> Recompiling TypeScript...' && rm -r dist && npx tsc; echo '> Recompiling complete.' && sleep 2",
 
 			"problemMatcher": [],
 			"runOptions": { "runOn": "folderOpen" },
