@@ -11,6 +11,11 @@ export interface DefenderEntityStats extends EntityStats {
 	 * the entity's resale cost
 	 */
 	entityResaleCost : number;
+
+	/**
+	 * the cost of upgrading a Defender
+	 */
+	upgradeEntityCost : number | undefined;
 }
 
 export abstract class DefenderEntity extends Entity{

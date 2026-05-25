@@ -4,9 +4,15 @@ import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import viewFiles from "./view/files.json" with { type: "json" };
 
-SpriteRenderer.verbose = false;
-SpriteRenderer.loadDefaults();
 
+
+// Set which view to show once all the loading is done
+const defaultView = "main-menu";
+
+// Turn off comments
+SpriteRenderer.verbose = false;
+
+// Disable all the mouse events we don't want
 MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
 MouseManager.preventZoom = true;
@@ -15,16 +21,18 @@ Inventory.load();
 
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
-Engine.initialize(canvas);
+// Load all sprites (files listed in /assets/sprites.json -> .assets)
+SpriteRenderer.loadDefaults();
 
-for (let i = 0; i < viewFiles.files.length; i ++) {
 
+for (let i = 0; i < viewFiles.views.length; i ++) {
+	
 	// Get the current path to the file
-	let path = viewFiles.files[i] as string;
-
+	let path = viewFiles.views[i] as string;
+	
 	// Replace __.ts with __.js
 	path = path.replace(/\.ts$/, ".js");
-
+	
 	// Turn the path into an absolute path
 	let absolutePath = new URL( path, location.origin+"/dist/view/" ).pathname;
 	
@@ -32,8 +40,16 @@ for (let i = 0; i < viewFiles.files.length; i ++) {
 	// Even though it doesn't export anything, the code gets ran
 	// This makes it so that the views each file creates get loaded
 	await import(absolutePath);
-
+	
 }
+// Show the default view
+Engine.showView(defaultView);
+
+// Initialize the Engine, using the defined canvas
+Engine.initialize(canvas);
 
 // Show the main-menu view
 Engine.showView("main-menu");
+
+let loader:HTMLDivElement = document.getElementById("loading") as HTMLDivElement;
+loader.remove();

@@ -1,12 +1,12 @@
 import { Entity, EntityEvent } from "../entity.js";
 import { EnemyEntity } from "../enemy.js";
-import { DefenderEntityStats } from "../defender.js";
+import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { Position2D } from "../../types.js";
 
 /**
  * create the class Corn that extends from Entity
  */
-export class Corn extends Entity{
+export class Corn extends DefenderEntity{
 	/**the readonly name of the entity Corn - to prevent spelling mistakes*/
 	public static readonly DEFENDER_NAME = "Corn";
 
