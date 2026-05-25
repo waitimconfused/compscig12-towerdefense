@@ -98,7 +98,17 @@ export interface EntityStats {
 
 export abstract class Entity {
 
-	protected _id:string;
+	/**
+	 * The ID of the entity, used as the key inside `Entity.entities:Map<string, Entity>`
+	 * 
+	 * This should be ***immutable***, it should not be changed whatsoever.
+	 */
+	private _id:string;
+
+	/**
+	 * The ID of the entity, used as the key inside `Entity.entities:Map<string, Entity>`
+	 */
+	public get id():string { return this.id; }
 
 	/**
 	 * Keep track of if the entity is stunned
