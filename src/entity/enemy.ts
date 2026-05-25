@@ -31,12 +31,20 @@ export interface EnemyEntityStats extends EntityStats {
 	attackCoolDown : number;
 };
 
+/**
+ * Enemy entities can drop items, spawn, have stats, and die
+ */
 export abstract class EnemyEntity extends Entity {
+    // Enemies have different drops
     protected abstract drops : EnemyDrops;
+
+    // Enemy spawm location
     protected spawnLocation : Position2D = [0,0];
 
+    // Ensures enemies WILL have stats
 	declare public stats: EnemyEntityStats;
 
+    // Enemy base stats
 	public static override baseStats: EnemyEntityStats;
 
     /**
@@ -51,7 +59,6 @@ export abstract class EnemyEntity extends Entity {
 	}
     
     protected dropItems() {
-
 		// Add the predetermined coins & points to the inventory
 		Inventory.give("coin", this.drops.coins);
 		Inventory.give("point", this.drops.points);
@@ -66,11 +73,5 @@ export abstract class EnemyEntity extends Entity {
 				Inventory.give(drop.type, drop.amount);
             }
         }
-    }
-
-    public increaasHelath() {
-        let constructor = this.constructor;
-
-        
     }
 }

@@ -44,8 +44,6 @@ export class Ant extends EnemyEntity {
 		]
 	}
 
-	public healthScale: number = 1.1;
-
 	/**
 	 * Override, Ant takes more damage from AOE type attacks
 	 * @param dealtDamage Amount of damage dealt
@@ -180,8 +178,5 @@ export class Ant extends EnemyEntity {
 		}
 
 		return [];
-
-		// Spawn count number of Ant(s) at the enemy base
-		this.spawn(count, [0,0], 2);
 	}
 }
