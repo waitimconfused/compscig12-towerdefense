@@ -1,44 +1,105 @@
 {
 	"type": "defender/sandwich",
-
 	"logic": [
-		{
-			"rule": "max_health*0.75 <= health",
 
-			"layers": [
+		{
+			"rule": "level < 3",
+			"logic": [
 				{
-					"sprite": "sandwich-four",
-					"origin": [ 50, 100 ]
+					"rule": "max_health*0.75 <= health",
+					"layers": [
+						{
+							"sprite": "sandwich-four",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
+				{
+					"rule": "max_health*0.5 <= health && health < max_health*0.75",
+					"layers": [
+						{
+							"sprite": "sandwich-three",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
+				{
+					"rule": "max_health*0.25 <= health && health < max_health*0.5",
+					"layers": [
+						{
+							"sprite": "sandwich-two",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
+				{
+					"rule": "health < max_health*0.25",
+					"layers": [
+						{
+							"sprite": "sandwich-one",
+							"origin": [ 50, 100 ]
+						}
+					]
 				}
 			]
 		},
-		{
-			"rule": "max_health*0.5 <= health && health < max_health*0.75",
 
-			"layers": [
-				{
-					"sprite": "sandwich-three",
-					"origin": [ 50, 100 ]
-				}
-			]
-		},
 		{
-			"rule": "max_health*0.25 <= health && health < max_health*0.5",
-
-			"layers": [
+			"rule": "level >= 3",
+			"logic": [
 				{
-					"sprite": "sandwich-two",
-					"origin": [ 50, 100 ]
-				}
-			]
-		},
-		{
-			"rule": "health < max_health*0.25",
-
-			"layers": [
+					"rule": "max_health*(5/6) <= health",
+					"layers": [
+						{
+							"sprite": "sandwich-six",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
 				{
-					"sprite": "sandwich-one",
-					"origin": [ 50, 100 ]
+					"rule": "max_health*(4/6) <= health && health < max_health*(5/6)",
+					"layers": [
+						{
+							"sprite": "sandwich-five",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
+				{
+					"rule": "max_health*(3/6) <= health && health < max_health*(4/6)",
+					"layers": [
+						{
+							"sprite": "sandwich-four",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
+				{
+					"rule": "max_health*(2/6) <= health && health < max_health*(3/6)",
+					"layers": [
+						{
+							"sprite": "sandwich-three",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
+				{
+					"rule": "max_health*(1/6) <= health && health < max_health*(2/6)",
+					"layers": [
+						{
+							"sprite": "sandwich-two",
+							"origin": [ 50, 100 ]
+						}
+					]
+				},
+				{
+					"rule": "health < max_health*(1/6)",
+					"layers": [
+						{
+							"sprite": "sandwich-one",
+							"origin": [ 50, 100 ]
+						}
+					]
 				}
 			]
 		}
