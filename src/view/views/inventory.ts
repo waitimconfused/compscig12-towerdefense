@@ -1,6 +1,7 @@
 import Engine from "../../engine.js";
 import Inventory from "../../inventory.js";
-import { View, ViewCollection, ViewText } from "../view.js";
+import { ViewText } from "../elements/text.js";
+import { View, ViewCollection } from "../view.js";
 
 var inventoryView = new ViewCollection;
 Engine.createView("inventory", inventoryView);
@@ -8,9 +9,9 @@ Engine.createView("inventory", inventoryView);
 var page1 = new View;
 inventoryView.createView("page-1", page1);
 
-page1.addEventListener("show", () => {
+Inventory.give("honey", 30);
 
-	console.log("Viewing stats!");
+page1.addEventListener("show", () => {
 
 	while ( page1.children.length > 0 ) page1.removeElement(page1.children[0]);
 	
@@ -18,6 +19,13 @@ page1.addEventListener("show", () => {
 		new ViewText("Page 1")
 		.moveTo( 100, 100 )
 	);
+
+	let stopButton = new ViewText("<");
+	page1.addElement(stopButton);
+	
+	stopButton.addEventListener("click", () => {
+		Engine.showView("gameplay");
+	});
 
 	let items = Inventory.items.entries();
 
@@ -30,8 +38,10 @@ page1.addEventListener("show", () => {
 
 		page1.addElement(
 			new ViewText(`${item}: ${count}`)
+			.setAnchor(Engine.anchor.centerCenter)
 			.moveTo(100, 100 + y * 50)
 		);
+
 		y += 1;
 
 	}

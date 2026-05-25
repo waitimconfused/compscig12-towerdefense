@@ -1,5 +1,5 @@
 import { Position2D, RenderingContext } from "./types.js";
-import { View, ViewObjectLayout } from "./view/view.js";
+import { View, ViewCollection } from "./view/view.js";
 
 
 type EngineStats = {
@@ -49,7 +49,7 @@ export default class Engine {
 	private static _currentView:string;
 	public static get currentView() { return this._currentView; }
 
-	private static views:ViewObjectLayout = {};
+	private static views:Map<string, View> = new Map<string, View>();
 
 	public static anchor = {
 		topLeft:		Symbol("Anchor:tl"),
@@ -83,9 +83,9 @@ export default class Engine {
 
 	public static createView(name:string, view:View) {
 
-		if (name in this.views) throw new Error(`Cannot create duplicate view of "${name}".`);
+		if ( this.views.has(name) ) throw new Error(`Cannot create duplicate view of "${name}".`);
 
-		this.views[name] = view;
+		this.views.set(name, view);
 
 		if (!this._currentView) this.showView(name);
 
@@ -93,18 +93,31 @@ export default class Engine {
 
 	public static showView(name:string):View|null {
 
-		if (name in this.views == false) {
+		
+		let viewNames = name.split("/");
+		
+		let viewName = viewNames.shift() as string;
+		let subViewNames = viewNames.join("/");
+		
+		if (this.views.has(viewName) == false) {
 			console.error(`Cannot show unset view of "${name}".`);
 			return null;
 		}
 
-		this.views[this._currentView]?.dispatchEvent("hide");
-		this._currentView = name;
+		let view:View = this.views.get(viewName) as View;
 
-		this.views[name]?.dispatchEvent("show");
+		if (subViewNames && view instanceof ViewCollection) {
+			view.showView(subViewNames);
+		}
 
-		return this.views[name] ?? null;
+		let currentView:View|undefined = this.views.get(this._currentView);
+		if (currentView) currentView.dispatchEvent("hide");
+
+		view.dispatchEvent("show");
+		this._currentView = viewName;
 		
+		return view ?? null;
+
 	}
 
 	private static render() {
@@ -138,8 +151,8 @@ export default class Engine {
 
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		if (this._currentView in this.views) {
-			let view:View = this.views[this._currentView] as View;
+		if (this.views.has(this._currentView)) {
+			let view:View = this.views.get(this._currentView) as View;
 			
 			try {
 				view.render( this.canvas, this.context );
@@ -170,7 +183,7 @@ export default class Engine {
 		window.requestAnimationFrame(() => this.render());
 	}
 
-	public static resolveAnchor(anchor:symbol):Position2D|null {
+	public static resolveAnchor(anchor:symbol):Position2D {
 
 		switch (anchor) {
 			case Engine.anchor.topLeft:
@@ -205,7 +218,7 @@ export default class Engine {
 				
 			default:
 				console.error(`Unknown anchor "${anchor.description}".`);
-				return null;
+				return [ 0, 0 ];
 		}
 	}
 }
