@@ -137,7 +137,7 @@ export class ViewCollection extends View {
 
 export type ViewCallbackFunction = ( ()=>void );
 export type ViewElementStroke = {
-	colour: string,
+	colour: string | CanvasGradient | CanvasPattern,
 	size: number,
 	lineCap: "butt" | "round" | "square",
 	lineJoin: "round" | "bevel" | "miter",
@@ -181,7 +181,7 @@ export abstract class ViewElement {
 		dashOffset: 0
 	}
 
-	public fill:string = "purple";
+	public fill:string | CanvasGradient | CanvasPattern = "purple";
 
 	/**
 	 * Rotation of `ViewElement`, in radians
@@ -264,6 +264,7 @@ export abstract class ViewElement {
 			context.lineWidth = this.stroke.size;
 		} else {
 			context.strokeStyle = "transparent";
+			context.lineWidth = 0;
 		}
 
 		context.fillStyle = this.fill;

@@ -1,0 +1,12 @@
+[
+	{
+		"name": "icon-close",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 146,
+			"h": 138
+		}
+	}
+]

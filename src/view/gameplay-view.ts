@@ -10,6 +10,12 @@ import { Strawberry } from "../entity/defender.types/strawberry.js";
 
 type SpriteRenderingRuleset = { [entityType:string]: (entity:Entity)=>BasicSprite[] };
 
+type GameplayViewBackground = {
+	source: null | string | HTMLImageElement;
+	repetition: "repeat" | "repeat-x" | "repeat-y" | "no-repeat";
+	scale: Position2D;
+}
+
 // To be filled in later in the code
 var entityRenderingLookup:SpriteRenderingRuleset = {};
 
@@ -17,6 +23,14 @@ export default class GameplayView extends View {
 
 	private gameplayCanvas:OffscreenCanvas = new OffscreenCanvas(1920, 1080);
 	private gameplayContext:OffscreenCanvasRenderingContext2D;
+
+	public gameplayBackground:GameplayViewBackground = {
+		source: null,
+		repetition: "repeat",
+		scale: [1, 1]
+	};
+
+	private _canvasPattern:CanvasPattern | null = null;
 
 	constructor() {
 		super();
@@ -32,6 +46,29 @@ export default class GameplayView extends View {
 
 		let entities = [ ...Entity.entities.values() ];
 		// console.log(entities);
+
+		if (typeof this.gameplayBackground.source == "string") {
+			this.gameplayContext.fillStyle = this.gameplayBackground.source;
+			this._canvasPattern = null;
+			this.gameplayContext.fillRect(0, 0, this.gameplayCanvas.width, this.gameplayCanvas.height);
+
+		} else if (this.gameplayBackground.source instanceof HTMLImageElement) {
+
+			if (!this._canvasPattern) {
+				this._canvasPattern = context.createPattern(
+					this.gameplayBackground.source as HTMLImageElement,
+					this.gameplayBackground.repetition
+				);
+				let transform = new DOMMatrix;
+				transform = transform.scale(this.gameplayBackground.scale[0], this.gameplayBackground.scale[1]);
+				this._canvasPattern?.setTransform(transform);
+			}
+
+			this.gameplayContext.fillStyle = this._canvasPattern as CanvasPattern;
+			this.gameplayContext.fillRect(0, 0, this.gameplayCanvas.width, this.gameplayCanvas.height);
+
+		}
+
 
 		for (let i = 0; i < entities.length; i ++) {
 			let entity:Entity = entities[i] as Entity;
@@ -91,6 +128,9 @@ export default class GameplayView extends View {
 		// Draw the gameplayCanvas UNDER the UI layer
 		context.globalCompositeOperation = "destination-over";
 		context.drawImage(this.gameplayCanvas, 0, 0);
+
+		// Reset the composite operation to be the default ("source-over")
+		context.globalCompositeOperation = "source-over";
 
 	}
 

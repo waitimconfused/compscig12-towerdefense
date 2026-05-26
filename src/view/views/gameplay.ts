@@ -17,10 +17,10 @@ stopButton.addEventListener("click", () => {
 	Engine.showView("main-menu");
 });
 
-let inventoryButton = new ViewSprite("sandwich-three");
+let inventoryButton = new ViewSprite("icon-close");
 gameplayView.addElement(inventoryButton);
 inventoryButton.setAnchor( Engine.anchor.topRight );
-inventoryButton.moveTo(-100, 100);
+inventoryButton.moveTo(-100, 50);
 inventoryButton.setSize(50, 50);
 
 inventoryButton.addEventListener("click", () => {
@@ -36,4 +36,12 @@ gameplayView.addEventListener("show", () => {
 	Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
 
 	hasPlayed = true;
+});
+
+
+let image = new Image;
+image.src = "/assets/picnic.svg";
+
+image.addEventListener("load", () => {
+	gameplayView.gameplayBackground.source = image;
 });

@@ -123,8 +123,8 @@ export class ViewText extends ViewElement {
 		context.textAlign = this.alignment.x;
 		context.textBaseline = this.alignment.y;
 
-		context.fillText( this.content, 0, 0 );
 		context.strokeText( this.content, 0, 0 );
+		context.fillText( this.content, 0, 0 );
 
 		context.restore();
 	}
