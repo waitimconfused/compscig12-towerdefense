@@ -48,8 +48,5 @@ Engine.showView(defaultView);
 // Initialize the Engine, using the defined canvas
 Engine.initialize(canvas);
 
-// Show the main-menu view
-Engine.showView("main-menu");
-
 let loader:HTMLDivElement = document.getElementById("loading") as HTMLDivElement;
 loader.remove();

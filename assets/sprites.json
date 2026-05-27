@@ -9,7 +9,8 @@
 		"./enemies/raccoon/sprite-collection.json",
 		"./enemies/ant/sprite-collection.json",
 		"./enemies/frog/sprite-collection.json",
-		"./enemies/wasp/sprite-collection.json"
+		"./enemies/wasp/sprite-collection.json",
+		"./icons/icons.json"
 	],
 
 	"logic": [

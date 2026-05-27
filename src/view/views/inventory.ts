@@ -1,5 +1,6 @@
 import Engine from "../../engine.js";
 import Inventory from "../../inventory.js";
+import { ViewSprite } from "../elements/sprite.js";
 import { ViewText } from "../elements/text.js";
 import { View, ViewCollection } from "../view.js";
 
@@ -20,7 +21,9 @@ page1.addEventListener("show", () => {
 		.moveTo( 100, 100 )
 	);
 
-	let stopButton = new ViewText("<");
+	let stopButton = new ViewSprite("icon-close");
+	stopButton.setSize(50, 50);
+	stopButton.moveTo(50, 50);
 	page1.addElement(stopButton);
 	
 	stopButton.addEventListener("click", () => {

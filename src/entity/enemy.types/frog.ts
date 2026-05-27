@@ -27,8 +27,7 @@ export class Frog extends EnemyEntity {
 		stunDuration: 0,
 		slowDuration: 0,
 		regenerationDuration: 0,
-		aoeRange: 0,
-		upgradeEntityCost: 0
+		aoeRange: 0
 	}
 	
 	// Frog can or is leaping
@@ -43,8 +42,6 @@ export class Frog extends EnemyEntity {
 			{ type : 'jar', chance : 0.3, amount : 1 }
 		]
 	}
-
-	public override healthScale: number = 1.15;
 	
 	/**
 	 * Attempt to leap
@@ -91,4 +88,6 @@ export class Frog extends EnemyEntity {
 		// 	target.position[1]
 		// );
 	}
+
+	
 }
