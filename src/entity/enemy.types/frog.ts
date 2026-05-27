@@ -1,6 +1,4 @@
-import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
-import { Entity, EntityEvent } from "../entity.js";
 
 /**
  * Creates a Frog as an EnemyEntity
@@ -75,7 +73,7 @@ export class Frog extends EnemyEntity {
 	}
 
 	public async brain() {
-		await this.wait(3000);
+		await this.wait(500);
 
 		// Try leap occasionally
 		if (this.canLeap) {

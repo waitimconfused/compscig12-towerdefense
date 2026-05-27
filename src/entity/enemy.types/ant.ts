@@ -121,7 +121,7 @@ export class Ant extends EnemyEntity {
 	 * @returns If there is no closest entity
 	 */
 	public async brain() {
-		await this.wait(100);
+		await this.wait(500);
 		
 		// Get the closest DEFENDER entity
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
@@ -156,25 +156,24 @@ export class Ant extends EnemyEntity {
 	 * Spawns a cluster of ants at a small chance
 	 * @param waveNumber The current wave number
 	 */
-	public static override spawn(count:number, position:Position2D, spread?:number) : Entity[] {
-		// Rolls a random number
-		let spawnSpecialCluster = Math.random();
-
-		// Spawns waveNumber amount of Ant(s) up to a maximum of 20
-		let cluster : number = Math.min(Wave.getWave(), 15) + 5;
+	public static antSpawn(position:Position2D, spread?:number) : Entity[] {
+		// Spawns waveNumber amount of Ant(s) up to a maximum of 15
+		let cluster : number = Math.min(Wave.getWave(), 10) + 5;
 
 		// Spawns 3-8 ants
 		let randomAnts : number = Math.floor(Math.random() * 6 + 3);
 
+		// Tracks number of ants to spawn
+		let count : number = 0;
 
 		// Spawns a cluster of ants at a 10% chance
 		// Otherwise spawns 3-8 ants
-		if (spawnSpecialCluster <= 0.1) {
-			count += cluster;
+		if (Math.random() <= 0.1) {
+			count = cluster;
 		} else {
-			count += randomAnts;
+			count = randomAnts;
 		}
 
-		return super.spawn(count, position);
+		return super.spawn(count, position, spread);
 	}
 }
