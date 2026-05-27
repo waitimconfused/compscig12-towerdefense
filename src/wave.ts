@@ -25,7 +25,7 @@ export class Wave {
 		
 		this._waveNumber++;
 
-		Ant.spawn(1,[0,0],2);
+		Ant.spawn(0,[0,0],2);
 		
 		if (this._waveNumber % 2) {
 			Frog.spawn(1,[0,0],2);
@@ -39,5 +39,6 @@ export class Wave {
 			Raccoon.spawn(1,[0,0],2);
 		}
 
+		EnemyEntity.upgrade();
 	}
 }

@@ -4,6 +4,7 @@ import { Sandwich } from "../../entity/defender.types/sandwich.js";
 import Engine from "../../engine.js";
 import { ViewText } from "../elements/text.js";
 import { ViewSprite } from "../elements/sprite.js";
+import { Wave } from "../../wave.js";
 
 var hasPlayed = false;
 
@@ -31,9 +32,7 @@ gameplayView.addEventListener("show", () => {
 
 	if (hasPlayed) return;
 
-	Raccoon.spawn(1, [ 0, 0 ]);
-	console.log(Sandwich.level);
-	Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
+	Wave.newWave();
 
 	hasPlayed = true;
 });

@@ -166,6 +166,7 @@ export class Ant extends EnemyEntity {
 		// Spawns 3-8 ants
 		let randomAnts : number = Math.floor(Math.random() * 6 + 3);
 
+
 		// Spawns a cluster of ants at a 10% chance
 		// Otherwise spawns 3-8 ants
 		if (spawnSpecialCluster <= 0.1) {
