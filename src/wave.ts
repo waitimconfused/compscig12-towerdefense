@@ -13,7 +13,7 @@ export class Wave {
 	constructor() {
 		throw new TypeError('Wave class cannot be created as an object');
 	}
-	
+
 	public static newWave() : void {	
 		for (let entity of Entity.entities.values()) {
 			if (entity instanceof EnemyEntity) {
@@ -25,11 +25,19 @@ export class Wave {
 		
 		this._waveNumber++;
 
-		// Incorrect, probably supposed to make new enemy and then spawn?
 		Ant.spawn(1,[0,0],2);
-		Raccoon.spawn(1,[0,0],2);
-		Wasp.spawn(1,[0,0],2);
-		Frog.spawn(1,[0,0],2);
+		
+		if (this._waveNumber % 2) {
+			Frog.spawn(1,[0,0],2);
+		}	
+
+		if (this._waveNumber % 3) {
+			Wasp.spawn(1,[0,0],2);
+		}
+		
+		if (this._waveNumber % 5) {
+			Raccoon.spawn(1,[0,0],2);
+		}
 
 	}
 }
