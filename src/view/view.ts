@@ -157,16 +157,21 @@ export abstract class ViewElement {
 	 * 
 	 * Uses the set anchor to calculate
 	 */
-	public get position():Position2D {
+	public get position():Position2D&{ raw:Position2D, anchor:Position2D } {
+
+		type PositionBundle = Position2D & { raw:Position2D, anchor:Position2D };
 		
 		// Get the real position of the anchor
 		let anchorPosition:Position2D = Engine.resolveAnchor(this._anchor);
 
 		// Calculate the real position of self (anchor + position)
-		let totalPosition:Position2D = [
+		let totalPosition:PositionBundle = [
 			anchorPosition[0] + this._position[0],
 			anchorPosition[1] + this._position[1]
-		];
+		] as PositionBundle;
+
+		totalPosition.raw = [ this._position[0], this._position[1] ];
+		totalPosition.anchor = [ anchorPosition[0], anchorPosition[1] ];
 
 		return totalPosition;
 
@@ -212,8 +217,26 @@ export abstract class ViewElement {
 	 * @param x	`X`-coordinate of offset to anchor
 	 * @param y	`Y`-coordinate of offset to anchor
 	 */
-	public moveTo(x:number, y:number):this {
+	public setTranslation(x:number, y:number):this {
 		this._position = [ x, y ];
+		return this;
+	}
+
+	public setFill(fill:string | CanvasGradient | CanvasPattern):this {
+		this.fill = fill;
+		return this;
+	}
+
+	public setStroke(
+		colour: string | CanvasGradient | CanvasPattern,
+		size: number,
+		lineCap?: "square" | "butt" | "round",
+		lineJoin?: "round" | "miter" | "bevel"
+	): this {
+		this.stroke.colour = colour;
+		this.stroke.size = size;
+		if (lineCap) this.stroke.lineCap = lineCap;
+		if (lineJoin) this.stroke.lineJoin = lineJoin;
 		return this;
 	}
 	
@@ -238,9 +261,19 @@ export abstract class ViewElement {
 
 	}
 
-	public setRotation(degrees:number):this {
-		// Convert degrees to radians
-		this.rotation = degrees * Math.PI / 180;
+	/**
+	 * Set the rotation angle of the element.
+	 * 
+	 * @param angle	Angle (default unit: *degrees*)
+	 * 
+	 * @param mode	Specifies wether to interpret the
+	 * 				angle as in degrees or radians
+	 */
+	public setRotation(angle:number, mode:"deg"|"rad"="deg"):this {
+		
+		if (mode == "deg") angle *= Math.PI / 180;
+
+		this.rotation = angle;
 		return this;
 	}
 

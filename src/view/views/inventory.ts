@@ -18,12 +18,12 @@ page1.addEventListener("show", () => {
 	
 	page1.addElement(
 		new ViewText("Page 1")
-		.moveTo( 100, 100 )
+		.setTranslation( 100, 100 )
 	);
 
 	let stopButton = new ViewSprite("close");
 	stopButton.setSize(50, 50);
-	stopButton.moveTo(50, 50);
+	stopButton.setTranslation(50, 50);
 	page1.addElement(stopButton);
 	
 	stopButton.addEventListener("click", () => {
@@ -42,7 +42,7 @@ page1.addEventListener("show", () => {
 		page1.addElement(
 			new ViewText(`${item}: ${count}`)
 			.setAnchor(Engine.anchor.centerCenter)
-			.moveTo(100, 100 + y * 50)
+			.setTranslation(100, 100 + y * 50)
 		);
 
 		y += 1;
@@ -58,5 +58,5 @@ inventoryView.createView("page-2", page2);
 
 page2.addElement(
 	new ViewText("Page 2")
-	.moveTo( 100, 100 )
+	.setTranslation( 100, 100 )
 );

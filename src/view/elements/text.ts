@@ -71,6 +71,19 @@ export class ViewText extends ViewElement {
 
 	}
 
+	public setFont(family:string, size?:number|string, style?:"normal" | "italic" | "oblique"):this {
+		this.font.family = family;
+		if (size) this.font.size = size;
+		if (style) this.font.size = style;
+		return this;
+	}
+
+	public setAlignment(horizontal:CanvasTextAlign, vertical:CanvasTextBaseline):this {
+		this.alignment.x = horizontal;
+		this.alignment.y = vertical;
+		return this;
+	}
+
 	protected override isMouseHovering(context:RenderingContext):boolean {
 
 		let inverseTransform = context.getTransform().inverse();

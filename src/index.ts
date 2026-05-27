@@ -2,6 +2,7 @@ import Engine from "./engine.js";
 import Inventory from "./inventory.js";
 import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
+import { ViewText } from "./view/elements/text.js";
 import viewFiles from "./view/files.json" with { type: "json" };
 
 
@@ -16,6 +17,9 @@ SpriteRenderer.verbose = false;
 MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
 MouseManager.preventZoom = true;
+
+ViewText.addFont("Preahvihear", "/fonts/preahvihear.ttf");
+ViewText.addFont("Gamja Flower", "/fonts/gamja-flower.ttf");
 
 Inventory.load();
 

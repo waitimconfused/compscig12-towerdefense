@@ -12,7 +12,7 @@ Engine.createView("gameplay", gameplayView);
 
 let stopButton = new ViewSprite("close");
 stopButton.setSize(50, 50);
-stopButton.moveTo(50, 50);
+stopButton.setTranslation(50, 50);
 gameplayView.addElement(stopButton);
 
 stopButton.addEventListener("click", () => {
@@ -22,7 +22,7 @@ stopButton.addEventListener("click", () => {
 let inventoryButton = new ViewSprite("close");
 gameplayView.addElement(inventoryButton);
 inventoryButton.setAnchor( Engine.anchor.topRight );
-inventoryButton.moveTo(-100, 50);
+inventoryButton.setTranslation(-100, 50);
 inventoryButton.setSize(50, 50);
 
 inventoryButton.addEventListener("click", () => {
