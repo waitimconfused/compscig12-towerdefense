@@ -1,4 +1,4 @@
-import GameplayView from "../gameplay-view.js";
+import GameplayView from "../elements/gameplay-view.js";
 import { Raccoon } from "../../entity/enemy.types/raccoon.js";
 import { Sandwich } from "../../entity/defender.types/sandwich.js";
 import Engine from "../../engine.js";
