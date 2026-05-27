@@ -28,7 +28,7 @@ export class Wasp extends EnemyEntity {
 		slowDuration: 0,
 		regenerationDuration: 0,
 		aoeRange: 0,
-		upgradeEntityCost: 0
+
 	}
 
 	// Enemy drops

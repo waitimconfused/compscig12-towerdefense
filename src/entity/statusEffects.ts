@@ -86,26 +86,41 @@ export class StatusEffects extends StaticClass {
         regeneratingEntity.currentRegenerationStacks--;
     }
 
+    /**
+     * Slows target entity for duration number of milliseconds
+     * @param target The entity to slow
+     * @param duration The duration to slow the entity for in milliseconds
+     * @returns 
+     */
     public static async slowEntity(target : Entity, duration : number) : Promise<void> {
+        // Reference to an instance of an entity
         let constructor = target.constructor as typeof Entity;
+        
+        // If the target has no base stats, return
         if (!constructor.baseStats) {
             return;
         }
 
+        // Tracks the target's slow stack
         target.slowStacks++;
         
+        // Target is now slowed
         target.slowed = true;
 
+        // Slows target by 25% once if the target gains their first slow stack
         if (target.slowStacks == 1) {
             target.stats.speed *= 0.75;
         }
         
+        // Disables frog leap if slowed
         if (target.entityType == 'enemy/frog') {
             (target as Frog).canLeap = false;
         }
         
+        // Wait for duration
         await target.wait(duration);
 
+        // Remove a slow stack
         target.slowStacks--;
 
         // Removes slow if stack is the last one applied to the entity

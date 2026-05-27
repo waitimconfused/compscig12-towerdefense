@@ -30,8 +30,7 @@ export class Ant extends EnemyEntity {
 		stunDuration: 0,
 		slowDuration: 0,
 		regenerationDuration: 0,
-		aoeRange: 0,
-		upgradeEntityCost: 0
+		aoeRange: 0
 	}
 	
 	// Items Ant can drop
