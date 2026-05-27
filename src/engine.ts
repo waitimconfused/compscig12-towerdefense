@@ -3,9 +3,28 @@ import { View, ViewCollection } from "./view/view.js";
 
 
 type EngineStats = {
+	/**
+	 * Amount of time between previous render tick and the current render tick
+	 * 
+	 * Measured in milliseconds
+	 */
 	delta: number;
+
+	/**
+	 * Number of frames per second
+	 */
 	fps: number;
-	max_fps: number;
+
+	/**
+	 * Maximum amount of frames per second
+	 * 
+	 * Optional
+	 */
+	max_fps?: number;
+
+	/**
+	 * Process time of previous render tick
+	 */
 	lastRenderCall: number;
 };
 
@@ -131,7 +150,7 @@ export default class Engine {
 		this._stats.fps = 1000 / this._stats.delta;
 		this._stats.fps = Math.round(this._stats.fps * 100) / 100;
 
-		if (this._stats.delta < 1000 / this._stats.max_fps) {
+		if (this._stats.max_fps && this._stats.delta < 1000 / this._stats.max_fps) {
 			window.requestAnimationFrame(() => this.render());
 			return;
 		}
