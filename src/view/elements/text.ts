@@ -9,9 +9,23 @@ type ViewTextAlignment = {
 };
 
 type ViewTextFont = {
+	
+	/**
+	 * CSS `font-family` property value
+	 * 
+	 * To inject custom fonts, see `ViewText.addFont()`.
+	 */
 	family: string;
+
+	/**
+	 * CSS `font-size` property value
+	 */
 	size: number | string;
-	style: string;
+
+	/**
+	 * CSS `font-style` property value
+	 */
+	style: "normal" | "italic" | "oblique";
 }
 
 export class ViewText extends ViewElement {
@@ -21,7 +35,7 @@ export class ViewText extends ViewElement {
 	public font:ViewTextFont = {
 		family: "serif",
 		size: 100,
-		style: "regular"
+		style: "normal"
 	};
 
 	public alignment:ViewTextAlignment = {
@@ -29,9 +43,32 @@ export class ViewText extends ViewElement {
 		y: "top"
 	};
 
+	protected static injectedStylesheetLoaded:boolean = false;
+	protected static injectedStylesheet:CSSStyleSheet = new CSSStyleSheet;
+
 	constructor(content:string) {
 		super();
 		this.content = content;
+
+		if (!ViewText.injectedStylesheetLoaded) {
+
+			document.adoptedStyleSheets.push(ViewText.injectedStylesheet);
+
+			ViewText.injectedStylesheetLoaded = true;
+		}
+	}
+
+	/**
+	 *
+	 * @param name			CSS `font-family` property value
+	 * @param absolutePath	Path (relative to `/index.html`) to font file.
+	 * 						EG: `"/fonts/example.ttf"`
+	 */
+	public static addFont(name:string, absolutePath:string) {
+
+		// Add a CSS @font-face rule to the injected style sheet
+		this.injectedStylesheet.insertRule(`@font-face { font-family: "${name}"; src: url("${absolutePath}"); }`); 
+
 	}
 
 	protected override isMouseHovering(context:RenderingContext):boolean {
@@ -108,16 +145,21 @@ export class ViewText extends ViewElement {
 		context.save();
 		this.setGeneralStyles(context);
 
+		
+		let hasClickEvent = this.eventListeners.find(e=>e.type=="click") != undefined;
 		let isHovering = this.isMouseHovering(context);
 
-		if (isHovering && this.eventListeners.find(e=>e.type=="click")) {
+		if (hasClickEvent && isHovering) {
+
 			Engine.cursor = "pointer";
+
+			if (MouseManager.buttons.left) {
+				this.dispatchEvent("click");
+				MouseManager.buttons.left = false;
+			}
 		}
 
-		if (isHovering && MouseManager.buttons.left) {
-			this.dispatchEvent("click");
-			MouseManager.buttons.left = false;
-		}
+
 
 		context.font = `bold ${this.font.size}px ${this.font.family}`;
 		context.textAlign = this.alignment.x;

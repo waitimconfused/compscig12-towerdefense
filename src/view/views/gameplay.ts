@@ -10,14 +10,16 @@ var hasPlayed = false;
 var gameplayView = new GameplayView;
 Engine.createView("gameplay", gameplayView);
 
-let stopButton = new ViewText("<");
+let stopButton = new ViewSprite("close");
+stopButton.setSize(50, 50);
+stopButton.moveTo(50, 50);
 gameplayView.addElement(stopButton);
 
 stopButton.addEventListener("click", () => {
 	Engine.showView("main-menu");
 });
 
-let inventoryButton = new ViewSprite("icon-close");
+let inventoryButton = new ViewSprite("close");
 gameplayView.addElement(inventoryButton);
 inventoryButton.setAnchor( Engine.anchor.topRight );
 inventoryButton.moveTo(-100, 50);

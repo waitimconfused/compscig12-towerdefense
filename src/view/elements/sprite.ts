@@ -66,15 +66,17 @@ export class ViewSprite extends ViewElement {
 
 		this.setGeneralStyles(context);
 
+		let hasClickEvent = this.eventListeners.find(e=>e.type=="click") != undefined;
 		let isHovering = this.isMouseHovering(context);
 
-		if (isHovering && this.eventListeners.find(e=>e.type=="click")) {
-			Engine.cursor = "pointer";
-		}
+		if (hasClickEvent && isHovering) {
 
-		if (isHovering && MouseManager.buttons.left) {
-			this.dispatchEvent("click");
-			MouseManager.buttons.left = false;
+			Engine.cursor = "pointer";
+
+			if (MouseManager.buttons.left) {
+				this.dispatchEvent("click");
+				MouseManager.buttons.left = false;
+			}
 		}
 
 		SpriteRenderer.drawSprite({

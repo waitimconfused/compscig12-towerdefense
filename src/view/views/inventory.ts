@@ -21,7 +21,7 @@ page1.addEventListener("show", () => {
 		.moveTo( 100, 100 )
 	);
 
-	let stopButton = new ViewSprite("icon-close");
+	let stopButton = new ViewSprite("close");
 	stopButton.setSize(50, 50);
 	stopButton.moveTo(50, 50);
 	page1.addElement(stopButton);

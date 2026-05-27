@@ -1,10 +1,90 @@
 [
 	{
-		"name": "icon-close",
+		"name": "sword",
 		"source": "./icons.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
+			"w": 96,
+			"h": 96
+		}
+	},
+	{
+		"name": "heart",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 101,
+			"w": 103,
+			"h": 89
+		}
+	},
+	{
+		"name": "speed",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 195,
+			"w": 114,
+			"h": 80
+		}
+	},
+	{
+		"name": "clock",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 280,
+			"w": 104,
+			"h": 104
+		}
+	},
+	{
+		"name": "grave",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 389,
+			"w": 170,
+			"h": 114
+		}
+	},
+	{
+		"name": "arrow-left",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 508,
+			"w": 92,
+			"h": 54
+		}
+	},
+	{
+		"name": "button-corners",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 567,
+			"w": 393,
+			"h": 136
+		}
+	},
+	{
+		"name": "level",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 708,
+			"w": 74,
+			"h": 70
+		}
+	},
+	{
+		"name": "close",
+		"source": "./icons.png",
+		"crop": {
+			"x": 0,
+			"y": 783,
 			"w": 146,
 			"h": 138
 		}

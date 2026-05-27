@@ -1,4 +1,5 @@
 import { Position2D } from "../types.js";
+import { EnemyEntity } from "./enemy.js";
 import { Entity, EntityStats } from "./entity.js";
 
 export interface DefenderEntityStats extends EntityStats {
@@ -86,4 +87,3 @@ export type DefenderStatus = {
 	deployDefenderPoints : number;
 	upgradeDefenderPoints: number;
 }
-

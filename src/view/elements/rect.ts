@@ -35,16 +35,20 @@ export class ViewRect extends ViewElement {
 	public override render(canvas: Canvas, context: RenderingContext): void {
 		context.save();
 		this.setGeneralStyles(context);
+		context.translate(-this.size[0]/2, -this.size[1]/2);
 
+
+		let hasClickEvent = this.eventListeners.find(e=>e.type=="click") != undefined;
 		let isHovering = this.isMouseHovering(context);
 
-		if (isHovering && this.eventListeners.find(e=>e.type=="click")) {
-			Engine.cursor = "pointer";
-		}
+		if (hasClickEvent && isHovering) {
 
-		if (isHovering && MouseManager.buttons.left) {
-			this.dispatchEvent("click");
-			MouseManager.buttons.left = false;
+			Engine.cursor = "pointer";
+
+			if (MouseManager.buttons.left) {
+				this.dispatchEvent("click");
+				MouseManager.buttons.left = false;
+			}
 		}
 		
 		context.beginPath();
