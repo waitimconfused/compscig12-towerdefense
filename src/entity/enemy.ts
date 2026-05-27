@@ -58,6 +58,9 @@ export abstract class EnemyEntity extends Entity {
         this.dropItems();
 	}
     
+    /**
+     * Drops items and gives the player materials
+     */
     protected dropItems() {
 		// Add the predetermined coins & points to the inventory
 		Inventory.give("coin", this.drops.coins);

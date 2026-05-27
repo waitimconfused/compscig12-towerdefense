@@ -30,8 +30,7 @@ export class Ant extends EnemyEntity {
 		stunDuration: 0,
 		slowDuration: 0,
 		regenerationDuration: 0,
-		aoeRange: 0,
-		upgradeEntityCost: 0
+		aoeRange: 0
 	}
 	
 	// Items Ant can drop
@@ -166,8 +165,7 @@ export class Ant extends EnemyEntity {
 
 		// Spawns 3-8 ants
 		let randomAnts : number = Math.floor(Math.random() * 6 + 3);
-		
-		// Tracks number of ants to spawn
+
 
 		// Spawns a cluster of ants at a 10% chance
 		// Otherwise spawns 3-8 ants
@@ -177,6 +175,6 @@ export class Ant extends EnemyEntity {
 			count += randomAnts;
 		}
 
-		return [];
+		return super.spawn(count, position);
 	}
 }

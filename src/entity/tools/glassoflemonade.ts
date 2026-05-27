@@ -19,13 +19,12 @@ export class GlassOfLemonade extends Tool{
 		slowDuration : 0,
 		regenerationDuration : 0,
 		aoeRange : 0,
-		upgradeEntityCost : 15,
 	}
 
 	public override toolRequirements: Map<InventoryItemTag, number>;
 
 	public override canCreateTool(requirements: Array<InventoryItemTag>): boolean {
-		
+		return true;
 	}
 	protected onDeath(){
 		
