@@ -6,44 +6,49 @@ import { View, ViewCollection } from "../view.js";
 var menuView = new ViewCollection();
 Engine.createView("main-menu", menuView);
 
+const bookRotation = 15;
+const bookRotationRad = bookRotation * Math.PI / 180;
+
+// Play button & Credits button
 var mainMenu = new View();
 menuView.createView("start", mainMenu);
 
-const rotation = 15;
-const rotationRad = rotation * Math.PI / 180;
 
-mainMenu.addElement(
-	new ViewRect()
+// Book
+var book = new ViewRect()
 	.setAnchor(Engine.anchor.bottomLeft)
 	.setTranslation(300, 0)
 	.setSize(750, 2000)
-	.setRotation(rotation, "deg")
+	.setRotation(bookRotation, "deg")
 	.setFill("red")
-	.setStroke("none", 0)
-);
+	.setStroke("none");
 
+mainMenu.addElement(book);
+
+// Title
 mainMenu.addElement(
 	new ViewText("Tower Defense")
 	.setAnchor(Engine.anchor.bottomLeft)
 	.setTranslation(
-		600*Math.cos(Math.PI/2 - rotationRad) + 300,
-		-600*Math.sin(Math.PI/2 - rotationRad)
+		600*Math.cos(Math.PI/2 - bookRotationRad) + 300,
+		-600*Math.sin(Math.PI/2 - bookRotationRad)
 	)
-	.setRotation(rotation, "deg")
-	.setFont("Preahvihear")
+	.setRotation(bookRotation, "deg")
+	.setFont("Preahvihear", 90)
 	.setAlignment("center", "bottom")
 	.setFill("black")
-	.setStroke("white", 6)
+	.setStroke("none")
 );
 
+// Play button
 mainMenu.addElement(
-	new ViewText("<play>")
+	new ViewText("> play <")
 	.setAnchor(Engine.anchor.bottomLeft)
 	.setTranslation(
-		400*Math.cos(Math.PI/2 - rotationRad) + 300,
-		-400*Math.sin(Math.PI/2 - rotationRad)
+		400*Math.cos(Math.PI/2 - bookRotationRad) + 300,
+		-400*Math.sin(Math.PI/2 - bookRotationRad)
 	)
-	.setRotation(rotation, "deg")
+	.setRotation(bookRotation, "deg")
 	.setFont("Gamja Flower")
 	.setAlignment("center", "bottom")
 	.setFill("black")
@@ -53,14 +58,15 @@ mainMenu.addElement(
 	})
 );
 
+// Credits button
 mainMenu.addElement(
-	new ViewText("<credits>")
+	new ViewText("credits")
 	.setAnchor(Engine.anchor.bottomLeft)
 	.setTranslation(
-		300*Math.cos(Math.PI/2 - rotationRad) + 300,
-		-300*Math.sin(Math.PI/2 - rotationRad)
+		300*Math.cos(Math.PI/2 - bookRotationRad) + 300,
+		-300*Math.sin(Math.PI/2 - bookRotationRad)
 	)
-	.setRotation(rotation, "deg")
+	.setRotation(bookRotation, "deg")
 	.setFont("Gamja Flower")
 	.setAlignment("center", "bottom")
 	.setFill("black")
@@ -70,25 +76,61 @@ mainMenu.addElement(
 	})
 );
 
-// let creditsButton = new ViewText("<credits>");
-// creditsButton.addEventListener("click", () => {
-// 	Engine.showView("credits");
-// });
-// creditsButton.font.family = "Gamja Flower";
-// creditsButton.fill = "black";
-// creditsButton.stroke.size = 6;
-// creditsButton.stroke.colour = "white";
-// creditsButton.alignment.x = "center";
-// creditsButton.alignment.y = "bottom";
-// creditsButton.rotation = book.rotation;
-// creditsButton.setAnchor(Engine.anchor.bottomLeft);
-// creditsButton.setTranslation(
-// 	300*Math.cos(Math.PI/2 - book.rotation) + 300,
-// 	-300*Math.sin(Math.PI/2 - book.rotation)
-// );
-// mainMenu.addElement(creditsButton);
 
-// let asset = new ViewSprite("sandwich-three");
-// mainMenu.addElement(asset);
-// asset.setAnchor( Engine.anchor.centerLeft );
-// asset.setSize(291, 224);
+
+
+
+// Credits Menu
+var creditsMenu = new View();
+menuView.createView("credits", creditsMenu);
+
+// Book
+creditsMenu.addElement(book);
+
+// Title
+creditsMenu.addElement(
+	new ViewText("Developed by:")
+	.setAnchor(Engine.anchor.bottomLeft)
+	.setTranslation(
+		600*Math.cos(Math.PI/2 - bookRotationRad) + 300,
+		-600*Math.sin(Math.PI/2 - bookRotationRad)
+	)
+	.setRotation(bookRotation, "deg")
+	.setFont("Preahvihear", 90)
+	.setAlignment("center", "bottom")
+	.setFill("black")
+	.setStroke("none")
+);
+
+// Names
+creditsMenu.addElement(
+	new ViewText("Kenneth E\nCassandra H\nBrendan D")
+	.setAnchor(Engine.anchor.bottomLeft)
+	.setTranslation(
+		450*Math.cos(Math.PI/2 - bookRotationRad) + 300,
+		-450*Math.sin(Math.PI/2 - bookRotationRad)
+	)
+	.setRotation(bookRotation, "deg")
+	.setFont("Gamja Flower", 80)
+	.setAlignment("center", "bottom")
+	.setFill("black")
+	.setStroke("none")
+);
+
+// Main menu button
+creditsMenu.addElement(
+	new ViewText("> back <")
+	.setAnchor(Engine.anchor.bottomLeft)
+	.setTranslation(
+		150*Math.cos(Math.PI/2 - bookRotationRad) + 300,
+		-150*Math.sin(Math.PI/2 - bookRotationRad)
+	)
+	.setRotation(bookRotation, "deg")
+	.setFont("Gamja Flower")
+	.setAlignment("center", "bottom")
+	.setFill("black")
+	.setStroke("white", 6)
+	.addEventListener("click", () => {
+		Engine.showView("main-menu/start");
+	})
+);

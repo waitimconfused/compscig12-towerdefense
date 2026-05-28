@@ -229,12 +229,12 @@ export abstract class ViewElement {
 
 	public setStroke(
 		colour: string | CanvasGradient | CanvasPattern,
-		size: number,
+		size?: number,
 		lineCap?: "square" | "butt" | "round",
 		lineJoin?: "round" | "miter" | "bevel"
 	): this {
 		this.stroke.colour = colour;
-		this.stroke.size = size;
+		if (size) this.stroke.size = size;
 		if (lineCap) this.stroke.lineCap = lineCap;
 		if (lineJoin) this.stroke.lineJoin = lineJoin;
 		return this;

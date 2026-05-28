@@ -26,16 +26,29 @@ type ViewTextFont = {
 	 * CSS `font-style` property value
 	 */
 	style: "normal" | "italic" | "oblique";
+
+	/**
+	 * Amount of spacing between each line of text
+	 */
+	lineSpacing: number;
 }
 
 export class ViewText extends ViewElement {
 
-	public content = "";
+	private _lines:string[] = [];
+
+	public get content() {
+		return this._lines.join("\n");
+	}
+	public set content(string:string) {
+		this._lines = string.split("\n");
+	}
 
 	public font:ViewTextFont = {
 		family: "serif",
 		size: 100,
-		style: "normal"
+		style: "normal",
+		lineSpacing: 10
 	};
 
 	public alignment:ViewTextAlignment = {
@@ -178,8 +191,21 @@ export class ViewText extends ViewElement {
 		context.textAlign = this.alignment.x;
 		context.textBaseline = this.alignment.y;
 
-		context.strokeText( this.content, 0, 0 );
-		context.fillText( this.content, 0, 0 );
+		let verticalOffset = 0;
+
+		for (let i = 0; i < this._lines.length; i ++) {
+
+			let text:string = this._lines[i] as string;
+
+			let textMetrics = context.measureText(text);
+			let textHeight = textMetrics.fontBoundingBoxDescent + textMetrics.fontBoundingBoxAscent;
+
+			context.strokeText( text, 0, verticalOffset );
+			context.fillText( text, 0, verticalOffset );
+
+			verticalOffset += textHeight + this.font.lineSpacing;
+		}
+
 
 		context.restore();
 	}
