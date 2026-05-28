@@ -1,5 +1,6 @@
 import { Position2D, RenderingContext } from "./types.js";
-import { View, ViewCollection } from "./view/view.js";
+import { View } from "./view/view.js";
+import { ViewCollection } from "./view/view-collection.js";
 
 
 type EngineStats = {

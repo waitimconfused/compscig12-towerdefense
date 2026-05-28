@@ -1,4 +1,4 @@
-import { ViewElement } from "../view.js";
+import { ViewElement } from "../view-element.js";
 import Engine from "../../engine.js";
 import { Canvas, Position2D, RenderingContext } from "../../types.js";
 import { MouseManager } from "../../mouse.js";

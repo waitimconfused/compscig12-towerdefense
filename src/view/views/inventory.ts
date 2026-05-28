@@ -2,7 +2,8 @@ import Engine from "../../engine.js";
 import Inventory from "../../inventory.js";
 import { ViewSprite } from "../elements/sprite.js";
 import { ViewText } from "../elements/text.js";
-import { View, ViewCollection } from "../view.js";
+import { ViewCollection } from "../view-collection.js";
+import { View } from "../view.js";
 
 var inventoryView = new ViewCollection;
 Engine.createView("inventory", inventoryView);

@@ -2,7 +2,7 @@ import Engine from "../../engine.js";
 import { MouseManager } from "../../mouse.js";
 import { SpriteRenderer } from "../../sprites.js";
 import { Canvas, Position2D, RenderingContext } from "../../types.js";
-import { ViewElement } from "../view.js";
+import { ViewElement } from "../view-element.js";
 
 export class ViewSprite extends ViewElement {
 

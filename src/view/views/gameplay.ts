@@ -46,5 +46,5 @@ let image = new Image;
 image.src = "/assets/picnic.svg";
 
 image.addEventListener("load", () => {
-	gameplayView.gameplayBackground.source = image;
+	gameplayView.background.source = image;
 });
