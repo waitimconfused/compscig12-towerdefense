@@ -14,7 +14,7 @@ export class Frog extends EnemyEntity {
 	public entityType:string = "enemy/frog";
 
 	// Initial stats of Frog
-	public static stats:EnemyEntityStats = {
+	public static override baseStats:EnemyEntityStats = {
 		health: 75,
 		speed: 0.75,
 		damage: 0,

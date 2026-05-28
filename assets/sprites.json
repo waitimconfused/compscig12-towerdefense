@@ -20,6 +20,7 @@
 		"./defender/banana/entity_logic.json",
 
 		"./enemies/raccoon/logic.json",
-		"./enemies/ant/logic.json"
+		"./enemies/ant/logic.json",
+		"./enemies/frog/logic.json"
 	]
 }
