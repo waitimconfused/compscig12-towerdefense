@@ -19,7 +19,7 @@ export class Ant extends EnemyEntity {
 	public entityType = "enemy/ant";
 	
 	// Stats of Ant
-	public static stats : EnemyEntityStats = {
+	public static override baseStats : EnemyEntityStats = {
 		health: 100,
 		speed: 0.1,
 		damage: 10,
