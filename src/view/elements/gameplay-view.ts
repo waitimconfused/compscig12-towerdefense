@@ -69,6 +69,17 @@ export default class GameplayView extends View {
 
 		}
 
+		// Sort the entities to be back-to front
+		// Enemies closer to the top will be rendered
+		// behind ones closer to the bottom of the screen
+		// More info: [JavaScript Array.prototype.sort method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#description)
+		entities.sort((entity1, entity2) => {
+			// POSITIVE: entity1 before entity2
+			// NEGATIVE: entity2 before entity1
+			// ZERO/NAN: no changes
+			return entity1.position[1] - entity2.position[1];
+		});
+
 
 		for (let i = 0; i < entities.length; i ++) {
 			let entity:Entity = entities[i] as Entity;

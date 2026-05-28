@@ -2,14 +2,8 @@ import GameplayView from "../elements/gameplay-view.js";
 import { Raccoon } from "../../entity/enemy.types/raccoon.js";
 import { Sandwich } from "../../entity/defender.types/sandwich.js";
 import Engine from "../../engine.js";
-import { ViewText } from "../elements/text.js";
 import { ViewSprite } from "../elements/sprite.js";
 import { Ant } from "../../entity/enemy.types/ant.js";
-import { Frog } from "../../entity/enemy.types/frog.js";
-import { Wasp } from "../../entity/enemy.types/wasp.js";
-import { Banana, BananaSpawner } from "../../entity/defender.types/banana.js";
-import { Cherry } from "../../entity/defender.types/cherry.js";
-import { Corn } from "../../entity/defender.types/corn.js";
 
 var hasPlayed = false;
 
@@ -39,10 +33,10 @@ gameplayView.addEventListener("show", () => {
 
 	if (hasPlayed) return;
 
-	// Raccoon.spawn(1, [0,0]);
-	// Ant.antSpawn([0,0]);
-	// console.log(Sandwich.level);
-	Corn.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
+	Raccoon.spawn(1, [0,0]);
+	Ant.antSpawn([0,window.innerHeight]);
+	console.log(Sandwich.level);
+	Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
 
 	hasPlayed = true;
 });
