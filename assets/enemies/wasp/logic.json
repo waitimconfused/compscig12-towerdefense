@@ -1,0 +1,36 @@
+{
+	"type": "enemy/wasp",
+
+	"logic": [
+		{
+			"rule": "state=='idle' || state =='walk'",
+
+			"layers": [
+				{
+					"sprite": "wasp-flying",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='attack'",
+
+			"layers": [
+				{
+					"sprite": "wasp-attacking",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='attack'",
+
+			"layers": [
+				{
+					"sprite": "raccoon-attacking",
+					"origin": [ 50, 100 ]
+				}
+			]
+		}
+	]
+}

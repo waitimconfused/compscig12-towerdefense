@@ -16,7 +16,7 @@ export class Wasp extends EnemyEntity {
 	private speedStacks : number = 0;
 
 	// Wasp stats
-	public static stats: EnemyEntityStats = {
+	public static override baseStats: EnemyEntityStats = {
 		health: 25,
 		speed: 0.2,
 		damage: 10,
