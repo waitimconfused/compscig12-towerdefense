@@ -1,0 +1,46 @@
+{
+	"type": "defender/cherry",
+	"logic": [
+
+		{
+			"rule": "state=='idle'",
+			"layers": [
+				{
+					"sprite": "cherry-idling",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+
+		{
+			"rule": "state=='walk'",
+			"layers": [
+				{
+					"sprite": "cherry-skipping",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+
+		{
+			"rule": "state=='attack-front'",
+			"layers": [
+				{
+					"sprite": "cherry-forward-attacking",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+
+		{
+			"rule": "state=='cherry-backward-attacking'",
+			"layers": [
+				{
+					"sprite": "cherry-forward-attacking",
+					"origin": [ 50, 100 ]
+				}
+			]
+		}
+
+	]
+}

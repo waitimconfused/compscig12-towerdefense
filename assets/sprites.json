@@ -18,6 +18,7 @@
 		"./defender/sandwich/logic.json",
 		"./defender/banana/spawner_logic.json",
 		"./defender/banana/entity_logic.json",
+		"./defender/cherry/logic.json",
 
 		"./enemies/raccoon/logic.json",
 		"./enemies/ant/logic.json",
