@@ -3,6 +3,7 @@ import Inventory from "../../inventory.js";
 import { ViewSprite } from "../elements/sprite.js";
 import { ViewText } from "../elements/text.js";
 import { ViewCollection } from "../view-collection.js";
+import { ViewElementCollection } from "../view-element-collection.js";
 import { View } from "../view.js";
 
 var inventoryView = new ViewCollection;
@@ -11,25 +12,28 @@ Engine.createView("inventory", inventoryView);
 var page1 = new View;
 inventoryView.createView("page-1", page1);
 
+page1.addElement(
+	new ViewText("Page 1")
+	.setTranslation( 100, 100 )
+);
+
+page1.addElement(
+	new ViewSprite("close")
+	.setSize(50, 50)
+	.setTranslation(50, 50)
+	.addEventListener("click", () => {
+		Engine.showView("gameplay");
+	})
+)
+
 Inventory.give("honey", 30);
+
+var itemGroup = new ViewElementCollection;
+page1.addElement(itemGroup);
 
 page1.addEventListener("show", () => {
 
-	while ( page1.children.length > 0 ) page1.removeElement(page1.children[0]);
-	
-	page1.addElement(
-		new ViewText("Page 1")
-		.setTranslation( 100, 100 )
-	);
-
-	let stopButton = new ViewSprite("close");
-	stopButton.setSize(50, 50);
-	stopButton.setTranslation(50, 50);
-	page1.addElement(stopButton);
-	
-	stopButton.addEventListener("click", () => {
-		Engine.showView("gameplay");
-	});
+	while ( itemGroup.children.length > 0 ) itemGroup.removeElement(itemGroup.children[0]);
 
 	let items = Inventory.items.entries();
 
@@ -40,7 +44,7 @@ page1.addEventListener("show", () => {
 		if (item == "point") continue;
 
 
-		page1.addElement(
+		itemGroup.addElement(
 			new ViewText(`${item}: ${count}`)
 			.setAnchor(Engine.anchor.centerCenter)
 			.setTranslation(100, 100 + y * 50)

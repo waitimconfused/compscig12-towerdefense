@@ -1,5 +1,6 @@
 import Engine from "../engine.js";
 import { Canvas, Position2D, RenderingContext } from "../types.js";
+import { ViewElementCollection } from "./view-element-collection.js";
 import { ViewElement } from "./view-element.js";
 
 type ViewElementEventType = "click";
@@ -18,9 +19,7 @@ type ViewBackground = {
 	scale: Position2D;
 };
 
-export class View {
-
-	public children:ViewElement[] = [];
+export class View extends ViewElementCollection {
 
 	public background:ViewBackground = {
 		source: null,
@@ -33,27 +32,6 @@ export class View {
 	protected listeners:ViewListenerGroup = {
 		show: [],
 		hide: []
-	}
-	
-	/**
-	 * Add `ViewElement`s to the view, to will be rendered onscreen
-	 * 
-	 * @param elements	`ViewElement` instances
-	 */
-	public addElement( ...elements:ViewElement[] ):this {
-		this.children.push(...elements);
-		return this;
-	}
-
-	public removeElement( element?:ViewElement ):this {
-
-		if (!element) return this;
-		
-		let index = this.children.indexOf(element);
-
-		this.children.splice(index, 1);
-
-		return this;
 	}
 
 	/**
@@ -97,7 +75,7 @@ export class View {
 	 * @param canvas	Specifies what canvas the view will be rendered onto
 	 * @param context	Specify what `RenderingContext` to use to draw
 	 */
-	public render( canvas:Canvas, context:RenderingContext ) {
+	public override render( canvas:Canvas, context:RenderingContext ) {
 
 		// If the background is a CSS colour string
 		if (typeof this.background.source == "string") {
@@ -139,15 +117,8 @@ export class View {
 
 		}
 
-		// Loop through each child ViewElement, and render it
-		for (let i = 0; i < this.children.length; i ++) {
-
-			// Get the ViewElement child
-			let element:ViewElement = this.children[i] as ViewElement;
-
-			// Render the child, given the canvas and context
-			element.render(canvas, context);
-		}
+		// Render the ViewElement children
+		super.render(canvas, context);
 
 	}
 	
