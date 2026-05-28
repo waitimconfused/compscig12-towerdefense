@@ -9,6 +9,7 @@ import { Frog } from "../../entity/enemy.types/frog.js";
 import { Wasp } from "../../entity/enemy.types/wasp.js";
 import { Banana, BananaSpawner } from "../../entity/defender.types/banana.js";
 import { Cherry } from "../../entity/defender.types/cherry.js";
+import { Corn } from "../../entity/defender.types/corn.js";
 
 var hasPlayed = false;
 
@@ -41,7 +42,7 @@ gameplayView.addEventListener("show", () => {
 	// Raccoon.spawn(1, [0,0]);
 	// Ant.antSpawn([0,0]);
 	// console.log(Sandwich.level);
-	Cherry.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
+	Corn.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
 
 	hasPlayed = true;
 });
