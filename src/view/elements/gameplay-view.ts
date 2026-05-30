@@ -58,7 +58,7 @@ export default class GameplayView extends View {
 
 			let spriteRuleset = entityRenderingLookup[entity.entityType];
 			if (!spriteRuleset) continue;
-			
+
 			let layers = spriteRuleset(entity);
 
 			if (!layers) continue;
@@ -101,7 +101,7 @@ export default class GameplayView extends View {
 		}
 
 		// Draw the gameplayCanvas UNDER the UI layer
-		context.globalCompositeOperation = "destination-over";
+		// context.globalCompositeOperation = "destination-over";
 		context.drawImage(this.gameplayCanvas, 0, 0);
 
 		// Reset the composite operation to be the default ("source-over")

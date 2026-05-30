@@ -16,7 +16,7 @@ SpriteRenderer.verbose = false;
 // Disable all the mouse events we don't want
 MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
-MouseManager.preventZoom = true;
+// MouseManager.preventZoom = true;s
 
 ViewText.addFont("Preahvihear", "/fonts/preahvihear.ttf");
 ViewText.addFont("Gamja Flower", "/fonts/gamja-flower.ttf");

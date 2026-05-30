@@ -11,32 +11,39 @@ export class Wave {
 	public static getWave() { return this._waveNumber };
 
 	public static newWave() : void {	
-		for (let entity of Entity.entities.values()) {
-			if (entity instanceof EnemyEntity) {
-				if (entity.stats.health > 0) {
-					return;
-				}
-			}
-		}
+		// for (let entity of Entity.entities.values()) {
+
+		// 	if (entity instanceof EnemyEntity == false) continue;
+
+		// 	if (entity.stats.health > 0) {
+		// 		console.warn("Not all EnemyEntity instances are dead.");
+		// 		return;
+		// 	}
+		// }
 		
 		this._waveNumber++;
 
+		console.log(this._waveNumber);
+
 		// let spawnCount : number = 1 + Math.floor(this._waveNumber / 3);
 
-		Ant.antSpawn([0,0],2);
+		Ant.antSpawn([0,0],100);
 		
 		if (this._waveNumber % 2 == 0) {
-			Frog.spawn(1,[0,0],2);
+			Frog.spawn(1,[100,100],2);
 		}	
 
 		if (this._waveNumber % 3 == 0) {
-			Wasp.spawn(1,[0,0],2);
+			Wasp.spawn(1,[100,100],2);
 		}
 		
 		if (this._waveNumber % 5 == 0) {
-			Raccoon.spawn(1,[0,0],2);
+			Raccoon.spawn(1,[100,100],2);
 		}
 
 		EnemyEntity.upgrade();
 	}
 }
+
+// @ts-ignore
+window.Wave = Wave;
