@@ -13,7 +13,7 @@ type ViewListenerGroup = {
 	[type in ViewListenerType]: ViewListenerCallback[];
 };
 
-type ViewBackground = {
+export type ViewBackground = {
 	source: null | string | HTMLImageElement;
 	repetition: "repeat" | "repeat-x" | "repeat-y" | "no-repeat";
 	scale: Position2D;
@@ -74,11 +74,14 @@ export class View extends ViewElementCollection {
 	 * 
 	 * @param canvas	Specifies what canvas the view will be rendered onto
 	 * @param context	Specify what `RenderingContext` to use to draw
+	 * 
+	 * @param showBackground	Choose to render the background (this.background) or not
+	 * @param showElements		Choose to render the child elements (this.children) or not
 	 */
-	public override render( canvas:Canvas, context:RenderingContext ) {
+	public override render( canvas:Canvas, context:RenderingContext, showBackground=true, showElements=true ) {
 
 		// If the background is a CSS colour string
-		if (typeof this.background.source == "string") {
+		if (showBackground && typeof this.background.source == "string") {
 			// Set the context's fillStyle
 			context.fillStyle = this.background.source;
 			
@@ -89,7 +92,7 @@ export class View extends ViewElementCollection {
 			context.fillRect(0, 0, canvas.width, canvas.height);
 
 		// If the background is an image
-		} else if (this.background.source instanceof HTMLImageElement) {
+		} else if (showBackground && this.background.source instanceof HTMLImageElement) {
 
 			// If a pattern has not been created, make one
 			if (!this._canvasPattern) {
@@ -118,7 +121,7 @@ export class View extends ViewElementCollection {
 		}
 
 		// Render the ViewElement children
-		super.render(canvas, context);
+		if (showElements) super.render(canvas, context);
 
 	}
 	

@@ -41,9 +41,16 @@ gameplayView.addEventListener("show", () => {
 });
 
 
-let image = new Image;
-image.src = "/assets/picnic.svg";
+let grass = new Image;
+grass.src = "/assets/grass.svg";
 
-image.addEventListener("load", () => {
-	gameplayView.background.source = image;
+grass.addEventListener("load", () => {
+	gameplayView.background.source = grass;
+});
+
+let picnic = new Image;
+picnic.src = "/assets/picnic.svg";
+
+picnic.addEventListener("load", () => {
+	gameplayView.gameplayBackground.source = picnic;
 });
