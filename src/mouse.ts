@@ -87,7 +87,7 @@ function preventZooming(e:WheelEvent|KeyboardEvent) {
 		if (["0"].includes(e.key))		isTryingToZoom = true;
 	}
 
-	if (isTryingToZoom && MouseManager.preventScroll) e.preventDefault();
+	if (isTryingToZoom && MouseManager.preventZoom) e.preventDefault();
 }
 
 
