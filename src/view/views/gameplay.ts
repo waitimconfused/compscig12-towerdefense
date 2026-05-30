@@ -8,6 +8,10 @@ import { Wave } from "../../wave.js";
 
 var hasPlayed = false;
 
+// Aspect ratio of 1.333:1
+GameplayView.playSpaceSize[0] = 1270;
+GameplayView.playSpaceSize[1] = Math.round( GameplayView.playSpaceSize[0] * (2/3) );
+
 var gameplayView = new GameplayView;
 Engine.createView("gameplay", gameplayView);
 

@@ -18,8 +18,8 @@ export default class GameplayView extends View {
 	private gameplayCanvas:OffscreenCanvas = new OffscreenCanvas(1920, 1080);
 	private gameplayContext:OffscreenCanvasRenderingContext2D;
 
-	public static playSpaceWidth:number = 1000;
-	public static playSpaceHeight:number = 750;
+	public static playSpaceSize:Position2D = [1000, 750];
+	public static playSpacePadding:Position2D = [100, 100];
 
 	public gameplayBackground:ViewBackground = {
 		source: null,
@@ -36,8 +36,8 @@ export default class GameplayView extends View {
 		
 	public override render( canvas:Canvas, context:RenderingContext ) {
 
-		this.gameplayCanvas.width = GameplayView.playSpaceWidth;
-		this.gameplayCanvas.height = GameplayView.playSpaceHeight;
+		this.gameplayCanvas.width = GameplayView.playSpaceSize[0];
+		this.gameplayCanvas.height = GameplayView.playSpaceSize[1];
 		
 		// If the background is a CSS colour string
 		if (typeof this.gameplayBackground.source == "string") {
@@ -154,16 +154,14 @@ export default class GameplayView extends View {
 		// context.globalCompositeOperation = "destination-over";
 
 		let appropriateScale = Math.min(
-			canvas.height / (GameplayView.playSpaceHeight + 100),
-			canvas.width / (GameplayView.playSpaceWidth + 100)
+			canvas.width / (GameplayView.playSpaceSize[0] + GameplayView.playSpacePadding[0]),
+			canvas.height / (GameplayView.playSpaceSize[1] + GameplayView.playSpacePadding[1])
 		);
-
-		// appropriateScale = 2;
 
 		context.save();
 		context.translate(canvas.width/2, canvas.height/2);
 		context.scale(appropriateScale, appropriateScale);
-		context.translate(-GameplayView.playSpaceWidth/2, -GameplayView.playSpaceHeight/2);
+		context.translate(-GameplayView.playSpaceSize[0]/2, -GameplayView.playSpaceSize[1]/2);
 		
 		context.globalCompositeOperation = "source-over";
 		context.drawImage(this.gameplayCanvas, 0, 0);
@@ -171,7 +169,7 @@ export default class GameplayView extends View {
 		context.globalCompositeOperation = "destination-in";
 		context.beginPath();
 		context.fillStyle = "black";
-		context.roundRect(0, 0, GameplayView.playSpaceWidth, GameplayView.playSpaceHeight, 8);
+		context.roundRect(0, 0, GameplayView.playSpaceSize[0], GameplayView.playSpaceSize[1], 8);
 		context.closePath();
 		context.fill();
 		
@@ -180,7 +178,7 @@ export default class GameplayView extends View {
 		context.shadowColor = "#0000000F";
 		context.shadowBlur = 10;
 		context.shadowOffsetY = 4;
-		context.roundRect(0, 0, GameplayView.playSpaceWidth, GameplayView.playSpaceHeight, 8);
+		context.roundRect(0, 0, GameplayView.playSpaceSize[0], GameplayView.playSpaceSize[1], 8);
 		context.closePath();
 		context.fill();
 
