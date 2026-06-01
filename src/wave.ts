@@ -10,6 +10,30 @@ export class Wave {
 	private static _waveNumber : number = 0;
 	public static getWave() { return this._waveNumber };
 
+	private static _waveDuration : number = 60000;
+	private static _timeLeft : number = 60000;
+
+	/**
+	 * Game loop updates the wave time
+	 * @param t The time of each game tick
+	 */
+	public static update(t : number) : void {
+		// Updates the current time left
+		this._timeLeft -= t;
+
+		// Checks if the wave is finished
+		if (this._timeLeft <= 0) {
+			// Starts a new wave of enemies
+			this.newWave();
+
+			// Increases the wave duration by 2 seconds every time a wave ends
+			this._waveDuration += 2000;
+
+			// Updates current time left to match the wave duration
+			this._timeLeft = this._waveDuration;
+		}
+	}
+
 	public static newWave() : void {	
 		// for (let entity of Entity.entities.values()) {
 
