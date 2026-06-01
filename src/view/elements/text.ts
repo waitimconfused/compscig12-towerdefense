@@ -41,7 +41,8 @@ export class ViewText extends ViewElement {
 		return this._lines.join("\n");
 	}
 	public set content(string:string) {
-		this._lines = string.split("\n");
+		let tabsAsSpaces = "    ";
+		this._lines = string.replaceAll("\t", tabsAsSpaces).split("\n");
 	}
 
 	public font:ViewTextFont = {
@@ -84,10 +85,11 @@ export class ViewText extends ViewElement {
 
 	}
 
-	public setFont(family:string, size?:number|string, style?:"normal" | "italic" | "oblique"):this {
+	public setFont(family:string, size?:number|string, style?:"normal" | "italic" | "oblique", lineSpacing?:number):this {
 		this.font.family = family;
-		if (size) this.font.size = size;
-		if (style) this.font.size = style;
+		if (size != undefined) this.font.size = size;
+		if (style != undefined) this.font.size = style;
+		if (lineSpacing != undefined) this.font.lineSpacing = lineSpacing;
 		return this;
 	}
 

@@ -5,6 +5,8 @@ import { SpriteRenderer } from "./sprites.js";
 import { ViewText } from "./view/elements/text.js";
 import viewFiles from "./view/files.json" with { type: "json" };
 
+let searchParams = new URLSearchParams(window.location.search);
+
 
 
 // Set which view to show once all the loading is done

@@ -15,8 +15,6 @@ var entityRenderingLookup:SpriteRenderingRuleset = {};
 
 export default class GameplayView extends View {
 
-	private gameplayCanvas:OffscreenCanvas = new OffscreenCanvas(1920, 1080);
-	private gameplayContext:OffscreenCanvasRenderingContext2D;
 
 	public static playSpaceSize:Position2D = [1000, 750];
 	public static playSpacePadding:Position2D = [100, 100];
@@ -31,24 +29,19 @@ export default class GameplayView extends View {
 
 	constructor() {
 		super();
-		this.gameplayContext = this.gameplayCanvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
 	}
-		
-	public override render( canvas:Canvas, context:RenderingContext ) {
 
-		this.gameplayCanvas.width = GameplayView.playSpaceSize[0];
-		this.gameplayCanvas.height = GameplayView.playSpaceSize[1];
-		
+	protected renderGameplayBackground(canvas:Canvas, context:RenderingContext) {
 		// If the background is a CSS colour string
 		if (typeof this.gameplayBackground.source == "string") {
 			// Set the context's fillStyle
-			this.gameplayContext.fillStyle = this.gameplayBackground.source;
+			context.fillStyle = this.gameplayBackground.source;
 			
 			// Make sure no "canvas pattern" has been set
 			this._gameplayPattern = null;
 			
 			// Fill the background rectangle (covering the canvas)
-			this.gameplayContext.fillRect(0, 0, this.gameplayCanvas.width, this.gameplayCanvas.height);
+			context.fillRect(0, 0, canvas.width, canvas.height);
 
 		// If the background is an image
 		} else if (this.gameplayBackground.source instanceof HTMLImageElement) {
@@ -56,7 +49,7 @@ export default class GameplayView extends View {
 			// If a pattern has not been created, make one
 			if (!this._gameplayPattern) {
 				// Create a CanvasPattern, using the image and repetition mode
-				this._gameplayPattern = this.gameplayContext.createPattern(
+				this._gameplayPattern = context.createPattern(
 					this.gameplayBackground.source as HTMLImageElement,
 					this.gameplayBackground.repetition
 				);
@@ -72,14 +65,15 @@ export default class GameplayView extends View {
 			}
 
 			// Set the fillStyle to be the pattern
-			this.gameplayContext.fillStyle = this._gameplayPattern as CanvasPattern;
+			context.fillStyle = this._gameplayPattern as CanvasPattern;
 
 			// Fill the background rectangle (covering the canvas)
-			this.gameplayContext.fillRect(0, 0, this.gameplayCanvas.width, this.gameplayCanvas.height);
+			context.fillRect(0, 0, GameplayView.playSpaceSize[0], GameplayView.playSpaceSize[1]);
 
 		}
-		
+	}
 
+	protected renderEntities( canvas:Canvas, context:RenderingContext ) {
 		let entities = [ ...Entity.entities.values() ];
 		// console.log(entities);
 
@@ -128,52 +122,41 @@ export default class GameplayView extends View {
 				let flipX = entity.direction > Math.PI / 2;
 				let flipY = false;
 
-				this.gameplayContext.save();
-				this.gameplayContext.translate( entity.position[0], entity.position[1] );
-				this.gameplayContext.translate(
+				context.save();
+				context.translate( entity.position[0], entity.position[1] );
+				context.translate(
 					( reference.origin[0] / 100) * offscreenSprite.width * (flipX ? 1 : -1),
 					( reference.origin[1] / -100) * offscreenSprite.height
 				);
-				if (reference?.offset) this.gameplayContext.translate(
+				if (reference?.offset) context.translate(
 					reference.offset[0],
 					reference.offset[1]
 				);
-				this.gameplayContext.scale(
+				context.scale(
 					flipX ? -1 : 1,
 					flipY ? -1 : 1
 				);
 				
-				this.gameplayContext.drawImage(offscreenSprite, 0, 0);
+				context.drawImage(offscreenSprite, 0, 0);
 
-				this.gameplayContext.restore();
+				context.restore();
 			}
 
 		}
-
-		// Draw the gameplayCanvas UNDER the UI layer
-		// context.globalCompositeOperation = "destination-over";
-
+	}
+		
+	public override render( canvas:Canvas, context:RenderingContext ) {
+		
 		let appropriateScale = Math.min(
 			canvas.width / (GameplayView.playSpaceSize[0] + GameplayView.playSpacePadding[0]),
 			canvas.height / (GameplayView.playSpaceSize[1] + GameplayView.playSpacePadding[1])
 		);
-
+		
 		context.save();
 		context.translate(canvas.width/2, canvas.height/2);
 		context.scale(appropriateScale, appropriateScale);
 		context.translate(-GameplayView.playSpaceSize[0]/2, -GameplayView.playSpaceSize[1]/2);
 		
-		context.globalCompositeOperation = "source-over";
-		context.drawImage(this.gameplayCanvas, 0, 0);
-
-		context.globalCompositeOperation = "destination-in";
-		context.beginPath();
-		context.fillStyle = "black";
-		context.roundRect(0, 0, GameplayView.playSpaceSize[0], GameplayView.playSpaceSize[1], 8);
-		context.closePath();
-		context.fill();
-		
-		context.globalCompositeOperation = "destination-over";
 		context.beginPath();
 		context.shadowColor = "#0000000F";
 		context.shadowBlur = 10;
@@ -182,6 +165,18 @@ export default class GameplayView extends View {
 		context.closePath();
 		context.fill();
 
+		this.renderGameplayBackground(canvas, context);
+
+		context.beginPath();
+		context.shadowColor = "#0000000F";
+		context.shadowBlur = 10;
+		context.shadowOffsetY = 4;
+		context.roundRect(0, 0, GameplayView.playSpaceSize[0], GameplayView.playSpaceSize[1], 8);
+		context.closePath();
+		context.fill();
+
+		this.renderEntities(canvas, context);
+		
 		context.restore();
 
 		super.render(canvas, context, false, true);

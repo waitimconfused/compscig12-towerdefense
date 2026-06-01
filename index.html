@@ -6,7 +6,26 @@
 	<title>Tower Defense</title>
 	<link rel="stylesheet" href="./styles/styles.css">
 	<link rel="shortcut icon" type="image/png" id="favicon">
+	<link
+		rel="prefetch"
+		href="/fonts/preahvihear.ttf"
+		as="font"
+		type="font/ttf"
+		/>
+	<link
+		rel="prefetch"
+		href="/fonts/gamja-flower.ttf"
+		as="font"
+		type="font/ttf"
+		/>
 	<style>
+		@font-face {
+			font-family: "Gamja Flower";
+			src: url("/fonts/gamja-flower.ttf");
+		}
+		body {
+			font-family: "Gamja Flower";
+		}
 		#loading {
 			position: fixed;
 			top: 0px;
@@ -18,14 +37,14 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			font-size: 200%;
+			font-size: 400%;
 		}
 	</style>
 </head>
 <body>
 	
 	<div id="loading">
-		<code>Loading...</code>
+		<p>Loading...</p>
 	</div>
 
 	<canvas id="canvas"></canvas>
