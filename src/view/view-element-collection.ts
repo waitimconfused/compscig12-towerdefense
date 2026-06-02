@@ -14,7 +14,10 @@ export class ViewElementCollection {
 	 * @param elements	`ViewElement` instances to be added
 	 */
 	public addElement( ...elements:(ViewElement|ViewElementCollection)[] ):this {
+
+		// Add all of the elements
 		this.children.push(...elements);
+
 		return this;
 	}
 
@@ -22,12 +25,14 @@ export class ViewElementCollection {
 	 * Remove a `ViewElement` from the collection
 	 * @param element	`ViewElement` instance to be removed
 	 */
-	public removeElement( element?:ViewElement|ViewElementCollection ):this {
+	public removeElement( element:ViewElement|ViewElementCollection ):this {
 
-		if (!element) return this;
-		
 		let index = this.children.indexOf(element);
 
+		// If the element is not a child of this collection, stop
+		if (index == -1) return this;
+
+		// Remove the child from the collection's list
 		this.children.splice(index, 1);
 
 		return this;

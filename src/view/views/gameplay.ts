@@ -8,6 +8,10 @@ import { Wave } from "../../wave.js";
 
 var hasPlayed = false;
 
+// Aspect ratio of 1.333:1
+GameplayView.playSpaceSize[0] = 1270;
+GameplayView.playSpaceSize[1] = Math.round( GameplayView.playSpaceSize[0] * (2/3) );
+
 var gameplayView = new GameplayView;
 Engine.createView("gameplay", gameplayView);
 
@@ -41,9 +45,16 @@ gameplayView.addEventListener("show", () => {
 });
 
 
-let image = new Image;
-image.src = "/assets/picnic.svg";
+let grass = new Image;
+grass.src = "/assets/grass.svg";
 
-image.addEventListener("load", () => {
-	gameplayView.background.source = image;
+grass.addEventListener("load", () => {
+	gameplayView.background.source = grass;
+});
+
+let picnic = new Image;
+picnic.src = "/assets/picnic.svg";
+
+picnic.addEventListener("load", () => {
+	gameplayView.gameplayBackground.source = picnic;
 });

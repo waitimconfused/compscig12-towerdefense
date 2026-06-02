@@ -38,7 +38,7 @@ mainMenu.addElement(
 	.setFont("Preahvihear", 90)
 	.setAlignment("center", "bottom")
 	.setFill("black")
-	.setStroke("none")
+	.setStroke("white", 6)
 );
 
 // Play button

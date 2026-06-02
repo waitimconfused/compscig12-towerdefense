@@ -6,34 +6,66 @@ import { ViewCollection } from "../view-collection.js";
 import { ViewElementCollection } from "../view-element-collection.js";
 import { View } from "../view.js";
 
-var inventoryView = new ViewCollection;
-Engine.createView("inventory", inventoryView);
+const VIEW = new ViewCollection;
+Engine.createView("inventory", VIEW);
 
-var page1 = new View;
-inventoryView.createView("page-1", page1);
-
-page1.addElement(
-	new ViewText("Page 1")
-	.setTranslation( 100, 100 )
-);
-
-page1.addElement(
-	new ViewSprite("close")
+const CLOSE_BUTTON = new ViewSprite("close")
 	.setSize(50, 50)
 	.setTranslation(50, 50)
 	.addEventListener("click", () => {
 		Engine.showView("gameplay");
-	})
-)
+	});
+
+const PLAYER_STATS_BUTTON = new ViewText("Player")
+	.setAnchor(Engine.anchor.topLeft)
+	.setTranslation( 100, 100 )
+	.setFont("Preahvihear", 64)
+	.setFill("black")
+	.setStroke("white", 6)
+	.addEventListener("click", () => {
+		Engine.showView("inventory/player-stats");
+	});
+
+const CHARACTER_STATS_BUTTON = new ViewText("Character")
+	.setAnchor(Engine.anchor.topLeft)
+	.setTranslation( 400, 100 )
+	.setFont("Preahvihear", 64)
+	.setFill("black")
+	.setStroke("white", 6)
+	.addEventListener("click", () => {
+		Engine.showView("inventory/character-stats");
+	});
+
+const RECIPE_BUTTON = new ViewText("Recipe")
+	.setAnchor(Engine.anchor.topLeft)
+	.setTranslation( 850, 100 )
+	.setFont("Preahvihear", 64)
+	.setFill("black")
+	.setStroke("white", 6)
+	.addEventListener("click", () => {
+		Engine.showView("inventory/recipe");
+	});
+
+/**s
+ *! PLAYER STATS
+ */
+const PLAYER_STATS = new View;
+VIEW.createView("player-stats", PLAYER_STATS);
+
+PLAYER_STATS.addElement(CLOSE_BUTTON);
+PLAYER_STATS.addElement(PLAYER_STATS_BUTTON);
+PLAYER_STATS.addElement(CHARACTER_STATS_BUTTON);
+PLAYER_STATS.addElement(RECIPE_BUTTON);
 
 Inventory.give("honey", 30);
+Inventory.give("jar", 30);
 
 var itemGroup = new ViewElementCollection;
-page1.addElement(itemGroup);
+PLAYER_STATS.addElement(itemGroup);
 
-page1.addEventListener("show", () => {
+PLAYER_STATS.addEventListener("show", () => {
 
-	while ( itemGroup.children.length > 0 ) itemGroup.removeElement(itemGroup.children[0]);
+	while ( itemGroup.children.length > 0 ) itemGroup.removeElement(itemGroup.children[0]!);
 
 	let items = Inventory.items.entries();
 
@@ -43,11 +75,13 @@ page1.addEventListener("show", () => {
 		if (item == "coin") continue;
 		if (item == "point") continue;
 
-
 		itemGroup.addElement(
-			new ViewText(`${item}: ${count}`)
+			new ViewText(`${item}\tx${count}`)
 			.setAnchor(Engine.anchor.centerCenter)
-			.setTranslation(100, 100 + y * 50)
+			.setTranslation(0, y * 150)
+			.setFont("Gamja Flower", 48)
+			.setStroke("none")
+			.setFill("black")
 		);
 
 		y += 1;
@@ -56,12 +90,29 @@ page1.addEventListener("show", () => {
 
 });
 
-inventoryView.showView("page-1");
+/**
+ *! CHARACTER STATS
+ */
 
-var page2 = new View;
-inventoryView.createView("page-2", page2);
+const CHARACTER_STATS = new View;
+VIEW.createView("character-stats", CHARACTER_STATS);
 
-page2.addElement(
-	new ViewText("Page 2")
-	.setTranslation( 100, 100 )
-);
+CHARACTER_STATS.addElement(CLOSE_BUTTON);
+CHARACTER_STATS.addElement(PLAYER_STATS_BUTTON);
+CHARACTER_STATS.addElement(CHARACTER_STATS_BUTTON);
+CHARACTER_STATS.addElement(RECIPE_BUTTON);
+
+CHARACTER_STATS.addElement(
+	new ViewSprite("sandwich-one")
+	.setAnchor(Engine.anchor.centerCenter)
+)
+
+/**
+ *! TOOL RECIPE
+ */
+const RECIPE = new View;
+VIEW.createView("recipe", RECIPE);
+RECIPE.addElement(CLOSE_BUTTON);
+RECIPE.addElement(PLAYER_STATS_BUTTON);
+RECIPE.addElement(CHARACTER_STATS_BUTTON);
+RECIPE.addElement(RECIPE_BUTTON);
