@@ -1,0 +1,96 @@
+[
+	{
+		"name": "carrier-1-open",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 2052,
+			"h": 279
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 0, "w": 337, "h": 279 } },
+				{ "crop": { "x": 342, "y": 0, "w": 337, "h": 279 } },
+				{ "crop": { "x": 684, "y": 0, "w": 337, "h": 279 } },
+				{ "crop": { "x": 1026, "y": 0, "w": 337, "h": 279 } },
+				{ "crop": { "x": 1368, "y": 0, "w": 337, "h": 279 } },
+				{ "crop": { "x": 1710, "y": 0, "w": 337, "h": 279 } }
+			]
+		}
+	},
+	{
+		"name": "carrier-1",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 284,
+			"w": 2526,
+			"h": 2072
+		}
+	},
+	{
+		"name": "carrier-2-open",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 2361,
+			"w": 1896,
+			"h": 264
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 2361, "w": 311, "h": 264 } },
+				{ "crop": { "x": 316, "y": 2361, "w": 311, "h": 264 } },
+				{ "crop": { "x": 632, "y": 2361, "w": 311, "h": 264 } },
+				{ "crop": { "x": 948, "y": 2361, "w": 311, "h": 264 } },
+				{ "crop": { "x": 1264, "y": 2361, "w": 311, "h": 264 } },
+				{ "crop": { "x": 1580, "y": 2361, "w": 311, "h": 264 } }
+			]
+		}
+	},
+	{
+		"name": "carrier-2",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 2630,
+			"w": 2128,
+			"h": 1999
+		}
+	},
+	{
+		"name": "carrier-3-open",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 4634,
+			"w": 3087,
+			"h": 314
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 4634, "w": 436, "h": 314 } },
+				{ "crop": { "x": 441, "y": 4634, "w": 436, "h": 314 } },
+				{ "crop": { "x": 882, "y": 4634, "w": 436, "h": 314 } },
+				{ "crop": { "x": 1323, "y": 4634, "w": 436, "h": 314 } },
+				{ "crop": { "x": 1764, "y": 4634, "w": 436, "h": 314 } },
+				{ "crop": { "x": 2205, "y": 4634, "w": 436, "h": 314 } },
+				{ "crop": { "x": 2646, "y": 4634, "w": 436, "h": 314 } }
+			]
+		}
+	},
+	{
+		"name": "carrier-4",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 4953,
+			"w": 3163,
+			"h": 1643
+		}
+	}
+]
