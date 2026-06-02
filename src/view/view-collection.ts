@@ -111,22 +111,38 @@ export class ViewCollection extends View {
 			view.showView(subViewNames);
 		}
 		
+		// Get the current view
 		let currentView:View|undefined = this.views.get(this._currentView);
+
+		// Dispatch the "hide" event on the current view
 		if (currentView) currentView.dispatchEvent("hide");
 
+		// Dispatch the "show" event on the new view
 		view.dispatchEvent("show");
+
+		// Update the current view
 		this._currentView = viewName;
 		
-		return view ?? null;
+		return view;
 
 	}
 
+	/**
+	 * Render the view onto a provided canvas and context
+	 * 
+	 * @param canvas	Specifies what canvas the view will be rendered onto
+	 * @param context	Specify what `RenderingContext` to use to draw
+	 */
 	public override render(canvas:Canvas, context:RenderingContext) {
 
-		if (this.views.has(this._currentView)) {
-			let view:View = this.views.get(this._currentView) as View;
-			view.render( canvas, context );
-		}
+		// If the current view does not exist, stop
+		if (this.views.has(this._currentView) == false) return;
+
+		// Get the current view
+		let view:View = this.views.get(this._currentView) as View;
+
+		// Render the view
+		view.render( canvas, context );
 
 	}
 
