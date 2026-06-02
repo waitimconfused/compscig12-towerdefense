@@ -65,7 +65,7 @@ PLAYER_STATS.addElement(itemGroup);
 
 PLAYER_STATS.addEventListener("show", () => {
 
-	while ( itemGroup.children.length > 0 ) itemGroup.removeElement(itemGroup.children[0]);
+	while ( itemGroup.children.length > 0 ) itemGroup.removeElement(itemGroup.children[0]!);
 
 	let items = Inventory.items.entries();
 

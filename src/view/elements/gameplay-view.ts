@@ -5,8 +5,7 @@ import { Canvas, Position2D, RenderingContext } from "../../types.js";
 import Engine from "../../engine.js"
 
 import spriteAssets from "../../../assets/sprites.json" with { type: "json" };
-import { BasicSprite, RawSpriteLogic, rulesToFunction } from "../../entity/logic-flow.js";
-import { Strawberry } from "../../entity/defender.types/strawberry.js";
+import { BasicSprite, rulesToFunction } from "../../entity/logic-flow.js";
 
 type SpriteRenderingRuleset = { [entityType:string]: (entity:Entity)=>BasicSprite[] };
 
@@ -243,7 +242,7 @@ export default class GameplayView extends View {
 			// Save the context's transformations
 			context.save();
 
-			// Move the context to the entities positio 
+			// Move the context to the entities position
 			context.translate( entity.position[0], entity.position[1] );
 
 			// Move the context to be the origin of the sprite
@@ -288,7 +287,7 @@ for (let i = 0; i < spriteAssets.logic.length; i ++) {
 	let {default: data} = await import(path, { with: { type: "json" } });
 
 	// Generate the display-logic function
-	let generatedRule = rulesToFunction(data);
+	let generatedRule = rulesToFunction(data.logic);
 
 	// Save the function to the lookup
 	entityRenderingLookup[data.type] = generatedRule;
