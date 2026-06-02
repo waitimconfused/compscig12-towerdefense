@@ -10,7 +10,14 @@
 		"./enemies/ant/sprite-collection.json",
 		"./enemies/frog/sprite-collection.json",
 		"./enemies/wasp/sprite-collection.json",
-		"./icons/icons.json"
+		"./icons/icons.json",
+
+		"./carrier/sprite-collection.json",
+		"./cutlery/sprite-collection.json",
+		"./picnic-items/sprite-collection.json",
+		"./tools/honey/sprite-collection.json",
+		"./tools/lemonade/sprite-collection.json",
+		"./tools/toothpick/sprite-collection.json"
 	],
 
 	"logic": [

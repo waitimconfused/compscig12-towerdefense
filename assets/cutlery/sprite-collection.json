@@ -1,0 +1,32 @@
+[
+	{
+		"name": "spoon",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 3077,
+			"h": 756
+		}
+	},
+	{
+		"name": "fork",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 761,
+			"w": 2791,
+			"h": 597
+		}
+	},
+	{
+		"name": "knife",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 1363,
+			"w": 3167,
+			"h": 585
+		}
+	}
+]

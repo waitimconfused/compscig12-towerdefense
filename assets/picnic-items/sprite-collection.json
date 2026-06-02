@@ -1,0 +1,22 @@
+[
+	{
+		"name": "wine",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 3312,
+			"h": 1145
+		}
+	},
+	{
+		"name": "plate",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 1150,
+			"w": 1962,
+			"h": 1969
+		}
+	}
+]

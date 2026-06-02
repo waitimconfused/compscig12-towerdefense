@@ -1,0 +1,89 @@
+[
+	{
+		"name": "use-lemonade",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 4960,
+			"h": 293
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 496, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 992, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 1488, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 1984, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 2480, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 2976, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 3472, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 3968, "y": 0, "w": 491, "h": 293 } },
+				{ "crop": { "x": 4464, "y": 0, "w": 491, "h": 293 } }
+			]
+		}
+	},
+	{
+		"name": "melting-ice-cube",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 298,
+			"w": 1393,
+			"h": 79
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 298, "w": 194, "h": 79 } },
+				{ "crop": { "x": 199, "y": 298, "w": 194, "h": 79 } },
+				{ "crop": { "x": 398, "y": 298, "w": 194, "h": 79 } },
+				{ "crop": { "x": 597, "y": 298, "w": 194, "h": 79 } },
+				{ "crop": { "x": 796, "y": 298, "w": 194, "h": 79 } },
+				{ "crop": { "x": 995, "y": 298, "w": 194, "h": 79 } },
+				{ "crop": { "x": 1194, "y": 298, "w": 194, "h": 79 } }
+			]
+		}
+	},
+	{
+		"name": "ice-cube-1",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 382,
+			"w": 1068,
+			"h": 567
+		}
+	},
+	{
+		"name": "ice-cube-2",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 954,
+			"w": 1081,
+			"h": 508
+		}
+	},
+	{
+		"name": "ice-cube-3",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 1467,
+			"w": 1274,
+			"h": 496
+		}
+	},
+	{
+		"name": "ice-cube-4",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 1968,
+			"w": 1445,
+			"h": 375
+		}
+	}
+]

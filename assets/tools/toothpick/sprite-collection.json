@@ -1,0 +1,35 @@
+[
+	{
+		"name": "use-toothpick",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 312,
+			"h": 307
+		},
+		"animation": {
+			"frame_duration": 100,
+			"frames": [
+				{ "crop": { "x": 0, "y": 0, "w": 34, "h": 307 } },
+				{ "crop": { "x": 39, "y": 0, "w": 34, "h": 307 } },
+				{ "crop": { "x": 78, "y": 0, "w": 34, "h": 307 } },
+				{ "crop": { "x": 117, "y": 0, "w": 34, "h": 307 } },
+				{ "crop": { "x": 156, "y": 0, "w": 34, "h": 307 } },
+				{ "crop": { "x": 195, "y": 0, "w": 34, "h": 307 } },
+				{ "crop": { "x": 234, "y": 0, "w": 34, "h": 307 } },
+				{ "crop": { "x": 273, "y": 0, "w": 34, "h": 307 } }
+			]
+		}
+	},
+	{
+		"name": "toothpick-used",
+		"source": "./sprite-collection.png",
+		"crop": {
+			"x": 0,
+			"y": 312,
+			"w": 214,
+			"h": 1935
+		}
+	}
+]
