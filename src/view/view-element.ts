@@ -1,4 +1,5 @@
 import Engine from "../engine.js";
+import { MouseManager } from "../mouse.js";
 import { Canvas, Position2D, RenderingContext } from "../types.js";
 
 type ViewElementEventType = "click";
@@ -232,6 +233,42 @@ export abstract class ViewElement {
 
 		// Set the fillStyle
 		context.fillStyle = this.fill;
+	}
+
+	/**
+	 * Check if events need to be triggered, and dispatch them
+	 */
+	protected checkForUpdates(canvas:Canvas, context:RenderingContext) {
+		// If the sprite has any listeners
+		// Used to determine wether or not to check for mouse movement & clicks
+		// and swapping the cursor
+		let isListeningForEvent = this.eventListeners.length != 0;
+		
+
+		// Keep track if the mouse is hovering over the element
+		// Can only be true when there is at least one event listener
+		let isHovering = false;
+
+		// If there is an event listener, check if the mouse is hovering
+		if (isListeningForEvent) isHovering = this.isMouseHovering(context);
+
+		// If the mouse is hovering (and there is an event listener)
+		// Swap the cursor and dispatch the click event if possible
+		if (isHovering) {
+
+			// Swap the cursor
+			Engine.cursor = "pointer";
+
+			// If the mouse is clicking, dispatch the click event
+			if (MouseManager.buttons.left) {
+
+				// Dispatch the click event
+				this.dispatchEvent("click");
+
+				// Unclick the mouse
+				MouseManager.buttons.left = false;
+			}
+		}
 	}
 
 	protected abstract isMouseHovering(context:RenderingContext): boolean;

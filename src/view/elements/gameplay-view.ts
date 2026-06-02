@@ -82,6 +82,11 @@ export default class GameplayView extends View {
 		// Draw the gameplay background
 		this.renderGameplayBackground(canvas, context);
 
+		// Turn off the blurred shadow
+		context.shadowColor = "none";
+		context.shadowBlur = 0;
+		context.shadowOffsetY = 0;
+
 		// Draw the entities
 		this.renderEntities(canvas, context);
 		
