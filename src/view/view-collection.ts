@@ -94,10 +94,15 @@ export class ViewCollection extends View {
 		let subViewNames = viewNames.join("/");
 		
 		// If the highest-view is not a child of this view, stop
-		if (this.views.has(name) == false) {
+		if (this.views.has(viewName) == false) {
 
 			// Log an error
-			console.error(`Cannot show unset view of "${name}".`);
+			if (subViewNames) {
+				console.error(`Cannot show unset view of "${name}". Could not resolve "${viewName}".`);
+
+			} else {
+				console.error(`Cannot show unset view of "${name}".`);
+			}
 
 			return null;
 		}
