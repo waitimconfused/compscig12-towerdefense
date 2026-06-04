@@ -17,7 +17,7 @@ menuView.createView("start", mainMenu);
 
 // Book
 var book = new ViewRect()
-	.setAnchor(Engine.anchor.bottomLeft)
+	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(300, 0)
 	.setSize(750, 2000)
 	.setRotation(bookRotation, "deg")
@@ -29,7 +29,7 @@ mainMenu.addElement(book);
 // Title
 mainMenu.addElement(
 	new ViewText("Tower Defense")
-	.setAnchor(Engine.anchor.bottomLeft)
+	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
 		600*Math.cos(Math.PI/2 - bookRotationRad) + 300,
 		-600*Math.sin(Math.PI/2 - bookRotationRad)
@@ -44,7 +44,7 @@ mainMenu.addElement(
 // Play button
 mainMenu.addElement(
 	new ViewText("> play <")
-	.setAnchor(Engine.anchor.bottomLeft)
+	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
 		400*Math.cos(Math.PI/2 - bookRotationRad) + 300,
 		-400*Math.sin(Math.PI/2 - bookRotationRad)
@@ -62,7 +62,7 @@ mainMenu.addElement(
 // Credits button
 mainMenu.addElement(
 	new ViewText("credits")
-	.setAnchor(Engine.anchor.bottomLeft)
+	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
 		300*Math.cos(Math.PI/2 - bookRotationRad) + 300,
 		-300*Math.sin(Math.PI/2 - bookRotationRad)
@@ -91,7 +91,7 @@ creditsMenu.addElement(book);
 // Title
 creditsMenu.addElement(
 	new ViewText("Developed by:")
-	.setAnchor(Engine.anchor.bottomLeft)
+	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
 		600*Math.cos(Math.PI/2 - bookRotationRad) + 300,
 		-600*Math.sin(Math.PI/2 - bookRotationRad)
@@ -106,7 +106,7 @@ creditsMenu.addElement(
 // Names
 creditsMenu.addElement(
 	new ViewText("Kenneth E\nCassandra H\nBrendan D")
-	.setAnchor(Engine.anchor.bottomLeft)
+	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
 		450*Math.cos(Math.PI/2 - bookRotationRad) + 300,
 		-450*Math.sin(Math.PI/2 - bookRotationRad)
@@ -121,7 +121,7 @@ creditsMenu.addElement(
 // Main menu button
 creditsMenu.addElement(
 	new ViewText("> back <")
-	.setAnchor(Engine.anchor.bottomLeft)
+	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
 		150*Math.cos(Math.PI/2 - bookRotationRad) + 300,
 		-150*Math.sin(Math.PI/2 - bookRotationRad)

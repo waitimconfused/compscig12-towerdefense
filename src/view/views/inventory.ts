@@ -17,7 +17,7 @@ const CLOSE_BUTTON = new ViewSprite("close")
 	});
 
 const PLAYER_STATS_BUTTON = new ViewText("Player")
-	.setAnchor(Engine.anchor.topLeft)
+	.setAnchor(Engine.anchorPresets.topLeft)
 	.setTranslation( 100, 100 )
 	.setFont("Preahvihear", 64)
 	.setFill("black")
@@ -27,7 +27,7 @@ const PLAYER_STATS_BUTTON = new ViewText("Player")
 	});
 
 const CHARACTER_STATS_BUTTON = new ViewText("Character")
-	.setAnchor(Engine.anchor.topLeft)
+	.setAnchor(Engine.anchorPresets.topLeft)
 	.setTranslation( 400, 100 )
 	.setFont("Preahvihear", 64)
 	.setFill("black")
@@ -37,7 +37,7 @@ const CHARACTER_STATS_BUTTON = new ViewText("Character")
 	});
 
 const RECIPE_BUTTON = new ViewText("Recipe")
-	.setAnchor(Engine.anchor.topLeft)
+	.setAnchor(Engine.anchorPresets.topLeft)
 	.setTranslation( 850, 100 )
 	.setFont("Preahvihear", 64)
 	.setFill("black")
@@ -77,7 +77,7 @@ PLAYER_STATS.addEventListener("show", () => {
 
 		itemGroup.addElement(
 			new ViewText(`${item}\tx${count}`)
-			.setAnchor(Engine.anchor.centerCenter)
+			.setAnchor(Engine.anchorPresets.centerCenter)
 			.setTranslation(0, y * 150)
 			.setFont("Gamja Flower", 48)
 			.setStroke("none")
@@ -104,7 +104,7 @@ CHARACTER_STATS.addElement(RECIPE_BUTTON);
 
 CHARACTER_STATS.addElement(
 	new ViewSprite("sandwich-one")
-	.setAnchor(Engine.anchor.centerCenter)
+	.setAnchor(Engine.anchorPresets.centerCenter)
 )
 
 /**

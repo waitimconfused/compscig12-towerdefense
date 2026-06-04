@@ -1,4 +1,4 @@
-import Engine from "../engine.js";
+import Engine, { EngineAnchor } from "../engine.js";
 import { MouseManager } from "../mouse.js";
 import { Canvas, Position2D, RenderingContext } from "../types.js";
 
@@ -17,7 +17,7 @@ export type ViewElementStroke = {
 
 export abstract class ViewElement {
 
-	protected _anchor:symbol = Engine.anchor.topLeft;
+	protected _anchor:EngineAnchor = Engine.anchorPresets.topLeft;
 	protected _position:Position2D = [ 0, 0 ];
 
 	protected eventListeners:ViewElementEventListener[] = [];
@@ -69,15 +69,15 @@ export abstract class ViewElement {
 	 * @param anchor	See `Engine.anchor`
 	 * 					Defaults to `Engine.anchor.topLeft`
 	 */
-	public setAnchor(anchor?:symbol):this {
+	public setAnchor(anchor?: EngineAnchor):this {
 
 		// If there wasn't an anchor passed, set it to be the top-left of the screen
-		if (!anchor) anchor = Engine.anchor.topLeft;
+		if (!anchor) anchor = Engine.anchorPresets.topLeft;
 
 		// If the anchor is not one of the Engine's anchors,
 		// log an error and do not update the anchor
-		if ( Object.values(Engine.anchor).includes(anchor) == false ) {
-			console.error(`ViewElement cannot be anchored to an unknown anchor "${anchor.description}".`);
+		if ( Object.values(Engine.anchorPresets).includes(anchor) == false ) {
+			console.error(`ViewElement cannot be anchored to an unknown anchor "${anchor.resolver.toString()}".`);
 			return this;
 		}
 

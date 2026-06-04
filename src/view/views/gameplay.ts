@@ -26,7 +26,7 @@ stopButton.addEventListener("click", () => {
 
 let inventoryButton = new ViewSprite("close");
 gameplayView.addElement(inventoryButton);
-inventoryButton.setAnchor( Engine.anchor.topRight );
+inventoryButton.setAnchor( Engine.anchorPresets.topRight );
 inventoryButton.setTranslation(-100, 50);
 inventoryButton.setSize(50, 50);
 

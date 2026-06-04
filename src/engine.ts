@@ -1,4 +1,4 @@
-import { Position2D, RenderingContext } from "./types.js";
+import { Position2D, RenderingContext, StaticClass } from "./types.js";
 import { View } from "./view/view.js";
 import { ViewCollection } from "./view/view-collection.js";
 
@@ -17,21 +17,13 @@ type EngineStats = {
 	fps: number;
 
 	/**
-	 * Maximum amount of frames per second
-	 * 
-	 * Optional
-	 */
-	max_fps?: number;
-
-	/**
 	 * Process time of previous render tick
 	 */
 	lastRenderCall: number;
 };
 
 type EngineTimer = {
-	start: number;
-	duration: number;
+	trigger_time: number;
 	complete: ()=>void
 };
 
@@ -48,139 +40,252 @@ type CSSCursor = (
 	"zoom-in" | "zoom-out"
 );
 
-export default class Engine {
+export class EngineAnchor {
 
+	public readonly resolver: (width:number, height:number) => Position2D;
+
+	constructor( resolver: (width:number, height:number)=>Position2D ) {
+
+		this.resolver = resolver;
+
+	}
+}
+
+export default class Engine extends StaticClass {
+
+	/**
+	 * The canvas that represents the screen
+	 */
 	private static canvas:HTMLCanvasElement;
+
+	/**
+	 * The `RenderingContext` of `this.canvas`
+	 */
 	private static context:RenderingContext;
 
+	/**
+	 * An engine flag that stops the rendering loop when encountering an error
+	 * 
+	 * *Note*: `console.log` does not trigger this.
+	 * Only when errors are **thrown** (Example: `throw new Error("message")`)
+	 */
 	public static haltOnError:boolean = true;
 
+	/**
+	 * The internal information about the render loop
+	 */
 	private static _stats:EngineStats = {
 		delta: 0,
 		fps: 0,
-		max_fps: 60,
 		lastRenderCall:0
 	};
-	public static get stats() { return {
-		delta: this._stats.delta,
-		fps: this._stats.fps,
-	} }
 
+	/**
+	 * Information about the render loop
+	 */
+	public static get stats(): EngineStats {
+		// Create a cloned stats object
+		// 
+		// This prevents other people editing the actual
+		// stats, as it is no longer passed by reference
+		return structuredClone(this._stats);
+	}
+
+	/**
+	 * The name/key of the currently displayed view
+	 */
 	private static _currentView:string;
+
+	/**
+	 * The name/key of the currently displayed view
+	 */
 	public static get currentView() { return this._currentView; }
 
+	/**
+	 * A map of view-names and the view attached to it
+	 */
 	private static views:Map<string, View> = new Map<string, View>();
 
-	public static anchor = {
-		topLeft:		Symbol("Anchor:tl"),
-		topCenter:		Symbol("Anchor:tc"),
-		topRight:		Symbol("Anchor:tr"),
+	public static Anchor = EngineAnchor;
 
-		centerLeft:		Symbol("Anchor:cl"),
-		centerCenter:	Symbol("Anchor:cc"),
-		centerRight:	Symbol("Anchor:cr"),
+	/**
+	 * A bunch or preset anchors for the canvas
+	 */
+	public static anchorPresets = {
+		topLeft:		new EngineAnchor((w, h) => [ 0,   0   ]),
+		topCenter:		new EngineAnchor((w, h) => [ w/2, 0   ]),
+		topRight:		new EngineAnchor((w, h) => [ w,   0   ]),
 
-		bottomLeft:		Symbol("Anchor:bl"),
-		bottomCenter:	Symbol("Anchor:bc"),
-		bottomRight:	Symbol("Anchor:br"),
+		centerLeft:		new EngineAnchor((w, h) => [ 0,   h/2 ]),
+		centerCenter:	new EngineAnchor((w, h) => [ w/2, h/2 ]),
+		centerRight:	new EngineAnchor((w, h) => [ w,   h/2 ]),
+
+		bottomLeft:		new EngineAnchor((w, h) => [ 0,   h   ]),
+		bottomCenter:	new EngineAnchor((w, h) => [ w/2, h   ]),
+		bottomRight:	new EngineAnchor((w, h) => [ w,   h   ]),
 	}
 
+	/**
+	 * The web cursor that should be displayed using CSS
+	 */
 	public static cursor:CSSCursor = "default";
 
+	/**
+	 * A list of timers 
+	 */
 	public static timers:EngineTimer[] = [];
 
-	constructor() {
-		throw new TypeError("Engine is not a constructor");
-	}
-
+	/**
+	 * Set up the `Engine`, and start the rendering loop
+	 * 
+	 * @param canvas The canvas that will represent the screen to render onto
+	 */
 	public static initialize( canvas:HTMLCanvasElement ) {
+
+		// Update the internal canvas
 		this.canvas = canvas;
+
+		// Get the rendering-context of the canvas
 		this.context = canvas.getContext("2d") as RenderingContext;
 
+		// Start the rendering loop
 		this.render();
 
 	}
 
+	/**
+	 * Attach a `View` to the engine
+	 * 
+	 * @param name	The name/identifier of the view (See `this.currentView`)
+	 * @param view	The view instance to be rendered when visible (See `this.currentView`)
+	 */
 	public static createView(name:string, view:View) {
 
+		// If there is already a view with the same name, throw an error
 		if ( this.views.has(name) ) throw new Error(`Cannot create duplicate view of "${name}".`);
 
+		// Set the name/view pair
 		this.views.set(name, view);
 
+		// If the currentView has not been set yet, show the newly-made view
 		if (!this._currentView) this.showView(name);
 
 	}
 
+	/**
+	 * Show a view inside the engine
+	 * 
+	 * @param name	The name of the view to be shown
+	 * 
+	 * @returns		The view that will be shown. `null` means
+	 * 				that the view could not be found.
+	 */
 	public static showView(name:string):View|null {
 
-		
+		// Split the view-name by slashes
+		// Turns it into a list of view-collection/view paths
+		// Example: "path/to/view"
 		let viewNames = name.split("/");
 		
+		// Get the first view-name from the path
+		// Example: "path"
 		let viewName = viewNames.shift() as string;
+
+		// Join the rest of the view names
+		// Example: "to/view"
 		let subViewNames = viewNames.join("/");
 		
-		if (this.views.has(viewName) == false) {
+		// If the highest-view is not a child of this view, stop
+		if (this.views.has(name) == false) {
+
+			// Log an error
 			console.error(`Cannot show unset view of "${name}".`);
+
 			return null;
 		}
 
+		// Get the requested view
 		let view:View = this.views.get(viewName) as View;
-
+		
+		// If there are more paths, and the gotten view
+		// is a ViewCollection, give the paths to it to show
 		if (subViewNames && view instanceof ViewCollection) {
 			view.showView(subViewNames);
 		}
-
+		
+		// Get the current view
 		let currentView:View|undefined = this.views.get(this._currentView);
+
+		// Dispatch the "hide" event on the current view
 		if (currentView) currentView.dispatchEvent("hide");
 
+		// Dispatch the "show" event on the new view
 		view.dispatchEvent("show");
+
+		// Update the current view
 		this._currentView = viewName;
 		
-		return view ?? null;
+		return view;
 
 	}
 
+	/**
+	 * Render engine into the screen (see `Engine.initialize(canvas)`)
+	 */
 	private static render() {
 
+		// Set the cursor to be the default CSS cursor
+		// 
+		// Depending on if a rendered ViewElement overwrites
+		// this, the web cursor will visually change
 		this.cursor = "default";
 
+		// Get the current time
 		let currentTime = performance.now();
-		
+
+		// Calculate the delta-time
 		this._stats.delta = currentTime - this._stats.lastRenderCall;
-		
+
+		// Turn the delta-time into frames-per-seconds (rounded to the nearest 0.01)
 		this._stats.fps = 1000 / this._stats.delta;
 		this._stats.fps = Math.round(this._stats.fps * 100) / 100;
 
-		if (this._stats.max_fps && this._stats.delta < 1000 / this._stats.max_fps) {
-			window.requestAnimationFrame(() => this.render());
-			return;
-		}
-
+		// Loop through each created timer, and trigger
+		// it if its time is up
 		for (let i = 0; i < Engine.timers.length; i ++) {
+
+			// Get the current timer
 			let timer:EngineTimer = Engine.timers[i] as EngineTimer;
 
-			if (currentTime < timer.start + timer.duration) continue;
-			
+			// If the timer's time is not up, continue onto the next timer
+			if (currentTime < timer.trigger_time) continue;
+
+			// Call the timer's completion function
 			timer.complete();
 
+			// Remove the timer from the list, and bump the current index back by 1
+			// This prevents a timer from being skipped over
 			Engine.timers.splice(i, 1);
+			i -= 1;
 		}
 
+		// Update the canvas's size to match the window's size, if needed
 		if (this.canvas.width != window.innerWidth)		this.canvas.width = window.innerWidth;
 		if (this.canvas.height != window.innerHeight)	this.canvas.height = window.innerHeight;
 
+		// Clear the canvas
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		if (this.views.has(this._currentView)) {
 			let view:View = this.views.get(this._currentView) as View;
-			
+
 			try {
 				view.render( this.canvas, this.context );
 			} catch(e) {
 
 				// Reformat and log the error to the console
-				logFormattedError(e as Error);
-				
+				if (e instanceof Error) logFormattedError(e);
+
 				// If the haltOnError flag is true, stop rendering
 				if (Engine.haltOnError == true) {
 					// Warn that the engine has been stopped, with styles!
@@ -197,78 +302,69 @@ export default class Engine {
 
 		}
 
+		// Update the actual CSS cursor 
 		this.canvas.style.cursor = this.cursor;
 
+		// Update the last-render-call time to be the current (ish) time
 		this._stats.lastRenderCall = currentTime;
+
+		// Schedule an animation frame call
 		window.requestAnimationFrame(() => this.render());
 	}
 
-	public static resolveAnchor(anchor:symbol):Position2D {
+	/**
+	 * Turn an anchor into a screen-space position
+	 * 
+	 * @param anchor	The anchor to resolve
+	 * @returns			The screen-space position
+	 */
+	public static resolveAnchor(anchor:EngineAnchor):Position2D {
 
-		switch (anchor) {
-			case Engine.anchor.topLeft:
-				return [ 0,						0 ];
+		// Get the screen-space position from the anchor, based on the canvas/screen size
+		return anchor.resolver(this.canvas.width, this.canvas.height);
 
-			case Engine.anchor.topCenter:
-				return [ window.innerWidth/2,	0 ];
+	}
 
-			case Engine.anchor.topRight:
-				return [ window.innerWidth,		0 ];
+	/**
+	 * Return a promise that resolves after a set amount of time
+	 * 
+	 * *Note*: The precision of the timer depends on how fast the Engine can render
+	 * 
+	 * @param time	The duration of the timer (*measured in **milliseconds***)
+	 * @returns 
+	 */
+	public static wait(time:number):Promise<void> {
 
+		// Create & return a promise
+		return new Promise((complete) => {
 
-			case Engine.anchor.centerLeft:
-				return [ 0,						window.innerHeight/2 ];
-
-			case Engine.anchor.centerCenter:
-				return [ window.innerWidth/2,	window.innerHeight/2 ];
-
-			case Engine.anchor.centerRight:
-				return [ window.innerWidth,		window.innerHeight/2 ];
-
-
-			case Engine.anchor.bottomLeft:
-				return [ 0,						window.innerHeight ];
-
-			case Engine.anchor.bottomCenter:
-				return [ window.innerWidth/2,	window.innerHeight ];
-
-			case Engine.anchor.bottomRight:
-				return [ window.innerWidth,		window.innerHeight ];
-
+			// Create a new timer
+			Engine.timers.push({
 				
-			default:
-				console.error(`Unknown anchor "${anchor.description}".`);
-				return [ 0, 0 ];
-		}
+				// The timestamp that the timer should be triggered after
+				// is equal to the current time plus the timer duration 
+				trigger_time: performance.now() + time,
+
+				// Pass the promise resolution function as the
+				// function to call when the timer has completed
+				complete: complete
+			});
+		})
+
 	}
 }
 
-export function wait(time:number):Promise<void> {
-
-	return new Promise((complete) => {
-		Engine.timers.push({
-			start: performance.now(),
-			duration: time,
-			complete: complete
-		});
-  })
-
-}
-
 function logFormattedError(error:Error) {
-				
+
 	// Get the errors type/name, message, and files/stack
 	let name:string = error.name as string;
 	let message:string = error.message as string;
 	let stack:string = error.stack as string;
 
-	type StackParts = [string, string];
-	type LineParts = [ string, string ];
+	// Remove all the stack paths that are related to "window.requestAnimationFrame"
+	stack = stack.replace(/\nFrameRequestCallback[\s\S]*$/, "");
 
-	// Remove all files after "FrameRequestCallback"
-	let regex:RegExp = /^([\s\S]*?)FrameRequestCallback/g;
-	let stackStart:StackParts = stack.match(regex) as StackParts;
-	stack = stackStart[0].replace("\nFrameRequestCallback", "");
+	type LineParts = [ string, string ];
 
 	// Get a list of all lines inside the stack
 	let lines:string[] = stack.split("\n");
@@ -283,7 +379,8 @@ function logFormattedError(error:Error) {
 		let lineParts:LineParts = line.split("@") as LineParts;
 
 		let preLink:string = lineParts[0];
-		
+		preLink = preLink.replace("/<", "");
+
 		maxPreLinkLength = Math.max(maxPreLinkLength, preLink.length);
 	}
 
@@ -294,8 +391,10 @@ function logFormattedError(error:Error) {
 		let lineParts:LineParts = line.split("@") as LineParts;
 
 		// Get the pre-link and link
-		let preLink:string = lineParts[0];
-		let link:string = lineParts[1];
+		let preLink:string = lineParts[0] ?? "";
+		let link:string = lineParts[1] ?? "";
+
+		preLink = preLink.replace("/<", "");
 
 		// Reformat the links to have the locations in brackets					
 		link = link.replace(/:(\d+):(\d+)/gm, " (line $1, char $2)");
@@ -305,7 +404,7 @@ function logFormattedError(error:Error) {
 
 		// Update the line string
 		line = preLink + separator + link;
-		
+
 		// Put the updated line string back into the array
 		lines[i] = line;
 	}
@@ -314,5 +413,5 @@ function logFormattedError(error:Error) {
 	stack = lines.join("\n");
 
 	// Log the error
-	console.error(`${name}: ${message}\n${stack}`);
+	console.error(`${name}: ${message}\n\n${stack}`);
 }
