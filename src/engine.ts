@@ -307,6 +307,15 @@ export default class Engine extends StaticClass {
 
 		}
 
+		this.context.globalCompositeOperation = "source-over";
+		this.context.fillStyle = "black";
+		this.context.font = "64px monospace"
+		this.context.textAlign = "left";
+		this.context.textBaseline = "bottom";
+
+		this.context.fillText(`FPS: ${this.stats.fps}`, 32, this.canvas.height-32);
+
+
 		// Update the actual CSS cursor 
 		this.canvas.style.cursor = this.cursor;
 

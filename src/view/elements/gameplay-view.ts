@@ -70,22 +70,8 @@ export default class GameplayView extends View {
 		// Move where the entities and gameplayBackground will be rendered
 		context.translate(-GameplayView.playSpaceSize[0]/2, -GameplayView.playSpaceSize[1]/2);
 		
-		// Draw a rounded rectangle with a shadow
-		context.beginPath();
-		context.shadowColor = "#0000000F";
-		context.shadowBlur = 10;
-		context.shadowOffsetY = 4;
-		context.roundRect(0, 0, GameplayView.playSpaceSize[0], GameplayView.playSpaceSize[1], 8);
-		context.closePath();
-		context.fill();
-
 		// Draw the gameplay background
 		this.renderGameplayBackground(canvas, context);
-
-		// Turn off the blurred shadow
-		context.shadowColor = "none";
-		context.shadowBlur = 0;
-		context.shadowOffsetY = 0;
 
 		// Draw the entities
 		this.renderEntities(canvas, context);
@@ -162,13 +148,15 @@ export default class GameplayView extends View {
 	protected renderEntities( canvas:Canvas, context:RenderingContext ) {
 
 		// Get a list of entities to render
-		let entities = [ ...Entity.entities.values() ];
+		let entities = [ ...Entity.entities.keys() ];
 
 		// Sort the entities to be back-to front
 		// Enemies closer to the top will be rendered
 		// behind ones closer to the bottom of the screen
 		// More info: [JavaScript Array.prototype.sort method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#description)
-		entities.sort((entity1, entity2) => {
+		entities.sort((id1, id2) => {
+			let entity1:Entity = Entity.entities.get(id1) as Entity;
+			let entity2:Entity = Entity.entities.get(id2) as Entity;
 			// POSITIVE: entity1 before entity2
 			// NEGATIVE: entity2 before entity1
 			// ZERO/NAN: no changes
@@ -179,8 +167,10 @@ export default class GameplayView extends View {
 		// Loop through each entity, updating it and rendering
 		for (let i = 0; i < entities.length; i ++) {
 
+			let id = entities[i] as string;
+
 			// Get the current entity
-			let entity:Entity = entities[i] as Entity;
+			let entity:Entity = Entity.entities.get(id) as Entity;
 
 			// Take note of which state the entity is in before updating it
 			// Used to reset animation states if a change has been detected
