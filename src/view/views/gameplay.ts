@@ -31,7 +31,7 @@ inventoryButton.setTranslation(-100, 50);
 inventoryButton.setSize(50, 50);
 
 inventoryButton.addEventListener("click", () => {
-	Engine.showView("inventory/page-1");
+	Engine.showView("inventory/player-stats");
 });
 
 gameplayView.addEventListener("show", () => {
