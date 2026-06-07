@@ -53,19 +53,19 @@ export class Corn extends DefenderEntity{
 	 */
 	public async brain() {
 		//store the closest enemy entity nearby from the Corn
-		let closestEntity = Entity.nearestEntity(this, EnemyEntity) as EnemyEntity | undefined;
+		let closestEnemy = Entity.nearestEntity(this, EnemyEntity) as EnemyEntity | undefined;
 
 		//if there are no entities nearby, don't continue running the code
-		if (!closestEntity) return;
+		if (!closestEnemy) return;
 
 		//store the distance between the enemy and the corn
-		let distance = Entity.getDistance(this, closestEntity);
+		let distance = Entity.getDistance(this, closestEnemy);
 
 		//if the distance between the enemy and the corn is less than or equal to 45 pixels, 
 		// and Corn has not been stunned, start attacking
 		//the corn will shoot/summon a kernel between the position of the Corn and the enemy
 		if (distance <= 45 && this.stunned == false){
-			new Kernel(this.position, closestEntity);
+			new Kernel(this.position, closestEnemy);
 			
 			//change the Corn's state to shooting
 			this.state = "shoot";
@@ -103,7 +103,7 @@ export class Kernel extends Corn{
 	public override attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
 		return new Promise ((resolve) =>{
 			if (this.stunned) {
-				resolve({ interrupt_type: "stunned" });
+				resolve({ interrupt_type: 'stunned' });
 			}
 			//attack enemy entity
 			entity.dealDamage(this.stats.damage as number, this);
