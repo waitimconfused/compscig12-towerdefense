@@ -50,7 +50,10 @@ export default class GameplayView extends View {
 	}
 		
 	public override render( canvas:Canvas, context:RenderingContext ) {
-		
+
+		// Render the background
+		super.render(canvas, context, true, false);
+
 		// Determine what scale the entities (and background) should be displayed as
 		// Figure out by finding the smallest horizontal and vertical ratios (with padding)
 		let appropriateScale = Math.min(
@@ -81,11 +84,6 @@ export default class GameplayView extends View {
 
 		// Render the ViewElement children
 		super.render(canvas, context, false, true);
-
-		// Render the view background BEHIND all the rendered content
-		context.globalCompositeOperation = "destination-over"; // New content goes BEHIND old
-		super.render(canvas, context, true, false);
-		context.globalCompositeOperation = "source-over"; // New content goes IN FRONT of old
 
 	}
 
@@ -154,14 +152,14 @@ export default class GameplayView extends View {
 		// Enemies closer to the top will be rendered
 		// behind ones closer to the bottom of the screen
 		// More info: [JavaScript Array.prototype.sort method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#description)
-		entities.sort((id1, id2) => {
-			let entity1:Entity = Entity.entities.get(id1) as Entity;
-			let entity2:Entity = Entity.entities.get(id2) as Entity;
-			// POSITIVE: entity1 before entity2
-			// NEGATIVE: entity2 before entity1
-			// ZERO/NAN: no changes
-			return entity1.position[1] - entity2.position[1];
-		});
+		// entities.sort((id1, id2) => {
+		// 	let entity1:Entity = Entity.entities.get(id1) as Entity;
+		// 	let entity2:Entity = Entity.entities.get(id2) as Entity;
+		// 	// POSITIVE: entity1 before entity2
+		// 	// NEGATIVE: entity2 before entity1
+		// 	// ZERO/NAN: no changes
+		// 	return entity1.position[1] - entity2.position[1];
+		// });
 
 
 		// Loop through each entity, updating it and rendering

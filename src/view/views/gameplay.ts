@@ -39,7 +39,10 @@ gameplayView.addEventListener("show", () => {
 	if (hasPlayed) return;
 
 	Wave.newWave();
-	Sandwich.spawn(1, [ window.innerWidth/2, window.innerHeight/2 ]);
+	Sandwich.spawn(1, [
+		GameplayView.playSpaceSize[0]/2,
+		GameplayView.playSpaceSize[1]/2
+	]);
 
 	hasPlayed = true;
 });

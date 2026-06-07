@@ -313,7 +313,19 @@ export default class Engine extends StaticClass {
 		this.context.textAlign = "left";
 		this.context.textBaseline = "bottom";
 
-		this.context.fillText(`FPS: ${this.stats.fps}`, 32, this.canvas.height-32);
+		this.fpsList.push(this.stats.fps);
+		
+		if (this.fpsList.length > this.fpsListLength) this.fpsList.shift();
+
+		let averageFps = 0;
+
+		for (let i = 0; i < this.fpsList.length; i ++) {
+			averageFps += this.fpsList[i] as number;
+		}
+
+		averageFps /= this.fpsList.length;
+
+		this.context.fillText(`FPS: ${averageFps.toFixed(2)}`, 32, this.canvas.height-32);
 
 
 		// Update the actual CSS cursor 
@@ -325,6 +337,9 @@ export default class Engine extends StaticClass {
 		// Schedule an animation frame call
 		window.requestAnimationFrame(() => this.render());
 	}
+
+	private static fpsList:number[] = [];
+	private static fpsListLength = 200;
 
 	/**
 	 * Turn an anchor into a screen-space position

@@ -757,20 +757,22 @@ export abstract class Entity {
 		let nearestDistance = Infinity;
 
 		// Get an array of all entities
-		let entities = [ ...Entity.entities.values() ];
+		let entityIds = [ ...Entity.entities.keys() ];
 
 		// Loop through each Entity instance
-		for (let i = 0; i < entities.length; i ++) {
+		for (let i = 0; i < entityIds.length; i ++) {
+
+			let id = entityIds[i] as string;
 
 			// Get the current entity
-			let entity = entities[i] as Entity;
+			let entity = Entity.entities.get(id) as Entity;
 
 			// If a selector has been set, and the entity is
 			// not an instance of it, move onto the next entity
 			if (selector && entity instanceof selector == false) continue;
 
 			// Get the distance between the origin entity and the current entity
-			let distance = this.getDistance(origin,entity);
+			let distance = this.getDistance(origin, entity);
 
 			// If the distance is less than the past nearest distance,
 			// Update the stored entity and the stored distance
@@ -826,7 +828,10 @@ export abstract class Entity {
 
 
 	public static getDistance(origin:Entity, target: Entity) : number {
-		return Math.hypot(target.position[0] - origin.position[0], target.position[1] - origin.position[1]);
+		return Math.hypot(
+			target.position[0] - origin.position[0],
+			target.position[1] - origin.position[1]
+		);
 
 	}
 
