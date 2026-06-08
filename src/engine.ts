@@ -1,6 +1,9 @@
 import { Position2D, RenderingContext, StaticClass } from "./types.js";
 import { View } from "./view/view.js";
 import { ViewCollection } from "./view/view-collection.js";
+import { ViewElementCollection } from "./view/view-element-collection.js";
+import { ViewText } from "./view/elements/text.js";
+import { ViewElement } from "./view/view-element.js";
 
 
 type EngineStats = {
@@ -72,6 +75,18 @@ export default class Engine extends StaticClass {
 	public static haltOnError:boolean = true;
 
 	/**
+	 * An engine flag that displays debug info
+	 * 
+	 * - FPS
+	 * - Current View
+	 * - Cursor
+	 * at the bottom-left corner of the canvas/screen
+	 */
+	public static showDebugInfo:boolean = false;
+
+	private static debugInfo:ViewElementCollection;
+
+	/**
 	 * The internal information about the render loop
 	 */
 	private static _stats:EngineStats = {
@@ -95,6 +110,13 @@ export default class Engine extends StaticClass {
 	 * The name/key of the currently displayed view
 	 */
 	private static _currentView:string;
+
+	/**
+	 * The full name/key of the views. Example: "grandparent/parent/child"
+	 */
+	private static _currentViewFullPath:string;
+
+	public static get currentViewFullPath() { return this._currentViewFullPath }
 
 	/**
 	 * The name/key of the currently displayed view
@@ -147,6 +169,51 @@ export default class Engine extends StaticClass {
 
 		// Get the rendering-context of the canvas
 		this.context = canvas.getContext("2d") as RenderingContext;
+
+		let fpsList:number[] = [];
+		let deltaList:number[] = [];
+		let listLength = 100;
+
+		this.debugInfo = new ViewElementCollection(
+			new ViewText("VIEW: undefined")
+			.setTranslation(16, 16)
+			.setFont("monospace", 16)
+			.setFill("black")
+			.setStroke("none")
+			.addEventListener("pre-render", (element) => {
+				element.content = `VIEW: ${Engine.currentViewFullPath}`;
+			}),
+			new ViewText("FPS: undefined")
+			.setAnchor( this.anchorPresets.bottomLeft )
+			.setTranslation(16, -16)
+			.setFont("monospace", 16)
+			.setAlignment("left", "bottom")
+			.setFill("black")
+			.setStroke("none")
+			.addEventListener("pre-render", (element) => {
+
+				fpsList.push(Engine.stats.fps);
+				while (fpsList.length > listLength) fpsList.shift();
+
+				let averageFps = 0;
+				for (let i = 0; i < fpsList.length; i ++) {
+					averageFps += fpsList[i] as number;
+				}
+				averageFps /= fpsList.length;
+
+				deltaList.push(Engine.stats.delta);
+				while (deltaList.length > listLength) deltaList.shift();
+
+				let averageDelta = 0;
+				for (let i = 0; i < deltaList.length; i ++) {
+					averageDelta += deltaList[i] as number;
+				}
+				averageDelta /= deltaList.length;
+
+				element.content = `FPS: ${averageFps.toFixed(2)} (${averageDelta.toFixed(2)} ms/frame)`;
+			})
+
+		);
 
 		// Start the rendering loop
 		this.render();
@@ -229,6 +296,7 @@ export default class Engine extends StaticClass {
 
 		// Update the current view
 		this._currentView = viewName;
+		this._currentViewFullPath = name;
 		
 		return view;
 
@@ -307,26 +375,7 @@ export default class Engine extends StaticClass {
 
 		}
 
-		this.context.globalCompositeOperation = "source-over";
-		this.context.fillStyle = "black";
-		this.context.font = "64px monospace"
-		this.context.textAlign = "left";
-		this.context.textBaseline = "bottom";
-
-		this.fpsList.push(this.stats.fps);
-		
-		if (this.fpsList.length > this.fpsListLength) this.fpsList.shift();
-
-		let averageFps = 0;
-
-		for (let i = 0; i < this.fpsList.length; i ++) {
-			averageFps += this.fpsList[i] as number;
-		}
-
-		averageFps /= this.fpsList.length;
-
-		this.context.fillText(`FPS: ${averageFps.toFixed(2)}`, 32, this.canvas.height-32);
-
+		if (this.showDebugInfo) this.debugInfo.render(this.canvas, this.context);
 
 		// Update the actual CSS cursor 
 		this.canvas.style.cursor = this.cursor;
@@ -444,3 +493,38 @@ function logFormattedError(error:Error) {
 	// Log the error
 	console.error(`${name}: ${message}\n\n${stack}`);
 }
+
+
+// type Callback<T> = (instance:T) => void;
+
+// class Parent {
+
+// 	protected listeners: Callback<any>[] = [];
+
+// 	addEventListener<Class extends this>( callback:Callback<Class> ) {
+
+// 		this.listeners.push(callback);
+
+
+// 		this.listeners[0]!(this);
+// 	}
+
+// 	public dispatchEvent<Class extends this>() {
+
+// 		let callback = this.listeners[0] as Callback<Class>;
+
+// 		callback
+
+// 	}
+
+// }
+
+// class Child extends Parent {
+
+// }
+
+// let child = new Child;
+
+// child.addEventListener((instance) => {
+
+// })

@@ -5,12 +5,12 @@ import { SpriteRenderer } from "./sprites.js";
 import { ViewText } from "./view/elements/text.js";
 import viewFiles from "./view/files.json" with { type: "json" };
 
-let searchParams = new URLSearchParams(window.location.search);
 
 
+Engine.showDebugInfo = true;
 
 // Set which view to show once all the loading is done
-const defaultView = "main-menu";
+const defaultView = "main-menu/start";
 
 // Turn off comments
 SpriteRenderer.verbose = false;
@@ -18,7 +18,7 @@ SpriteRenderer.verbose = false;
 // Disable all the mouse events we don't want
 MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
-// MouseManager.preventZoom = true;s
+MouseManager.preventZoom = true;
 
 ViewText.addFont("Preahvihear", "/fonts/preahvihear.ttf");
 ViewText.addFont("Gamja Flower", "/fonts/gamja-flower.ttf");

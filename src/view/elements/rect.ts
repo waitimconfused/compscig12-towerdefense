@@ -49,6 +49,8 @@ export class ViewRect extends ViewElement {
 
 	public override render(canvas: Canvas, context: RenderingContext): void {
 
+		this.dispatchEvent("pre-render");
+
 		// Save the context's transformations
 		context.save();
 
@@ -72,6 +74,8 @@ export class ViewRect extends ViewElement {
 
 		// Restore the context's transformations
 		context.restore();
+
+		this.dispatchEvent("post-render");
 
 	}
 }

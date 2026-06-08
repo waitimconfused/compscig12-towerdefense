@@ -2,10 +2,9 @@ import Engine, { EngineAnchor } from "../engine.js";
 import { MouseManager } from "../mouse.js";
 import { Canvas, Position2D, RenderingContext } from "../types.js";
 
-type ViewElementEventType = "click";
-type ViewElementEventListener = { type: ViewElementEventType, callback: ()=> void };
+type ViewElementEventType = "click" | "pre-render" | "post-render";
 
-export type ViewCallbackFunction = ( ()=>void );
+export type ViewCallbackFunction<T> = (element:T) => void;
 export type ViewElementStroke = {
 	colour: string | CanvasGradient | CanvasPattern,
 	size: number,
@@ -20,7 +19,11 @@ export abstract class ViewElement {
 	protected _anchor:EngineAnchor = Engine.anchorPresets.topLeft;
 	protected _position:Position2D = [ 0, 0 ];
 
-	protected eventListeners:ViewElementEventListener[] = [];
+	protected eventListeners: { [key in ViewElementEventType]: ViewCallbackFunction<any>[] } = {
+		"click": [],
+		"pre-render": [],
+		"post-render": []
+	};
 
 	/**
 	 * The real position of the `ViewElement`.
@@ -150,10 +153,10 @@ export abstract class ViewElement {
 	 * @param type		What kind of event should trigger the `callback` function
 	 * @param callback	The callback function that gets triggered when the appropriate event is dispatched
 	 */
-	public addEventListener(type:ViewElementEventType, callback: ViewCallbackFunction ): this {
+	public addEventListener<Instance extends this>(type:ViewElementEventType, callback: ViewCallbackFunction<Instance> ): this {
 
 		// Add the event listener to the stack
-		this.eventListeners.push({ type, callback });
+		this.eventListeners[type].push(callback);
 
 		return this;
 	}
@@ -161,18 +164,13 @@ export abstract class ViewElement {
 	public dispatchEvent(type:ViewElementEventType) {
 
 		// Loop through each event listener, calling their callbacks
-		// if they are the correct event listener
-		for (let i = 0; i < this.eventListeners.length; i ++) {
+		for (let i = 0; i < this.eventListeners[type].length; i ++) {
 
 			// Get the listener
-			let listener = this.eventListeners[i] as ViewElementEventListener;
-
-			// If the listener's type is not the event being dispatched
-			// don't do anything, just continue to the next listener
-			if (listener.type != type) continue;
+			let callback = this.eventListeners[type][i] as ViewCallbackFunction<ViewElement>;
 
 			// Call the listener's callback function
-			listener.callback();
+			callback(this);
 		}
 
 	}
@@ -242,7 +240,7 @@ export abstract class ViewElement {
 		// If the sprite has any listeners
 		// Used to determine wether or not to check for mouse movement & clicks
 		// and swapping the cursor
-		let isListeningForEvent = this.eventListeners.length != 0;
+		let hasClickEvent = (this.eventListeners.click.length > 0);
 		
 
 		// Keep track if the mouse is hovering over the element
@@ -250,7 +248,7 @@ export abstract class ViewElement {
 		let isHovering = false;
 
 		// If there is an event listener, check if the mouse is hovering
-		if (isListeningForEvent) isHovering = this.isMouseHovering(context);
+		if (hasClickEvent) isHovering = this.isMouseHovering(context);
 
 		// If the mouse is hovering (and there is an event listener)
 		// Swap the cursor and dispatch the click event if possible

@@ -8,6 +8,12 @@ export class ViewElementCollection {
 	 */
 	public children:(ViewElement|ViewElementCollection)[] = [];
 
+	constructor(...elements:(ViewElement|ViewElementCollection)[]) {
+
+		this.addElement(...elements);
+
+	}
+
 	/**
 	 * Add `ViewElement`s to the collection, to will be rendered onscreen
 	 * 
