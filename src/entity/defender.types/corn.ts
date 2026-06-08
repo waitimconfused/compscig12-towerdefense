@@ -86,8 +86,6 @@ export class Kernel extends Corn{
 	//label the kind of entity corn is - a defender
 	public override entityType = "defender/Kernel";
 
-	static override baseStats: DefenderEntityStats;
-
 	//use the corn's position and store the tracked target into the kernel's target property
 	constructor(position: Position2D, target: EnemyEntity){
 		super(position);
