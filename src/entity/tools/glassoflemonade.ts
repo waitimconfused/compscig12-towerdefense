@@ -5,27 +5,27 @@ import { StatusEffects } from "../statusEffects.js";
 import { Tool } from "./tool.js";
 
 export class GlassOfLemonade extends Tool{
-	//entity type is the tool glass of lemonade
+	//Entity type is the tool glass of lemonade
 	public override entityType = "tool/glassoflemonade";
-	//constant for tool name - to be used when creating tool and not make spelling errors
+	//Constant for tool name - to be used when creating tool and not make spelling errors
 	public override TOOL_NAME: string = "GLASS_OF_LEMONADE";
 
-	//a linear array is used for tool requirements so that the requirements can be searched through and analysed 
-	//when assessing of the player has sufficient items to create it
+	//A linear array is used for tool requirements so that the requirements can be searched through and analysed 
+	//When assessing of the player has sufficient items to create it
 
-	//requirements for making glass of lemonade
+	//Requirements for making glass of lemonade
 	public override toolRequirements : Array<InventoryItemTag> = ['jar','coin'];
-	//the total amount of each item for the lemonade
+	//The total amount of each item for the lemonade
 	public override toolRequirementsValue : Array<number> = [1,50];
 	
-	/**base stats of Glass of Lemonade */
+	/**Base stats of Glass of Lemonade */
 	public static override baseStats: EntityStats = {
 		health: 20,
-		speed: 0.4,
-		damage: 10,
-		knockBack: 10,
-		spawnCoolDown : 3,
-		attackCoolDown : 3,
+		speed: 0,
+		damage: 0,
+		knockBack: 0,
+		spawnCoolDown : 0,
+		attackCoolDown : 0,
 		stunChance : 0,
 		stunDuration : 0,
 		slowDuration : 0,
@@ -39,23 +39,23 @@ export class GlassOfLemonade extends Tool{
 
 
 	public async brain(){
-		//wait for 6 frames
+		//Wait for 6 frames
 		await this.wait(600);
-		//spawn in the ice cubes
-		//the animation should flow between the glass falling and the ice cubes spawning droppig onto the ground
+		//Spawn in the ice cubes
+		//The animation should flow between the glass falling and the ice cubes spawning droppig onto the ground
 		new IceCube(this.position);
 	}
 }
 
-//when the lemonade glass falls the ice cube remains/spawns
+//When the lemonade glass falls the ice cube remains/spawns
 export class IceCube extends GlassOfLemonade {
-	//entity type is tool ice cube
+	//Entity type is tool ice cube
 	public override entityType = "tool/ice-cube";
 
-	//duration the ice cube states at their current state
+	//Duration the ice cube states at their current state
 	private iceCubeMelting : number = 5000;
 
-	//the sprite number they are currently on
+	//The sprite number they are currently on
 	private iceCubeStateNumber : number = 4;
 
 	public override async brain(){
@@ -74,19 +74,19 @@ export class IceCube extends GlassOfLemonade {
 			return;
 		}
 
-		//change the state of the ice cube as time goes on to show it is melting
+		//Change the state of the ice cube as time goes on to show it is melting
 		while (this.iceCubeMelting != 0){
-			//change the state based off of their current state number
+			//Change the state based off of their current state number
 			this.state = String('ice-cube' + (this.iceCubeStateNumber-1));
-			//wait for as long as the current duration
+			//Wait for as long as the current duration
 			await this.wait(this.iceCubeMelting);
 
-			//update the upcoming state number and melting duration
+			//Update the upcoming state number and melting duration
 			this.iceCubeStateNumber --;
 			this.iceCubeMelting -= 1000;
 		}
 
-		//once iceCubeMelting reaches 0, the ice cube has evaporated, and dies
+		//Once iceCubeMelting reaches 0, the ice cube has evaporated, and dies
 		this.stats.health = 0;
 	}
 }

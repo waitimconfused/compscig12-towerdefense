@@ -3,17 +3,27 @@ import { EntityStats } from "../entity.js";
 import { Tool } from "./tool.js";
 
 export class Toothpick extends Tool{
+	//Entity type is toothpick tool
 	public override entityType = "tool/toothpick";
-	private requirements = new Map<InventoryItemTag,number>();
+	//Constant for tool name - to be used when creating tool and not make spelling errors
+	public override TOOL_NAME: string = "GLASS_OF_LEMONADE";
+
+	//a linear array is used for tool requirements so that the requirements can be searched through and analysed 
+	//when assessing of the player has sufficient items to create it
+
+	//requirements for making glass of lemonade
+	public override toolRequirements : Array<InventoryItemTag> = ['jar','coin'];
+	//the total amount of each item for the lemonade
+	public override toolRequirementsValue : Array<number> = [1,50];
 	
 	/**base stats of Glass of Lemonade */
 	public static override baseStats: EntityStats = {
 		health: 20,
-		speed: 0.4,
+		speed: 0,
 		damage: 10,
-		knockBack: 10,
-		spawnCoolDown : 3,
-		attackCoolDown : 3,
+		knockBack: 0,
+		spawnCoolDown : 0,
+		attackCoolDown : 0,
 		stunChance : 0,
 		stunDuration : 0,
 		slowDuration : 0,
@@ -21,18 +31,11 @@ export class Toothpick extends Tool{
 		aoeRange : 0,
 	}
 
-	public override toolRequirements: Map<InventoryItemTag, number>;
-
-	public override canCreateTool(requirements: Array<InventoryItemTag>): boolean {
-		return true;
-	}
-	protected onDeath(){
-		
-	}
-
 	public async brain(){
-		
+		this.state = "idle";
+
 	}
+}
 
 	
 
