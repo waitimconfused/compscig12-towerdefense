@@ -1,9 +1,11 @@
+import { Cherry } from "./entity/defender.types/cherry.js";
+import { Corn } from "./entity/defender.types/corn.js";
+import { Strawberry } from "./entity/defender.types/strawberry.js";
 import { EnemyEntity } from "./entity/enemy.js";
 import { Ant } from "./entity/enemy.types/ant.js";
 import { Frog } from "./entity/enemy.types/frog.js";
 import { Raccoon } from "./entity/enemy.types/raccoon.js";
 import { Wasp } from "./entity/enemy.types/wasp.js";
-import { Entity } from "./entity/entity.js";
 
 /**
  * Class to handle waves and enemy behaviour after each wave
@@ -54,6 +56,8 @@ export class Wave {
 		
 		// Spawns an ant every wave
 		Ant.antSpawn([0,0],100);
+
+		Strawberry.spawn(1,[100,500],2);
 		
 		// Spawns a frog every 2 waves
 		if (this._waveNumber % 2 == 0) {
