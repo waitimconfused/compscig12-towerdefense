@@ -10,7 +10,7 @@ export class ViewElementCollection {
 
 	constructor(...elements:(ViewElement|ViewElementCollection)[]) {
 
-		this.addElement(...elements);
+		if (elements.length > 0) this.addElement(...elements);
 
 	}
 

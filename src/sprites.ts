@@ -285,15 +285,15 @@ export class SpriteRenderer extends StaticClass {
 	/**
 	 * Get the realtime `HTMLImageElement` and crop-regions of a sprite
 	 * 
-	 * @param reference The string-name of the `SpriteData.name` value
+	 * @param reference		The string-name of the `SpriteData.name` value
 	 * 
-	 * @param time		The time used for determining the animation frame,
-	 * 					measured in *milliseconds*.
+	 * @param forced_time	The time used for determining the animation frame,
+	 * 						measured in *milliseconds*.
 	 * 
-	 * @returns			A `RenderableSpriteData` object, or null (sprite
-	 * 					does not exist, or fatal error)
+	 * @returns				A `RenderableSpriteData` object, or null (sprite
+	 * 						does not exist, or fatal error)
 	 */
-	private static getData(reference:Sprite, animation_offset?:number):RenderableSpriteData|null {
+	private static getData(reference:Sprite, forced_time?:number):RenderableSpriteData|null {
 
 		// If the sprite could not be found, log it in the console as an
 		// error, and return null.
@@ -322,66 +322,59 @@ export class SpriteRenderer extends StaticClass {
 		// different crop region
 		let crop = data?.crop ?? { x:0, y:0, w:image.width, h:image.height };
 
-		// If the sprite has an animation, update the
-		// image/source if it isn't inherited and
-		// update the crop region if it isn't the full image
-		if (data?.animation) {
-			
-			// The duration of the entire animation, to be set in
-			// the following `if` statements
-			let duration:number = 0;
+		// If the sprite has no animation, return the image and cropping
+		// data, without applying any animation logic
+		if (!data?.animation) return { image, crop };
 
-			let frameCount = reference?.animation_frames?.length ?? data.animation.frames.length;
+		// Get the number of frames
+		let frameCount = reference?.animation_frames?.length ?? data.animation.frames.length;
 
-			// If the animation duration has been set, use it
-			// Meaning, `duration` is the default
-			if (data.animation.duration) {
-				duration = data.animation.duration;
-			
-			// If `duration` is unset, but `frame_duration` is, use that
-			} else if (data.animation.frame_duration) {
-				// Set duration to the frame duration * number of frames
-				// to get the length of the animation
-				duration = data.animation.frame_duration * frameCount;
-			
-			// If neither `duration` or `frame_duration` has been set,
-			// Use `100ms/frame` (`frame_duration=100`)
-			} else {
-				// Set duration to 100ms * number of frames
-				// to get the length of the animation
-				duration = 100 * frameCount;
-			}
+		// The duration of the entire animation
+		let duration:number = (
 
-			// Calculate the speed of the animation
-			let speed:number = duration / frameCount;
-			
-			// Store the animation offset, defaulting to 0ms
-			let offset:number = data.animation?.offset ?? 0;
-			
-			// Calculate what frame should be shown, based on the time,
-			// animation offset, animation speed, and how many frames the
-			// animation has
-			let frameIndex = (performance.now() - offset - (animation_offset??0)) / speed;
-			frameIndex = Math.floor(frameIndex);
-			frameIndex = frameIndex % frameCount;
+			// Total animation duration
+			data.animation?.duration
 
-			// Store a reference to the correct animation frame
-			let frame = data.animation.frames[frameIndex];
+			// Convert frame durations to animation duration (fallback)
+			|| (
+				// Duration of each frame
+				data.animation?.frame_duration
+				// Fallback duration of each frame
+				|| 100
+			) * frameCount
+		);
 
-			if (reference.animation_frames) {
-				let realFrameIndex = reference.animation_frames[frameIndex] as number;
-				frame = data.animation.frames[ realFrameIndex ];
-			}
+		// Calculate the speed of the animation
+		let speed:number = duration / frameCount;
+		
+		// Store the animation offset, defaulting to 0ms
+		let offset:number = data.animation?.offset ?? 0;
+		offset += reference.animation_offset ?? 0;
 
-			// If the frame has a specific source (not inherited), set
-			// used image to it.
-			if (frame?.source) image = frame.source as HTMLImageElement;
-			
-			// Update the crop data, defaulting to show the entire
-			// (possibly new) source image.
-			crop = frame?.crop ?? { x:0, y:0, w:image.width, h:image.height };
+		let currentTime = forced_time ?? performance.now();
 
+		// Calculate what frame should be shown, based on the time,
+		// animation offset, animation speed, and how many frames the
+		// animation has
+		let frameIndex = (currentTime - offset) / speed;
+		frameIndex = Math.floor(frameIndex);
+		frameIndex = frameIndex % frameCount;
+
+		// Store a reference to the correct animation frame
+		let frame = data.animation.frames[frameIndex];
+
+		if (reference.animation_frames) {
+			let realFrameIndex = reference.animation_frames[frameIndex] as number;
+			frame = data.animation.frames[ realFrameIndex ];
 		}
+
+		// If the frame has a specific source (not inherited), set
+		// used image to it.
+		if (frame?.source) image = frame.source as HTMLImageElement;
+		
+		// Update the crop data, defaulting to show the entire
+		// (possibly new) source image.
+		crop = frame?.crop ?? { x:0, y:0, w:image.width, h:image.height };
 
 		return { image, crop };
 	}
@@ -394,14 +387,17 @@ export class SpriteRenderer extends StaticClass {
 	 * 
 	 * @param context	What `RenderingContext` the sprite should
 	 * 					be rendered onto.
+	 * 
+	 * @param forced_time	The time used for determining the animation frame,
+	 * 						measured in *milliseconds*.
 	 */
-	public static drawSprite(reference:Sprite, context:RenderingContext):void {
+	public static drawSprite(reference:Sprite, context:RenderingContext, forced_time?:number):void {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference, reference.animation_offset);
+		let data = this.getData(reference, forced_time);
 
 		// If the data cannot be rendered, don't do anything
-		if (!data) return;
+		// if (!data) return;
 		
 		// Try rendering the image onto the canvas
 		try {
@@ -409,22 +405,22 @@ export class SpriteRenderer extends StaticClass {
 			context.drawImage(
 
 				// The image to be drawn
-				data.image,
+				data!.image,
 
 				// The position/size of where to crop (inside the image)
-				data.crop.x, data.crop.y,
-				data.crop.w, data.crop.h,
+				data!.crop.x, data!.crop.y,
+				data!.crop.w, data!.crop.h,
 
 				// The position/size of where to put the (cropped) image on the given canvas
 				reference.position[0], reference.position[1],
-				reference.size[0] || data.crop.w, reference.size[1] || data.crop.h
+				reference.size[0] || data!.crop.w, reference.size[1] || data!.crop.h
 			);
 		} catch (e) {
 			// The image cannot be rendered.
 			// Will show a black-white
 
-			let halfWidth = (reference.size[0] || data.crop.w)/2;
-			let halfHeight = (reference.size[1] || data.crop.h)/2;
+			let halfWidth = (reference.size[0] || (data?.crop.w ?? 100))  / 2;
+			let halfHeight = (reference.size[1] || (data?.crop.h ?? 100)) / 2;
 
 			context.fillStyle = "#000000";
 			context.fillRect(
@@ -463,18 +459,21 @@ export class SpriteRenderer extends StaticClass {
 	 * @param reference	Determines the `SpriteData` to use, as
 	 * 					well as the size of the `OffscreenCanvas`.
 	 * 					(`ref.position` is ignored)
+	 * 
+	 * @param forced_time	The time used for determining the animation frame,
+	 * 						measured in *milliseconds*.
 	 */
-	public static getSpriteAsOffscreenCanvas(reference:Sprite):OffscreenCanvas {
+	public static getSpriteAsOffscreenCanvas(reference:Sprite, forced_time?:number):OffscreenCanvas {
 
 		// Get a `RenderableSpriteData` object
-		let data = this.getData(reference, reference.animation_offset);
+		let data = this.getData(reference, forced_time);
 
 		// If the referenced sprite does not exist, return the (empty) `OffscreenCanvas`
-		if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);
+		// if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);
 
 		// Create a new OffscreenCanvas, as well as a 2D context for it.
 		// The OffscreenCanvas is the same size a the `ref.size` values.
-		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( reference.size[0] || data.crop.w, reference.size[1] || data.crop.h );
+		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( reference.size[0] || (data?.crop.w ?? 100), reference.size[1] || (data?.crop.h ?? 100) );
 		let context:OffscreenCanvasRenderingContext2D = offscreenCanvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
 
 		// Try rendering the image onto the canvas
@@ -483,22 +482,22 @@ export class SpriteRenderer extends StaticClass {
 			context.drawImage(
 
 				// The image to be drawn
-				data.image,
+				data!.image,
 
 				// The position/size of where to crop (inside the image)
-				data.crop.x, data.crop.y,
-				data.crop.w, data.crop.h,
+				data!.crop.x, data!.crop.y,
+				data!.crop.w, data!.crop.h,
 
 				// The position/size of where to put the (cropped) image on the given canvas
 				reference.position[0], reference.position[1],
-				reference.size[0] || data.crop.w, reference.size[1] || data.crop.h
+				reference.size[0] || data!.crop.w, reference.size[1] || data!.crop.h
 			);
 		} catch (e) {
 			// The image cannot be rendered.
 			// Will show a black-white
 
-			let halfWidth = (reference.size[0] || data.crop.w)/2;
-			let halfHeight = (reference.size[1] || data.crop.h)/2;
+			let halfWidth = (reference.size[0] || (data?.crop.w ?? 100))/2;
+			let halfHeight = (reference.size[1] || (data?.crop.h ?? 100))/2;
 
 			context.fillStyle = "#000000";
 			context.fillRect(
