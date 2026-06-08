@@ -7,8 +7,8 @@ import { Position2D } from "../../types.js";
  * create the class Corn that extends from Entity
  */
 export class Corn extends DefenderEntity{
-	/**the readonly name of the entity Corn - to prevent spelling mistakes*/
-	public static readonly DEFENDER_NAME = "Corn";
+	/**The readonly name of the entity Corn - to prevent spelling mistakes*/
+	public static readonly DEFENDER_NAME = "CORN";
 
 	protected kernelAOE : boolean = false;
 
@@ -24,8 +24,8 @@ export class Corn extends DefenderEntity{
 		speed: 3,
 		damage: 15, 
 		knockBack: 3,
-		spawnCoolDown: 7,
-		attackCoolDown: 5,
+		spawnCoolDown: 7000,
+		attackCoolDown: 5000,
 		stunChance : 0,
 		stunDuration : 0,
 		slowDuration : 0,
@@ -36,9 +36,7 @@ export class Corn extends DefenderEntity{
 		entityResaleCost: 17
 	};
 
-	/**
-	 * WIP when the corn dies
-	 */
+	
 	protected override onDeath(): void {
 		
 	}

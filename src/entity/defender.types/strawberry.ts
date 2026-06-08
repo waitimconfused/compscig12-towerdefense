@@ -4,7 +4,7 @@ import { EntityEvent } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
 	/**the readonly name of the entity Strawberry - to prevent spelling mistakes*/
-	public static readonly DEFENDER_NAME = "Strawberry";
+	public static readonly DEFENDER_NAME = "STRAWBERRY";
 	/**
 	 * The increased chance for Strawberry to be psychotic
 	 * 	This is available to use when at level 3 and up
@@ -22,14 +22,14 @@ export class Strawberry extends DefenderEntity {
 	/**Label the kind of entity strawberry is - a defender */
 	public entityType = "defender/strawberry";
 
-	/**base stats of Strawberry */
+	/**Base stats of Strawberry */
 	public static override baseStats: DefenderEntityStats = {
 		health: 20,
 		speed: 0.4,
 		damage: 10,
 		knockBack: 10,
-		spawnCoolDown : 3,
-		attackCoolDown : 3,
+		spawnCoolDown : 3000,
+		attackCoolDown : 3000,
 		stunChance : 0,
 		stunDuration : 0,
 		slowDuration : 0,

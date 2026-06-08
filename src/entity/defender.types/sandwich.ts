@@ -1,8 +1,8 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
 export class Sandwich extends DefenderEntity {
-	/**the readonly name of the entity Sandwich - to prevent spelling mistakes*/
-	public static readonly DEFENDER_NAME = "Sandwich";
+	/**The readonly name of the entity Sandwich - to prevent spelling mistakes*/
+	public static readonly DEFENDER_NAME = "SANDWICH";
 
 	/**
 	 * The ability for Sandwich to get a significant amount of HP and knockback
@@ -22,7 +22,7 @@ export class Sandwich extends DefenderEntity {
 			entityPurchaseCost: 25,
 			entityResaleCost: 12,
 			attackCoolDown: 0,
-			spawnCoolDown: 5, 
+			spawnCoolDown: 5000, 
 			stunChance : 0,
 			stunDuration : 0,
 			slowDuration : 0, 

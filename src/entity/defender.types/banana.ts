@@ -5,7 +5,7 @@ import { StatusEffects } from "../statusEffects.js";
 
 export class BananaSpawner extends DefenderEntity {
 	/**the readonly name of the entity Banana - to prevent spelling mistakes*/
-	public static readonly DEFENDER_NAME = "Banana";
+	public static readonly DEFENDER_NAME = "BANANA";
 	/**
 	 * The ability for Banana to attack twice (roll over the field twice)
 	 * 	This is available to use when at level 3 and up
@@ -21,7 +21,7 @@ export class BananaSpawner extends DefenderEntity {
 		speed: 0.1,
 		damage: 10,
 		knockBack: 10,
-		spawnCoolDown: 10,
+		spawnCoolDown: 10000,
 		attackCoolDown: 0,
 		stunChance : 0,
 		stunDuration : 0,

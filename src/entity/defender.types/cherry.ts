@@ -15,7 +15,7 @@ export class Cherry extends DefenderEntity {
 	/**
 	 * The readonly name of the entity Cherry - to prevent spelling mistakes
 	 */
-	public static readonly DEFENDER_NAME = "Cherry";
+	public static readonly DEFENDER_NAME = "CHERRY";
 	
 	/**
 	 * The ability for Cherry to attack enemies in front and behind them
@@ -37,13 +37,13 @@ export class Cherry extends DefenderEntity {
 		speed: 0.50,
 		damage: 10,
 		knockBack: 2,
-		spawnCoolDown: 3,
-		attackCoolDown: 3,
+		spawnCoolDown: 3000,
+		attackCoolDown: 3000,
 		stunChance : 0.25,
-		stunDuration : 4,
-		slowDuration : undefined,
-		regenerationDuration : undefined,
-		aoeRange : undefined,
+		stunDuration : 4000,
+		slowDuration : 0,
+		regenerationDuration : 0,
+		aoeRange : 0,
 		upgradeEntityCost : 15,
 		entityPurchaseCost: 10,
 		entityResaleCost: 5
