@@ -33,10 +33,7 @@ export class GlassOfLemonade extends Tool{
 		aoeRange : 0,
 	}
 
-	protected onDeath(){
-		
-	}
-
+	protected onDeath(){}
 
 	public async brain(){
 		//Wait for 6 frames
