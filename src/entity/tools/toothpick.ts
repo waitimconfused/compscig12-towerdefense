@@ -9,17 +9,17 @@ export class Toothpick extends Tool{
 	//Constant for tool name - to be used when creating tool and not make spelling errors
 	public override TOOL_NAME: string = "TOOTHPICK";
 
-	//a linear array is used for tool requirements so that the requirements can be searched through and analysed 
-	//when assessing of the player has sufficient items to create it
+	//A linear array is used for tool requirements so that the requirements can be searched through and analysed 
+	//When assessing of the player has sufficient items to create it
 
-	//requirements for making glass of lemonade
+	//Requirements for making glass of lemonade
 	public override toolRequirements : Array<InventoryItemTag> = ['wood','coin'];
-	//the total amount of each item for the lemonade
+	//The total amount of each item for the lemonade
 	public override toolRequirementsValue : Array<number> = [3,10];
 
 	private toolUsedCounter : number = 3;
 	
-	/**base stats of Toothpick */
+	/**Base stats of Toothpick */
 	public static override baseStats: EntityStats = {
 		health: 20,
 		speed: 0,
@@ -38,24 +38,24 @@ export class Toothpick extends Tool{
 
 	public async brain(){
 		this.state = "idle";
-		//store the closest enemy entity nearby from the Corn
+		//Store the closest enemy entity nearby from the Toothpick
 		let closestEnemy = Entity.nearestEntity(this, EnemyEntity) as EnemyEntity | undefined;
 
-		//if there are no entities nearby, don't continue running the code
+		//If there are no entities nearby, don't continue running the code
 		if (!closestEnemy) return;
 
-		//store the distance between the enemy and the corn
+		//Store the distance between the enemy and the Toothpick
 		let distance = Entity.getDistance(this, closestEnemy);
 
-		//if the entity is approaching, get ready to attack the enemy
-		//a short distance that is not 0 is picked so that the animation can play of the toothpick lifting up before attacking
-		//make sure that the amount of uses excceeds 0
+		//If the entity is approaching, get ready to attack the enemy
+		//A short distance that is not 0 is picked so that the animation can play of the toothpick lifting up before attacking
+		//Make sure that the amount of uses excceeds 0
 		if (distance <=10 && this.toolUsedCounter !=0){
 			this.state = "use";
 			this.attackEntity(closestEnemy);
 			this.toolUsedCounter --;
 		}
-		//if there are no more times the toothpick can be used, remove from playing field
+		//If there are no more times the toothpick can be used, remove from playing field
 		else if (this.toolUsedCounter == 0){
 			this.state = "no-more-uses";
 			this.stats.health = 0;
