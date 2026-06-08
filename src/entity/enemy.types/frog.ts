@@ -1,4 +1,6 @@
+import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
+import { Entity } from "../entity.js";
 
 /**
  * Creates a Frog as an EnemyEntity
@@ -75,17 +77,24 @@ export class Frog extends EnemyEntity {
 	public async brain() {
 		await this.wait(500);
 
-		// Try leap occasionally
-		if (this.canLeap) {
-			this.tryLeap();
+		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
+
+		if (!closestEntity) {
+			return;
+		}
+
+		// normal movement
+		let interrupt = await this.walkTo(
+			closestEntity.position[0],
+			closestEntity.position[1]
+		)
+
+		if (!interrupt) {
+			// Try leap occasionally
+			if (this.canLeap) {
+				this.tryLeap();
+			}
 		}
 		
-		// // normal movement
-		// await this.walkTo(
-		// 	target.position[0],
-		// 	target.position[1]
-		// );
 	}
-
-	
 }
