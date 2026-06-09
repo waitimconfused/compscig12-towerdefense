@@ -1,5 +1,9 @@
 [
 	{
+		"name": "honey",
+		"source": "./jar-of-honey.png"
+	},
+	{
 		"name": "use-honey",
 		"source": "./sprite-collection.png",
 		"crop": {

@@ -148,7 +148,7 @@ export class SpriteRenderer extends StaticClass {
 	/**
 	 * An object to store a list of **registered** `SpriteData` objects.
 	 */
-	private static registeredSprites:{ [x:string]: SpriteData|undefined } = {};
+	private static registeredSprites:Map<string, SpriteData> = new Map();
 
 	/**
 	 * An object containing the source urls and images that have
@@ -162,10 +162,10 @@ export class SpriteRenderer extends StaticClass {
 	 * @param reference	The string-name of the `SpriteData.name` value
 	 * @returns			Whether or not the referenced sprite has been registered
 	 */
-	public static isRegistered(reference:string|number):boolean {
+	public static isRegistered(reference:string):boolean {
 		// Return `true` if the key (`reference`) exists inside
 		// the `registeredSprites` object `false` if not
-		return reference in this.registeredSprites;
+		return this.registeredSprites.has(reference);
 	}
 
 	/**
@@ -181,7 +181,7 @@ export class SpriteRenderer extends StaticClass {
 
 		// If a sprite with the same name has already been
 		// registered, log an error and stop
-		if (data.name in this.registeredSprites) {
+		if (this.registeredSprites.has(data.name)) {
 			if (this.verbose) console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
 			if (this.verbose) console.groupEnd();
 			return;
@@ -273,7 +273,7 @@ export class SpriteRenderer extends StaticClass {
 		}
 
 		// Add the data to the spriteData list
-		this.registeredSprites[data.name] = data;
+		this.registeredSprites.set(data.name, data);
 
 		// Close the console group
 		if (this.verbose) console.log("Sprite has been registered.");
@@ -297,14 +297,14 @@ export class SpriteRenderer extends StaticClass {
 
 		// If the sprite could not be found, log it in the console as an
 		// error, and return null.
-		if (reference.name in this.registeredSprites == false) {
+		if (this.registeredSprites.has(reference.name) == false) {
 			console.error(`Failed to find SpriteData with name "${reference.name}".`);
 			return null;
 		}
 
 		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
 		// Safe to assume that it's a `SpriteData` object, as we checked above
-		let data:SpriteData = this.registeredSprites[reference.name] as SpriteData;
+		let data:SpriteData = this.registeredSprites.get(reference.name) as SpriteData;
 
 		// If (for some reason) the `SpriteData.source` is **not** an
 		// image, log it and return null.
@@ -359,6 +359,8 @@ export class SpriteRenderer extends StaticClass {
 		let frameIndex = (currentTime - offset) / speed;
 		frameIndex = Math.floor(frameIndex);
 		frameIndex = frameIndex % frameCount;
+
+		if (reference?.animation_frames) frameIndex = reference.animation_frames[frameIndex] as number;
 
 		// Store a reference to the correct animation frame
 		let frame = data.animation.frames[frameIndex];
@@ -538,7 +540,7 @@ export class SpriteRenderer extends StaticClass {
 	 * @returns A list of all sprite reference strings
 	 */
 	public static getAllSprites() {
-		return Object.keys(this.registeredSprites);
+		return this.registeredSprites.keys();
 	}
 
 	/**

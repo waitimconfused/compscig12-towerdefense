@@ -8,9 +8,9 @@ const sources:HTMLUListElement = document.getElementById("sources") as HTMLUList
 
 SpriteRenderer.verbose = false;
 
-var references:string[] = await SpriteRenderer.loadDefaults();
+await SpriteRenderer.loadDefaults();
 
-var canvases:{ [sprite:string]: HTMLCanvasElement } = {};
+var canvases:Map<string, HTMLCanvasElement> = new Map();
 
 for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 	
@@ -21,7 +21,7 @@ for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 	let li = document.createElement("li");
 	let link = document.createElement("a");
 	link.innerText = absolutePath;
-	link.href = `#file-${i}`;
+	link.href = `#file-${i+1}`;
 	
 	li.appendChild(link);
 	sources.appendChild(li);
@@ -30,7 +30,7 @@ for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 	let sectionTitle = document.createElement("p");
 	section.appendChild(sectionTitle);
 	sectionTitle.innerText = absolutePath;
-	sectionTitle.id = `file-${i}`;
+	sectionTitle.id = `file-${i+1}`;
 	
 	let div = document.createElement("div");
 	section.appendChild(div);
@@ -41,9 +41,25 @@ for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 		let data:SpriteData = spriteData[i] as SpriteData;
 		
 		let clone:DocumentFragment = document.importNode(template.content, true);
+
+		let canvas = clone.getElementById("result") as HTMLCanvasElement;
+
+		let context:CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
+		let offscreenCanvas:OffscreenCanvas = SpriteRenderer.getSpriteAsOffscreenCanvas({
+			name: data.name,
+			position: [ 0, 0 ],
+			size: [ 0, 0 ],
+		}, 0);
+
+		canvas.width = offscreenCanvas.width;
+		canvas.height = offscreenCanvas.height;
 		
-		canvases[data.name] = clone.getElementById("result") as HTMLCanvasElement;
-		
+		context.drawImage(offscreenCanvas, 0, 0);
+
+		if (data?.animation) canvases.set(data.name, canvas);
+
 		let name:HTMLParagraphElement = clone.getElementById("name") as HTMLParagraphElement;
 		name.innerText = data.name as string;
 		
@@ -53,7 +69,6 @@ for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 	
 	output.appendChild(section);
 }
-console.log(canvases);
 
 let previousTime = 0;
 
@@ -67,19 +82,26 @@ function tick() {
 		return;
 	}
 
-	let sprites:string[] = Object.keys(canvases);
+	let spriteNames:string[] = [ ...canvases.keys() ];
 
-	for (let i = 0; i < sprites.length; i ++) {
+	let renderedCanvases = 0;
 
-		let sprite:string = sprites[i] as string;
+	for (let i = 0; i < spriteNames.length; i ++) {
 
-		let canvas:HTMLCanvasElement = canvases[sprite] as HTMLCanvasElement;
+		let spriteName:string = spriteNames[i] as string;
 
+		let canvas:HTMLCanvasElement = canvases.get(spriteName) as HTMLCanvasElement;
+	
+		let canvasBoundingBox = canvas.getBoundingClientRect();
+
+		if (canvasBoundingBox.bottom < 0) continue;
+		if (canvasBoundingBox.top > window.innerHeight) continue;
+		
 		let context:CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
 		context.clearRect(0, 0, canvas.width, canvas.height);
 
 		let offscreenCanvas:OffscreenCanvas = SpriteRenderer.getSpriteAsOffscreenCanvas({
-			name: references[i] as string,
+			name: spriteName,
 			position: [ 0, 0 ],
 			size: [ 0, 0 ],
 		});
