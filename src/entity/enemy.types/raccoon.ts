@@ -85,23 +85,33 @@ export class Raccoon extends EnemyEntity {
 		// Gets the closest DefenderEntity
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 
-		if (!closestEntity) return;
+		if (!closestEntity || closestEntity.stats.health <= 0) {
+			super.interruptTimers("walk");
+			return;
+		}
 
 		// Walks towards the closest DefenderEntity
 		let interrupt = await this.walkTo(
-			closestEntity.position[0], closestEntity.position[1]
+			closestEntity.position[0],
+			closestEntity.position[1]
 		);
 
 		// Attacks the closest DefenderEntity
 		if (!interrupt) {
 			let defenderHealth = closestEntity.stats.health;
 
-			await this.attackEntity(closestEntity);
-
-			// Regenerates if the closestEntity is dead
-			if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
-				await StatusEffects.regenerateEntity(this, 5000, 3);
+			if (this.position[0] == closestEntity.position[0] && this.position[1] == closestEntity.position[1]) {
+				if (!(closestEntity.stats.health <= 0)) {
+					// Attacks closest entity
+					await this.attackEntity(closestEntity);
+				
+					// Regenerates if the closestEntity is dead
+					if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
+						await StatusEffects.regenerateEntity(this, 5000, 3);
+					}
+				}
 			}
+
 		}
 
 	}

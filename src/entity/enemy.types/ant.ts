@@ -22,7 +22,7 @@ export class Ant extends EnemyEntity {
 	public static override baseStats : EnemyEntityStats = {
 		health: 100,
 		speed: 0.1,
-		damage: 10,
+		damage: 1,
 		knockBack: 10,
 		spawnCoolDown: 10,
 		attackCoolDown: 10,
@@ -102,6 +102,7 @@ export class Ant extends EnemyEntity {
 		// Stops attack animation when interrupted
 		if (interrupt) {
 			this.state = 'idle'
+			return;
 		}
 
 		// Attacks target entity
@@ -126,7 +127,8 @@ export class Ant extends EnemyEntity {
 		// Get the closest DEFENDER entity
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 	
-		if (!closestEntity) {
+		if (!closestEntity || closestEntity.stats.health <= 0) {
+			super.interruptTimers("walk");
 			return;
 		}
 	
@@ -135,19 +137,22 @@ export class Ant extends EnemyEntity {
 			closestEntity.position[0],
 			closestEntity.position[1]
 		);
-		
+
 		// Attack if nothing was interrupted
 		if (!interrupt) {
 			// Store defender health
 			let defenderHealth = closestEntity.stats.health;
 
-			// Attacks closest entity
-			await this.attackEntity(closestEntity);
-
-			if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
-				await StatusEffects.regenerateEntity(this, 5000, 2);
+			if (this.position[0] == closestEntity.position[0] && this.position[1] == closestEntity.position[1]) {
+				if (!(closestEntity.stats.health <= 0)) {
+					// Attacks closest entity
+					await this.attackEntity(closestEntity);
+		
+					if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
+						await StatusEffects.regenerateEntity(this, 5000, 2);
+					}
+				}
 			}
-			
 		}
 		
 	}
