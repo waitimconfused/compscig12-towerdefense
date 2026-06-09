@@ -5,6 +5,7 @@ import Engine from "../../engine.js";
 import { ViewSprite } from "../elements/sprite.js";
 import { Ant } from "../../entity/enemy.types/ant.js";
 import { Wave } from "../../wave.js";
+import { IceCube } from "../../entity/tools/glassoflemonade.js";
 
 var hasPlayed = false;
 
@@ -43,6 +44,8 @@ gameplayView.addEventListener("show", () => {
 		GameplayView.playSpaceSize[0]/2,
 		GameplayView.playSpaceSize[1]/2
 	]);
+
+	IceCube.spawn(1, [100, 100]);
 
 	hasPlayed = true;
 });

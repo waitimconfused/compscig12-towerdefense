@@ -31,6 +31,8 @@
 		"./enemies/raccoon/logic.json",
 		"./enemies/ant/logic.json",
 		"./enemies/frog/logic.json",
-		"./enemies/wasp/logic.json"
+		"./enemies/wasp/logic.json",
+
+		"./tools/lemonade/ice-cube-logic.json"
 	]
 }

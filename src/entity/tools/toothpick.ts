@@ -1,4 +1,5 @@
-import Inventory, { InventoryItemTag } from "../../inventory.js";
+import { InventoryItemTag } from "../../inventory.js";
+import { Position2D } from "../../types.js";
 import { EnemyEntity } from "../enemy.js";
 import { Entity, EntityStats } from "../entity.js";
 import { Tool } from "./tool.js";
@@ -6,16 +7,9 @@ import { Tool } from "./tool.js";
 export class Toothpick extends Tool{
 	//Entity type is toothpick tool
 	public override entityType = "tool/toothpick";
-	//Constant for tool name - to be used when creating tool and not make spelling errors
-	public override TOOL_NAME: string = "TOOTHPICK";
 
-	//A linear array is used for tool requirements so that the requirements can be searched through and analysed 
-	//When assessing of the player has sufficient items to create it
-
-	//Requirements for making glass of lemonade
-	public override toolRequirements : Array<InventoryItemTag> = ['wood','coin'];
-	//The total amount of each item for the lemonade
-	public override toolRequirementsValue : Array<number> = [3,10];
+	//Requirements for toothpick
+	public override toolRequirements : Map<InventoryItemTag, number>;
 
 	private toolUsedCounter : number = 3;
 	
@@ -32,6 +26,13 @@ export class Toothpick extends Tool{
 		slowDuration : 0,
 		regenerationDuration : 0,
 		aoeRange : 0,
+	}
+
+	constructor(position : Position2D){
+		super(position);
+		this.toolRequirements = new Map <InventoryItemTag, number>();
+		this.toolRequirements.set('wood', 3);
+		this.toolRequirements.set('coin', 10);
 	}
 
 	protected onDeath(){}

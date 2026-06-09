@@ -1,4 +1,5 @@
 import Inventory, { InventoryItemTag } from "../../inventory.js";
+import { Position2D } from "../../types.js";
 import { EnemyEntity } from "../enemy.js";
 import { Entity, EntityStats } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
@@ -6,17 +7,11 @@ import { Tool } from "./tool.js";
 
 export class JarOfHoney extends Tool{
 	public override entityType = "tool/toothpick";
-	
-	//Constant for tool name - to be used when creating tool and not make spelling errors
-	public override TOOL_NAME: string = "JAR_OF_HONEY";
 
-	//A linear array is used for tool requirements so that the requirements can be searched through and analysed 
-	//When assessing of the player has sufficient items to create it
+	private timeOnScreen : number = 0;
 
-	//Requirements for making glass of lemonade
-	public override toolRequirements : Array<InventoryItemTag> = ['jar','honey','coin'];
-	//The total amount of each item for the lemonade
-	public override toolRequirementsValue : Array<number> = [1,3,10];
+	//Requirements for Jar of Honey
+	public override toolRequirements : Map<InventoryItemTag, number>;
 
 	//Jar of Honey can only slow up to 10 enemies
 	private enemiesCaptured : number = 0; 
@@ -36,6 +31,13 @@ export class JarOfHoney extends Tool{
 		aoeRange : 0,
 	}
 
+	//Requirements for making glass of lemonade
+	constructor(position : Position2D){
+		super(position);
+		this.toolRequirements = new Map <InventoryItemTag, number>();
+		this.toolRequirements.set('jar', 1);
+		this.toolRequirements.set('coin', 20);
+	}
 	
 	protected onDeath(){}
 
