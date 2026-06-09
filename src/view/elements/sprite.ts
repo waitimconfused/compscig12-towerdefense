@@ -72,7 +72,7 @@ export class ViewSprite extends ViewElement {
 	public setOrigin(x:number, y:number):this {
 
 		// Update the origin
-		this._origin = [ x, y ];
+		this.origin = [ x, y ];
 
 		return this;
 	}
@@ -124,17 +124,18 @@ export class ViewSprite extends ViewElement {
 		// Only uses the transformations, not the fill/stroke
 		this.setGeneralStyles(context);
 
+		context.translate(
+			-this.size[0] * this._origin[0],
+			-this.size[1] * this._origin[1]
+		)
+
 		// Check for and dispatch events
 		this.checkForUpdates(canvas, context);
 
 		// Render the sprite onto the context
 		SpriteRenderer.drawSprite({
 			name: this.reference,
-			position: [
-				-this.size[0] * this._origin[0],
-				-this.size[1] * this._origin[1],
-
-			],
+			position: [ 0, 0 ],
 			size: this.size
 		}, context);
 

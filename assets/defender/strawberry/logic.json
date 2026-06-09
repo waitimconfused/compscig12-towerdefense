@@ -8,7 +8,7 @@
 
 
 		{
-			"rule": "state=='idle' && entity.psycho == 0",
+			"rule": "state=='idle'",
 
 			"layers": [
 				{

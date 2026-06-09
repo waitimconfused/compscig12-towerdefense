@@ -1,0 +1,22 @@
+[
+	{
+		"name": "tab-defender",
+		"source": "./tab-defender.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 170,
+			"h": 97
+		}
+	},
+	{
+		"name": "tab-defender-active",
+		"source": "./tab-defender.png",
+		"crop": {
+			"x": 0,
+			"y": 102,
+			"w": 170,
+			"h": 96
+		}
+	}
+]

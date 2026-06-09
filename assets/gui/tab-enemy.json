@@ -1,0 +1,22 @@
+[
+	{
+		"name": "tab-enemy",
+		"source": "./tab-enemy.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 170,
+			"h": 96
+		}
+	},
+	{
+		"name": "tab-enemy-active",
+		"source": "./tab-enemy.png",
+		"crop": {
+			"x": 0,
+			"y": 101,
+			"w": 170,
+			"h": 96
+		}
+	}
+]

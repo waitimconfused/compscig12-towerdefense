@@ -1,0 +1,22 @@
+[
+	{
+		"name": "tab-stats",
+		"source": "./tab-stats.png",
+		"crop": {
+			"x": 0,
+			"y": 0,
+			"w": 170,
+			"h": 96
+		}
+	},
+	{
+		"name": "tab-stats-active",
+		"source": "./tab-stats.png",
+		"crop": {
+			"x": 0,
+			"y": 101,
+			"w": 170,
+			"h": 96
+		}
+	}
+]

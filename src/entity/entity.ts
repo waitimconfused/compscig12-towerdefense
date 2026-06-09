@@ -138,6 +138,9 @@ export abstract class Entity {
 	 * flow should be used when rendering
 	 */
 	public abstract entityType:string;
+
+	public static displayName:string|undefined;
+
 	public static idLength:number = 3;
 
 	/**
@@ -227,9 +230,17 @@ export abstract class Entity {
 	 */
 	public static entities:Map<string, Entity> = new Map();
 
+	public static derived:Map<string, typeof Entity> = new Map();
+
 	constructor(position:Position2D) {
 
 		let constructor = this.constructor as typeof Entity;
+
+		let displayName:string = constructor?.displayName ?? constructor.name;
+		// If the entity has not been registered to the global entity class map, add it
+		if ( Entity.derived.has(displayName) == false ) {
+			Entity.derived.set(displayName, constructor);
+		}
 		
 		if (!constructor.baseStats) throw new Error(`Entity ${constructor.name} does not have baseStats.`)
 

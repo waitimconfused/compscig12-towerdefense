@@ -17,7 +17,13 @@
 		"./picnic-items/sprite-collection.json",
 		"./tools/honey/sprite-collection.json",
 		"./tools/lemonade/sprite-collection.json",
-		"./tools/toothpick/sprite-collection.json"
+		"./tools/toothpick/sprite-collection.json",
+
+		"./gui/book.json",
+		"./gui/tab-stats.json",
+		"./gui/tab-defender.json",
+		"./gui/tab-enemy.json",
+		"./gui/paper.json"
 	],
 
 	"logic": [
