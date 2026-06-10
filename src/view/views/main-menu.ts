@@ -5,22 +5,22 @@ import { ViewText } from "../elements/text.js";
 import { ViewCollection } from "../view-collection.js";
 import { View } from "../view.js";
 
-var menuView = new ViewCollection();
-Engine.createView("main-menu", menuView);
+var view = new ViewCollection;
+Engine.createView("main-menu", view);
 
 const bookRotation = 15;
 const bookRotationRad = bookRotation * Math.PI / 180;
 
 // Play button & Credits button
 var mainMenu = new View();
-menuView.createView("start", mainMenu);
+view.createView("start", mainMenu);
 
 
 let grassBackgroundImage = new Image;
 grassBackgroundImage.src = "/assets/grass.svg";
 
 var grassBackground = new ViewRect;
-mainMenu.addElement(grassBackground);
+view.addElement(grassBackground);
 grassBackground.setFill(grassBackgroundImage);
 grassBackground.setAnchor(Engine.anchorPresets.centerCenter);
 grassBackground.setSize(window.innerWidth, window.innerHeight);
@@ -30,7 +30,7 @@ let picnicBackgroundImage = new Image;
 picnicBackgroundImage.src = "/assets/picnic.svg";
 
 var picnicBackground = new ViewRect;
-mainMenu.addElement(picnicBackground);
+view.addElement(picnicBackground);
 picnicBackground.setFill(picnicBackgroundImage);
 picnicBackground.setAnchor(Engine.anchorPresets.bottomCenter);
 picnicBackground.setRotation(3, "deg");
@@ -56,8 +56,8 @@ mainMenu.addElement(
 	new ViewText("Tower\nDefense")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
-		650*Math.cos(Math.PI/2 - bookRotationRad) + 350,
-		-650*Math.sin(Math.PI/2 - bookRotationRad) - 20
+		550*Math.cos(Math.PI/2 - bookRotationRad) + 325,
+		-550*Math.sin(Math.PI/2 - bookRotationRad) - 20
 	)
 	.setRotation(bookRotation, "deg")
 	.setFont("Preahvihear", undefined, undefined, -50)
@@ -71,8 +71,8 @@ mainMenu.addElement(
 	new ViewText("play")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
-		300*Math.cos(Math.PI/2 - bookRotationRad) + 350,
-		-300*Math.sin(Math.PI/2 - bookRotationRad) - 20
+		250*Math.cos(Math.PI/2 - bookRotationRad) + 325,
+		-250*Math.sin(Math.PI/2 - bookRotationRad) - 20
 	)
 	.setRotation(bookRotation, "deg")
 	.setFont("Gamja Flower")
@@ -89,8 +89,8 @@ mainMenu.addElement(
 	new ViewText("credits")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
-		75*Math.cos(Math.PI/2 - bookRotationRad) + 350,
-		-75*Math.sin(Math.PI/2 - bookRotationRad) - 20
+		100*Math.cos(Math.PI/2 - bookRotationRad) + 325,
+		-100*Math.sin(Math.PI/2 - bookRotationRad) - 20
 	)
 	.setRotation(bookRotation, "deg")
 	.setFont("Gamja Flower")
@@ -108,18 +108,18 @@ mainMenu.addElement(
 
 // Credits Menu
 var creditsMenu = new View();
-menuView.createView("credits", creditsMenu);
+view.createView("credits", creditsMenu);
 
 // Book
 creditsMenu.addElement(book);
 
 // Title
 creditsMenu.addElement(
-	new ViewText("Developed by:")
+	new ViewText("Created by:")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
-		600*Math.cos(Math.PI/2 - bookRotationRad) + 300,
-		-600*Math.sin(Math.PI/2 - bookRotationRad)
+		550*Math.cos(Math.PI/2 - bookRotationRad) + 325,
+		-550*Math.sin(Math.PI/2 - bookRotationRad) - 20
 	)
 	.setRotation(bookRotation, "deg")
 	.setFont("Preahvihear", 90)
@@ -133,23 +133,38 @@ creditsMenu.addElement(
 	new ViewText("Kenneth E\nCassandra H\nBrendan D")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
-		450*Math.cos(Math.PI/2 - bookRotationRad) + 300,
-		-450*Math.sin(Math.PI/2 - bookRotationRad)
+		450*Math.cos(Math.PI/2 - bookRotationRad) + 325,
+		-450*Math.sin(Math.PI/2 - bookRotationRad) - 20
 	)
 	.setRotation(bookRotation, "deg")
-	.setFont("Gamja Flower", 80)
+	.setFont("Gamja Flower", 80, undefined, 25)
 	.setAlignment("center", "bottom")
 	.setFill("black")
 	.setStroke("none")
 );
 
-// Main menu button
+// Usernames
 creditsMenu.addElement(
-	new ViewText("> back <")
+	new ViewText("waitimconfused\nGITHUB USERNAME\nGITHUB USERNAME")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
-		150*Math.cos(Math.PI/2 - bookRotationRad) + 300,
-		-150*Math.sin(Math.PI/2 - bookRotationRad)
+		425*Math.cos(Math.PI/2 - bookRotationRad) + 325,
+		-425*Math.sin(Math.PI/2 - bookRotationRad) - 20
+	)
+	.setRotation(bookRotation, "deg")
+	.setFont("Gamja Flower", 40, undefined, 70)
+	.setAlignment("center", "bottom")
+	.setFill("#0000007F")
+	.setStroke("none")
+);
+
+// Main menu button
+creditsMenu.addElement(
+	new ViewText("back")
+	.setAnchor(Engine.anchorPresets.bottomLeft)
+	.setTranslation(
+		100*Math.cos(Math.PI/2 - bookRotationRad) + 325,
+		-100*Math.sin(Math.PI/2 - bookRotationRad) - 20
 	)
 	.setRotation(bookRotation, "deg")
 	.setFont("Gamja Flower")

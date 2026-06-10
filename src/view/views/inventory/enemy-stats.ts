@@ -8,16 +8,9 @@ import { ViewText } from "../../elements/text.js";
 import { ViewElementCollection } from "../../view-element-collection.js";
 import { ViewElement } from "../../view-element.js";
 import { View } from "../../view.js";
-import { book, button_close, tab_defenderStats, tab_enemyStats, tab_playerStats, tab_recipe } from "../inventory.js";
+import { book, tab_enemyStats } from "../inventory.js";
 
 const view = new View;
-
-view.addElement(book);
-view.addElement(button_close);
-view.addElement(tab_playerStats);
-view.addElement(tab_defenderStats);
-view.addElement(tab_enemyStats);
-view.addElement(tab_recipe);
 
 view.addElement(
 	new ViewText("Enemy Stats")

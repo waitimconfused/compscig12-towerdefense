@@ -58,18 +58,6 @@ export class ViewCollection extends View {
 	private views:Map<string, View> = new Map<string, View>();
 
 	/**
-	 * ***`ViewElement` instances cannot be added to a `ViewCollection`.***
-	 * @param element
-	 */
-	public override addElement(...element: ViewElement[]): this {
-
-		// Log an error
-		console.error(`"ViewElement" instances cannot be added to "ViewCollection".`);
-
-		return this;
-	}
-
-	/**
 	 * Attach a `View` to the collection
 	 * 
 	 * @param name	The name/identifier of the view (See `this.currentView`)
@@ -161,6 +149,8 @@ export class ViewCollection extends View {
 	 * @param context	Specify what `RenderingContext` to use to draw
 	 */
 	public override render(canvas:Canvas, context:RenderingContext) {
+
+		super.render(canvas, context);
 
 		// If the current view does not exist, stop
 		if (this.views.has(this._currentView) == false) return;

@@ -5,13 +5,6 @@ import Engine from "../../../engine.js";
 
 const view = new View;
 
-view.addElement(book);
-view.addElement(button_close);
-view.addElement(tab_playerStats);
-view.addElement(tab_defenderStats);
-view.addElement(tab_enemyStats);
-view.addElement(tab_recipe);
-
 view.addElement(
 	new ViewText("Recipe")
 	.setAnchor(Engine.anchorPresets.centerCenter)

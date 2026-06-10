@@ -160,7 +160,7 @@ export class ViewText extends ViewElement {
 	public setFont(family:string, size?:number|string, style?:"normal" | "italic" | "oblique", lineSpacing?:number):this {
 		this.font.family = family;
 		if (size != undefined) this.font.size = size;
-		if (style != undefined) this.font.size = style;
+		if (style != undefined) this.font.style = style;
 		if (lineSpacing != undefined) this.font.lineSpacing = lineSpacing;
 		return this;
 	}
