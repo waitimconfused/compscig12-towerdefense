@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="8gM9-npyLLICQrEM5v5u">
-    <mxGraphModel dx="4985" dy="958" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="4484" dy="555" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -211,16 +211,16 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="yPStzAgsiJfc5xqQPr_x-10" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Ant" vertex="1">
-          <mxGeometry height="170" width="380" x="-980" y="1190" as="geometry" />
+          <mxGeometry height="190" width="380" x="-980" y="1190" as="geometry" />
         </mxCell>
-        <mxCell id="yPStzAgsiJfc5xqQPr_x-11" parent="yPStzAgsiJfc5xqQPr_x-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- regenerationActive : boolean&lt;/div&gt;&lt;div&gt;- aoeVulnerability : number&lt;/div&gt;" vertex="1">
-          <mxGeometry height="44" width="380" y="26" as="geometry" />
+        <mxCell id="yPStzAgsiJfc5xqQPr_x-11" parent="yPStzAgsiJfc5xqQPr_x-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;+ ENEMY_NAME {readonly}&lt;/u&gt;&lt;div&gt;+ entityType&lt;/div&gt;&lt;div&gt;&lt;u&gt;+ baseStats : EnemyEntityStats&lt;/u&gt;&lt;/div&gt;&lt;div&gt;+ drops : EnemyDrops&lt;/div&gt;" vertex="1">
+          <mxGeometry height="64" width="380" y="26" as="geometry" />
         </mxCell>
         <mxCell id="yPStzAgsiJfc5xqQPr_x-12" parent="yPStzAgsiJfc5xqQPr_x-10" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="380" y="70" as="geometry" />
+          <mxGeometry height="8" width="380" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="yPStzAgsiJfc5xqQPr_x-13" parent="yPStzAgsiJfc5xqQPr_x-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ attackClosest() : void&lt;/div&gt;&lt;div&gt;+ killDefender() : void&lt;/div&gt;&lt;div&gt;+ antDeath() : void&lt;/div&gt;&lt;div&gt;+ takeDamage(amount : number, isAOE : boolean) : void&lt;/div&gt;" vertex="1">
-          <mxGeometry height="92" width="380" y="78" as="geometry" />
+        <mxCell id="yPStzAgsiJfc5xqQPr_x-13" parent="yPStzAgsiJfc5xqQPr_x-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ dealDamage(dealtDamage : number, attacker : Entity, damageType : DamageType) : Promise&amp;lt;undefined | EntityEvent&amp;gt;&lt;div&gt;+ attackEntity(entity : Entity) : Promise&amp;lt;undefined | EntityEvent&amp;gt;&lt;/div&gt;&lt;div&gt;+ brain()&lt;/div&gt;&lt;div&gt;&lt;u&gt;+ antSpawn(position : Position2D, spread ?: number) : Entity[]&lt;/u&gt;&lt;/div&gt;&lt;div&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/div&gt;&lt;div&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="92" width="380" y="98" as="geometry" />
         </mxCell>
         <mxCell id="9guflXT3q6MyzlLtJzlu-25" edge="1" parent="1" source="yLfdV1dLRmRjlCLzfb5J-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.989;entryY=0.436;entryDx=0;entryDy=0;entryPerimeter=0;" target="ROBIbayNkki9oVfscOgo-11">
           <mxGeometry relative="1" as="geometry" />
@@ -234,16 +234,16 @@
           <mxGeometry height="2680" x="-3380" y="520" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Raccoon" vertex="1">
-          <mxGeometry height="180" width="300" x="-530" y="1190" as="geometry" />
+          <mxGeometry height="160" width="300" x="-530" y="1190" as="geometry" />
         </mxCell>
-        <mxCell id="UppwIz4bOEHaex1xX7Yn-2" parent="UppwIz4bOEHaex1xX7Yn-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- stunDuration: number&lt;div&gt;- attackChance: number&lt;/div&gt;&lt;div&gt;- regenerationActive: boolean&lt;/div&gt;" vertex="1">
-          <mxGeometry height="54" width="300" y="26" as="geometry" />
+        <mxCell id="UppwIz4bOEHaex1xX7Yn-2" parent="UppwIz4bOEHaex1xX7Yn-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;+ ENEMY_NAME {readonly}&lt;/u&gt;&lt;div&gt;+ entityType&lt;/div&gt;&lt;div&gt;&lt;u&gt;+ baseStats : EnemyEntityStats&lt;/u&gt;&lt;/div&gt;&lt;div&gt;+ drops : EnemyDrops&lt;/div&gt;" vertex="1">
+          <mxGeometry height="64" width="300" y="26" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-3" parent="UppwIz4bOEHaex1xX7Yn-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="10" width="300" y="80" as="geometry" />
+          <mxGeometry height="10" width="300" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="UppwIz4bOEHaex1xX7Yn-4" parent="UppwIz4bOEHaex1xX7Yn-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ attemptAttack() : void&lt;/div&gt;&lt;div&gt;+ killDefender() : void&lt;/div&gt;&lt;div&gt;+ raccoonDeath() : void&lt;/div&gt;" vertex="1">
-          <mxGeometry height="90" width="300" y="90" as="geometry" />
+        <mxCell id="UppwIz4bOEHaex1xX7Yn-4" parent="UppwIz4bOEHaex1xX7Yn-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ attackEntity(entity : Entity) : Promise&amp;lt;undefined | EntityEvent&amp;gt;&lt;/div&gt;&lt;div&gt;+ brain()&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="300" y="100" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-15" edge="1" parent="1" source="UppwIz4bOEHaex1xX7Yn-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.769;entryY=0.986;entryDx=0;entryDy=0;entryPerimeter=0;" target="9guflXT3q6MyzlLtJzlu-4" value="extends">
           <mxGeometry relative="1" as="geometry">
@@ -257,28 +257,28 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Wasp" vertex="1">
-          <mxGeometry height="210" width="380" x="-980" y="1420" as="geometry" />
+          <mxGeometry height="180" width="380" x="-980" y="1420" as="geometry" />
         </mxCell>
-        <mxCell id="UppwIz4bOEHaex1xX7Yn-6" parent="UppwIz4bOEHaex1xX7Yn-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- flying : boolean&lt;div&gt;- speedMultiplier : number&lt;/div&gt;&lt;/div&gt;&lt;div&gt;- stunChance : number&lt;/div&gt;&lt;div&gt;- stunDuration : number&lt;/div&gt;&lt;div&gt;- speedBuffPerStun : number&lt;/div&gt;" vertex="1">
-          <mxGeometry height="84" width="380" y="26" as="geometry" />
+        <mxCell id="UppwIz4bOEHaex1xX7Yn-6" parent="UppwIz4bOEHaex1xX7Yn-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;+ ENEMY_NAME {readonly}&lt;/u&gt;&lt;div&gt;+ entityType&lt;/div&gt;&lt;div&gt;+ isFlying : boolean&lt;/div&gt;&lt;div&gt;- speedStacks : number&lt;/div&gt;&lt;div&gt;&lt;u&gt;+&amp;nbsp;&lt;/u&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;u&gt;baseStats: EnemyEntityStats&lt;/u&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ drops : EnemyDrops&lt;/div&gt;" vertex="1">
+          <mxGeometry height="94" width="380" y="26" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-7" parent="UppwIz4bOEHaex1xX7Yn-5" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="380" y="110" as="geometry" />
+          <mxGeometry height="8" width="380" y="120" as="geometry" />
         </mxCell>
-        <mxCell id="UppwIz4bOEHaex1xX7Yn-8" parent="UppwIz4bOEHaex1xX7Yn-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ takeDamage(amount : number, isAntiAir : boolean) : void&lt;/div&gt;&lt;div&gt;+ attemptStun(defenders : DefenderEntity[]) : void&lt;/div&gt;&lt;div&gt;- increasePermanentSpeed() : void&lt;/div&gt;&lt;div&gt;+ checkCollision(defender : DefenderEntity) : boolean&lt;/div&gt;" vertex="1">
-          <mxGeometry height="92" width="380" y="118" as="geometry" />
+        <mxCell id="UppwIz4bOEHaex1xX7Yn-8" parent="UppwIz4bOEHaex1xX7Yn-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ attackEntity(entity : Entity) : Promise&amp;lt;undefined | EntityEvent&amp;gt;&lt;/div&gt;&lt;div&gt;+ brain()&lt;/div&gt;" vertex="1">
+          <mxGeometry height="52" width="380" y="128" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-9" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Frog" vertex="1">
-          <mxGeometry height="160" width="300" x="-530" y="1420" as="geometry" />
+          <mxGeometry height="170" width="300" x="-530" y="1420" as="geometry" />
         </mxCell>
-        <mxCell id="UppwIz4bOEHaex1xX7Yn-10" parent="UppwIz4bOEHaex1xX7Yn-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- leaping : boolean&lt;/div&gt;&lt;div&gt;- leapCooldown : number&lt;/div&gt;&lt;div&gt;- canLeap : boolean&lt;/div&gt;" vertex="1">
-          <mxGeometry height="54" width="300" y="26" as="geometry" />
+        <mxCell id="UppwIz4bOEHaex1xX7Yn-10" parent="UppwIz4bOEHaex1xX7Yn-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;+ ENEMY_NAME {readonly}&lt;/u&gt;&lt;div&gt;+ entityType : string&lt;/div&gt;&lt;div&gt;&lt;u&gt;+ baseStats : EnemyEntityStats&lt;/u&gt;&lt;/div&gt;&lt;div&gt;+ drops : EnemyDrops&lt;/div&gt;&lt;div&gt;+ isLeaping : boolean&lt;/div&gt;&lt;div&gt;+ canLeap : boolean&lt;/div&gt;" vertex="1">
+          <mxGeometry height="94" width="300" y="26" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-11" parent="UppwIz4bOEHaex1xX7Yn-9" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="300" y="80" as="geometry" />
+          <mxGeometry height="8" width="300" y="120" as="geometry" />
         </mxCell>
-        <mxCell id="UppwIz4bOEHaex1xX7Yn-12" parent="UppwIz4bOEHaex1xX7Yn-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ spawn(wave : number) : void&lt;div&gt;+ takeDamage(amount : number) : void&lt;/div&gt;&lt;div&gt;+ leap() : void&lt;/div&gt;&lt;div&gt;+ applyStatusEffect(effect : StatusEffect) : void&lt;/div&gt;" vertex="1">
-          <mxGeometry height="72" width="300" y="88" as="geometry" />
+        <mxCell id="UppwIz4bOEHaex1xX7Yn-12" parent="UppwIz4bOEHaex1xX7Yn-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;- tryLeap()&lt;/div&gt;&lt;div&gt;+ brain()&lt;/div&gt;" vertex="1">
+          <mxGeometry height="42" width="300" y="128" as="geometry" />
         </mxCell>
         <mxCell id="UppwIz4bOEHaex1xX7Yn-14" edge="1" parent="1" source="UppwIz4bOEHaex1xX7Yn-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.078;entryY=1.032;entryDx=0;entryDy=0;entryPerimeter=0;" target="9guflXT3q6MyzlLtJzlu-4" value="extends">
           <mxGeometry relative="1" as="geometry">
