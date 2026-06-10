@@ -148,7 +148,7 @@ export class SpriteRenderer extends StaticClass {
 	/**
 	 * An object to store a list of **registered** `SpriteData` objects.
 	 */
-	private static registeredSprites:{ [x:string]: SpriteData|undefined } = {};
+	private static registeredSprites:Map<string, SpriteData> = new Map();
 
 	/**
 	 * An object containing the source urls and images that have
@@ -162,10 +162,10 @@ export class SpriteRenderer extends StaticClass {
 	 * @param reference	The string-name of the `SpriteData.name` value
 	 * @returns			Whether or not the referenced sprite has been registered
 	 */
-	public static isRegistered(reference:string|number):boolean {
+	public static isRegistered(reference:string):boolean {
 		// Return `true` if the key (`reference`) exists inside
 		// the `registeredSprites` object `false` if not
-		return reference in this.registeredSprites;
+		return this.registeredSprites.has(reference);
 	}
 
 	/**
@@ -174,17 +174,17 @@ export class SpriteRenderer extends StaticClass {
 	 * 
 	 * @param data The `SpriteData` object to register as a sprite
 	 */
-	public static registerData(data:SpriteData) {
+	public static registerData(data:SpriteData):SpriteData|null {
 
 		// Create a console.log group
 		if (this.verbose) console.groupCollapsed(`Creating sprite: "${data.name}"`);
 
 		// If a sprite with the same name has already been
 		// registered, log an error and stop
-		if (data.name in this.registeredSprites) {
+		if (this.registeredSprites.has(data.name)) {
 			if (this.verbose) console.error(`Cannot have multiple sprites of the same name "${data.name}".`);
 			if (this.verbose) console.groupEnd();
-			return;
+			return null;
 		}
 		
 		// Convert all image-paths to images
@@ -273,11 +273,13 @@ export class SpriteRenderer extends StaticClass {
 		}
 
 		// Add the data to the spriteData list
-		this.registeredSprites[data.name] = data;
+		this.registeredSprites.set(data.name, data);
 
 		// Close the console group
 		if (this.verbose) console.log("Sprite has been registered.");
 		if (this.verbose) console.groupEnd();
+
+		return data;
 
 
 	}
@@ -297,14 +299,14 @@ export class SpriteRenderer extends StaticClass {
 
 		// If the sprite could not be found, log it in the console as an
 		// error, and return null.
-		if (reference.name in this.registeredSprites == false) {
+		if (this.registeredSprites.has(reference.name) == false) {
 			console.error(`Failed to find SpriteData with name "${reference.name}".`);
 			return null;
 		}
 
 		// Find the referenced `SpriteData` object from the list of `SpriteData` objects.
 		// Safe to assume that it's a `SpriteData` object, as we checked above
-		let data:SpriteData = this.registeredSprites[reference.name] as SpriteData;
+		let data:SpriteData = this.registeredSprites.get(reference.name) as SpriteData;
 
 		// If (for some reason) the `SpriteData.source` is **not** an
 		// image, log it and return null.
@@ -359,6 +361,8 @@ export class SpriteRenderer extends StaticClass {
 		let frameIndex = (currentTime - offset) / speed;
 		frameIndex = Math.floor(frameIndex);
 		frameIndex = frameIndex % frameCount;
+
+		if (reference?.animation_frames) frameIndex = reference.animation_frames[frameIndex] as number;
 
 		// Store a reference to the correct animation frame
 		let frame = data.animation.frames[frameIndex];
@@ -538,63 +542,82 @@ export class SpriteRenderer extends StaticClass {
 	 * @returns A list of all sprite reference strings
 	 */
 	public static getAllSprites() {
-		return Object.keys(this.registeredSprites);
+		return this.registeredSprites.keys();
 	}
 
 	/**
 	 * Automatically register all `SpriteData` JSON files listed in `assets/sprites.json`
 	 * @returns A list of `SpriteData.name` values
 	 */
-	public static async loadDefaults():Promise<string[]> {
+	public static loadDefaults():Promise<string[]> {
+		return new Promise(async (resolve) => {
 
-		let references:string[] = [];
+			let references:string[] = [];
 
-		// Loop through each path, and load the `SpriteData` object(s)
-		for (let i = 0; i < spriteAssets.assets.length; i ++) {
-			let path:string = spriteAssets.assets[i] as string;
+			let imageCount = 0;
+			let loadedImageCount = 0;
 
-			// Make path relative to the ./assets/ folder
-			path = new URL( path, location.origin+"/assets/" ).href;
+			// Loop through each path, and load the `SpriteData` object(s)
+			for (let i = 0; i < spriteAssets.assets.length; i ++) {
+				let path:string = spriteAssets.assets[i] as string;
 
-			// Import the JSON file, using promises
-			let spriteData = await import(path, { with: { type: "json" } });
-			
-			// The data is stored as the default export (`.default`)
-			let imported:SpriteData|SpriteData[] = spriteData?.default;
+				// Make path relative to the ./assets/ folder
+				path = new URL( path, location.origin+"/assets/" ).href;
 
-			// The JSON file can be a list of `SpriteData` objects
-			if (Array.isArray(imported)) {
+				// Import the JSON file, using promises
+				let spriteData = await import(path, { with: { type: "json" } });
 				
-				// Loop through each `SpriteData` object, and register it.
-				for (let i = 0; i < imported.length; i ++) {
-					let data = imported[i] as SpriteData;
+				// The data is stored as the default export (`.default`)
+				let imported:SpriteData|SpriteData[] = spriteData?.default;
 
+				// The JSON file can be a list of `SpriteData` objects
+				if (Array.isArray(imported)) {
+
+					// Loop through each `SpriteData` object, and register it.
+					for (let i = 0; i < imported.length; i ++) {
+						let data = imported[i] as SpriteData;
+
+						// Make the source relative to the current JSON file 
+						data.source = new URL( data.source as string, path ).href
+
+						// Register the sprite
+						SpriteRenderer.registerData( data );
+						
+						// Add the `SpriteData.name` to the list of registered sprites
+						references.push(data.name);
+					}
+
+				// If the JSON file is only one `SpriteData` object, register it
+				} else {
 					// Make the source relative to the current JSON file 
-					data.source = new URL( data.source as string, path ).href
+					imported.source = new URL( imported.source as string, path ).href;
 
 					// Register the sprite
-					SpriteRenderer.registerData( data );
+					let data:SpriteData|null = SpriteRenderer.registerData( imported as SpriteData );
 					
+					if (data == null) continue;
+
+					let sourceImage:HTMLImageElement = data.source as HTMLImageElement;
+					
+					imageCount += 1;
+
+					sourceImage.addEventListener("load", () => {
+						loadedImageCount += 1;
+
+						if (loadedImageCount != imageCount) return;
+						resolve(references);
+
+					});
+
 					// Add the `SpriteData.name` to the list of registered sprites
-					references.push(data.name);
+					references.push(imported.name);
 				}
 
-			// If the JSON file is only one `SpriteData` object, register it
-			} else {
-				// Make the source relative to the current JSON file 
-				imported.source = new URL( imported.source as string, path ).href;
-
-				// Register the sprite
-				SpriteRenderer.registerData( imported as SpriteData );
-
-				// Add the `SpriteData.name` to the list of registered sprites
-				references.push(imported.name);
 			}
 
-		}
+			resolve(references);
 
-		return references;
-
+		});
 	}
 
 };

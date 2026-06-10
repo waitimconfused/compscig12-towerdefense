@@ -51,39 +51,39 @@
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
-			"y": 382,
-			"w": 1068,
-			"h": 567
+			"y": 298,
+			"w": 194,
+			"h": 79
 		}
 	},
 	{
 		"name": "ice-cube-2",
 		"source": "./sprite-collection.png",
 		"crop": {
-			"x": 0,
-			"y": 954,
-			"w": 1081,
-			"h": 508
+			"x": 398,
+			"y": 298,
+			"w": 194,
+			"h": 79
 		}
 	},
 	{
 		"name": "ice-cube-3",
 		"source": "./sprite-collection.png",
 		"crop": {
-			"x": 0,
-			"y": 1467,
-			"w": 1274,
-			"h": 496
+			"x": 597,
+			"y": 298,
+			"w": 194,
+			"h": 79
 		}
 	},
 	{
 		"name": "ice-cube-4",
 		"source": "./sprite-collection.png",
 		"crop": {
-			"x": 0,
-			"y": 1968,
-			"w": 1445,
-			"h": 375
+			"x": 796,
+			"y": 298,
+			"w": 194,
+			"h": 79
 		}
 	}
 ]

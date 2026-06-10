@@ -27,9 +27,9 @@
 		"source": "./sprite-collection.png",
 		"crop": {
 			"x": 0,
-			"y": 312,
-			"w": 214,
-			"h": 1935
+			"y": 0,
+			"w": 34,
+			"h": 307
 		}
 	}
 ]

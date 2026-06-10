@@ -28,7 +28,7 @@ Inventory.load();
 const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 
 // Load all sprites (files listed in /assets/sprites.json -> .assets)
-SpriteRenderer.loadDefaults();
+await SpriteRenderer.loadDefaults();
 
 
 for (let i = 0; i < viewFiles.views.length; i ++) {
@@ -42,16 +42,23 @@ for (let i = 0; i < viewFiles.views.length; i ++) {
 	// Turn the path into an absolute path
 	let absolutePath = new URL( path, location.origin+"/dist/view/" ).pathname;
 	
+	console.info(`Importing view from "${absolutePath}".`);
+
 	// Import the file
 	// Even though it doesn't export anything, the code gets ran
 	// This makes it so that the views each file creates get loaded
 	await import(absolutePath);
+
+	console.info(`Successfully imported view from "${absolutePath}".`);
 	
 }
+
 // Show the default view
+console.info(`Showing default view of "${defaultView}"`);
 Engine.showView(defaultView);
 
 // Initialize the Engine, using the defined canvas
+console.info(`Initialing Engine via <canvas id="${canvas.id}">`);
 Engine.initialize(canvas);
 
 let loader:HTMLDivElement = document.getElementById("loading") as HTMLDivElement;

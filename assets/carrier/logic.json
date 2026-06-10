@@ -1,0 +1,78 @@
+{
+	"type": "entity/carrier",
+
+	"logic": [
+
+		{
+			"rule": "level == 0",
+			"logic": [
+				{
+					"rule": "state == 'idle'",
+					"layers": [
+						{
+							"sprite": "carrier-1",
+							"origin": [ 50, 75 ]
+						}
+					]
+				},
+				{
+					"rule": "state == 'deploy'",
+					"layers": [
+						{
+							"sprite": "carrier-1-open",
+							"origin": [ 50, 75 ]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"rule": "level == 1",
+			"logic": [
+				{
+					"rule": "state == 'idle'",
+					"layers": [
+						{
+							"sprite": "carrier-2",
+							"origin": [ 50, 75 ]
+						}
+					]
+				},
+				{
+					"rule": "state == 'deploy'",
+					"layers": [
+						{
+							"sprite": "carrier-2-open",
+							"origin": [ 50, 75 ]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"rule": "level == 2",
+			"logic": [
+				{
+					"rule": "state == 'idle'",
+					"layers": [
+						{
+							"sprite": "carrier-3",
+							"origin": [ 50, 75 ]
+						}
+					]
+				},
+				{
+					"rule": "state == 'deploy'",
+					"layers": [
+						{
+							"sprite": "carrier-3-open",
+							"origin": [ 50, 75 ]
+						}
+					]
+				}
+			]
+		}
+	]
+}

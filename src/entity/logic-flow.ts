@@ -6,6 +6,7 @@ export type BasicSprite = {
 	origin: Position2D;
 	rotation?: number;
 	offset?: Position2D;
+	frames?: number[];
 };
 
 type Rule = {

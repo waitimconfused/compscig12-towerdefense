@@ -224,7 +224,8 @@ export default class GameplayView extends View {
 				name: reference.sprite,
 				position: [ 0, 0 ],
 				size: [ 0, 0 ],
-				animation_offset: entity.animationOffset
+				animation_offset: entity.animationOffset,
+				animation_frames: reference.frames
 			});
 
 			// Decide wether or not to visually flip the
