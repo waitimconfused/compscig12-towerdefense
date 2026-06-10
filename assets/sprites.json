@@ -39,6 +39,7 @@
 		"./enemies/frog/logic.json",
 		"./enemies/wasp/logic.json",
 
+		"./tools/lemonade/ice-cube-logic.json",
 		"./carrier/logic.json"
 	]
 }

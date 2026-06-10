@@ -1,0 +1,52 @@
+{
+	"type": "tool/ice-cube",
+
+	"logic": [
+
+		{
+			"rule": "entity.iceCubeStateNumber == 1",
+
+			"layers": [
+				{
+					"sprite": "ice-cube-1",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+
+		{
+			"rule": "entity.iceCubeStateNumber == 2",
+
+			"layers": [
+				{
+					"sprite": "ice-cube-2",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+
+		{
+			"rule": "entity.iceCubeStateNumber == 3",
+
+			"layers": [
+				{
+					"sprite": "ice-cube-3",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		
+
+		{
+			"rule": "entity.iceCubeStateNumber == 4",
+
+			"layers": [
+				{
+					"sprite": "ice-cube-4",
+					"origin": [ 50, 100 ]
+				}
+			]
+		}
+
+	]
+}
