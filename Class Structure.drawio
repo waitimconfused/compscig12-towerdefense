@@ -716,7 +716,7 @@
           <mxGeometry height="90" width="260" y="88" as="geometry" />
         </mxCell>
         <mxCell id="UuXErN5bpUmsbDOrvNjv-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Wave" vertex="1">
-          <mxGeometry height="160" width="340" x="-880" y="170" as="geometry" />
+          <mxGeometry height="160" width="340" x="-1070" y="150" as="geometry" />
         </mxCell>
         <mxCell id="UuXErN5bpUmsbDOrvNjv-2" parent="UuXErN5bpUmsbDOrvNjv-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;- _waveNumber : number&lt;/u&gt;&lt;div&gt;&lt;u&gt;- _waveDuration : number&lt;/u&gt;&lt;/div&gt;&lt;div&gt;&lt;u&gt;- _timeLeft : number&lt;/u&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="64" width="340" y="26" as="geometry" />
@@ -726,6 +726,15 @@
         </mxCell>
         <mxCell id="UuXErN5bpUmsbDOrvNjv-4" parent="UuXErN5bpUmsbDOrvNjv-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;+ getWave()&lt;/u&gt;&lt;div&gt;&lt;u&gt;+ update(t : number) : void&lt;/u&gt;&lt;/div&gt;&lt;div&gt;&lt;u&gt;+ newWave() : void&lt;/u&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="62" width="340" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="UuXErN5bpUmsbDOrvNjv-6" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="StatusEffects" vertex="1">
+          <mxGeometry height="140" width="340" x="-690" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="UuXErN5bpUmsbDOrvNjv-8" parent="UuXErN5bpUmsbDOrvNjv-6" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UuXErN5bpUmsbDOrvNjv-9" parent="UuXErN5bpUmsbDOrvNjv-6" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;+ stunEntity(target : Entity, duration : number) : Promise&amp;lt;void&amp;gt;&lt;/u&gt;&lt;div&gt;&lt;u&gt;+ regenerateEntity(regeneratingEntity : Entity, duration : number, regenerationAmount : number) : Promise&amp;lt;void&amp;gt;&lt;/u&gt;&lt;/div&gt;&lt;div&gt;&lt;u&gt;+ slowEntity(target : Entity, duration : number) : Promise&amp;lt;void&amp;gt;&lt;/u&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="106" width="340" y="34" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
