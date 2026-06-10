@@ -140,6 +140,7 @@ export abstract class Entity {
 	public abstract entityType:string;
 
 	public static displayName:string|undefined;
+	public static showInInventory:boolean = true;
 
 	public static idLength:number = 3;
 
@@ -236,11 +237,22 @@ export abstract class Entity {
 
 		let constructor = this.constructor as typeof Entity;
 
-		let displayName:string = constructor?.displayName ?? constructor.name;
-		// If the entity has not been registered to the global entity class map, add it
-		if ( Entity.derived.has(displayName) == false ) {
-			Entity.derived.set(displayName, constructor);
+		// If the entity class can be shown in the inventory,
+		// add the class to the map of derived classes
+		if (constructor.showInInventory) {
+			
+			// Get the display name of the class
+			// Defaults to the name of the class
+			let displayName:string = constructor?.displayName ?? constructor.name;
+			
+			// If the entity has not been registered to the global entity class map, add it
+			let hasBeenSaved = Entity.derived.has(displayName);
+			if ( hasBeenSaved == false ) {
+				Entity.derived.set(displayName, constructor);
+			}
+
 		}
+
 		
 		if (!constructor.baseStats) throw new Error(`Entity ${constructor.name} does not have baseStats.`)
 

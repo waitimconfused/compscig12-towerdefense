@@ -57,6 +57,13 @@ const subViews = {
 	"recipe": "./inventory/tool-recipe.js"
 };
 
+
+let backgroundImage = new Image;
+backgroundImage.src = "/assets/picnic.svg";
+backgroundImage.addEventListener("load", () => {
+	view.background.source = backgroundImage;
+});
+
 for (let name in subViews) {
 
 	let path = subViews[name as keyof typeof subViews] as string;
@@ -64,6 +71,7 @@ for (let name in subViews) {
 	import(path)
 	.then((module) => {
 		let subView:View = module.default as View;
+		subView.background.source = backgroundImage;
 		view.createView(name, subView);
 	});
 }
