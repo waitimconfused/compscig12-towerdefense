@@ -4,7 +4,7 @@ import { Canvas, Position2D, RenderingContext } from "../../types.js";
 import { ViewElement } from "../view-element.js";
 
 export class ViewRect extends ViewElement {
-
+	
 	/**
 	 * Set the dimensions of the rectangle
 	 * 

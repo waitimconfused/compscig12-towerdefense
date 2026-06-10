@@ -59,7 +59,7 @@ export abstract class ViewElement {
 		dashOffset: 0
 	}
 
-	public fill:string | CanvasGradient | CanvasPattern = "purple";
+	public fill:string | CanvasGradient | CanvasPattern | HTMLImageElement = "purple";
 
 	/**
 	 * Rotation of `ViewElement`, in radians
@@ -109,7 +109,7 @@ export abstract class ViewElement {
 	 * 
 	 * @param fill
 	 */
-	public setFill(fill:string | CanvasGradient | CanvasPattern):this {
+	public setFill(fill:string | CanvasGradient | CanvasPattern | HTMLImageElement):this {
 
 		// Update the fill
 		this.fill = fill;
@@ -229,8 +229,20 @@ export abstract class ViewElement {
 			context.lineWidth = 0;
 		}
 
+		let fill = this.fill;
+
+		if (fill instanceof HTMLImageElement) {
+
+			if (fill.complete == false) return;
+			
+			let pattern:CanvasPattern = context.createPattern(fill, "repeat") as CanvasPattern;
+
+			this.fill = pattern;
+
+		}
+
 		// Set the fillStyle
-		context.fillStyle = this.fill;
+		context.fillStyle = fill as string | CanvasGradient | CanvasPattern;
 	}
 
 	/**

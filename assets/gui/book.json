@@ -1,4 +1,10 @@
-{
-	"name": "gui-book",
-	"source": "./book.png"
-}
+[
+	{
+		"name": "gui-book",
+		"source": "./book.png"
+	},
+	{
+		"name": "gui-cover",
+		"source": "./cover.png"
+	}
+]

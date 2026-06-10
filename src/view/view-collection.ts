@@ -30,6 +30,28 @@ export class ViewCollection extends View {
 	 */
 	public get currentView() { return this._currentView; }
 
+	constructor() {
+		super();
+
+		this.addEventListener("show", () => {
+			let view:View|undefined = this.views.get(this._currentView) as View|undefined;
+			if (!view) return;
+			view.dispatchEvent("show");
+		});
+
+		this.addEventListener("hide", () => {
+			let view:View|undefined = this.views.get(this._currentView) as View|undefined;
+			if (!view) return;
+			view.dispatchEvent("hide");
+		});
+
+		this.addEventListener("resize", () => {
+			let view:View|undefined = this.views.get(this._currentView) as View|undefined;
+			if (!view) return;
+			view.dispatchEvent("resize");
+		});
+	}
+
 	/**
 	 * A map of name-view pairs
 	 */

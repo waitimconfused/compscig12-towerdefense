@@ -49,15 +49,15 @@ export class MouseManager extends StaticClass {
 }
 
 
-function update(e:PointerEvent):void {
+function update(e:PointerEvent, updateButtons=true):void {
 	MouseManager.x = e.clientX;
 	MouseManager.y = e.clientY;
 
-	MouseManager.buttons = getMouseButtonsFromEvent(e);
+	if(updateButtons) MouseManager.buttons = getMouseButtonsFromEvent(e);
 }
 
 window.addEventListener("pointermove", (e) => {
-	update(e);
+	update(e, false);
 });
 window.addEventListener("pointerdown", (e) => {
 	update(e);
@@ -67,7 +67,7 @@ window.addEventListener("pointerup", (e) => {
 });
 window.addEventListener("scroll", (e) => {
 	if (MouseManager.preventScroll == true) e.preventDefault();
-	update(e as PointerEvent);
+	update(e as PointerEvent, false);
 })
 window.addEventListener("contextmenu", (e) => {
 	if (MouseManager.preventContextMenu == true) e.preventDefault();

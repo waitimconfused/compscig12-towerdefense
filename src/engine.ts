@@ -95,6 +95,13 @@ export default class Engine extends StaticClass {
 		lastRenderCall:0
 	};
 
+	public static get size():Position2D {
+		return [
+			this.canvas.width,
+			this.canvas.height
+		]
+	}
+
 	/**
 	 * Information about the render loop
 	 */
@@ -343,8 +350,19 @@ export default class Engine extends StaticClass {
 		}
 
 		// Update the canvas's size to match the window's size, if needed
-		if (this.canvas.width != window.innerWidth)		this.canvas.width = window.innerWidth;
-		if (this.canvas.height != window.innerHeight)	this.canvas.height = window.innerHeight;
+		if (
+			this.canvas.width != window.innerWidth ||
+			this.canvas.height != window.innerHeight
+		) {
+			this.canvas.width = window.innerWidth;
+			this.canvas.height = window.innerHeight;
+			
+			if (this.views.has(this._currentView)) {
+				let view:View = this.views.get(this._currentView) as View;
+				view.dispatchEvent("resize");
+			}
+
+		}
 
 		// Clear the canvas
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);

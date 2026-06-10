@@ -6,7 +6,7 @@ import { ViewElement } from "./view-element.js";
 type ViewElementEventType = "click";
 type ViewElementEventListener = { type: ViewElementEventType, callback: ()=> void };
 
-type ViewListenerType = "show" | "hide";
+type ViewListenerType = "show" | "hide" | "resize";
 type ViewListenerCallback = ()=>void;
 
 type ViewListenerGroup = {
@@ -43,7 +43,8 @@ export class View extends ViewElementCollection {
 	 */
 	protected listeners:ViewListenerGroup = {
 		show: [],
-		hide: []
+		hide: [],
+		resize: []
 	}
 
 	/**
@@ -64,9 +65,12 @@ export class View extends ViewElementCollection {
 	 */
 	public dispatchEvent(type:ViewListenerType) {
 
+		
 		// Get a list of callback functions that are for the same event type
 		let listeners:ViewListenerCallback[] = this.listeners[type];
 		
+		console.log(`View has received the "${type}" event. Triggering ${listeners.length} listeners`);
+
 		// Loop through each listener, and call it
 		for (let i = 0; i < listeners.length; i ++) {
 			
