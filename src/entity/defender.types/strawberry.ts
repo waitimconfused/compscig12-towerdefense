@@ -1,4 +1,5 @@
 import { Position2D } from "../../types.js";
+import GameplayView from "../../view/elements/gameplay-view.js";
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { EntityEvent } from "../entity.js";
 
@@ -106,8 +107,8 @@ export class Strawberry extends DefenderEntity {
 		this.rollForMentalState();
 
 		let random:Position2D = [
-			Math.random() * window.innerWidth,
-			Math.random() * window.innerHeight
+			Math.random() * GameplayView.playSpaceSize[0],
+			Math.random() * GameplayView.playSpaceSize[1]
 		];
 
 		await this.walkTo( random[0], random[1] );

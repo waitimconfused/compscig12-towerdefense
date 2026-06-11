@@ -193,6 +193,9 @@ export abstract class Entity {
 	 */
 	protected _targetPosition:Position2D|null = null;
 
+	protected _targetPath:SVGPathElement|null = null;
+	private _targetPathLength:number = 0;
+
 	private internalTimers:EntityTimer[] = [];
 	
 	/**
@@ -429,6 +432,46 @@ export abstract class Entity {
 
 	}
 
+	/**
+	 * 
+	 * @param path	SVG path data
+	 */
+	public followPath(path:string) {
+
+		return new Promise(async (resolve, reject) => {
+			let svg = document.createElementNS("http://www.w3.org/2000/svg", "path");
+			svg.setAttributeNS(null, "d", path);
+
+			let startingPoint = svg.getPointAtLength(0);
+			await this.walkTo(startingPoint.x, startingPoint.y);
+
+			this._targetPath = svg;
+			this._targetPathLength = 0;
+			this._targetPosition = null;
+
+			// If the entity is stunned, resolve the promise,
+			// with the reason that it is stunned
+			if (this.stunned) {
+				resolve({ interrupt_type: "stunned" });
+				return;
+			}
+
+			// Set the internal state to `"walk"`
+			this.state = "walk";
+
+			// Add a walking timer to the list of internal timers
+			// This timer will be resolved when the target position
+			// has been reached, or the entity could not reach
+			// said position due to some reason
+			this.internalTimers.push({
+				type: "walk",
+				complete: resolve,
+				fail: reject
+			});
+		});
+
+	}
+
 	
 	/**
 	 * Update the entities stats, using their base stats as reference
@@ -617,14 +660,14 @@ export abstract class Entity {
 			(targetPosition[1] - this.position[1]) /
 			(targetPosition[0] - this.position[0])
 		) || 0;
-		
-		// Store the direction that the entity moved
-		this.direction = direction;
 
 		// Fix the angle for when the target position's x value
 		// is less than the entity's position
 		if (targetPosition[0] < this.position[0]) direction += Math.PI;
-		
+
+		// Store the direction that the entity moved
+		this.direction = direction;
+
 		// Get the total distance to the target position
 		// using Pythagorean Theorem
 		let totalDistance = Math.hypot(
@@ -653,7 +696,6 @@ export abstract class Entity {
 		// Round to the nearest 0.01
 		this.position[0] = Math.round( this.position[0] * 100 ) / 100;
 		this.position[1] = Math.round( this.position[1] * 100 ) / 100;
-		
 
 	}
 
@@ -755,6 +797,43 @@ export abstract class Entity {
 				this.interruptTimers("walk");
 
 			}
+
+
+		}
+
+		if (this._targetPath && !this.stunned) {
+
+			let pathLength:number = this._targetPath.getTotalLength();
+
+			let rawPosition:DOMPoint = this._targetPath.getPointAtLength(this._targetPathLength);
+			let newPosition:Position2D = [ rawPosition.x, rawPosition.y ];
+			this._targetPathLength += this.stats.speed * deltaTime;
+
+			// Get the direction from the entity to the target position
+			// In radians
+			let direction = Math.atan(
+				(newPosition[1] - this.position[1]) /
+				(newPosition[0] - this.position[0])
+			) || 0;
+
+			// Fix the angle for when the target position's x value
+			// is less than the entity's position
+			if (newPosition[0] < this.position[0]) direction += Math.PI;
+
+			// Store the direction that the entity moved
+			this.direction = direction;
+
+			this.position[0] = newPosition[0];
+			this.position[1] = newPosition[1];
+
+			if (this._targetPathLength >= pathLength) {
+				this._targetPath = null;
+				this._targetPathLength = 0;
+				this._targetPosition = null;
+				this.state = "idle";
+				this.interruptTimers("walk");
+			}
+
 
 
 		}
