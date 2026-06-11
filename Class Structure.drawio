@@ -161,16 +161,16 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="UgaVAZVQR7dv4b7FBpfu-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Sandwich" vertex="1">
-          <mxGeometry height="178" width="260" x="155" y="1182" as="geometry" />
+          <mxGeometry height="140" width="260" x="155" y="1182" as="geometry" />
         </mxCell>
-        <mxCell id="UgaVAZVQR7dv4b7FBpfu-6" parent="UgaVAZVQR7dv4b7FBpfu-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;-sandwichLayerCount : number&lt;/div&gt;" vertex="1">
-          <mxGeometry height="54" width="260" y="26" as="geometry" />
+        <mxCell id="UgaVAZVQR7dv4b7FBpfu-6" parent="UgaVAZVQR7dv4b7FBpfu-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;u&gt;+ DEFENDER_NAME {readonly}&lt;/u&gt;&lt;div&gt;+ entityType&lt;/div&gt;&lt;div&gt;&lt;u&gt;+ baseStats : DefenderEntityStats&lt;/u&gt;&lt;/div&gt;&lt;div&gt;- bigSandwich : boolean&lt;/div&gt;" vertex="1">
+          <mxGeometry height="74" width="260" y="26" as="geometry" />
         </mxCell>
         <mxCell id="UgaVAZVQR7dv4b7FBpfu-7" parent="UgaVAZVQR7dv4b7FBpfu-5" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="260" y="80" as="geometry" />
+          <mxGeometry height="8" width="260" y="100" as="geometry" />
         </mxCell>
-        <mxCell id="UgaVAZVQR7dv4b7FBpfu-8" parent="UgaVAZVQR7dv4b7FBpfu-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ constructor ()&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ checkSandwichStatus : void&lt;/div&gt;" vertex="1">
-          <mxGeometry height="90" width="260" y="88" as="geometry" />
+        <mxCell id="UgaVAZVQR7dv4b7FBpfu-8" parent="UgaVAZVQR7dv4b7FBpfu-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ brain()" vertex="1">
+          <mxGeometry height="32" width="260" y="108" as="geometry" />
         </mxCell>
         <mxCell id="9guflXT3q6MyzlLtJzlu-22" edge="1" parent="1" source="yLfdV1dLRmRjlCLzfb5J-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.192;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.927;exitDx=0;exitDy=0;exitPerimeter=0;startArrow=circlePlus;startFill=0;" target="9guflXT3q6MyzlLtJzlu-18">
           <mxGeometry relative="1" as="geometry" />
