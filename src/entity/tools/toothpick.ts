@@ -35,7 +35,7 @@ export class Toothpick extends Tool{
 		this.toolRequirements.set('coin', 10);
 	}
 
-	protected onDeath(){}
+	protected onDeath(): void {}
 
 	public async brain(){
 		this.state = "idle";

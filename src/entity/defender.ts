@@ -37,12 +37,12 @@ export abstract class DefenderEntity extends Entity{
 	 */
 	private static levelIncrease:number = 2;
 
-	protected onDeath(): void {
-		
-	}
-
 	constructor(position: Position2D){
 		super(position);
+	}
+
+	protected onDeath(): void {
+		
 	}
 
 	public override reloadStats(): void {
@@ -73,8 +73,7 @@ export abstract class DefenderEntity extends Entity{
 	 * if the type of Defender is level 3 or higher, they have unlocked their unique skill 
 	 * override reloadStats to check for Defender upgrade
 	 */
-
-	protected unlockSkill(activateSkill : boolean){
+	protected unlockSkill(activateSkill : boolean) : void{
 		activateSkill = true;
 	}
 

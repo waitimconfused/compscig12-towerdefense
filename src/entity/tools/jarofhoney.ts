@@ -6,9 +6,7 @@ import { StatusEffects } from "../statusEffects.js";
 import { Tool } from "./tool.js";
 
 export class JarOfHoney extends Tool{
-	public override entityType = "tool/toothpick";
-
-	private timeOnScreen : number = 0;
+	public override entityType = "tool/jar-of-honey";
 
 	//Requirements for Jar of Honey
 	public override toolRequirements : Map<InventoryItemTag, number>;
@@ -39,7 +37,7 @@ export class JarOfHoney extends Tool{
 		this.toolRequirements.set('coin', 20);
 	}
 	
-	protected onDeath(){}
+	protected onDeath(): void {}
 
 	public async brain(){
 		//See if there are any enemies that are touching the honey

@@ -7,13 +7,10 @@ import { Position2D } from "../../types.js";
  * create the class Corn that extends from Entity
  */
 export class Corn extends DefenderEntity{
-	/**The readonly name of the entity Corn - to prevent spelling mistakes*/
-	public static readonly DEFENDER_NAME = "CORN";
-
-	protected kernelAOE : boolean = false;
+	public static kernelAOE : boolean = false;
 
 	/**Label the kind of entity corn is - a defender */
-	public override entityType = "defender/corn";
+	public override entityType : string = "defender/corn";
 
 	/**
 	 * The corn's lvl 1 stats
@@ -84,7 +81,7 @@ export class Kernel extends Corn{
 	private target : EnemyEntity;
 	
 	//label the kind of entity corn is - a defender
-	public override entityType = "defender/Kernel";
+	public override entityType : string = "defender/Kernel";
 
 	//use the corn's position and store the tracked target into the kernel's target property
 	constructor(position: Position2D, target: EnemyEntity){
@@ -92,9 +89,6 @@ export class Kernel extends Corn{
 
 		this.target = target;
 	}
-
-	//this method needs to exist, but will not have anything in it because the Kernel's death is done in the brain
-	protected override onDeath(): void {}
 
 	public override attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
 		return new Promise ((resolve) =>{
@@ -105,7 +99,7 @@ export class Kernel extends Corn{
 			entity.dealDamage(this.stats.damage as number, this);
 
 			//if corn's skill is unlocked, kernels can do area of effect damage (enemies around it will also get hurt)
-			if (this.kernelAOE == true){
+			if (Kernel.kernelAOE == true){
 				//deal damage around area
 				//deals 1/3 of its damage to the entities around it
 				//store an object array of the entities in range of the kernel's attack 
