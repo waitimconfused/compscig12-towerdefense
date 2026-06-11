@@ -186,6 +186,3 @@ export class Ant extends EnemyEntity {
 		return super.spawn(count, position, spread);
 	}
 }
-
-//@ts-ignore
-window.Ant = Ant;
