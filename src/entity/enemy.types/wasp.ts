@@ -86,7 +86,10 @@ export class Wasp extends EnemyEntity {
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 
 		// Returns if there is not closest DefenderEntity
-		if (!closestEntity) return;
+		if (!closestEntity || closestEntity.stats.health <= 0) {
+			super.interruptTimers("walk");
+			return;
+		}
 
 		// Walks towards the closest DefenderEntity
 		let interrupt = await this.walkTo(
@@ -96,13 +99,15 @@ export class Wasp extends EnemyEntity {
 		// Attacks
 		if (!interrupt) {
 			let attackInterrupt = await this.attackEntity(closestEntity);
-
-			if (attackInterrupt) {
-				// Wasp was stopped from attacking
-
-			} else if (closestEntity.stats.health <= 0) {
-				this.stats.speed *= Math.pow(1.1, this.speedStacks)
-				this.speedStacks++;
+			
+			if (this.position[0] == closestEntity.position[0] && this.position[1] == closestEntity.position[1]) {
+				if (attackInterrupt) {
+					// Wasp was stopped from attacking
+	
+				} else if (closestEntity.stats.health <= 0) {
+					this.stats.speed *= Math.pow(1.1, this.speedStacks)
+					this.speedStacks++;
+				}
 			}
 		}
 	}

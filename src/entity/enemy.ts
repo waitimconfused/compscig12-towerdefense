@@ -52,7 +52,7 @@ export abstract class EnemyEntity extends Entity {
      * 
      * @returns Coins, points, and materials enemies drop on death
      */
-	public onDeath() {  
+	public onDeath() : void {  
         this.state = 'dead';
 
         this.dropItems();
@@ -61,7 +61,7 @@ export abstract class EnemyEntity extends Entity {
     /**
      * Drops items and gives the player materials
      */
-    protected dropItems() {
+    protected dropItems() : void {
 		// Add the predetermined coins & points to the inventory
 		Inventory.give("coin", this.drops.coins);
 		Inventory.give("point", this.drops.points);

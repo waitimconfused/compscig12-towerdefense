@@ -14,7 +14,7 @@ import { Wave } from "../../wave.js";
 export class Ant extends EnemyEntity {
 	/**the readonly name of the entity Ant - to prevent spelling mistakes*/
 	public static readonly ENEMY_NAME = "Ant";
-
+	
 	// Ant entity type
 	public entityType = "enemy/ant";
 	
