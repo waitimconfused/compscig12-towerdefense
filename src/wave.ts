@@ -6,6 +6,7 @@ import { Ant } from "./entity/enemy.types/ant.js";
 import { Frog } from "./entity/enemy.types/frog.js";
 import { Raccoon } from "./entity/enemy.types/raccoon.js";
 import { Wasp } from "./entity/enemy.types/wasp.js";
+import { StaticClass } from "./types.js";
 
 /**
  * Class to handle waves and enemy behaviour after each wave
@@ -14,7 +15,7 @@ import { Wasp } from "./entity/enemy.types/wasp.js";
  * 
  * Wave ends after set duration or when all enemies die
  */
-export class Wave {
+export class Wave extends StaticClass {
 	// Tracks wave number, starts at wave 0
 	private static _waveNumber : number = 0;
 	public static getWave() { return this._waveNumber };
