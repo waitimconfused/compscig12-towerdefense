@@ -43,6 +43,8 @@ export class Ant extends EnemyEntity {
 		]
 	}
 
+	public static path = "M0 0.315337C311.161 -6.24074 475.567 499.838 751.679 407.8C1027.79 315.763 1323.82 278.444 1350.05 524.045C1376.27 769.645 883.305 942.625 767.06 701.563C650.816 460.501 639.721 147.07 1034.35 131.689C1428.97 116.307 1441.83 289.539 1516.47 508.663C1576.18 683.962 1797.04 676.683 1900 651.132";
+
 	/**
 	 * Override, Ant takes more damage from AOE type attacks
 	 * @param dealtDamage Amount of damage dealt
@@ -123,11 +125,10 @@ export class Ant extends EnemyEntity {
 	 */
 	public async brain() {
 
-		let path = "M0 0.315337C311.161 -6.24074 475.567 499.838 751.679 407.8C1027.79 315.763 1323.82 278.444 1350.05 524.045C1376.27 769.645 883.305 942.625 767.06 701.563C650.816 460.501 639.721 147.07 1034.35 131.689C1428.97 116.307 1441.83 289.539 1516.47 508.663C1576.18 683.962 1797.04 676.683 1900 651.132"
-		await this.followPath(path);
+		await this.followPath(Ant.path);
 
 		await this.wait(500);
-		
+
 		// Get the closest DEFENDER entity
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 	

@@ -7,8 +7,6 @@ import viewFiles from "./view/files.json" with { type: "json" };
 
 
 
-Engine.showDebugInfo = true;
-
 // Set which view to show once all the loading is done
 const defaultView = "main-menu/start";
 

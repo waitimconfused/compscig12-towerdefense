@@ -33,23 +33,93 @@ var picnicBackground = new ViewRect;
 view.addElement(picnicBackground);
 picnicBackground.setFill(picnicBackgroundImage);
 picnicBackground.setAnchor(Engine.anchorPresets.bottomCenter);
-picnicBackground.setRotation(3, "deg");
+picnicBackground.setRotation(-3, "deg");
 picnicBackground.setSize(window.innerWidth, window.innerHeight);
 picnicBackground.setStroke("none");
 
-mainMenu.addEventListener("resize", () => {
+view.addEventListener("resize", () => {
 	grassBackground.setSize(Engine.size[0], Engine.size[1]);
 	picnicBackground.setSize(Engine.size[0] * 1.2, Engine.size[1] * 1.2);
 });
 
-// Book
-var book = new ViewSprite("gui-cover")
+view.addElement(
+	new ViewSprite("carrier-1")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.setTranslation(-100, -275)
+);
+
+view.addElement(
+	new ViewSprite("corn-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-500, -300)
+);
+
+
+view.addElement(
+	new ViewSprite( "cherry-skipping" )
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-250, -200)
+);
+
+view.addElement(
+	new ViewSprite("sandwich-four")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-400, -150)
+);
+
+view.addElement(
+	new ViewSprite("ant-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-750, -350)
+);
+
+view.addElement(
+	new ViewSprite("raccoon-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.setTranslation(-800, -250)
+);
+
+view.addElement(
+	new ViewSprite("ant-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-800, -200)
+);
+
+view.addElement(
+	new ViewSprite("ant-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-900, -150)
+);
+
+view.addElement(
+	new ViewSprite("ant-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-825, -125)
+);
+
+view.addElement(
+	new ViewSprite("gui-cover")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setOrigin(0, 1)
 	.setTranslation(-100, 50)
 	.setRotation(bookRotation)
-
-mainMenu.addElement(book);
+);
 
 // Title
 mainMenu.addElement(
@@ -109,9 +179,6 @@ mainMenu.addElement(
 // Credits Menu
 var creditsMenu = new View();
 view.createView("credits", creditsMenu);
-
-// Book
-creditsMenu.addElement(book);
 
 // Title
 creditsMenu.addElement(

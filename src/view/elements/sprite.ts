@@ -90,6 +90,18 @@ export class ViewSprite extends ViewElement {
 	}
 
 	/**
+	 * Apply a scale the instance
+	 * 
+	 * @param scale	The scaling factor to be applied
+	 */
+	public scale(scale:number):this {
+		this.size[0] *= scale;
+		this.size[1] *= scale;
+
+		return this
+	}
+
+	/**
 	 * Set the sprite's reference
 	 * 
 	 * See: [Tower Defense // Asset Previewer](http://localhost:5500/assets/preview.html))

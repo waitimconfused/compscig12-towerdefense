@@ -195,6 +195,7 @@ export abstract class Entity {
 
 	protected _targetPath:SVGPathElement|null = null;
 	private _targetPathLength:number = 0;
+	private _targetPathMaxLength:number = 0;
 
 	private internalTimers:EntityTimer[] = [];
 	
@@ -447,6 +448,7 @@ export abstract class Entity {
 
 			this._targetPath = svg;
 			this._targetPathLength = 0;
+			this._targetPathMaxLength = svg.getTotalLength();
 			this._targetPosition = null;
 
 			// If the entity is stunned, resolve the promise,
@@ -803,8 +805,6 @@ export abstract class Entity {
 
 		if (this._targetPath && !this.stunned) {
 
-			let pathLength:number = this._targetPath.getTotalLength();
-
 			let rawPosition:DOMPoint = this._targetPath.getPointAtLength(this._targetPathLength);
 			let newPosition:Position2D = [ rawPosition.x, rawPosition.y ];
 			this._targetPathLength += this.stats.speed * deltaTime;
@@ -826,9 +826,10 @@ export abstract class Entity {
 			this.position[0] = newPosition[0];
 			this.position[1] = newPosition[1];
 
-			if (this._targetPathLength >= pathLength) {
+			if (this._targetPathLength >= this._targetPathMaxLength) {
 				this._targetPath = null;
 				this._targetPathLength = 0;
+				this._targetPathMaxLength = 0;
 				this._targetPosition = null;
 				this.state = "idle";
 				this.interruptTimers("walk");

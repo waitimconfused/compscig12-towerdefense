@@ -401,59 +401,22 @@ export class SpriteRenderer extends StaticClass {
 		let data = this.getData(reference, forced_time);
 
 		// If the data cannot be rendered, don't do anything
-		// if (!data) return;
+		if (!data) return;
 		
-		// Try rendering the image onto the canvas
-		try {
-			// Draw an image on the passed `RenderingContext`
-			context.drawImage(
+		// Draw an image on the passed `RenderingContext`
+		context.drawImage(
 
-				// The image to be drawn
-				data!.image,
+			// The image to be drawn
+			data!.image,
 
-				// The position/size of where to crop (inside the image)
-				data!.crop.x, data!.crop.y,
-				data!.crop.w, data!.crop.h,
+			// The position/size of where to crop (inside the image)
+			data!.crop.x, data!.crop.y,
+			data!.crop.w, data!.crop.h,
 
-				// The position/size of where to put the (cropped) image on the given canvas
-				reference.position[0], reference.position[1],
-				reference.size[0] || data!.crop.w, reference.size[1] || data!.crop.h
-			);
-		} catch (e) {
-			// The image cannot be rendered.
-			// Will show a black-white
-
-			let halfWidth = (reference.size[0] || (data?.crop.w ?? 100))  / 2;
-			let halfHeight = (reference.size[1] || (data?.crop.h ?? 100)) / 2;
-
-			context.fillStyle = "#000000";
-			context.fillRect(
-				reference.position[0],
-				reference.position[1],
-				halfWidth,
-				halfHeight
-			);
-			context.fillRect(
-				reference.position[0] + halfWidth,
-				reference.position[1] + halfHeight,
-				halfWidth,
-				halfHeight
-			);
-
-			context.fillStyle = "#FF00FF";
-			context.fillRect(
-				reference.position[0] + halfWidth,
-				reference.position[1],
-				halfWidth,
-				halfHeight
-			);
-			context.fillRect(
-				reference.position[0],
-				reference.position[1] + halfHeight,
-				halfWidth,
-				halfHeight
-			);
-		}
+			// The position/size of where to put the (cropped) image on the given canvas
+			reference.position[0], reference.position[1],
+			reference.size[0] || data!.crop.w, reference.size[1] || data!.crop.h
+		);
 
 	}
 
@@ -473,64 +436,27 @@ export class SpriteRenderer extends StaticClass {
 		let data = this.getData(reference, forced_time);
 
 		// If the referenced sprite does not exist, return the (empty) `OffscreenCanvas`
-		// if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);
+		if (!data) return new OffscreenCanvas(reference.size[0], reference.size[1]);
 
 		// Create a new OffscreenCanvas, as well as a 2D context for it.
 		// The OffscreenCanvas is the same size a the `ref.size` values.
 		let offscreenCanvas:OffscreenCanvas = new OffscreenCanvas( reference.size[0] || (data?.crop.w ?? 100), reference.size[1] || (data?.crop.h ?? 100) );
 		let context:OffscreenCanvasRenderingContext2D = offscreenCanvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
 
-		// Try rendering the image onto the canvas
-		try {
-			// Draw an image on the passed `RenderingContext`
-			context.drawImage(
+		// Draw an image on the passed `RenderingContext`
+		context.drawImage(
 
-				// The image to be drawn
-				data!.image,
+			// The image to be drawn
+			data!.image,
 
-				// The position/size of where to crop (inside the image)
-				data!.crop.x, data!.crop.y,
-				data!.crop.w, data!.crop.h,
+			// The position/size of where to crop (inside the image)
+			data!.crop.x, data!.crop.y,
+			data!.crop.w, data!.crop.h,
 
-				// The position/size of where to put the (cropped) image on the given canvas
-				reference.position[0], reference.position[1],
-				reference.size[0] || data!.crop.w, reference.size[1] || data!.crop.h
-			);
-		} catch (e) {
-			// The image cannot be rendered.
-			// Will show a black-white
-
-			let halfWidth = (reference.size[0] || (data?.crop.w ?? 100))/2;
-			let halfHeight = (reference.size[1] || (data?.crop.h ?? 100))/2;
-
-			context.fillStyle = "#000000";
-			context.fillRect(
-				reference.position[0],
-				reference.position[1],
-				halfWidth,
-				halfHeight
-			);
-			context.fillRect(
-				reference.position[0] + halfWidth,
-				reference.position[1] + halfHeight,
-				halfWidth,
-				halfHeight
-			);
-
-			context.fillStyle = "#FF00FF";
-			context.fillRect(
-				reference.position[0] + halfWidth,
-				reference.position[1],
-				halfWidth,
-				halfHeight
-			);
-			context.fillRect(
-				reference.position[0],
-				reference.position[1] + halfHeight,
-				halfWidth,
-				halfHeight
-			);
-		}
+			// The position/size of where to put the (cropped) image on the given canvas
+			reference.position[0], reference.position[1],
+			reference.size[0] || data!.crop.w, reference.size[1] || data!.crop.h
+		);
 
 		// Return the OffscreenCanvas, which holds the drawn sprite image
 		return offscreenCanvas;

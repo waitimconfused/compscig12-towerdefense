@@ -70,6 +70,22 @@ for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 	output.appendChild(section);
 }
 
+if (location.hash) {
+	let hash = location.hash.replace(/^#/, "");
+	let sectionTitle:HTMLParagraphElement|null = document.getElementById(hash) as HTMLParagraphElement|null;
+
+	if (sectionTitle) {
+		sectionTitle.scrollIntoView(true);
+
+		sectionTitle.style.animation = "highlight 1s linear";
+
+		sectionTitle.addEventListener("animationend", () => {
+			sectionTitle.style.animation = "";
+		});
+
+	}
+}
+
 let previousTime = 0;
 
 function tick() {
