@@ -35,7 +35,7 @@ export class GlassOfLemonade extends Tool{
 		this.toolRequirements.set('coin', 50);
 	}
 
-	protected onDeath(){}
+	protected onDeath(): void {}
 
 	public async brain(){
 		//Wait for 6 frames

@@ -15,8 +15,8 @@ export abstract class Tool extends Entity{
 	 * @returns if there aren't enough of the required materials, return false
 	 * if there are enough required materials, return true
 	 */
-	private canMake() : boolean{
-		let tools = [ ...this.toolRequirements.keys() ];
+	public canMake() : boolean{
+		let tools = [ ...this.toolRequirements.keys()];
 
 		for (let i = 0; i < tools.length; i++) {
 

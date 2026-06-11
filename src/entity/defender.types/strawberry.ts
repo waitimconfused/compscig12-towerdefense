@@ -9,7 +9,7 @@ export class Strawberry extends DefenderEntity {
 	 * The increased chance for Strawberry to be psychotic
 	 * 	This is available to use when at level 3 and up
 	 */
-	private static getsCrazier : boolean = false;
+	public static getsCrazier : boolean = false;
 
 	/**the mental state the Strawberry spawns with */
 	public mentalState : number;
