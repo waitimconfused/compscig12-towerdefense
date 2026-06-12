@@ -3,7 +3,7 @@
 
 	"logic": [
 		{
-			"rule": "state=='idle",
+			"rule": "state=='idle'",
 
 			"layers": [
 				{
@@ -14,7 +14,7 @@
 		},
 
 		{
-			"rule": "state==use",
+			"rule": "state=='use'",
 
 			"layers": [
 				{

@@ -5,8 +5,9 @@ import Engine from "../../engine.js";
 import { ViewSprite } from "../elements/sprite.js";
 import { Ant } from "../../entity/enemy.types/ant.js";
 import { Wave } from "../../wave.js";
-import { IceCube } from "../../entity/tools/glassoflemonade.js";
+import { GlassOfLemonade, IceCube } from "../../entity/tools/glassoflemonade.js";
 import { JarOfHoney } from "../../entity/tools/jarofhoney.js";
+import { Toothpick } from "../../entity/tools/toothpick.js";
 
 var hasPlayed = false;
 
@@ -47,7 +48,7 @@ gameplayView.addEventListener("show", () => {
 		GameplayView.playSpaceSize[1]/2
 	]);
 
-	JarOfHoney.spawn(1, [100, 100]);
+	JarOfHoney.spawn(1, [700, 100]);
 
 	hasPlayed = true;
 });

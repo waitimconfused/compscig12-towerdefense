@@ -14,7 +14,7 @@
 		},
 
 		{
-			"rule": "state=='used",
+			"rule": "state=='used'",
 
 			"layers": [
 				{
