@@ -177,8 +177,8 @@ export default class GameplayView extends View {
 
 			
 			// If there has been a change in state, reset the sprite's animation offset
-			if (entity.hasStateChanged || this.entitySpriteLayers.has(entity.id)==false) {
-				entity.hasStateChanged = false;
+			if (entity.updateRenderCache || this.entitySpriteLayers.has(entity.id)==false) {
+				entity.updateRenderCache = false;
 
 				let spriteRuleset = entityRenderingLookup.get(entity.entityType);
 	

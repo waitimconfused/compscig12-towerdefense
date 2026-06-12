@@ -152,18 +152,31 @@ export abstract class Entity {
 	 */
 	private _state:string = "idle";
 
-	public hasStateChanged:boolean = false;
+	/**
+	 * Used to determine when to reload the render data for the entity
+	 */
+	public updateRenderCache:boolean = false;
 
+	/**
+	 * Keep track of what the entities stat is.
+	 * 
+	 * This is used for selecting which logic
+	 * flow should be used when rendering
+	 */
 	public set state(state:string) {
 		if (this._state != state) {
-			this.hasStateChanged = true;
+			this.updateRenderCache = true;
 		}
 		this._state = state;
 	}
 
-	public get state() {
-		return this._state;
-	}
+	/**
+	 * Keep track of what the entities stat is.
+	 * 
+	 * This is used for selecting which logic
+	 * flow should be used when rendering
+	 */
+	public get state() { return this._state; }
 	
 	/**
 	 * Keep track of where the entity is in the world, as a `Position2D` array
@@ -445,11 +458,10 @@ export abstract class Entity {
 
 	}
 
-		/**
-	 * Make the entity start walking to a target location
+	/**
+	 * Walk continuously to a target entity
 	 * 
-	 * @param x		The `x`-coordinate of the target location
-	 * @param y		The `y`-coordinate of the target position
+	 * @param entity	The entity to walk towards
 	 * 
 	 * @returns		A promise that is resolved when the target
 	 * 				position is reached, OR if the walking has been
@@ -473,6 +485,11 @@ export abstract class Entity {
 			}
 			
 			// Set the internal target position
+			// 
+			// Since the entity's position is an array, it is set as a reference
+			// 
+			// Because it's a reference, as the entity moves, the target location appears to update
+			// to continuously track the entity
 			this._targetPosition = entity.position;
 
 			// Set the internal state to `"walk"`
