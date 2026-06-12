@@ -52,7 +52,7 @@ export class Wasp extends EnemyEntity {
 		}
 
 		// Plays the attack animation
-		this.state = 'attack'
+		this.state = 'attack';
 
 		// Waits for 5 frames
 		let interrupt = await this.wait(500);
@@ -92,9 +92,7 @@ export class Wasp extends EnemyEntity {
 		}
 
 		// Walks towards the closest DefenderEntity
-		let interrupt = await this.walkTo(
-			closestEntity.position[0], closestEntity.position[1]
-		)
+		let interrupt = await this.walkToEntity(closestEntity);
 
 		// Attacks
 		if (!interrupt) {

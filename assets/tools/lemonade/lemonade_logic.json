@@ -1,0 +1,17 @@
+{
+	"type": "tool/lemonade",
+
+	"logic": [
+		{
+			"rule": "state=='use'",
+
+			"layers": [
+				{
+					"sprite": "use-lemonade",
+					"origin": [ 50, 100 ]
+				}
+			] 
+			
+		}
+	]
+}

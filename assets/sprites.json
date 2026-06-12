@@ -36,6 +36,16 @@
 		"./defender/cherry/logic.json",
 		"./defender/banana/entity-logic.json",
 		"./defender/banana/spawner-logic.json",
+
+		"./enemies/raccoon/logic.json",
+		"./enemies/ant/logic.json",
+		"./enemies/frog/logic.json",
+		"./enemies/wasp/logic.json",
+
+		"./tools/lemonade/lemonade_logic.json",
+		"./tools/lemonade/ice-cube_logic.json",
+		"./tools/honey/jar-of-honey_logic.json",
+		"./tools/toothpick/toothpick_logic.json",
 		"./carrier/logic.json"
 	]
 }

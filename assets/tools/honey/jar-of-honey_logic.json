@@ -1,0 +1,27 @@
+{
+	"type": "tool/jar-of-honey", 
+
+	"logic": [
+		{
+			"rule": "state=='use'",
+
+			"layers": [
+				{
+					"sprite" : "use-honey",
+					"origin" : [ 50, 0 ]
+				}
+			]
+		},
+
+		{
+			"rule": "state=='used'",
+
+			"layers": [
+				{
+					"sprite": "honey-used",
+					"origin": [50, 0]
+				}
+			]
+		}
+	]
+}
