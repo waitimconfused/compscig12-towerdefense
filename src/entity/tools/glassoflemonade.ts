@@ -68,9 +68,7 @@ export class IceCube extends GlassOfLemonade {
 			//Once iceCubeMelting reaches 0, the ice cube has evaporated, and dies
 			this.stats.health = 0;
 		}
-
-
-
+		
 		//See if there are any enemies that are touching the ice cube
 		let entitiesNearIceCube = Entity.totalEntitiesInRange(this,this.stats.aoeRange as number, EnemyEntity);
 
