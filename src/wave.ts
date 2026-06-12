@@ -75,8 +75,7 @@ export class Wave extends StaticClass {
 			Raccoon.spawn(1,[100,100],2);
 		}
 		
-		// Upgrades all enemies
-		EnemyEntity.upgrade();
+
 	}
 
 	// private waveLoop() : void {

@@ -138,10 +138,7 @@ export class Ant extends EnemyEntity {
 		}
 	
 		// Walk toward defender
-		let interrupt = await this.walkTo(
-			closestEntity.position[0],
-			closestEntity.position[1]
-		);
+		let interrupt = await this.walkToEntity(closestEntity);
 
 		// Attack if nothing was interrupted
 		if (!interrupt) {

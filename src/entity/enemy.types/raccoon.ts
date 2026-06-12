@@ -91,10 +91,7 @@ export class Raccoon extends EnemyEntity {
 		}
 
 		// Walks towards the closest DefenderEntity
-		let interrupt = await this.walkTo(
-			closestEntity.position[0],
-			closestEntity.position[1]
-		);
+		let interrupt = await this.walkToEntity(closestEntity);
 
 		// Attacks the closest DefenderEntity
 		if (!interrupt) {
