@@ -445,6 +445,53 @@ export abstract class Entity {
 
 	}
 
+		/**
+	 * Make the entity start walking to a target location
+	 * 
+	 * @param x		The `x`-coordinate of the target location
+	 * @param y		The `y`-coordinate of the target position
+	 * 
+	 * @returns		A promise that is resolved when the target
+	 * 				position is reached, OR if the walking has been
+	 * 				interrupted.
+	 */
+	public walkToEntity(entity:Entity):Promise<undefined|EntityEvent> {
+
+		return new Promise((resolve, reject) => {
+
+			// If the entity is stunned, resolve the promise,
+			// with the reason that it is stunned
+			if (this.stunned) {
+				resolve({ interrupt_type: "stunned" });
+				return;
+			}
+
+			// If the position is the same as the target location, stop
+			if (this.position[0] == entity.position[0] && this.position[1] == entity.position[1]) {
+				resolve(undefined);
+				return;
+			}
+			
+			// Set the internal target position
+			this._targetPosition = entity.position;
+
+			// Set the internal state to `"walk"`
+			this.state = "walk";
+
+			// Add a walking timer to the list of internal timers
+			// This timer will be resolved when the target position
+			// has been reached, or the entity could not reach
+			// said position due to some reason
+			this.internalTimers.push({
+				type: "walk",
+				complete: resolve,
+				fail: reject
+			});
+
+		});
+
+	}
+
 	/**
 	 * 
 	 * @param path	SVG path data
