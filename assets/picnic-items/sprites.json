@@ -1,7 +1,7 @@
 [
 	{
 		"name": "wine",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -11,7 +11,7 @@
 	},
 	{
 		"name": "plate",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 1150,

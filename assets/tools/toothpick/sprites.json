@@ -1,7 +1,7 @@
 [
 	{
 		"name": "use-toothpick",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -24,7 +24,7 @@
 	},
 	{
 		"name": "toothpick-used",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,

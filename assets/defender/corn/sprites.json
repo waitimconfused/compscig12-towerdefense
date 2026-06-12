@@ -1,7 +1,7 @@
 [
 	{
 		"name": "corn-idling",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -21,7 +21,7 @@
 	},
 	{
 		"name": "corn-attacking",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 214,
@@ -49,7 +49,7 @@
 	},
 	{
 		"name": "corn-kernal",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 431,

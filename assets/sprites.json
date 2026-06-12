@@ -1,45 +1,41 @@
 {
 	"assets": [
-		"./defender/strawberry/sprite-collection.json",
-		"./defender/sandwich/sprite-collection.json",
-		"./defender/banana/sprite-collection.json",
-		"./defender/corn/sprite-collection.json",
-		"./defender/cherry/sprite-collection.json",
-
-		"./enemies/raccoon/sprite-collection.json",
-		"./enemies/ant/sprite-collection.json",
-		"./enemies/frog/sprite-collection.json",
-		"./enemies/wasp/sprite-collection.json",
-		"./icons/icons.json",
-
-		"./carrier/sprite-collection.json",
-		"./cutlery/sprite-collection.json",
-		"./picnic-items/sprite-collection.json",
-		"./tools/honey/sprite-collection.json",
-		"./tools/lemonade/sprite-collection.json",
-		"./tools/toothpick/sprite-collection.json",
-
-		"./gui/book.json",
-		"./gui/tab-stats.json",
-		"./gui/tab-defender.json",
-		"./gui/tab-enemy.json",
-		"./gui/paper.json"
+		"./sprites.json",
+		"./tools/toothpick/sprites.json",
+		"./tools/lemonade/sprites.json",
+		"./tools/honey/sprites.json",
+		"./picnic-items/sprites.json",
+		"./materials/sprites.json",
+		"./icons/icon-sprites.json",
+		"./gui/book-sprites.json",
+		"./gui/paper-sprite.json",
+		"./gui/tab-defender-sprites.json",
+		"./gui/tab-enemy-sprites.json",
+		"./gui/tab-stats-sprites.json",
+		"./enemies/wasp/sprites.json",
+		"./enemies/raccoon/sprites.json",
+		"./enemies/frog/sprites.json",
+		"./enemies/ant/sprites.json",
+		"./defender/strawberry/sprites.json",
+		"./defender/sandwich/sprites.json",
+		"./defender/corn/sprites.json",
+		"./defender/cherry/sprites.json",
+		"./defender/banana/sprite.json",
+		"./cutlery/sprites.json",
+		"./carrier/sprites.json"
 	],
-
 	"logic": [
+		"./tools/lemonade/ice-cube-logic.json",
+		"./enemies/wasp/logic.json",
+		"./enemies/raccoon/logic.json",
+		"./enemies/frog/logic.json",
+		"./enemies/ant/logic.json",
 		"./defender/strawberry/logic.json",
 		"./defender/sandwich/logic.json",
-		"./defender/banana/spawner_logic.json",
-		"./defender/banana/entity_logic.json",
-		"./defender/cherry/logic.json",
 		"./defender/corn/logic.json",
-
-		"./enemies/raccoon/logic.json",
-		"./enemies/ant/logic.json",
-		"./enemies/frog/logic.json",
-		"./enemies/wasp/logic.json",
-
-		"./tools/lemonade/ice-cube-logic.json",
+		"./defender/cherry/logic.json",
+		"./defender/banana/entity-logic.json",
+		"./defender/banana/spawner-logic.json",
 		"./carrier/logic.json"
 	]
 }

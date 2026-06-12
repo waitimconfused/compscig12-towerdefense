@@ -1,7 +1,7 @@
 [
 	{
 		"name": "ant-idling",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -20,7 +20,7 @@
 	},
 	{
 		"name": "ant-walking",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 90,
@@ -39,7 +39,7 @@
 	},
 	{
 		"name": "ant-attacking",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 179,

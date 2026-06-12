@@ -1,7 +1,7 @@
 [
 	{
 		"name": "use-lemonade",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -26,7 +26,7 @@
 	},
 	{
 		"name": "melting-ice-cube",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 298,
@@ -48,7 +48,7 @@
 	},
 	{
 		"name": "ice-cube-1",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 298,
@@ -58,7 +58,7 @@
 	},
 	{
 		"name": "ice-cube-2",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 398,
 			"y": 298,
@@ -68,7 +68,7 @@
 	},
 	{
 		"name": "ice-cube-3",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 597,
 			"y": 298,
@@ -78,7 +78,7 @@
 	},
 	{
 		"name": "ice-cube-4",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 796,
 			"y": 298,

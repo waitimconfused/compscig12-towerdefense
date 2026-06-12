@@ -1,7 +1,7 @@
 [
 	{
 		"name": "raccoon-idling",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -22,7 +22,7 @@
 	},
 	{
 		"name": "raccoon-walking",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 183,
@@ -43,7 +43,7 @@
 	},
 	{
 		"name": "raccoon-attacking",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 369,

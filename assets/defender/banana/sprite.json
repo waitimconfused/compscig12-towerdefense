@@ -1,7 +1,7 @@
 [
 	{
 		"name": "banana-spawn",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -21,7 +21,7 @@
 	},
 	{
 		"name": "banana-peel-flop",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 273,
@@ -45,7 +45,7 @@
 	},
 	{
 		"name": "banana-rolling",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 520,
@@ -66,7 +66,7 @@
 	},
 	{
 		"name": "banana-death",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"animation": {
 			"frames": [
 				{ "crop": { "x": 1860, "y": 0, "w": 367, "h": 268 } },

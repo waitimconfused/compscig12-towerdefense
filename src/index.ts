@@ -3,7 +3,7 @@ import Inventory from "./inventory.js";
 import { MouseManager } from "./mouse.js";
 import { SpriteRenderer } from "./sprites.js";
 import { ViewText } from "./view/elements/text.js";
-import viewFiles from "./view/files.json" with { type: "json" };
+import viewFiles from "./view/views.json" with { type: "json" };
 
 
 
@@ -29,10 +29,10 @@ const canvas:HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvas
 await SpriteRenderer.loadDefaults();
 
 
-for (let i = 0; i < viewFiles.views.length; i ++) {
+for (let i = 0; i < viewFiles.length; i ++) {
 	
 	// Get the current path to the file
-	let path = viewFiles.views[i] as string;
+	let path = viewFiles[i] as string;
 	
 	// Replace __.ts with __.js
 	path = path.replace(/\.ts$/, ".js");

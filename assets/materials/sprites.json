@@ -1,7 +1,7 @@
 [
 	{
 		"name": "coin",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -11,7 +11,7 @@
 	},
 	{
 		"name": "wood",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 1526,
@@ -21,7 +21,7 @@
 	},
 	{
 		"name": "jar",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 2513,
@@ -31,7 +31,7 @@
 	},
 	{
 		"name": "honey",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 4004,

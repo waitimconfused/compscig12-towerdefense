@@ -1,7 +1,7 @@
 [
 	{
 		"name": "frog-idling",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -23,7 +23,7 @@
 	},
 	{
 		"name": "frog-jumping",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 186,

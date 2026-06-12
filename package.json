@@ -14,8 +14,9 @@
 	"license": "ISC",
 	"type": "commonjs",
 	"scripts": {
-		"build": "npx tsc",
-		"dev": "npx tsc --watch"
+		"build": "npm run reload && npx tsc",
+		"reload": "node reload-json.js",
+		"dev": "npm run reload && npx tsc --watch"
 	},
 	"dependencies": {
 		"@types/node": "^25.5.0",

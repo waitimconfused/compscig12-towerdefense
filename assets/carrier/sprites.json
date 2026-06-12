@@ -1,7 +1,7 @@
 [
 	{
 		"name": "carrier-1",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 2077,
@@ -11,7 +11,7 @@
 	},
 	{
 		"name": "carrier-1-open",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 2077,
@@ -32,7 +32,7 @@
 	},
 	{
 		"name": "carrier-2",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 4365,
@@ -42,7 +42,7 @@
 	},
 	{
 		"name": "carrier-2-open",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 4365,
@@ -63,7 +63,7 @@
 	},
 	{
 		"name": "carrier-3",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 6282,
@@ -73,7 +73,7 @@
 	},
 	{
 		"name": "carrier-3-open",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 6282,

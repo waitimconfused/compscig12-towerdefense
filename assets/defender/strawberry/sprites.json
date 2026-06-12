@@ -1,7 +1,7 @@
 [
 	{
 		"name": "strawberry-face-3",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -23,7 +23,7 @@
 	},
 	{
 		"name": "strawberry-face-2",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 64,
@@ -45,7 +45,7 @@
 	},
 	{
 		"name": "strawberry-face-1",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 102,
@@ -67,7 +67,7 @@
 	},
 	{
 		"name": "strawberry-idling",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 144,
@@ -89,7 +89,7 @@
 	},
 	{
 		"name": "strawberry-launch",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 283,
@@ -111,7 +111,7 @@
 	},
 	{
 		"name": "strawberry-flying",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 420,

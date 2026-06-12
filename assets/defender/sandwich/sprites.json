@@ -1,7 +1,7 @@
 [
 	{
 		"name": "sandwich-six",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 0,
@@ -29,7 +29,7 @@
 	},
 	{
 		"name": "sandwich-five",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 261,
@@ -57,7 +57,7 @@
 	},
 	{
 		"name": "sandwich-four",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 492,
@@ -85,7 +85,7 @@
 	},
 	{
 		"name": "sandwich-three",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 719,
@@ -112,7 +112,7 @@
 	},
 	{
 		"name": "sandwich-two",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 934,
@@ -140,7 +140,7 @@
 	},
 	{
 		"name": "sandwich-one",
-		"source": "./sprite-collection.png",
+		"source": "./sprites.png",
 		"crop": {
 			"x": 0,
 			"y": 1113,

@@ -298,7 +298,7 @@ class ExportableSprite {
 
 			contextPackage.drawImage(canvas, 0, y);
 
-			(duplicatedSpriteData[i] as SpriteData).source = "./sprite-collection.png";
+			(duplicatedSpriteData[i] as SpriteData).source = "./sprites.png";
 
 			(duplicatedSpriteData[i] as SpriteData).crop = {
 				x: duplicatedSpriteData[i]?.crop?.x ?? 0,
@@ -352,7 +352,7 @@ class ExportableSprite {
 		window.URL.revokeObjectURL(url);
 
 		let imageLink: HTMLAnchorElement = document.createElement("a");
-		imageLink.setAttribute('download', "sprite-collection.png");
+		imageLink.setAttribute('download', "sprites.png");
 		imageLink.setAttribute('href', href);
 		imageLink.click();
 
