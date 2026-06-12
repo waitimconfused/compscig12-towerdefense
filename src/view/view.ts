@@ -69,8 +69,6 @@ export class View extends ViewElementCollection {
 		// Get a list of callback functions that are for the same event type
 		let listeners:ViewListenerCallback[] = this.listeners[type];
 		
-		console.log(`View has received the "${type}" event. Triggering ${listeners.length} listeners`);
-
 		// Loop through each listener, and call it
 		for (let i = 0; i < listeners.length; i ++) {
 			

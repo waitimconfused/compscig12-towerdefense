@@ -102,7 +102,7 @@ export abstract class Entity {
 	/**
 	 * The ID of the entity, used as the key inside `Entity.entities:Map<string, Entity>`
 	 */
-	public get id():string { return this.id; }
+	public get id():string { return this._id; }
 
 	/**
 	 * Keep track of if the entity is stunned
@@ -150,7 +150,20 @@ export abstract class Entity {
 	 * This is used for selecting which logic
 	 * flow should be used when rendering
 	 */
-	public state:string = "idle";
+	private _state:string = "idle";
+
+	public hasStateChanged:boolean = false;
+
+	public set state(state:string) {
+		if (this._state != state) {
+			this.hasStateChanged = true;
+		}
+		this._state = state;
+	}
+
+	public get state() {
+		return this._state;
+	}
 	
 	/**
 	 * Keep track of where the entity is in the world, as a `Position2D` array
@@ -214,12 +227,6 @@ export abstract class Entity {
 	 * the `die()` function only once
 	 */
 	private isDead:boolean = false;
-	
-	/**
-	 * Keep track of what offset to apply to the sprite when
-	 * being rendered onto the `GameplayView`
-	 */
-	public animationOffset:number = 0;
 
 	/**
 	 * This function will be called when the entity's health is <= `0`.
@@ -305,6 +312,8 @@ export abstract class Entity {
 	public wait(milliseconds:number, ticker?:EntityTimerTicker):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve, reject) => {
+
+			this.state = "idle";
 
 			// Add an internal WAIT timer
 			this.internalTimers.push({
@@ -415,6 +424,9 @@ export abstract class Entity {
 			
 			// Set the internal target position
 			this._targetPosition = [ x, y ];
+			this._targetPath = null;
+			this._targetPathLength = 0;
+			this._targetPathMaxLength = 0;
 
 			// Set the internal state to `"walk"`
 			this.state = "walk";
@@ -745,6 +757,7 @@ export abstract class Entity {
 			// the brain isn't running. This will cause the brain to be
 			// rerun on the next `entity.tick()` call
 			this.brain().then(() => {
+				this.state = "idle";
 				// State that the brain is no longer running/active
 				this.brainActive = false;
 			})
@@ -791,6 +804,9 @@ export abstract class Entity {
 			) {
 				// Clear the target position
 				this._targetPosition = null;
+				this._targetPath = null;
+				this._targetPathLength = 0;
+				this._targetPathMaxLength = 0;
 
 				// Set the state back to `"idle"`
 				this.state = "idle";
@@ -801,9 +817,7 @@ export abstract class Entity {
 			}
 
 
-		}
-
-		if (this._targetPath && !this.stunned) {
+		} else if (this._targetPath && !this.stunned) {
 
 			let rawPosition:DOMPoint = this._targetPath.getPointAtLength(this._targetPathLength);
 			let newPosition:Position2D = [ rawPosition.x, rawPosition.y ];
@@ -834,7 +848,6 @@ export abstract class Entity {
 				this.state = "idle";
 				this.interruptTimers("walk");
 			}
-
 
 
 		}

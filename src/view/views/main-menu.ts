@@ -79,7 +79,15 @@ view.addElement(
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-750, -350)
+	.setTranslation(-760, -400)
+);
+
+view.addElement(
+	new ViewSprite("ant-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-710, -310)
 );
 
 view.addElement(
@@ -94,15 +102,7 @@ view.addElement(
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-800, -200)
-);
-
-view.addElement(
-	new ViewSprite("ant-idling")
-	.setAnchor(Engine.anchorPresets.bottomRight)
-	.setOrigin(1, 1)
-	.scale(0.75)
-	.setTranslation(-900, -150)
+	.setTranslation(-740, -160)
 );
 
 view.addElement(
@@ -112,6 +112,22 @@ view.addElement(
 	.scale(0.75)
 	.setTranslation(-825, -125)
 );
+
+view.addElement(
+	new ViewSprite("ant-idling")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-780, -220)
+);
+
+view.addElement(
+	new ViewSprite("wasp-flying")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.scale(0.75)
+	.setTranslation(-900, -220)
+)
 
 view.addElement(
 	new ViewSprite("gui-cover")
