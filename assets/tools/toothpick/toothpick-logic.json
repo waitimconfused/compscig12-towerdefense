@@ -1,0 +1,27 @@
+{
+	"type": "tool/toothpick",
+
+	"logic": [
+		{
+			"rule": "state=='idle",
+
+			"layers": [
+				{
+					"sprite": "toothpick-used",
+					"origin": [ 50, 0 ] 
+				}
+			]
+		},
+
+		{
+			"rule": "state==use",
+
+			"layers": [
+				{
+					"sprite": "use-toothpick",
+					"origin": [ 50, 0 ] 
+				}
+			]
+		}
+	]
+}

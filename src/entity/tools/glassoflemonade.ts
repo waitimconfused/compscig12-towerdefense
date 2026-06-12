@@ -38,11 +38,14 @@ export class GlassOfLemonade extends Tool{
 	protected onDeath(): void {}
 
 	public async brain(){
+		this.state = "use";
 		//Wait for 6 frames
 		await this.wait(600);
 		//Spawn in the ice cubes
 		//The animation should flow between the glass falling and the ice cubes spawning droppig onto the ground
 		new IceCube(this.position);
+
+		this.state = "used";
 	}
 }
 

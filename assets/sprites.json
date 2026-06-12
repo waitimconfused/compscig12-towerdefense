@@ -39,7 +39,10 @@
 		"./enemies/frog/logic.json",
 		"./enemies/wasp/logic.json",
 
+		"./tools/lemonade/lemonade-logic.json",
 		"./tools/lemonade/ice-cube-logic.json",
+		"./tools/honey/jar-of-honey-logic.json",
+		"./tools/toothpick/toothpick-logic.json",
 		"./carrier/logic.json"
 	]
 }

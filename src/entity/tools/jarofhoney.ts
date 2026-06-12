@@ -40,6 +40,11 @@ export class JarOfHoney extends Tool{
 	protected onDeath(): void {}
 
 	public async brain(){
+		this.state = "use";
+
+		await this.wait(2000);
+
+		this.state = "used";
 		//See if there are any enemies that are touching the honey
 		let entitiesNearHoney = Entity.totalEntitiesInRange(this,this.stats.aoeRange as number, EnemyEntity);
 
@@ -60,6 +65,7 @@ export class JarOfHoney extends Tool{
 		else{
 			return;
 		}
+
 	}
 
 	
