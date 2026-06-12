@@ -7,10 +7,10 @@ import Engine from "../../engine.js"
 import spriteAssets from "../../../assets/sprites.json" with { type: "json" };
 import { BasicSprite, rulesToFunction } from "../../entity/logic-flow.js";
 
-type SpriteRenderingRuleset = { [entityType:string]: (entity:Entity)=>BasicSprite[] };
+type SpriteRenderingRuleset = Map<string, (e:Entity)=>BasicSprite[]>;
 
 // To be filled in later in the code
-var entityRenderingLookup:SpriteRenderingRuleset = {};
+var entityRenderingLookup:SpriteRenderingRuleset = new Map;
 
 export default class GameplayView extends View {
 
@@ -37,6 +37,8 @@ export default class GameplayView extends View {
 		repetition: "repeat",
 		scale: [1, 1]
 	};
+
+	protected entitySpriteLayers:Map<string, {layers:BasicSprite[], animation_offset:number}> = new Map;
 
 	/**
 	 * The generated `CanvasPattern` to be used for `context.fillStyle`.
@@ -165,27 +167,52 @@ export default class GameplayView extends View {
 		// Loop through each entity, updating it and rendering
 		for (let i = 0; i < entities.length; i ++) {
 
-			let id = entities[i] as string;
+			let entityId = entities[i] as string;
 
 			// Get the current entity
-			let entity:Entity = Entity.entities.get(id) as Entity;
-
-			// Take note of which state the entity is in before updating it
-			// Used to reset animation states if a change has been detected
-			let previousState = entity.state;
+			let entity:Entity = Entity.entities.get(entityId) as Entity;
 
 			// Update the entity
 			entity.tick(Engine.stats.delta);
 
-			// Take note of which state the entity is in after updating it
-			let newState = entity.state;
 			
 			// If there has been a change in state, reset the sprite's animation offset
-			if (newState != previousState) entity.animationOffset = performance.now();
+			if (entity.updateRenderCache || this.entitySpriteLayers.has(entity.id)==false) {
+				entity.updateRenderCache = false;
 
+				let spriteRuleset = entityRenderingLookup.get(entity.entityType);
+	
+				// If the display logic function exists, update the stored render data
+				if (spriteRuleset) {
+					// Set/update the entity sprite-layers, with a new animation offset
+					this.entitySpriteLayers.set(entity.id, {
+						layers: spriteRuleset(entity),
+						animation_offset: 0
+					});
+				}
+			}
+			
+			
 			// Render the entity onto the canvas
 			this.renderEntity(entity, canvas, context);
 
+		}
+
+		// Clear unused rendering data
+
+		// Get an array of all saved entity IDs
+		let savedIds:string[] = [ ...this.entitySpriteLayers.keys() ];
+
+		// Loop through each id, and remove it if it does not have a corresponding entity
+		for (let i = 0; i < savedIds.length; i ++) {
+			// Get the id
+			let id:string = savedIds[i] as string;
+
+			// If the entity with the id exists, do not remove it
+			if (Entity.entities.has(id)) continue;
+
+			// Remove the rendering data corresponding to the non-existent entity
+			this.entitySpriteLayers.delete(id);
 		}
 	}
 
@@ -198,17 +225,15 @@ export default class GameplayView extends View {
 	 */
 	protected renderEntity(entity:Entity, canvas:Canvas, context:RenderingContext) {
 
-		// Retrieve the entity sprite display logic function
-		let spriteRuleset = entityRenderingLookup[entity.entityType];
+		let data = this.entitySpriteLayers.get(entity.id);
 
-		// If the display logic function does not exist, don't render
-		if (!spriteRuleset) return;
+		// If there weren't any data provided, don't render
+		if (!data) return;
 
-		// Get a list of sprites along with their positions and origins
-		let layers = spriteRuleset(entity);
-		
-		// If there weren't any layers provided, don't render
-		if (!layers) return;
+		let layers:BasicSprite[] = data.layers;
+
+		// If there are no layers, do not render anything
+		if (!layers || layers.length == 0) return;
 
 		// Loop through each layer, and render it
 		for (let i = 0; i < layers.length; i ++) {
@@ -224,7 +249,7 @@ export default class GameplayView extends View {
 				name: reference.sprite,
 				position: [ 0, 0 ],
 				size: [ 0, 0 ],
-				animation_offset: entity.animationOffset,
+				animation_offset: data.animation_offset,
 				animation_frames: reference.frames
 			});
 
@@ -284,5 +309,5 @@ for (let i = 0; i < spriteAssets.logic.length; i ++) {
 	let generatedRule = rulesToFunction(data.logic);
 
 	// Save the function to the lookup
-	entityRenderingLookup[data.type] = generatedRule;
+	entityRenderingLookup.set(data.type, generatedRule);
 }

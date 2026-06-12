@@ -1,7 +1,8 @@
 import { Position2D } from "../../types.js";
 import GameplayView from "../../view/elements/gameplay-view.js";
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
-import { EntityEvent } from "../entity.js";
+import { EnemyEntity } from "../enemy.js";
+import { Entity, EntityEvent } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
 	/**the readonly name of the entity Strawberry - to prevent spelling mistakes*/
@@ -106,12 +107,13 @@ export class Strawberry extends DefenderEntity {
 	public async brain() {
 		this.rollForMentalState();
 
-		let random:Position2D = [
-			Math.random() * GameplayView.playSpaceSize[0],
-			Math.random() * GameplayView.playSpaceSize[1]
-		];
+		let closestEntity = await Entity.nearestEntity(this, EnemyEntity);
 
-		await this.walkTo( random[0], random[1] );
+		if (!closestEntity) {
+			return;
+		}
+
+		await this.walkToEntity(closestEntity);
 		await this.wait( Math.random() * 100 + 400 );
 
 	}
