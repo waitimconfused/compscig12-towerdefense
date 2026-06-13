@@ -21,16 +21,6 @@
 					"origin": [ 50, 100 ]
 				}
 			]
-		},
-		{
-			"rule": "state=='attack'",
-
-			"layers": [
-				{
-					"sprite": "raccoon-attacking",
-					"origin": [ 50, 100 ]
-				}
-			]
 		}
 	]
 }
