@@ -4,7 +4,6 @@ import { ViewCollection } from "./view/view-collection.js";
 import { ViewElementCollection } from "./view/view-element-collection.js";
 import { ViewText } from "./view/elements/text.js";
 import { ViewElement } from "./view/view-element.js";
-import { Wave } from "./wave.js";
 
 
 type EngineStats = {
@@ -326,8 +325,6 @@ export default class Engine extends StaticClass {
 
 		// Calculate the delta-time
 		this._stats.delta = currentTime - this._stats.lastRenderCall;
-
-		Wave.update(this._stats.delta);
 
 		// Turn the delta-time into frames-per-seconds (rounded to the nearest 0.01)
 		this._stats.fps = 1000 / this._stats.delta;
