@@ -1,5 +1,6 @@
 import Inventory, { InventoryItemTag } from "../inventory.js";
 import { Position2D } from "../types.js";
+import { Wave } from "../wave.js";
 import { Entity, EntityStats } from "./entity.js";
 
 export type MaterialType = 'jar' | 'wood' | 'honey' | 'glassLemonade'
@@ -46,6 +47,15 @@ export abstract class EnemyEntity extends Entity {
 
     // Enemy base stats
 	public static override baseStats: EnemyEntityStats;
+
+    public override reloadStats(): void {
+        super.reloadStats();
+    
+        let waveNumber = Wave.getWave();
+        let scale = Math.pow(1.10, waveNumber - 1);
+    
+        this.stats.health = Math.floor(this.stats.health * scale);
+    }
 
     /**
      * Changes enemy state to dead on death and calculates rewards

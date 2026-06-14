@@ -56,11 +56,6 @@ export class Ant extends EnemyEntity {
 
 		return new Promise((resolve) => {
 
-			// if (this.invulnerable) {
-			// 	resolve(undefined);
-			// 	return;
-			// }
-
 			// Initializes final damage as damage dealt to Ant
 			let finalDamage = dealtDamage;
 

@@ -101,7 +101,6 @@ export class Wave extends StaticClass {
 			Raccoon.spawn(1,[100,100],2);
 		}
 		
-
 	}
 
 	// test to kill everyone :thumbs-up:
