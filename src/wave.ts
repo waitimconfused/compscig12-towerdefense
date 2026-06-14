@@ -79,19 +79,6 @@ export class Wave extends StaticClass {
 		
 
 	}
-
-	// private waveLoop() : void {
-	// 	for (let entity of Entity.entities.values()) {
-		
-	// 		if (entity instanceof EnemyEntity == false) continue;
-		
-	// 		if (entity.stats.health > 0) {
-	// 			console.warn("Not all EnemyEntity instances are dead.");
-	// 			return;
-	// 		}
-	// 	}
-	// }
-
 }
 
 // @ts-ignore
