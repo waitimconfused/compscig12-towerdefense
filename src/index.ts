@@ -6,6 +6,7 @@ import { ViewText } from "./view/elements/text.js";
 import viewFiles from "./view/views.json" with { type: "json" };
 
 
+Engine.showDebugInfo = true;
 
 // Set which view to show once all the loading is done
 const defaultView = "main-menu/start";
@@ -51,13 +52,13 @@ for (let i = 0; i < viewFiles.length; i ++) {
 	
 }
 
-// Show the default view
-console.info(`Showing default view of "${defaultView}"`);
-Engine.showView(defaultView);
-
 // Initialize the Engine, using the defined canvas
 console.info(`Initialing Engine via <canvas id="${canvas.id}">`);
 Engine.initialize(canvas);
+
+// Show the default view
+console.info(`Showing default view of "${defaultView}"`);
+Engine.showView(defaultView);
 
 let loader:HTMLDivElement = document.getElementById("loading") as HTMLDivElement;
 loader.remove();

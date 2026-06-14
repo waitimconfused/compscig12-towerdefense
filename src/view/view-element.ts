@@ -4,7 +4,7 @@ import { Canvas, Position2D, RenderingContext } from "../types.js";
 
 type ViewElementEventType = "click" | "pre-render" | "post-render";
 
-export type ViewCallbackFunction<T> = (element:T) => void;
+export type ViewCallbackFunction<T> = (element:T, canvas:Canvas) => void;
 export type ViewElementStroke = {
 	colour: string | CanvasGradient | CanvasPattern,
 	size: number,
@@ -30,23 +30,22 @@ export abstract class ViewElement {
 	 * 
 	 * Uses the set anchor to calculate
 	 */
-	public get position():Position2D&{ raw:Position2D, anchor:Position2D } {
-
-		type PositionBundle = Position2D & { raw:Position2D, anchor:Position2D };
+	public get position():{ final:Position2D, raw:Position2D, anchor:Position2D } {
 
 		// Get the real position of the anchor
 		let anchorPosition:Position2D = Engine.resolveAnchor(this._anchor);
 
-		// Calculate the real position of self (anchor + position)
-		let totalPosition:PositionBundle = [
-			anchorPosition[0] + this._position[0],
-			anchorPosition[1] + this._position[1]
-		] as PositionBundle;
+		return {
 
-		totalPosition.raw = [ this._position[0], this._position[1] ];
-		totalPosition.anchor = [ anchorPosition[0], anchorPosition[1] ];
+			// Return the un-calculated position
+			raw: [ this._position[0], this._position[1] ],
 
-		return totalPosition;
+			// Return the anchor position
+			anchor: [ this._position[0], this._position[1] ],
+
+			// Return the displayed position (_position+anchor)
+			final: [ anchorPosition[0]+this._position[0], anchorPosition[1]+this._position[1] ]
+		};
 
 	}
 
@@ -161,7 +160,7 @@ export abstract class ViewElement {
 		return this;
 	}
 
-	public dispatchEvent(type:ViewElementEventType) {
+	public dispatchEvent(type:ViewElementEventType, canvas:Canvas) {
 
 		// Loop through each event listener, calling their callbacks
 		for (let i = 0; i < this.eventListeners[type].length; i ++) {
@@ -170,7 +169,7 @@ export abstract class ViewElement {
 			let callback = this.eventListeners[type][i] as ViewCallbackFunction<ViewElement>;
 
 			// Call the listener's callback function
-			callback(this);
+			callback(this, canvas);
 		}
 
 	}
@@ -197,7 +196,7 @@ export abstract class ViewElement {
 	protected setGeneralStyles( context:RenderingContext ): void {
 
 		// Move to the entities position
-		context.translate( this.position[0], this.position[1] );
+		context.translate( this.position.final[0], this.position.final[1] );
 
 		// Rotate by the angle (radians)
 		context.rotate(this.rotation);
@@ -273,7 +272,7 @@ export abstract class ViewElement {
 			if (MouseManager.buttons.left) {
 
 				// Dispatch the click event
-				this.dispatchEvent("click");
+				this.dispatchEvent("click", canvas);
 
 				// Unclick the mouse
 				MouseManager.buttons.left = false;

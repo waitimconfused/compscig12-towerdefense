@@ -4,6 +4,8 @@ import { Canvas, Position2D, RenderingContext } from "../../types.js";
 import { ViewElement } from "../view-element.js";
 
 export class ViewRect extends ViewElement {
+
+	public origin:Position2D = [ 0.5, 0.5 ];
 	
 	/**
 	 * Set the dimensions of the rectangle
@@ -16,6 +18,17 @@ export class ViewRect extends ViewElement {
 		// Update the size
 		this.size = [ width, height ];
 
+		return this;
+	}
+
+	/**
+	 * Set the transform origin of the rectangle, as a percentage between `0`-`1`
+	 * 
+	 * @param x	Percentage along X
+	 * @param y	Percentage along Y
+	 */
+	public setOrigin(x:number, y:number):this {
+		this.origin = [ x, y ];
 		return this;
 	}
 
@@ -49,7 +62,7 @@ export class ViewRect extends ViewElement {
 
 	public override render(canvas: Canvas, context: RenderingContext): void {
 
-		this.dispatchEvent("pre-render");
+		this.dispatchEvent("pre-render", canvas);
 
 		// Save the context's transformations
 		context.save();
@@ -57,8 +70,11 @@ export class ViewRect extends ViewElement {
 		// Apply transformations and set fill/stroke styles
 		this.setGeneralStyles(context);
 
-		// Centre the rectangle
-		context.translate(-this.size[0]/2, -this.size[1]/2);
+		// Move the rectangle to its centre
+		context.translate(
+			- this.size[0] * this.origin[0],
+			- this.size[1] * this.origin[1]
+		);
 
 		// Check for and dispatch events
 		this.checkForUpdates(canvas, context);
@@ -69,13 +85,13 @@ export class ViewRect extends ViewElement {
 		context.closePath();
 
 		// Fill and outline the rectangle
-		context.fill();
 		context.stroke();
+		context.fill();
 
 		// Restore the context's transformations
 		context.restore();
 
-		this.dispatchEvent("post-render");
+		this.dispatchEvent("post-render", canvas);
 
 	}
 }

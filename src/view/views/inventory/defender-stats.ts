@@ -41,23 +41,22 @@ class Section extends ViewElementCollection {
 	 * 
 	 * Uses the set anchor to calculate
 	 */
-	public get position():Position2D&{ raw:Position2D, anchor:Position2D } {
-
-		type PositionBundle = Position2D & { raw:Position2D, anchor:Position2D };
+	public get position():{ final:Position2D, raw:Position2D, anchor:Position2D } {
 
 		// Get the real position of the anchor
 		let anchorPosition:Position2D = Engine.resolveAnchor(this._anchor);
 
-		// Calculate the real position of self (anchor + position)
-		let totalPosition:PositionBundle = [
-			anchorPosition[0] + this._position[0],
-			anchorPosition[1] + this._position[1]
-		] as PositionBundle;
+		return {
 
-		totalPosition.raw = [ this._position[0], this._position[1] ];
-		totalPosition.anchor = [ anchorPosition[0], anchorPosition[1] ];
+			// Return the un-calculated position
+			raw: [ this._position[0], this._position[1] ],
 
-		return totalPosition;
+			// Return the anchor position
+			anchor: [ this._position[0], this._position[1] ],
+
+			// Return the displayed position (_position+anchor)
+			final: [ anchorPosition[0]+this._position[0], anchorPosition[1]+this._position[1] ]
+		};
 
 	}
 
@@ -100,7 +99,7 @@ class Section extends ViewElementCollection {
 	public override render(canvas: Canvas, context: RenderingContext): void {
 		
 		context.save();
-		context.translate(this.position[0], this.position[1]);
+		context.translate(this.position.final[0], this.position.final[1]);
 
 		SpriteRenderer.drawSprite({
 			name: "paper",

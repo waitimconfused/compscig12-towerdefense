@@ -37,6 +37,11 @@ picnicBackground.setRotation(-3, "deg");
 picnicBackground.setSize(window.innerWidth, window.innerHeight);
 picnicBackground.setStroke("none");
 
+view.addEventListener("show", () => {
+	grassBackground.setSize(Engine.size[0], Engine.size[1]);
+	picnicBackground.setSize(Engine.size[0] * 1.2, Engine.size[1] * 1.2);
+});
+
 view.addEventListener("resize", () => {
 	grassBackground.setSize(Engine.size[0], Engine.size[1]);
 	picnicBackground.setSize(Engine.size[0] * 1.2, Engine.size[1] * 1.2);

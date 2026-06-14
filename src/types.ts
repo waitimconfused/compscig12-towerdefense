@@ -4,6 +4,8 @@
  * use wherever in the project
  */
 
+type ArrayLengthMutationKeys = 'splice' | 'push' | 'pop' | 'shift' | 'unshift' | number;
+export type FixedArray<T extends any[]> = Pick< T, Exclude<keyof T, ArrayLengthMutationKeys> >;
 
 /**
  * Array of length 2, filled with numbers representing a 2D coordinate system.
@@ -12,8 +14,7 @@
  * 
  * > EG: `[ 16, 32 ]` (`width=16`, `height=32`)
  */
-export interface Position2D extends Array<number> {
-    length: 2;
+export interface Position2D extends FixedArray<[number, number]> {
 
 	/**
 	 * `Position2D[0]:number`: ***X**-coordinate*

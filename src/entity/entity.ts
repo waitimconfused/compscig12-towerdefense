@@ -140,6 +140,11 @@ export abstract class Entity {
 	public abstract entityType:string;
 
 	public static displayName:string|undefined;
+	public static getDisplayName() {
+		let constructor:typeof Entity = this.constructor as typeof Entity;
+		return constructor.displayName ?? constructor.name
+	}
+
 	public static showInInventory:boolean = true;
 
 	public static idLength:number = 3;
@@ -261,21 +266,12 @@ export abstract class Entity {
 
 		let constructor = this.constructor as typeof Entity;
 
-		// If the entity class can be shown in the inventory,
-		// add the class to the map of derived classes
-		if (constructor.showInInventory) {
-			
-			// Get the display name of the class
-			// Defaults to the name of the class
-			let displayName:string = constructor?.displayName ?? constructor.name;
-			
-			// If the entity has not been registered to the global entity class map, add it
-			let hasBeenSaved = Entity.derived.has(displayName);
-			if ( hasBeenSaved == false ) {
-				Entity.derived.set(displayName, constructor);
-			}
-
-		}
+		// Get the display name of the class
+		// Defaults to the name of the class
+		let displayName:string = constructor?.displayName ?? constructor.name;
+		
+		// Register the constructor to the global entity class map
+		Entity.derived.set(displayName, constructor);
 
 		
 		if (!constructor.baseStats) throw new Error(`Entity ${constructor.name} does not have baseStats.`)
@@ -609,7 +605,7 @@ export abstract class Entity {
 		for (let i = 0; i < count; i ++) {
 
 			// Keep track of where the current `Entity` should be spawned
-			let location:Position2D = Array.from(position) as Position2D;
+			let location:Position2D = [ position[0], position[1] ];
 
 			// If the `spreadAmount` has been set, randomize the placement of each
 			// `Entity` instance, by using a random angle (radians) and

@@ -1,11 +1,13 @@
 import { View, ViewBackground } from "../view.js";
 import { Entity } from "../../entity/entity.js";
 import { SpriteRenderer } from "../../sprites.js";
-import { Canvas, Position2D, RenderingContext } from "../../types.js";
+import { Canvas, FixedArray, Position2D, RenderingContext } from "../../types.js";
 import Engine from "../../engine.js"
 
 import spriteAssets from "../../../assets/sprites.json" with { type: "json" };
 import { BasicSprite, rulesToFunction } from "../../entity/logic-flow.js";
+import { MouseManager } from "../../mouse.js";
+import { Strawberry } from "../../entity/defender.types/strawberry.js";
 
 type SpriteRenderingRuleset = Map<string, (e:Entity)=>BasicSprite[]>;
 
@@ -27,7 +29,7 @@ export default class GameplayView extends View {
 	 * 
 	 * Used to calculate the scale of the content
 	 */
-	public static playSpacePadding:Position2D = [100, 100];
+	public static playSpacePadding:Position2D = [0, 0];
 
 	/**
 	 * Specify what background should be shown to visually represent the play-space
@@ -38,7 +40,11 @@ export default class GameplayView extends View {
 		scale: [1, 1]
 	};
 
-	protected entitySpriteLayers:Map<string, {layers:BasicSprite[], animation_offset:number}> = new Map;
+	public entitySpriteLayers:Map<string, {layers:BasicSprite[], animation_offset:number}> = new Map;
+
+	public entitySpawnAreas:Map<string, Path2D> = new Map;
+
+	public spawningEntity:{reference:string,entity:(typeof Entity)}|null = null;
 
 	/**
 	 * The generated `CanvasPattern` to be used for `context.fillStyle`.
@@ -58,11 +64,12 @@ export default class GameplayView extends View {
 
 		// Determine what scale the entities (and background) should be displayed as
 		// Figure out by finding the smallest horizontal and vertical ratios (with padding)
+
 		let appropriateScale = Math.min(
 			canvas.width / (GameplayView.playSpaceSize[0] + GameplayView.playSpacePadding[0]),
 			canvas.height / (GameplayView.playSpaceSize[1] + GameplayView.playSpacePadding[1])
 		);
-		
+
 		// Save the canvas transforms
 		context.save();
 
@@ -74,16 +81,75 @@ export default class GameplayView extends View {
 
 		// Move where the entities and gameplayBackground will be rendered
 		context.translate(-GameplayView.playSpaceSize[0]/2, -GameplayView.playSpaceSize[1]/2);
-		
+
+		let inverseTransform:DOMMatrix = context.getTransform().inverse();
+		let innerMouse:DOMPoint = inverseTransform.transformPoint( new DOMPoint(MouseManager.x, MouseManager.y) );
+
 		// Draw the gameplay background
 		this.renderGameplayBackground(canvas, context);
 
+		if (this.spawningEntity) {
+			context.save();
+			context.globalAlpha = 0.5;
+
+			let entityDisplayName:string = this.spawningEntity.entity.getDisplayName();
+			if ( this.entitySpawnAreas.has(entityDisplayName) == false ) {
+				this.entitySpawnAreas.set(entityDisplayName, new Path2D(`M0,0 L${GameplayView.playSpaceSize[0]},0 L${GameplayView.playSpaceSize[0]},${GameplayView.playSpaceSize[1]} L0,${GameplayView.playSpaceSize[1]} L0,0`) )
+			}
+	
+			let path:Path2D = this.entitySpawnAreas.get(entityDisplayName) as Path2D;
+
+			context.fillStyle = "green";
+			context.fill(path);
+			context.restore();
+		}
+		
 		// Draw the entities
 		this.renderEntities(canvas, context);
-		
+
+		if (this.spawningEntity) {
+			context.save();
+			context.globalAlpha = 0.5;
+			context.translate(innerMouse.x, innerMouse.y);
+			context.scale(0.75, 0.75);
+
+			let sprite = SpriteRenderer.getSpriteAsOffscreenCanvas({
+				name: this.spawningEntity.reference,
+				position: [ 0, 0 ],
+				size: [ 0, 0 ]
+			});
+			
+			let rotationSpeed = performance.now() / 1000;
+			let minAngle = -Math.PI/18;
+			let maxAngle = Math.PI/18;
+			let angle = 0.5 * ( (maxAngle-minAngle) * Math.sin(rotationSpeed) + (maxAngle+minAngle) );
+
+			context.rotate(angle);
+			context.translate(-sprite.width/2, 0);
+			context.drawImage(sprite, 0, 0);
+			context.restore();
+
+			let path:Path2D = this.entitySpawnAreas.get(this.spawningEntity.entity.getDisplayName()) as Path2D;
+			
+			let isMouseInsideSpawnArea = context.isPointInPath(path, MouseManager.x, MouseManager.y);
+
+			Engine.cursor = isMouseInsideSpawnArea ? "cell" : "no-drop";
+
+			if (isMouseInsideSpawnArea && MouseManager.buttons.left) {
+				
+				MouseManager.buttons.left = false;
+
+				this.spawningEntity.entity.spawn(1, [innerMouse.x, innerMouse.y]);
+				
+				this.spawningEntity = null;
+
+			}
+
+		}
+
 		// Reset the context's transformation
 		context.restore();
-
+		
 		// Render the ViewElement children
 		super.render(canvas, context, false, true);
 

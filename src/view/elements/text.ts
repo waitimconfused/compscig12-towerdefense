@@ -275,7 +275,7 @@ export class ViewText extends ViewElement {
 
 	public override render(canvas:Canvas, context:RenderingContext) {
 
-		this.dispatchEvent("pre-render");
+		this.dispatchEvent("pre-render", canvas);
 
 		// Save the context's transform
 		context.save();
@@ -317,7 +317,7 @@ export class ViewText extends ViewElement {
 		// Restore the context's transform
 		context.restore();
 
-		this.dispatchEvent("post-render");
+		this.dispatchEvent("post-render", canvas);
 	}
 
 }

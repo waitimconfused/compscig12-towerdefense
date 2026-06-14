@@ -2,11 +2,8 @@ const fs = require("fs");
 
 const is_verbose = process.argv.includes("verbose");
 
-// console.clear();.
-
-
 if (is_verbose) console.log("----- Sprites & Sprite Rendering Logic -----");
-let spriteFiles = fs.globSync("assets/**/*(sprite.json|sprites.json|*-sprite.json|*-sprites.json)");
+let spriteFiles = fs.globSync("assets/**/*(sprite.json|sprites.json|*-sprite.json|*-sprites.json)").sort();
 
 if (is_verbose) console.log("Sprites (relative to assets/sprites.json): ");
 else console.log(`Sprite Data: ${spriteFiles.length} files`)
@@ -17,12 +14,18 @@ for (let i = 0; i < spriteFiles.length; i ++) {
 
 	spriteFiles[i] = path.replace(/^assets\//, "./");
 
+	if (spriteFiles[i] == "./sprites.json") {
+		spriteFiles.splice(i, 1);
+		i -= 1;
+		continue;
+	}
+
 	if (is_verbose) console.log(`\t- "${spriteFiles[i]}"`);
 }
 
 
 
-let logicFiles = fs.globSync("assets/**/*(logic.json|*-logic.json)");
+let logicFiles = fs.globSync("assets/**/*(logic.json|*-logic.json)").sort();
 
 if (is_verbose) console.log("\nLogic (relative to assets/sprites.json): ");
 else console.log(`Logic Data:  ${logicFiles.length} files`)
@@ -47,7 +50,7 @@ fs.writeFileSync("assets/sprites.json", JSON.stringify(spriteJson, null, "\t"));
 
 
 if (is_verbose) console.log("\n----- Views -----");
-let viewPaths = fs.globSync("src/view/views/*.ts");
+let viewPaths = fs.globSync("src/view/views/*.ts").sort();
 
 if (is_verbose) console.log("Views (relative to src/view/views.json): ");
 else console.log(`Views:       ${viewPaths.length} files`);

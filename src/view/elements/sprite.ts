@@ -124,7 +124,7 @@ export class ViewSprite extends ViewElement {
 	 */
 	public override render(canvas: Canvas, context: RenderingContext): void {
 
-		this.dispatchEvent("pre-render");
+		this.dispatchEvent("pre-render", canvas);
 
 		// If the referenced sprite has not been loaded yet, stop
 		if (SpriteRenderer.isRegistered(this.reference) == false) return;
@@ -154,7 +154,7 @@ export class ViewSprite extends ViewElement {
 		// Restore the canvas's initial transformations
 		context.restore();
 
-		this.dispatchEvent("post-render");
+		this.dispatchEvent("post-render", canvas);
 
 	}
 

@@ -479,8 +479,8 @@ export class SpriteRenderer extends StaticClass {
 		return new Promise(async (resolve) => {
 
 			let references:string[] = [];
+			let imagePaths:string[] = [];
 
-			let imageCount = 0;
 			let loadedImageCount = 0;
 
 			// Loop through each path, and load the `SpriteData` object(s)
@@ -501,16 +501,31 @@ export class SpriteRenderer extends StaticClass {
 
 					// Loop through each `SpriteData` object, and register it.
 					for (let i = 0; i < imported.length; i ++) {
-						let data = imported[i] as SpriteData;
+						let rawData = imported[i] as SpriteData;
 
 						// Make the source relative to the current JSON file 
-						data.source = new URL( data.source as string, path ).href
+						rawData.source = new URL( rawData.source as string, path ).href
 
 						// Register the sprite
-						SpriteRenderer.registerData( data );
+						let data:SpriteData|null = SpriteRenderer.registerData( rawData as SpriteData );
 						
+						if (data == null) continue;
+
 						// Add the `SpriteData.name` to the list of registered sprites
 						references.push(data.name);
+
+						if (imagePaths.includes(rawData.source)) continue;
+						imagePaths.push(rawData.source);
+						
+						let sourceImage:HTMLImageElement = data.source as HTMLImageElement;
+
+						sourceImage.addEventListener("load", () => {
+							loadedImageCount += 1;
+
+							if (loadedImageCount <= imagePaths.length) return;
+							resolve(references);
+
+						});
 					}
 
 				// If the JSON file is only one `SpriteData` object, register it
@@ -523,14 +538,15 @@ export class SpriteRenderer extends StaticClass {
 					
 					if (data == null) continue;
 
+					if (imagePaths.includes(imported.source)) continue;
+					imagePaths.push(imported.source);
+
 					let sourceImage:HTMLImageElement = data.source as HTMLImageElement;
-					
-					imageCount += 1;
 
 					sourceImage.addEventListener("load", () => {
 						loadedImageCount += 1;
 
-						if (loadedImageCount != imageCount) return;
+						if (loadedImageCount <= imagePaths.length) return;
 						resolve(references);
 
 					});
@@ -540,6 +556,8 @@ export class SpriteRenderer extends StaticClass {
 				}
 
 			}
+
+			console.log(`Loading ${references.length} sprites, with ${imagePaths.length} images`)
 
 			resolve(references);
 
