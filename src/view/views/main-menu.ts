@@ -11,31 +11,29 @@ Engine.createView("main-menu", view);
 const bookRotation = 15;
 const bookRotationRad = bookRotation * Math.PI / 180;
 
-// Play button & Credits button
-var mainMenu = new View();
-view.createView("start", mainMenu);
-
-
 let grassBackgroundImage = new Image;
 grassBackgroundImage.src = "/assets/grass.svg";
-
-var grassBackground = new ViewRect;
-view.addElement(grassBackground);
-grassBackground.setFill(grassBackgroundImage);
-grassBackground.setAnchor(Engine.anchorPresets.centerCenter);
-grassBackground.setSize(window.innerWidth, window.innerHeight);
-grassBackground.setStroke("none");
 
 let picnicBackgroundImage = new Image;
 picnicBackgroundImage.src = "/assets/picnic.svg";
 
-var picnicBackground = new ViewRect;
-view.addElement(picnicBackground);
-picnicBackground.setFill(picnicBackgroundImage);
-picnicBackground.setAnchor(Engine.anchorPresets.bottomCenter);
-picnicBackground.setRotation(-3, "deg");
-picnicBackground.setSize(window.innerWidth, window.innerHeight);
-picnicBackground.setStroke("none");
+var grassBackground = new ViewRect()
+	.setFill(grassBackgroundImage)
+	.setAnchor(Engine.anchorPresets.centerCenter)
+	.setSize(window.innerWidth, window.innerHeight)
+	.setStroke("none");
+
+var picnicBackground = new ViewRect()
+	.setFill(picnicBackgroundImage)
+	.setAnchor(Engine.anchorPresets.bottomCenter)
+	.setRotation(-3, "deg")
+	.setSize(window.innerWidth, window.innerHeight)
+	.setStroke("none");
+
+view.addElement(
+	grassBackground,
+	picnicBackground
+);
 
 view.addEventListener("show", () => {
 	grassBackground.setSize(Engine.size[0], Engine.size[1]);
@@ -47,94 +45,72 @@ view.addEventListener("resize", () => {
 	picnicBackground.setSize(Engine.size[0] * 1.2, Engine.size[1] * 1.2);
 });
 
+// Entities
 view.addElement(
 	new ViewSprite("carrier-1")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
-	.setTranslation(-100, -275)
-);
+	.setTranslation(-100, -275),
 
-view.addElement(
 	new ViewSprite("corn-idling")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-500, -300)
-);
+	.setTranslation(-500, -300),
 
-
-view.addElement(
 	new ViewSprite( "cherry-skipping" )
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-250, -200)
-);
+	.setTranslation(-250, -200),
 
-view.addElement(
 	new ViewSprite("sandwich-four")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-400, -150)
-);
+	.setTranslation(-400, -150),
 
-view.addElement(
 	new ViewSprite("ant-idling")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-760, -400)
-);
+	.setTranslation(-760, -400),
 
-view.addElement(
 	new ViewSprite("ant-idling")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-710, -310)
-);
+	.setTranslation(-710, -310),
 
-view.addElement(
 	new ViewSprite("raccoon-idling")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
-	.setTranslation(-800, -250)
-);
+	.setTranslation(-800, -250),
 
-view.addElement(
 	new ViewSprite("ant-idling")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-740, -160)
-);
+	.setTranslation(-740, -160),
 
-view.addElement(
 	new ViewSprite("ant-idling")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-825, -125)
-);
+	.setTranslation(-825, -125),
 
-view.addElement(
 	new ViewSprite("ant-idling")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-780, -220)
-);
+	.setTranslation(-780, -220),
 
-view.addElement(
 	new ViewSprite("wasp-flying")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
 	.scale(0.75)
-	.setTranslation(-900, -220)
-)
+	.setTranslation(-900, -220),
 
-view.addElement(
 	new ViewSprite("gui-cover")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setOrigin(0, 1)
@@ -142,8 +118,16 @@ view.addElement(
 	.setRotation(bookRotation)
 );
 
-// Title
+
+
+// Play button & Credits button
+var mainMenu = new View();
+view.createView("start", mainMenu);
+
+// Main Menu content
 mainMenu.addElement(
+
+	// Title
 	new ViewText("Tower\nDefense")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
@@ -154,11 +138,9 @@ mainMenu.addElement(
 	.setFont("Preahvihear", undefined, undefined, -50)
 	.setAlignment("center", "bottom")
 	.setFill("black")
-	.setStroke("none")
-);
+	.setStroke("none"),
 
-// Play button
-mainMenu.addElement(
+	// Play button
 	new ViewText("play")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
@@ -172,11 +154,9 @@ mainMenu.addElement(
 	.setStroke("white", 6)
 	.addEventListener("click", () => {
 		Engine.showView("gameplay");
-	})
-);
+	}),
 
-// Credits button
-mainMenu.addElement(
+	// Credits button
 	new ViewText("credits")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
@@ -191,9 +171,8 @@ mainMenu.addElement(
 	.addEventListener("click", () => {
 		Engine.showView("main-menu/credits");
 	})
+
 );
-
-
 
 
 
@@ -201,8 +180,10 @@ mainMenu.addElement(
 var creditsMenu = new View();
 view.createView("credits", creditsMenu);
 
-// Title
+// Credit Menu content
 creditsMenu.addElement(
+
+	// Title
 	new ViewText("Created by:")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
@@ -213,12 +194,10 @@ creditsMenu.addElement(
 	.setFont("Preahvihear", 90)
 	.setAlignment("center", "bottom")
 	.setFill("black")
-	.setStroke("none")
-);
+	.setStroke("none"),
 
-// Names
-creditsMenu.addElement(
-	new ViewText("Kenneth E\nCassandra H\nBrendan D")
+	// Names
+	new ViewText("Kenneth E\n☆ Cassandra H ☆\nBrendan D")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
 		450*Math.cos(Math.PI/2 - bookRotationRad) + 325,
@@ -228,26 +207,9 @@ creditsMenu.addElement(
 	.setFont("Gamja Flower", 80, undefined, 25)
 	.setAlignment("center", "bottom")
 	.setFill("black")
-	.setStroke("none")
-);
+	.setStroke("none"),
 
-// Usernames
-creditsMenu.addElement(
-	new ViewText("waitimconfused\nGITHUB USERNAME\nGITHUB USERNAME")
-	.setAnchor(Engine.anchorPresets.bottomLeft)
-	.setTranslation(
-		425*Math.cos(Math.PI/2 - bookRotationRad) + 325,
-		-425*Math.sin(Math.PI/2 - bookRotationRad) - 20
-	)
-	.setRotation(bookRotation, "deg")
-	.setFont("Gamja Flower", 40, undefined, 70)
-	.setAlignment("center", "bottom")
-	.setFill("#0000007F")
-	.setStroke("none")
-);
-
-// Main menu button
-creditsMenu.addElement(
+	// Main menu button
 	new ViewText("back")
 	.setAnchor(Engine.anchorPresets.bottomLeft)
 	.setTranslation(
@@ -262,4 +224,5 @@ creditsMenu.addElement(
 	.addEventListener("click", () => {
 		Engine.showView("main-menu/start");
 	})
+
 );

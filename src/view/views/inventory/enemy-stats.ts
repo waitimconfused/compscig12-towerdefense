@@ -12,6 +12,14 @@ import { book, tab_enemyStats } from "../inventory.js";
 
 const view = new View;
 
+view.addEventListener("show", () => {
+	tab_enemyStats.reference = "tab-enemy-active";
+});
+
+view.addEventListener("hide", () => {
+	tab_enemyStats.reference = "tab-enemy";
+});
+
 view.addElement(
 	new ViewText("Enemy Stats")
 	.setAnchor(Engine.anchorPresets.centerCenter)
@@ -23,13 +31,6 @@ view.addElement(
 	.setFill("black")
 );
 
-view.addEventListener("show", () => {
-	tab_enemyStats.reference = "tab-enemy-active";
-});
-
-view.addEventListener("hide", () => {
-	tab_enemyStats.reference = "tab-enemy";
-});
 
 class Section extends ViewElementCollection {
 

@@ -1,4 +1,10 @@
-{
-	"name": "paper",
-	"source": "./paper.png"
-}
+[
+	{
+		"name": "paper",
+		"source": "./paper.png"
+	},
+	{
+		"name": "paper-big",
+		"source": "./paper-big.png"
+	}
+]

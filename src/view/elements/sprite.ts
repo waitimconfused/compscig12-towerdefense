@@ -94,9 +94,12 @@ export class ViewSprite extends ViewElement {
 	 * 
 	 * @param scale	The scaling factor to be applied
 	 */
-	public scale(scale:number):this {
-		this.size[0] *= scale;
-		this.size[1] *= scale;
+	public scale(x:number, y?:number):this {
+
+		if (y == undefined) y = x;
+
+		this.size[0] *= x;
+		this.size[1] *= y;
 
 		return this
 	}

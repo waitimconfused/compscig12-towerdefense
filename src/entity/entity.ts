@@ -222,6 +222,7 @@ export abstract class Entity {
 	 * If `null`, the entity is not trying to move to any location
 	 */
 	protected _targetPosition:Position2D|null = null;
+	protected _targetPositionRange:number = 0;
 
 	protected _targetPath:SVGPathElement|null = null;
 	private _targetPathLength:number = 0;
@@ -303,7 +304,16 @@ export abstract class Entity {
 	/**
 	 * Direction from the entity to a target, *measured in **radians***.
 	 */
-	public direction:number = 0;
+	protected _direction:number = 0;
+
+	public get direction() {
+		return this._direction;
+	}
+
+	public set direction(rad:number) {
+		this._direction = rad;
+		this.updateRenderCache = true;
+	}
 
 	/**
 	 * Wait for a specified number of milliseconds
@@ -431,6 +441,7 @@ export abstract class Entity {
 			
 			// Set the internal target position
 			this._targetPosition = [ x, y ];
+			this._targetPositionRange = 0;
 			this._targetPath = null;
 			this._targetPathLength = 0;
 			this._targetPathMaxLength = 0;
@@ -461,7 +472,7 @@ export abstract class Entity {
 	 * 				position is reached, OR if the walking has been
 	 * 				interrupted.
 	 */
-	public walkToEntity(entity:Entity):Promise<undefined|EntityEvent> {
+	public walkToEntity(entity:Entity, distance=50):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve, reject) => {
 
@@ -485,6 +496,7 @@ export abstract class Entity {
 			// Because it's a reference, as the entity moves, the target location appears to update
 			// to continuously track the entity
 			this._targetPosition = entity.position;
+			this._targetPositionRange = distance;
 
 			// Set the internal state to `"walk"`
 			this.state = "walk";
@@ -750,6 +762,12 @@ export abstract class Entity {
 		// Get the actual speed, adjusted using the deltaTime
 		let currentSpeed = (this.stats.speed as number) * deltaTime;
 		
+		if (totalDistance <= this._targetPositionRange) {
+			this.position[0] += (totalDistance - this._targetPositionRange) * Math.cos(direction);
+			this.position[1] += (totalDistance - this._targetPositionRange) * Math.sin(direction);
+			return;
+		}
+
 		// If the distance is less than the step size, move
 		// directly to the target position, and stop
 		if (totalDistance < currentSpeed) {
@@ -854,14 +872,17 @@ export abstract class Entity {
 
 			// Perform a movement-tick
 			this.movementTick(this._targetPosition, deltaTime);
+
+			let totalDistance = Math.hypot(
+				this._targetPosition[0] - this.position[0],
+				this._targetPosition[1] - this.position[1]
+			);
 			
 			// Check if the new position is the same as the target position
-			if (
-				this.position[0] == this._targetPosition[0] &&
-				this.position[1] == this._targetPosition[1]
-			) {
+			if ( totalDistance <= this._targetPositionRange ) {
 				// Clear the target position
 				this._targetPosition = null;
+				this._targetPositionRange = 0;
 				this._targetPath = null;
 				this._targetPathLength = 0;
 				this._targetPathMaxLength = 0;
@@ -900,6 +921,7 @@ export abstract class Entity {
 
 			if (this._targetPathLength >= this._targetPathMaxLength) {
 				this._targetPath = null;
+				this._targetPositionRange = 0;
 				this._targetPathLength = 0;
 				this._targetPathMaxLength = 0;
 				this._targetPosition = null;

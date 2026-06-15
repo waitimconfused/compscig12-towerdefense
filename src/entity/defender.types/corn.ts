@@ -46,6 +46,17 @@ export class Corn extends DefenderEntity{
 		//if there are no entities nearby, don't continue running the code
 		if (!closestEnemy) return;
 
+		// Get the direction from the entity to the target position
+		// In radians
+		this.direction = Math.atan(
+			(closestEnemy.position[1] - this.position[1]) /
+			(closestEnemy.position[0] - this.position[0])
+		) || 0;
+
+		// Fix the angle for when the target position's x value
+		// is less than the entity's position
+		if (this.position[0] < closestEnemy.position[0]) this.direction += Math.PI;
+
 		//store the distance between the enemy and the corn
 		let distance = Entity.getDistance(this, closestEnemy);
 
@@ -158,7 +169,7 @@ export class Kernel extends Corn{
 	 */
 	public override async brain(): Promise<void> {
 		//Get the Kernel to keep on traveling to the target/enemy's position
-		await this.walkTo(this.target.position[0], this.target.position[1]);
+		await this.walkToEntity(this.target);
 
 		//When it has, attack the target
 		this.attackEntity(this.target);

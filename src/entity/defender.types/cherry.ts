@@ -171,8 +171,6 @@ export class Cherry extends DefenderEntity {
 		// If Entity not found or dead, don't do anything
 		if (!closestFrontEntity || closestFrontEntity.stats.health <= 0) return super.interruptTimers("walk");
 
-		await this.walkTo(closestFrontEntity.position[0], closestFrontEntity.position[1]);
-
 		//Walk towards enemy
 		let interrupt = await this.walkToEntity(closestFrontEntity);
 

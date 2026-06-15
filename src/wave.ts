@@ -65,20 +65,11 @@ export class Wave extends StaticClass {
 			this._waveActive = true;
 		}
 	}
-	
-	/**
-	 * Starts a new wave
-	 * 
-	 * Spawns enemies based on wave number
-	 */
-	public static newWave() : void {	
-		this._waveInitialized = true;
 
-		// Increase the wave number
-		this._waveNumber++;
+	public static setWave(number:number=this._waveNumber) {
 
-		// let spawnCount : number = 1 + Math.floor(this._waveNumber / 3);
-		
+		this._waveNumber = number;
+
 		// Spawns an ant every wave
 		Ant.antSpawn([0,0],100);
 		Raccoon.spawn(1,[100,100],2);
@@ -98,6 +89,20 @@ export class Wave extends StaticClass {
 		if (this._waveNumber % 5 == 0) {
 			Raccoon.spawn(1,[100,100],2);
 		}
+	}
+	
+	/**
+	 * Starts a new wave
+	 * 
+	 * Spawns enemies based on wave number
+	 */
+	public static newWave() : void {	
+		this._waveInitialized = true;
+
+		// Increase the wave number
+		this._waveNumber++;
+
+		this.setWave()
 		
 	}
 

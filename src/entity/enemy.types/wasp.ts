@@ -98,14 +98,12 @@ export class Wasp extends EnemyEntity {
 		if (!interrupt) {
 			let attackInterrupt = await this.attackEntity(closestEntity);
 			
-			if (this.position[0] == closestEntity.position[0] && this.position[1] == closestEntity.position[1]) {
-				if (attackInterrupt) {
-					// Wasp was stopped from attacking
-	
-				} else if (closestEntity.stats.health <= 0) {
-					this.stats.speed *= Math.pow(1.1, this.speedStacks)
-					this.speedStacks++;
-				}
+			if (attackInterrupt) {
+				// Wasp was stopped from attacking
+
+			} else if (closestEntity.stats.health <= 0) {
+				this.stats.speed *= Math.pow(1.1, this.speedStacks)
+				this.speedStacks++;
 			}
 		}
 	}

@@ -3,6 +3,7 @@ import { EnemyEntity } from "../enemy.js";
 import { Entity, EntityEvent } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 import { Position2D } from "../../types.js";
+import GameplayView from "../../view/elements/gameplay-view.js";
 
 export class BananaSpawner extends DefenderEntity {
 	/** Label what the type of entity the banana spawner is - a part of Defender*/
@@ -78,8 +79,7 @@ export class Banana extends BananaSpawner {
 	 */
 	public override async brain() {
 
-		//TODO: Replace "Y" value to be MAX-Y-VALUE
-		let interrupt = await this.walkTo( this.position[0], window.innerHeight );
+		let interrupt = await this.walkTo( this.position[0], GameplayView.playSpaceSize[1] );
 
 		//attack enemies near it
 		this.rollOverEnemy();

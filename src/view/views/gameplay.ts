@@ -9,11 +9,8 @@ import { Entity } from "../../entity/entity.js";
 import { Strawberry } from "../../entity/defender.types/strawberry.js";
 import { Carrier } from "../../entity/other/carrier.js";
 import { Corn } from "../../entity/defender.types/corn.js";
+import { ViewText } from "../elements/text.js";
 
-var hasPlayed = false;
-
-// Aspect ratio of 1.333:1
-// GameplayView.playSpaceSize[0] = 1270;
 GameplayView.playSpaceSize[0] = 1900;
 GameplayView.playSpaceSize[1] = 950;
 GameplayView.playSpacePadding = [100, 300];
@@ -21,37 +18,26 @@ GameplayView.playSpacePadding = [100, 300];
 var view = new GameplayView;
 Engine.createView("gameplay", view);
 
-let stopButton = new ViewSprite("close");
-stopButton.setSize(50, 50);
-stopButton.setTranslation(50, 50);
-view.addElement(stopButton);
-
-stopButton.addEventListener("click", () => {
-	Engine.showView("main-menu");
-});
-
-let inventoryButton = new ViewSprite("close");
-view.addElement(inventoryButton);
-inventoryButton.setAnchor( Engine.anchorPresets.topRight );
-inventoryButton.setTranslation(-100, 50);
-inventoryButton.setSize(50, 50);
-
-inventoryButton.addEventListener("click", () => {
-	Engine.showView("inventory/player-stats");
-});
+view.addElement(
+	new ViewSprite("close")
+	.setSize(50, 50)
+	.setTranslation(50, 50)
+	.addEventListener("click", () => {
+		Engine.showView("main-menu/start");
+	})
+)
 
 view.addEventListener("show", () => {
 
-	if (hasPlayed) return;
+	if (Entity.entities.size != 0) return;
 
 	Carrier.spawn(1, [
 		GameplayView.playSpaceSize[0] - 200,
 		GameplayView.playSpaceSize[1] - 200
-	])
+	]);
 
-	Wave.newWave();
+	Wave.setWave(1);
 
-	hasPlayed = true;
 });
 
 
@@ -78,7 +64,13 @@ view.addElement(
 	.setStroke("#842C33", 10)
 	.addEventListener("pre-render", (element, canvas) => {
 		element.setSize(canvas.width, 100);
-	})
+	}),
+
+	new ViewSprite("gui-cover-flip")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.setTranslation(100, 50)
+	.setRotation(15, "deg")
 );
 
 class Bar extends ViewElementCollection {
@@ -114,6 +106,30 @@ class Bar extends ViewElementCollection {
 
 const bar = new Bar;
 view.addElement(bar);
+
+let inventoryButton = new ViewSprite("gui-cover");
+inventoryButton.setAnchor( Engine.anchorPresets.bottomRight )
+	.scale(0.5)
+	.setOrigin(0.8, 0.9)
+	.setRotation(-10, "deg")
+	.scale(0.75);
+
+inventoryButton.addEventListener("click", () => {
+	Engine.showView("inventory/player-stats");
+});
+
+view.addElement(
+	inventoryButton,
+
+	new ViewText("Inventory")
+	.setAnchor( Engine.anchorPresets.bottomRight )
+	.setAlignment("center", "middle")
+	.setFont("Preahvihear", 32)
+	.setFill("black")
+	.setStroke("none")
+	.setRotation(-10, "deg")
+	.setTranslation(-125, -200)
+)
 
 class SpawnButton extends ViewSprite {
 	constructor(reference:string, entity:typeof Entity) {
