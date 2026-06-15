@@ -1,0 +1,6 @@
+[
+    "./views/game-over.ts",
+    "./views/gameplay.ts",
+    "./views/inventory.ts",
+    "./views/main-menu.ts"
+]
