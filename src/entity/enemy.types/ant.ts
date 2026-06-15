@@ -123,10 +123,9 @@ export class Ant extends EnemyEntity {
 	 */
 	public async brain() {
 
-		await this.followPath(Ant.path, true);
 		if (this._disableBrain) return;
 
-		await this.followPath(EnemyEntity.path, () => {
+		await this.followPath(EnemyEntity.path, false, () => {
 
 			if (this.currentPath) {
 				console.log("RESETTING POSITION")
