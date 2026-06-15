@@ -158,7 +158,7 @@ export class Kernel extends Corn{
 	 */
 	public override async brain(): Promise<void> {
 		//Get the Kernel to keep on traveling to the target/enemy's position
-		await this.walkTo(this.target.position[0], this.target.position[1]);
+		await this.walkToEntity(this.target);
 
 		//When it has, attack the target
 		this.attackEntity(this.target);

@@ -754,7 +754,9 @@ export abstract class Entity {
 		let currentSpeed = (this.stats.speed as number) * deltaTime;
 		
 		if (totalDistance <= this._targetPositionRange) {
-			this.position[0] = (totalDistance - this._targetPositionRange) * Math.cos(direction);
+			this.position[0] += (totalDistance - this._targetPositionRange) * Math.cos(direction);
+			this.position[1] += (totalDistance - this._targetPositionRange) * Math.sin(direction);
+			return;
 		}
 
 		// If the distance is less than the step size, move
@@ -861,12 +863,14 @@ export abstract class Entity {
 
 			// Perform a movement-tick
 			this.movementTick(this._targetPosition, deltaTime);
+
+			let totalDistance = Math.hypot(
+				this._targetPosition[0] - this.position[0],
+				this._targetPosition[1] - this.position[1]
+			);
 			
 			// Check if the new position is the same as the target position
-			if (
-				this.position[0] == this._targetPosition[0] &&
-				this.position[1] == this._targetPosition[1]
-			) {
+			if ( totalDistance <= this._targetPositionRange ) {
 				// Clear the target position
 				this._targetPosition = null;
 				this._targetPositionRange = 0;

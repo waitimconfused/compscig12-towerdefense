@@ -1,6 +1,4 @@
 import { Position2D } from "../types.js";
-import { Sandwich } from "./defender.types/sandwich.js";
-import { EnemyEntity } from "./enemy.js";
 import { Entity, EntityStats } from "./entity.js";
 
 export interface DefenderEntityStats extends EntityStats {
@@ -75,7 +73,7 @@ export abstract class DefenderEntity extends Entity{
 			//If the Defender has been upgraded to level 3, their skill will activate
 			if (constructor.defenderLevel == 3){
 				constructor.canUseSkill = true;
-				if (this instanceof Sandwich && Sandwich.canUseSkill == true && statType == 'health'){
+				if (this.entityType == "defender/sandwich" && statType == 'health'){
 					this.stats[statType] += baseState + 100;
 				}
 			}

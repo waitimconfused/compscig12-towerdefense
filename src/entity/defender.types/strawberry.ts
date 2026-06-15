@@ -94,6 +94,20 @@ export class Strawberry extends DefenderEntity {
 		return await super.walkTo(x, y);
 	}
 
+	//Override walkTo to add the Strawberry animations
+	public override async walkToEntity(entity:Entity, distance=50): Promise<undefined | EntityEvent> {
+		
+		if (this.position[0] == entity.position[0] && this.position[1] == entity.position[1]) return;
+
+		this.state = "launch";
+
+		await this.wait(600);
+
+		this.state = "walk";
+
+		return await super.walkToEntity(entity, distance);
+	}
+
 	public override async attackEntity(entity: Entity): Promise<undefined | EntityEvent> {
 		// Returns if the entity is stunned
 		if (this.stunned) {

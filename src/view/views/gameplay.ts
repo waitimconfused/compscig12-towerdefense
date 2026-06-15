@@ -43,7 +43,8 @@ view.addEventListener("show", () => {
 	if (Entity.entities.size != 0) return;
 
 	Carrier.spawn(1, [
-		GameplayView.playSpaceSize[0] - 200,
+		// GameplayView.playSpaceSize[0] - 200,
+		-200,
 		GameplayView.playSpaceSize[1] - 200
 	]);
 
