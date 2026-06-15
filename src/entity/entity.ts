@@ -225,6 +225,7 @@ export abstract class Entity {
 	protected _targetPositionRange:number = 0;
 
 	protected _targetPath:SVGPathElement|null = null;
+	protected _targetPathReversed:boolean = false;
 	private _targetPathLength:number = 0;
 	private _targetPathMaxLength:number = 0;
 
@@ -520,18 +521,21 @@ export abstract class Entity {
 	/**
 	 * @param path	SVG path data
 	 */
-	public followPath(path:string, ticker?:EntityTimerTicker) {
+	public followPath(path:string, reverse=false, ticker?:EntityTimerTicker) {
 
 		return new Promise(async (resolve, reject) => {
 			let svg = document.createElementNS("http://www.w3.org/2000/svg", "path");
 			svg.setAttributeNS(null, "d", path);
 
-			let startingPoint = svg.getPointAtLength(0);
+			let maxLength = svg.getTotalLength();
+			let startingPoint = (!reverse) ? svg.getPointAtLength(0) : svg.getPointAtLength(maxLength);
+			
 			await this.walkTo(startingPoint.x, startingPoint.y);
 
 			this._targetPath = svg;
+			this._targetPathReversed = reverse;
 			this._targetPathLength = 0;
-			this._targetPathMaxLength = svg.getTotalLength();
+			this._targetPathMaxLength = maxLength;
 			this._targetPosition = null;
 
 			// If the entity is stunned, resolve the promise,
@@ -912,7 +916,10 @@ export abstract class Entity {
 
 		} else if (this._targetPath && !this.stunned) {
 
-			let rawPosition:DOMPoint = this._targetPath.getPointAtLength(this._targetPathLength);
+			let length = this._targetPathLength;
+			if (this._targetPathReversed) length = this._targetPathMaxLength - length;
+
+			let rawPosition:DOMPoint = this._targetPath.getPointAtLength(length);
 			let newPosition:Position2D = [ rawPosition.x, rawPosition.y ];
 			this._targetPathLength += this.stats.speed * deltaTime;
 

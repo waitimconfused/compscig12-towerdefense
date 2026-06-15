@@ -38,6 +38,8 @@ export class Cherry extends DefenderEntity {
 		entityResaleCost: 5
 	}
 
+	public static path = "M0 50.0634C311.161 43.5073 285.567 549.586 561.679 457.548C837.79 365.511 1133.82 328.192 1160.05 573.793C1186.27 819.393 693.305 992.373 577.06 751.311C460.816 510.249 486.752 130.908 881.377 115.526C1276 100.145 1478.86 273.376 1553.5 492.5C1613.21 667.8 1797.04 726.431 1900 700.88"
+
 	/**
 	 * Hide nearestEntity method from Entity to detect Entities in front and behind it
 	 * this is needed when Cherry is upgraded and can use their skill
@@ -105,6 +107,8 @@ export class Cherry extends DefenderEntity {
 		return {front, back};
 	}
 
+
+
 	/**
 	 * Check to see if the cherry was able to stun enemy
 	 * @param target The enemy
@@ -158,8 +162,14 @@ export class Cherry extends DefenderEntity {
 	// Call method that unlocks Cherry's skill
 	// UnlockSkill(canAttackFrontBack);
 	public async brain() {
+		await this.followPath(Cherry.path);
+
+		await this.wait(400);
+
 		//Get the nearest enemy to Cherry
 		let cherryNearestEntity = this.nearestEnemies();
+
+
 
 		await this.wait(500);
 
