@@ -222,6 +222,7 @@ export abstract class Entity {
 	 * If `null`, the entity is not trying to move to any location
 	 */
 	protected _targetPosition:Position2D|null = null;
+	protected _targetPositionRange:number = 0;
 
 	protected _targetPath:SVGPathElement|null = null;
 	private _targetPathLength:number = 0;
@@ -431,6 +432,7 @@ export abstract class Entity {
 			
 			// Set the internal target position
 			this._targetPosition = [ x, y ];
+			this._targetPositionRange = 0;
 			this._targetPath = null;
 			this._targetPathLength = 0;
 			this._targetPathMaxLength = 0;
@@ -461,7 +463,7 @@ export abstract class Entity {
 	 * 				position is reached, OR if the walking has been
 	 * 				interrupted.
 	 */
-	public walkToEntity(entity:Entity):Promise<undefined|EntityEvent> {
+	public walkToEntity(entity:Entity, distance=50):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve, reject) => {
 
@@ -485,6 +487,7 @@ export abstract class Entity {
 			// Because it's a reference, as the entity moves, the target location appears to update
 			// to continuously track the entity
 			this._targetPosition = entity.position;
+			this._targetPositionRange = distance;
 
 			// Set the internal state to `"walk"`
 			this.state = "walk";
@@ -750,6 +753,10 @@ export abstract class Entity {
 		// Get the actual speed, adjusted using the deltaTime
 		let currentSpeed = (this.stats.speed as number) * deltaTime;
 		
+		if (totalDistance <= this._targetPositionRange) {
+			this.position[0] = (totalDistance - this._targetPositionRange) * Math.cos(direction);
+		}
+
 		// If the distance is less than the step size, move
 		// directly to the target position, and stop
 		if (totalDistance < currentSpeed) {
@@ -862,6 +869,7 @@ export abstract class Entity {
 			) {
 				// Clear the target position
 				this._targetPosition = null;
+				this._targetPositionRange = 0;
 				this._targetPath = null;
 				this._targetPathLength = 0;
 				this._targetPathMaxLength = 0;
@@ -900,6 +908,7 @@ export abstract class Entity {
 
 			if (this._targetPathLength >= this._targetPathMaxLength) {
 				this._targetPath = null;
+				this._targetPositionRange = 0;
 				this._targetPathLength = 0;
 				this._targetPathMaxLength = 0;
 				this._targetPosition = null;

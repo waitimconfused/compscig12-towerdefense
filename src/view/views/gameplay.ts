@@ -10,8 +10,6 @@ import { Strawberry } from "../../entity/defender.types/strawberry.js";
 import { Carrier } from "../../entity/other/carrier.js";
 import { Corn } from "../../entity/defender.types/corn.js";
 
-var hasPlayed = false;
-
 // Aspect ratio of 1.333:1
 // GameplayView.playSpaceSize[0] = 1270;
 GameplayView.playSpaceSize[0] = 1900;
@@ -42,16 +40,15 @@ inventoryButton.addEventListener("click", () => {
 
 view.addEventListener("show", () => {
 
-	if (hasPlayed) return;
+	if (Entity.entities.size != 0) return;
 
 	Carrier.spawn(1, [
 		GameplayView.playSpaceSize[0] - 200,
 		GameplayView.playSpaceSize[1] - 200
-	])
+	]);
 
 	Wave.newWave();
 
-	hasPlayed = true;
 });
 
 
@@ -79,6 +76,14 @@ view.addElement(
 	.addEventListener("pre-render", (element, canvas) => {
 		element.setSize(canvas.width, 100);
 	})
+);
+
+view.addElement(
+	new ViewSprite("gui-cover-flip")
+	.setAnchor(Engine.anchorPresets.bottomRight)
+	.setOrigin(1, 1)
+	.setTranslation(100, 50)
+	.setRotation(15, "deg")
 );
 
 class Bar extends ViewElementCollection {
