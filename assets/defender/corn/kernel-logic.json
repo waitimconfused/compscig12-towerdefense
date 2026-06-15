@@ -1,26 +1,24 @@
 {
-	"type": "defender/corn",
+	"type": "defender/kernel",
 	"logic": [
-
-		{
-			"rule": "state=='idle'",
-			"layers": [
-				{
-					"sprite": "corn-idling",
-					"origin": [ 50, 100 ]
-				}
-			]
-		},
 
 		{
 			"rule": "state=='attack'",
 			"layers": [
 				{
-					"sprite": "corn-attacking",
+					"sprite": "corn-kernal",
+					"origin": [ 50, 100 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='pop'",
+			"layers": [
+				{
+					"sprite": "corn-kernal",
 					"origin": [ 50, 100 ]
 				}
 			]
 		}
-
 	]
 }
