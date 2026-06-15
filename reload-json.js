@@ -10,7 +10,7 @@ else console.log(`Sprite Data: ${spriteFiles.length} files`)
 
 for (let i = 0; i < spriteFiles.length; i ++) {
 
-	let path = spriteFiles[i];
+	let path = spriteFiles[i].replaceAll("\\", "/");
 
 	spriteFiles[i] = path.replace(/^assets\//, "./");
 
@@ -32,7 +32,7 @@ else console.log(`Logic Data:  ${logicFiles.length} files`)
 
 for (let i = 0; i < logicFiles.length; i ++) {
 
-	let path = logicFiles[i];
+	let path = logicFiles[i].replaceAll("\\", "/");
 
 	logicFiles[i] = path.replace(/^assets\//, "./");
 
@@ -57,7 +57,7 @@ else console.log(`Views:       ${viewPaths.length} files`);
 
 for (let i = 0; i < viewPaths.length; i ++) {
 
-	let path = viewPaths[i];
+	let path = viewPaths[i].replaceAll("\\", "/");
 
 	viewPaths[i] = path.replace(/^src\/view\//, "./");
 
