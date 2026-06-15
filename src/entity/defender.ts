@@ -22,6 +22,39 @@ export interface DefenderEntityStats extends EntityStats {
 export abstract class DefenderEntity extends Entity{
 	declare public stats: DefenderEntityStats;
 
+	public static override get stats():DefenderEntityStats {
+
+		let upgrade = this.baseStats as EntityStats;
+		let storeUpgrades = Object.keys(upgrade);
+
+		let stats:DefenderEntityStats = super.stats as DefenderEntityStats;
+
+		/**
+		 * level up the the defender 
+		 */
+		for (let i = 0; i < storeUpgrades.length; i++){
+			
+			// Get the key of the upgraded stat
+			let statType = storeUpgrades[i] as keyof typeof upgrade;
+			
+			// Get the upgraded stat value
+			let baseState = upgrade[statType] as number;
+
+			// Update the entity stats
+			stats[statType] += baseState / this.levelIncrease;
+
+			//If the Defender has been upgraded to level 3, their skill will activate
+			if (this.defenderLevel == 3){
+				this.canUseSkill = true;
+				if (this.prototype.entityType == "defender/sandwich" && statType == "health"){
+					stats[statType] += baseState + 100;
+				}
+			}
+		}
+
+		return stats;
+	}	
+
 	static override baseStats: DefenderEntityStats;
 
 	private static defenderLevel : number = 1;
@@ -49,36 +82,6 @@ export abstract class DefenderEntity extends Entity{
 		
 	}
 
-	public override reloadStats(): void {
-		super.reloadStats();
-
-		let constructor = this.constructor as typeof DefenderEntity;
-		let upgrade = constructor.baseStats as EntityStats;
-		let storeUpgrades = Object.keys(upgrade);
-
-		/**
-		 * level up the the defender 
-		 */
-		for (let i = 0; i < storeUpgrades.length; i++){
-			
-			// Get the key of the upgraded stat
-			let statType = storeUpgrades[i] as keyof typeof upgrade;
-			
-			// Get the upgraded stat value
-			let baseState = upgrade[statType] as number;
-
-			// Update the entity stats
-			this.stats[statType] += baseState / constructor.levelIncrease;
-
-			//If the Defender has been upgraded to level 3, their skill will activate
-			if (constructor.defenderLevel == 3){
-				constructor.canUseSkill = true;
-				if (this.entityType == "defender/sandwich" && statType == 'health'){
-					this.stats[statType] += baseState + 100;
-				}
-			}
-		}
-	}
 };
 
 export type DefenderStatus = {

@@ -5,60 +5,162 @@
 
 
 
-
-
 		{
-			"rule": "state=='idle'",
+			"rule": "entity.mentalState == 1",
 
-			"layers": [
+			"logic": [
 				{
-					"sprite": "strawberry-idling",
-					"origin": [ 50, 100 ]
+					"rule": "state=='idle'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-idling",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-1",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -50 ]
+						}
+					]
 				},
 				{
-					"sprite": "strawberry-face-1",
-					"origin": [ 50, 100 ],
-					"offset": [ 0, -50 ]
+					"rule": "state=='launch'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-launch",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-1",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -50 ]
+						}
+					]
+				},
+				{
+					"rule": "state=='walk'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-flying",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-1",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -50 ]
+						}
+					]
 				}
 			]
 		},
 
 
 
-
-
-
-
-
-
 		{
-			"rule": "state=='launch'",
+			"rule": "entity.mentalState == 2",
 
-			"layers": [
+			"logic": [
 				{
-					"sprite": "strawberry-launch",
-					"origin": [ 50, 100 ]
+					"rule": "state=='idle'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-idling",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-2",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -50 ]
+						}
+					]
 				},
 				{
-					"sprite": "strawberry-face-1",
-					"origin": [ 50, 100 ],
-					"offset": [ 0, -50 ]
+					"rule": "state=='launch'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-launch",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-2",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -50 ]
+						}
+					]
+				},
+				{
+					"rule": "state=='walk'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-flying",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-2",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -50 ]
+						}
+					]
 				}
 			]
 		},
 
-		{
-			"rule": "state=='walk'",
 
-			"layers": [
+
+		{
+			"rule": "entity.mentalState == 3",
+
+			"logic": [
 				{
-					"sprite": "strawberry-flying",
-					"origin": [ 50, 100 ]
+					"rule": "state=='idle'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-idling",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-3",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -25 ]
+						}
+					]
 				},
 				{
-					"sprite": "strawberry-face-1",
-					"origin": [ 50, 100 ],
-					"offset": [ 0, -50 ]
+					"rule": "state=='launch'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-launch",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-3",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -25 ]
+						}
+					]
+				},
+				{
+					"rule": "state=='walk'",
+
+					"layers": [
+						{
+							"sprite": "strawberry-flying",
+							"origin": [ 50, 100 ]
+						},
+						{
+							"sprite": "strawberry-face-3",
+							"origin": [ 50, 100 ],
+							"offset": [ 0, -25 ]
+						}
+					]
 				}
 			]
 		}

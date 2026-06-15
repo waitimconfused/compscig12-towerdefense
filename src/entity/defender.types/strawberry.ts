@@ -6,7 +6,7 @@ import { Entity, EntityEvent } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
 	/**the mental state the Strawberry spawns with */
-	public mentalState : number;
+	public readonly mentalState : number;
 
 	//Chance of the mental state of strawberry being psychotic
 	//When upgraded, this state will appear more frequently
@@ -34,28 +34,36 @@ export class Strawberry extends DefenderEntity {
 		entityResaleCost: 10,
 	}
 
-	/** The mental state of the strawberry comes in 3 levels*/
-	private rollForMentalState() : void{
-		let roll : number =  Math.floor(Math.random()*(100 - 1 + 1) + 1);
+	constructor(position:Position2D) {
+		super(position);
+		
+		let roll : number =  Number( Math.random().toFixed(2) );
 
-		//(Mental state will be a number for now)
-		//Depending on the number, it will correspond to which level of psycho it will be
-		//1 = normal, 2 = moderate, 3 = psychotic
-		if (roll < Strawberry.psychoticStateProb){
-			//If the strawberry rolls a number that is greater than the chance of being psychotic - roll again
-			//Roll to see if it is moderate or normal
-			let secondRoll : number = Math.floor(Math.random()*(100 - 1 + 1) + 1);
-	
-			if (secondRoll > 50){
-				this.mentalState = 1;
-			}
-			else{
-				this.mentalState = 2;
-			}
+		// Probability distribution:
+		// Normal: 70%
+		// Moderate: 20%
+		// Psychotic: 10%
+		let mentalStateDistribution = {
+			"0.1": 3,
+			"0.2": 2,
+			"0.7": 1
 		}
-		else{
-			this.mentalState = 3;
+
+		let mentalStateProbabilities = Object.keys(mentalStateDistribution);
+
+		let probabilitySum = 0;
+		for (let i = 0; i < mentalStateProbabilities.length; i ++) {
+			let chance = mentalStateProbabilities[i] as keyof typeof mentalStateDistribution;
+			probabilitySum += Number(chance);
+
+			if (roll > probabilitySum) continue;
+
+			this.mentalState = mentalStateDistribution[chance] as number;
+
+			break;
+
 		}
+
 	}
 
 	/** Override reload Stats to include rolling for the mental state of the Strawberry
@@ -132,7 +140,6 @@ export class Strawberry extends DefenderEntity {
 	}
 
 	public async brain() {
-		this.rollForMentalState();
 
 		let closestEntity = Entity.nearestEntity(this, EnemyEntity);
 

@@ -299,6 +299,7 @@ export default class GameplayView extends View {
 	protected renderEntity(entity:Entity, canvas:Canvas, context:RenderingContext) {
 
 		let data = this.entitySpriteLayers.get(entity.id);
+		let constructor:typeof Entity = entity.constructor as typeof Entity;
 
 		// If there weren't any data provided, don't render
 		if (!data) return;
@@ -307,6 +308,15 @@ export default class GameplayView extends View {
 
 		// If there are no layers, do not render anything
 		if (!layers || layers.length == 0) return;
+
+		// Save the context's transformations
+		context.save();
+
+		// Move the context to the entities position
+		context.translate( entity.position[0], entity.position[1] );
+
+		let minY = 0;
+		let maxWidth = 0;
 
 		// Loop through each layer, and render it
 		for (let i = 0; i < layers.length; i ++) {
@@ -326,16 +336,22 @@ export default class GameplayView extends View {
 				animation_frames: reference.frames
 			});
 
+			minY = Math.min(
+				minY,
+				( reference.origin[1] / -100) * offscreenSprite.height
+			);
+
+			maxWidth = Math.max(
+				maxWidth,
+				offscreenSprite.width
+			)
+
 			// Decide wether or not to visually flip the
 			// entity horizontally or vertically
 			let flipX = entity.direction > Math.PI / 2;
 			let flipY = false;
 
-			// Save the context's transformations
 			context.save();
-
-			// Move the context to the entities position
-			context.translate( entity.position[0], entity.position[1] );
 
 			// Move the context to be the origin of the sprite
 			context.translate(
@@ -361,6 +377,13 @@ export default class GameplayView extends View {
 			// Restore the canvas's transformation
 			context.restore();
 		}
+
+		context.fillStyle = "#444444";
+		context.fillRect(-maxWidth/2, minY - 32, maxWidth, 16);
+		context.fillStyle = "green";
+		context.fillRect(-maxWidth/2, minY - 32,  (entity.stats.health / constructor.stats.health) * maxWidth, 16);
+		context.restore();
+
 	}
 
 }

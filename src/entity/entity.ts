@@ -207,6 +207,35 @@ export abstract class Entity {
 	 */
 	public static baseStats:EntityStats;
 
+	/**
+	 * 
+	 */
+	public static get stats():EntityStats {
+		let upgrade = this.baseStats as EntityStats;
+		let level = this.level;
+		let statIncreaseMultiplier = this.statIncreaseMultiplier;
+		let storeUpgrades = Object.keys(upgrade) as (keyof typeof upgrade)[];
+
+		if (!this.baseStats) {
+			throw new Error(`Entity "${this.getDisplayName()}" must specify baseStats.`);
+		}
+
+		let stats:EntityStats = {} as EntityStats;
+
+		for (let i = 0; i < storeUpgrades.length; i++){
+
+			// Get the key from the current upgrade
+			let statType = storeUpgrades[i] as keyof typeof upgrade;
+			let statValue = upgrade[statType] as number;
+
+			// Update the current entity stats
+			// this.stats[statType] = upgrade[statType]  + upgrade[statType] * lvlIncrease/2 * level;
+			stats[statType] = statValue * ( 1 + level*statIncreaseMultiplier );
+		}
+
+		return stats;
+	}
+
 	public static statIncreaseMultiplier : number = 1;
 
 	/**
@@ -565,28 +594,8 @@ export abstract class Entity {
 	
 	public reloadStats(): void {
 		let constructor = this.constructor as typeof Entity;
-		let upgrade = constructor.baseStats as EntityStats;
-		let level = constructor.level;
-		let statIncreaseMultiplier = constructor.statIncreaseMultiplier;
-		let storeUpgrades = Object.keys(upgrade) as (keyof typeof upgrade)[];
 
-		if (!constructor.baseStats) {
-			throw new Error(`Entity ${constructor.name} must specify baseStats.`);
-		}
-
-		if (!this.stats) this.stats = {} as EntityStats;
-
-		for (let i = 0; i < storeUpgrades.length; i++){
-
-			// Get the key from the current upgrade
-			let statType = storeUpgrades[i] as keyof typeof upgrade;
-			let statValue = upgrade[statType] as number;
-
-			// Update the current entity stats
-			// this.stats[statType] = upgrade[statType]  + upgrade[statType] * lvlIncrease/2 * level;
-			this.stats[statType] = statValue * ( 1 + level*statIncreaseMultiplier );
-		}
-
+		this.stats = constructor.stats;
 	}
 
 	/**
