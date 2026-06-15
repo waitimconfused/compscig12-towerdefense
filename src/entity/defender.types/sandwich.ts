@@ -1,12 +1,6 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
 export class Sandwich extends DefenderEntity {
-	/**
-	 * The ability for Sandwich to get a significant amount of HP and knockback
-	 * This is available to use when at level 3 and up
-	 */
-	private bigSandwich : boolean = false;
-
 	/** Label what the type of entity sandwich is - a Defender*/
 	public entityType = "defender/sandwich";
 
@@ -29,6 +23,8 @@ export class Sandwich extends DefenderEntity {
 	};
 	
 	public async brain() {
+
+		this.state = "idle";
 
 		await this.wait(Infinity);
 

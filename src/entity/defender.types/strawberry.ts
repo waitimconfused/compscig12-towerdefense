@@ -7,11 +7,6 @@ import { Entity, EntityEvent } from "../entity.js";
 export class Strawberry extends DefenderEntity {
 	/**the readonly name of the entity Strawberry - to prevent spelling mistakes*/
 	public static readonly DEFENDER_NAME = "STRAWBERRY";
-	/**
-	 * The increased chance for Strawberry to be psychotic
-	 * 	This is available to use when at level 3 and up
-	 */
-	public static getsCrazier : boolean = false;
 
 	/**the mental state the Strawberry spawns with */
 	public mentalState : number;
@@ -73,14 +68,9 @@ export class Strawberry extends DefenderEntity {
 	public override reloadStats(): void {
 		super.reloadStats();
 
-		//Check if the Strawberry has been upgraded to lvl 3 
-		//if so, keep a record that they have unlocked it
-		if (Strawberry.level == 3){
-			this.unlockSkill(Strawberry.getsCrazier);
-		}
 		//If the chance of the strawberry being psychotic is not 100% - 
 		//Keep on increasing the chance by the current probability divided by 3
-		if (Strawberry.psychoticStateProb != 100 && Strawberry.level >= 3){
+		if (Strawberry.psychoticStateProb != 100 && Strawberry.canUseSkill == true){
 			Strawberry.psychoticStateProb += Strawberry.psychoticStateProb/3;	
 			//Check if the chance is over 100
 			//If it is - make it 100
@@ -104,17 +94,56 @@ export class Strawberry extends DefenderEntity {
 		return await super.walkTo(x, y);
 	}
 
-	public async brain() {
-		this.rollForMentalState();
-
-		let closestEntity = await Entity.nearestEntity(this, EnemyEntity);
-
-		if (!closestEntity) {
+	public override async attackEntity(entity: Entity): Promise<undefined | EntityEvent> {
+		// Returns if the entity is stunned
+		if (this.stunned) {
 			return;
 		}
 
-		await this.walkToEntity(closestEntity);
-		await this.wait( Math.random() * 100 + 400 );
+		// Begins attack animation
+		this.state = 'attack';
+
+		// Waits for 4 attack frames
+		let interrupt = await this.wait(400);
+
+		// Stops attack animation when interrupted
+		if (interrupt) {
+			this.state = 'idle';
+			return;
+		}
+
+		// Plays last frame
+		await this.wait(100);
+
+		// Reset animation to idle
+		this.state = 'idle';
 
 	}
+
+	public async brain() {
+		this.rollForMentalState();
+
+		let closestEntity = Entity.nearestEntity(this, EnemyEntity);
+
+		if (!closestEntity || closestEntity.stats.health <=0) {
+			return;
+		}
+		// Walk toward defender
+		let interrupt = await this.walkToEntity(closestEntity);
+
+			// Attack if nothing was interrupted
+			if (!interrupt) {
+				// Store defender health
+				let defenderHealth = closestEntity.stats.health;
+
+				if (this.position[0] == closestEntity.position[0] && this.position[1] == closestEntity.position[1]) {
+					if (!(closestEntity.stats.health <= 0)) {
+						// Attacks closest entity
+						await this.attackEntity(closestEntity);
+			
+					}
+				}
+			}	
+
+		}
 };
