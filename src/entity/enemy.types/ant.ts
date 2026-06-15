@@ -135,22 +135,22 @@ export class Ant extends EnemyEntity {
 		// Walk toward defender
 		let interrupt = await this.walkToEntity(closestEntity);
 
-		// Attack if nothing was interrupted
+		// Attacks
 		if (!interrupt) {
-			// Store defender health
+			// Stores closest defender health
 			let defenderHealth = closestEntity.stats.health;
+			let attackInterrupt = await this.attackEntity(closestEntity);
+			
+			if (attackInterrupt) {
+				// Ant was stopped from attacking
 
-			if (this.position[0] == closestEntity.position[0] && this.position[1] == closestEntity.position[1]) {
-				if (!(closestEntity.stats.health <= 0)) {
-					// Attacks closest entity
-					await this.attackEntity(closestEntity);
-		
-					if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
-						await StatusEffects.regenerateEntity(this, 5000, 2);
-					}
+			} else if (closestEntity.stats.health <= 0) {
+				// Regenerates if the closestEntity is dead
+				if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
+					await StatusEffects.regenerateEntity(this, 5000, 2);
 				}
 			}
-		}	
+		}
 	}
 	
 	/**
