@@ -141,8 +141,7 @@ export abstract class Entity {
 
 	public static displayName:string|undefined;
 	public static getDisplayName() {
-		let constructor:typeof Entity = this.constructor as typeof Entity;
-		return constructor.displayName ?? constructor.name
+		return this.displayName ?? this.name
 	}
 
 	public static showInInventory:boolean = true;

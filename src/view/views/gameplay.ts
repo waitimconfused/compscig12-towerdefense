@@ -13,6 +13,7 @@ import { ViewRect } from "../elements/rect.js";
 import { ViewElement } from "../view-element.js";
 import { Entity } from "../../entity/entity.js";
 import { Strawberry } from "../../entity/defender.types/strawberry.js";
+import { Carrier } from "../../entity/other/carrier.js";
 
 var hasPlayed = false;
 
@@ -47,6 +48,11 @@ inventoryButton.addEventListener("click", () => {
 view.addEventListener("show", () => {
 
 	if (hasPlayed) return;
+
+	Carrier.spawn(1, [
+		GameplayView.playSpaceSize[0] - 200,
+		GameplayView.playSpaceSize[1] - 200
+	])
 
 	Wave.newWave();
 	Sandwich.spawn(1, [
