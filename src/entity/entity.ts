@@ -20,7 +20,7 @@ type EntityTimer = {
 
 export type EntityEventType = "wait" | "jump" | "walk";
 export type EntityEventInterrupt = "success" | "error" | "attacked" | "stunned" | "slowed";
-export type EntityTimerTicker = () => void
+export type EntityTimerTicker = (interrupt:()=>void) => void
 
 export type DamageType = 'melee' | 'ranged' | 'aoe';
 
@@ -854,7 +854,10 @@ export abstract class Entity {
 			// Get the time when the timer should be triggered
 			let triggerTime = timer.trigger_time as number;
 
-			if (timer.tick) timer.tick();
+			if (timer.tick) timer.tick( () => {
+				this.internalTimers.splice(i, 1);
+				i -= 1;
+			} );
 
 			// If the time isn't in the past, go to the next timer
 			if (triggerTime > performance.now()) continue;
@@ -864,6 +867,7 @@ export abstract class Entity {
 
 			// Remove the timer from the internal timer list
 			this.internalTimers.splice(i, 1);
+			i -= 1;
 
 		}
 
@@ -884,7 +888,10 @@ export abstract class Entity {
 				// If the current timer is not a WALK timer, go to the next timer
 				if (timer.type != "walk") continue;
 
-				if (timer.tick) timer.tick();
+				if (timer.tick) timer.tick( () => {
+					this.internalTimers.splice(i, 1);
+					i -= 1;
+				} );
 			}
 
 			let totalDistance = Math.hypot(
@@ -942,7 +949,10 @@ export abstract class Entity {
 				// If the current timer is not a WALK timer, go to the next timer
 				if (timer.type != "walk") continue;
 
-				if (timer.tick) timer.tick();
+				if (timer.tick) timer.tick( () => {
+					this.internalTimers.splice(i, 1);
+					i -= 1;
+				} );
 			}
 
 			if (this._targetPathLength >= this._targetPathMaxLength) {
