@@ -69,7 +69,7 @@ export class Wasp extends EnemyEntity {
 		await this.wait(200);
 
 		// Sets the wasp state to idle
-		this.state = 'idle'
+		this.state = 'idle';
 
 		return result;
 	}

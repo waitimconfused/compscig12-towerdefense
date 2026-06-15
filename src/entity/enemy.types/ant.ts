@@ -56,11 +56,6 @@ export class Ant extends EnemyEntity {
 
 		return new Promise((resolve) => {
 
-			// if (this.invulnerable) {
-			// 	resolve(undefined);
-			// 	return;
-			// }
-
 			// Initializes final damage as damage dealt to Ant
 			let finalDamage = dealtDamage;
 
@@ -96,14 +91,14 @@ export class Ant extends EnemyEntity {
 		}
 
 		// Begins attack animation
-		this.state = 'attack'
+		this.state = 'attack';
 
 		// Waits for 4 attack frames
 		let interrupt = await this.wait(400);
 
 		// Stops attack animation when interrupted
 		if (interrupt) {
-			this.state = 'idle'
+			this.state = 'idle';
 			return;
 		}
 

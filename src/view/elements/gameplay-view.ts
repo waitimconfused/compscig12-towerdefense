@@ -8,6 +8,7 @@ import spriteAssets from "../../../assets/sprites.json" with { type: "json" };
 import { BasicSprite, rulesToFunction } from "../../entity/logic-flow.js";
 import { MouseManager } from "../../mouse.js";
 import { Strawberry } from "../../entity/defender.types/strawberry.js";
+import { Wave } from "../../wave.js";
 
 type SpriteRenderingRuleset = Map<string, (e:Entity)=>BasicSprite[]>;
 
@@ -84,6 +85,8 @@ export default class GameplayView extends View {
 
 		let inverseTransform:DOMMatrix = context.getTransform().inverse();
 		let innerMouse:DOMPoint = inverseTransform.transformPoint( new DOMPoint(MouseManager.x, MouseManager.y) );
+
+		Wave.update(Engine.stats.delta);
 
 		// Draw the gameplay background
 		this.renderGameplayBackground(canvas, context);

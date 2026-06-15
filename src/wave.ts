@@ -6,6 +6,7 @@ import { Ant } from "./entity/enemy.types/ant.js";
 import { Frog } from "./entity/enemy.types/frog.js";
 import { Raccoon } from "./entity/enemy.types/raccoon.js";
 import { Wasp } from "./entity/enemy.types/wasp.js";
+import { Entity } from "./entity/entity.js";
 import { StaticClass } from "./types.js";
 
 /**
@@ -23,16 +24,35 @@ export class Wave extends StaticClass {
 	private static _waveDuration : number = 60000;
 	private static _timeLeft : number = 60000;
 	
+	private static _waveActive = true;
+	private static _waveInitialized = false;
+
 	/**
 	 * Game loop updates the wave time
 	 * @param t The time of each game tick
 	 */
 	public static update(t : number) : void {
+		if (!this._waveInitialized) return;
+
 		// Updates the current time left
 		this._timeLeft -= t;
+		
+		// Initially assume all enemies are dead
+		let enemyDead = true;
+		
+		// Search map for any enemies
+		// Breaks loop and sets enemyDead to be false if an enemy is found
+		for (const entity of Entity.entities.values()) {
+			if (entity.entityType.startsWith("enemy")) {
+				enemyDead = false;
+				break;
+			}
+		}
 
 		// Checks if the wave is finished
-		if (this._timeLeft <= 0) {
+		if ((this._timeLeft <= 0 || enemyDead) && this._waveActive) {
+			this._waveActive = false;
+
 			// Starts a new wave of enemies
 			this.newWave();
 
@@ -41,6 +61,8 @@ export class Wave extends StaticClass {
 
 			// Updates current time left to match the wave duration
 			this._timeLeft = this._waveDuration;
+
+			this._waveActive = true;
 		}
 	}
 	
@@ -50,6 +72,8 @@ export class Wave extends StaticClass {
 	 * Spawns enemies based on wave number
 	 */
 	public static newWave() : void {	
+		this._waveInitialized = true;
+
 		// Increase the wave number
 		this._waveNumber++;
 
@@ -77,21 +101,14 @@ export class Wave extends StaticClass {
 			Raccoon.spawn(1,[100,100],2);
 		}
 		
-
 	}
 
-	// private waveLoop() : void {
-	// 	for (let entity of Entity.entities.values()) {
-		
-	// 		if (entity instanceof EnemyEntity == false) continue;
-		
-	// 		if (entity.stats.health > 0) {
-	// 			console.warn("Not all EnemyEntity instances are dead.");
-	// 			return;
-	// 		}
-	// 	}
-	// }
-
+	// test to kill everyone :thumbs-up:
+	public static killThemEnemies() : void {
+		for (let entity of Entity.entities.values()) {
+			if (entity.entityType.startsWith("enemy")) entity.stats.health = 0;
+		}
+	}
 }
 
 // @ts-ignore
