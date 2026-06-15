@@ -358,6 +358,7 @@ export abstract class Entity {
 			let finalDamage = dealtDamage;
 
 			this.stats.health -= finalDamage;
+			this.updateRenderCache = true;
 
 			this.interruptTimers(null, {
 				triggered_by: attacker,

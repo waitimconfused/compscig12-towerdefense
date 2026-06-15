@@ -86,8 +86,6 @@ export default class GameplayView extends View {
 		let inverseTransform:DOMMatrix = context.getTransform().inverse();
 		let innerMouse:DOMPoint = inverseTransform.transformPoint( new DOMPoint(MouseManager.x, MouseManager.y) );
 
-		Wave.update(Engine.stats.delta);
-
 		// Draw the gameplay background
 		this.renderGameplayBackground(canvas, context);
 
@@ -108,6 +106,7 @@ export default class GameplayView extends View {
 		}
 		
 		// Draw the entities
+		Wave.update(Engine.stats.delta);
 		this.renderEntities(canvas, context);
 
 		if (this.spawningEntity) {
@@ -232,6 +231,7 @@ export default class GameplayView extends View {
 		// 	return entity1.position[1] - entity2.position[1];
 		// });
 
+		let hasCarrier = false;
 
 		// Loop through each entity, updating it and rendering
 		for (let i = 0; i < entities.length; i ++) {
@@ -240,6 +240,8 @@ export default class GameplayView extends View {
 
 			// Get the current entity
 			let entity:Entity = Entity.entities.get(entityId) as Entity;
+
+			if (entity.entityType == "entity/carrier") hasCarrier = true;
 
 			// Update the entity
 			entity.tick(Engine.stats.delta);
@@ -283,6 +285,8 @@ export default class GameplayView extends View {
 			// Remove the rendering data corresponding to the non-existent entity
 			this.entitySpriteLayers.delete(id);
 		}
+
+		if (!hasCarrier) Engine.showView("game-over");
 	}
 
 	/**

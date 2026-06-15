@@ -1,10 +1,10 @@
-import { Entity, EntityStats } from "../entity.js";
+import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 
-export class Carrier extends Entity {
+export class Carrier extends DefenderEntity {
 
 	public override entityType = "entity/carrier";
 
-	public static override baseStats: EntityStats = {
+	public static override baseStats: DefenderEntityStats = {
 		health: 100,
 		speed: 0,
 		damage: 0,
@@ -15,11 +15,13 @@ export class Carrier extends Entity {
 		stunDuration: undefined,
 		slowDuration: undefined,
 		regenerationDuration: undefined,
-		aoeRange: undefined
+		aoeRange: undefined,
+		entityPurchaseCost: 100,
+		upgradeEntityCost: 100,
+		entityResaleCost: 123
 	};
 
-	onDeath(): void {
-		//game over
+	override onDeath(): void {
 	}
 
 	public async brain(){

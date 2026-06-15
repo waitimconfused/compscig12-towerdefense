@@ -83,8 +83,6 @@ export class Wave extends StaticClass {
 		Ant.antSpawn([0,0],100);
 		Raccoon.spawn(1,[100,100],2);
 		Wasp.spawn(1,[100,100],2);
-		Strawberry.spawn(1,[100,500],2);
-		Strawberry.spawn(1,[500,500],2);
 		
 		// Spawns a frog every 2 waves
 		if (this._waveNumber % 2 == 0) {
