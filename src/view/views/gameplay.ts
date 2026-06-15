@@ -9,6 +9,7 @@ import { Entity } from "../../entity/entity.js";
 import { Strawberry } from "../../entity/defender.types/strawberry.js";
 import { Carrier } from "../../entity/other/carrier.js";
 import { Corn } from "../../entity/defender.types/corn.js";
+import { ViewText } from "../elements/text.js";
 
 // Aspect ratio of 1.333:1
 // GameplayView.playSpaceSize[0] = 1270;
@@ -20,22 +21,13 @@ var view = new GameplayView;
 Engine.createView("gameplay", view);
 
 let stopButton = new ViewSprite("close");
-stopButton.setSize(50, 50);
-stopButton.setTranslation(50, 50);
 view.addElement(stopButton);
+stopButton
+	.setTranslation(25, 25)
+	.scale(0.25);
 
 stopButton.addEventListener("click", () => {
 	Engine.showView("main-menu");
-});
-
-let inventoryButton = new ViewSprite("close");
-view.addElement(inventoryButton);
-inventoryButton.setAnchor( Engine.anchorPresets.topRight );
-inventoryButton.setTranslation(-100, 50);
-inventoryButton.setSize(50, 50);
-
-inventoryButton.addEventListener("click", () => {
-	Engine.showView("inventory/player-stats");
 });
 
 view.addEventListener("show", () => {
@@ -47,7 +39,7 @@ view.addEventListener("show", () => {
 		GameplayView.playSpaceSize[1] - 200
 	]);
 
-	Wave.newWave();
+	Wave.setWave(1);
 
 });
 
@@ -119,6 +111,29 @@ class Bar extends ViewElementCollection {
 
 const bar = new Bar;
 view.addElement(bar);
+
+let inventoryButton = new ViewSprite("gui-cover");
+view.addElement(inventoryButton);
+inventoryButton.setAnchor( Engine.anchorPresets.bottomRight )
+	.scale(0.5)
+	.setOrigin(0.8, 0.9)
+	.setRotation(-10, "deg")
+	.scale(0.75);
+
+inventoryButton.addEventListener("click", () => {
+	Engine.showView("inventory/player-stats");
+});
+
+view.addElement(
+	new ViewText("Inventory")
+	.setAnchor( Engine.anchorPresets.bottomRight )
+	.setAlignment("center", "middle")
+	.setFont("Preahvihear", 32)
+	.setFill("black")
+	.setStroke("none")
+	.setRotation(-10, "deg")
+	.setTranslation(-125, -200)
+)
 
 class SpawnButton extends ViewSprite {
 	constructor(reference:string, entity:typeof Entity) {
