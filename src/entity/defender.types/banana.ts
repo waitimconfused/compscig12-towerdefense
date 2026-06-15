@@ -79,30 +79,39 @@ export class Banana extends BananaSpawner {
 	 */
 	public override async brain() {
 
-		let interrupt = await this.walkTo( this.position[0], GameplayView.playSpaceSize[1] );
+		let downInterrupt = await this.walkTo(
+			this.position[0],
+			GameplayView.playSpaceSize[1],
 
-		//attack enemies near it
-		this.rollOverEnemy();
+			() => {
+				// Attack enemies near it
+				this.rollOverEnemy();
+			}
+		);
 
-		await this.wait(400);
-		
-		//when the Banana dies, it leaves its banana peel (create a BananaPeel)
-		new BananaPeel(this.position);
+		if (downInterrupt) return;
 
-		if (interrupt) return;
+		if (Banana.canUseSkill) {
 
-		//fix: banana rolls back up
-		if (Banana.canUseSkill == true){
-			interrupt
+			let upInterrupt = await this.walkTo(
+				this.position[0],
+				0,
+	
+				() => {
+					// Attack enemies near it
+					this.rollOverEnemy();
+				}
+			);
 
-			//attack enemies near it
-			this.rollOverEnemy();
+			if (upInterrupt) return;
 
-			await this.wait(400);
 		}
 
-		this.state = "die";
+		
+		// When the Banana dies, it leaves its banana peel (create a BananaPeel)
+		new BananaPeel(this.position);
 
+		this.state = "die";
 		this.stats.health = 0;
 	}
 }
