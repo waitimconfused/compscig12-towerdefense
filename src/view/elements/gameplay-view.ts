@@ -222,14 +222,14 @@ export default class GameplayView extends View {
 		// Enemies closer to the top will be rendered
 		// behind ones closer to the bottom of the screen
 		// More info: [JavaScript Array.prototype.sort method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#description)
-		// entities.sort((id1, id2) => {
-		// 	let entity1:Entity = Entity.entities.get(id1) as Entity;
-		// 	let entity2:Entity = Entity.entities.get(id2) as Entity;
-		// 	// POSITIVE: entity1 before entity2
-		// 	// NEGATIVE: entity2 before entity1
-		// 	// ZERO/NAN: no changes
-		// 	return entity1.position[1] - entity2.position[1];
-		// });
+		entities.sort((id1, id2) => {
+			let entity1:Entity = Entity.entities.get(id1) as Entity;
+			let entity2:Entity = Entity.entities.get(id2) as Entity;
+			// POSITIVE: entity1 before entity2
+			// NEGATIVE: entity2 before entity1
+			// ZERO/NAN: no changes
+			return entity1.position[1] - entity2.position[1];
+		});
 
 		let hasCarrier = false;
 
@@ -316,7 +316,7 @@ export default class GameplayView extends View {
 		context.translate( entity.position[0], entity.position[1] );
 
 		let minY = 0;
-		let maxWidth = 0;
+		let maxWidth = 150;
 
 		// Loop through each layer, and render it
 		for (let i = 0; i < layers.length; i ++) {
@@ -340,11 +340,6 @@ export default class GameplayView extends View {
 				minY,
 				( reference.origin[1] / -100) * offscreenSprite.height
 			);
-
-			maxWidth = Math.max(
-				maxWidth,
-				offscreenSprite.width
-			)
 
 			// Decide wether or not to visually flip the
 			// entity horizontally or vertically
@@ -379,9 +374,9 @@ export default class GameplayView extends View {
 		}
 
 		context.fillStyle = "#444444";
-		context.fillRect(-maxWidth/2, minY - 32, maxWidth, 16);
+		context.fillRect(-maxWidth/2, minY - 32, maxWidth, 24);
 		context.fillStyle = "green";
-		context.fillRect(-maxWidth/2, minY - 32,  (entity.stats.health / constructor.stats.health) * maxWidth, 16);
+		context.fillRect(-maxWidth/2 + 2, minY - 28,  (entity.stats.health / constructor.stats.health) * (maxWidth-4), 16);
 		context.restore();
 
 	}

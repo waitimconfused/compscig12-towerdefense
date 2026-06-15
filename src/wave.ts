@@ -24,46 +24,42 @@ export class Wave extends StaticClass {
 	private static _waveDuration : number = 60000;
 	private static _timeLeft : number = 60000;
 	
-	private static _waveActive = true;
-	private static _waveInitialized = false;
-
 	/**
 	 * Game loop updates the wave time
-	 * @param t The time of each game tick
+	 * @param deltaTime The time of each game tick
 	 */
-	public static update(t : number) : void {
-		if (!this._waveInitialized) return;
-
-		// Updates the current time left
-		this._timeLeft -= t;
+	public static update(deltaTime : number) : void {
 		
+		// Store if a wave is active (any enemies are alive)
 		// Initially assume all enemies are dead
-		let enemyDead = true;
+		let waveActive = true;
 		
 		// Search map for any enemies
 		// Breaks loop and sets enemyDead to be false if an enemy is found
 		for (const entity of Entity.entities.values()) {
-			if (entity.entityType.startsWith("enemy")) {
-				enemyDead = false;
+			if (entity instanceof EnemyEntity) {
+				waveActive = false;
 				break;
 			}
 		}
 
-		// Checks if the wave is finished
-		if ((this._timeLeft <= 0 || enemyDead) && this._waveActive) {
-			this._waveActive = false;
+		// If a wave is active, do not do anything
+		if (waveActive) return;
 
-			// Starts a new wave of enemies
-			this.newWave();
+		// Updates the current time left
+		this._timeLeft -= deltaTime;
 
-			// Increases the wave duration by 2 seconds every time a wave ends
-			this._waveDuration += 2000;
+		// If the time is not up, do not do anything
+		if (this._timeLeft > 0) return;
 
-			// Updates current time left to match the wave duration
-			this._timeLeft = this._waveDuration;
+		// Starts a new wave of enemies
+		this.newWave();
 
-			this._waveActive = true;
-		}
+		// Increases the wave duration by 2 seconds every time a wave ends
+		this._waveDuration += 2000;
+
+		// Reset the wave timeout
+		this._timeLeft = this._waveDuration;
 	}
 
 	public static setWave(number:number=this._waveNumber) {
@@ -74,17 +70,17 @@ export class Wave extends StaticClass {
 		Ant.antSpawn([0,0],100);
 		Raccoon.spawn(1,[100,100],2);
 		Wasp.spawn(1,[100,100],2);
-		
+
 		// Spawns a frog every 2 waves
 		if (this._waveNumber % 2 == 0) {
 			Frog.spawn(1,[100,100],2);
-		}	
-		
+		}
+
 		// Spawns a wasp every 3 waves
 		if (this._waveNumber % 3 == 0) {
 			Wasp.spawn(1,[100,100],2);
 		}
-		
+
 		// Spawns a raccoon every 5 waves
 		if (this._waveNumber % 5 == 0) {
 			Raccoon.spawn(1,[100,100],2);
@@ -97,8 +93,6 @@ export class Wave extends StaticClass {
 	 * Spawns enemies based on wave number
 	 */
 	public static newWave() : void {	
-		this._waveInitialized = true;
-
 		// Increase the wave number
 		this._waveNumber++;
 
