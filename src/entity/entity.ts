@@ -225,8 +225,8 @@ export abstract class Entity {
 	protected _targetPositionRange:number = 0;
 
 	protected _targetPath:SVGPathElement|null = null;
-	private _targetPathLength:number = 0;
-	private _targetPathMaxLength:number = 0;
+	protected _targetPathLength:number = 0;
+	protected _targetPathMaxLength:number = 0;
 
 	private internalTimers:EntityTimer[] = [];
 	
