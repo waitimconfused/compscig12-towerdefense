@@ -11,8 +11,6 @@ import { Carrier } from "../../entity/other/carrier.js";
 import { Corn } from "../../entity/defender.types/corn.js";
 import { ViewText } from "../elements/text.js";
 
-// Aspect ratio of 1.333:1
-// GameplayView.playSpaceSize[0] = 1270;
 GameplayView.playSpaceSize[0] = 1900;
 GameplayView.playSpaceSize[1] = 950;
 GameplayView.playSpacePadding = [100, 300];
@@ -20,15 +18,14 @@ GameplayView.playSpacePadding = [100, 300];
 var view = new GameplayView;
 Engine.createView("gameplay", view);
 
-let stopButton = new ViewSprite("close");
-view.addElement(stopButton);
-stopButton
-	.setTranslation(25, 25)
-	.scale(0.25);
-
-stopButton.addEventListener("click", () => {
-	Engine.showView("main-menu");
-});
+view.addElement(
+	new ViewSprite("close")
+	.setSize(50, 50)
+	.setTranslation(50, 50)
+	.addEventListener("click", () => {
+		Engine.showView("main-menu/start");
+	})
+)
 
 view.addEventListener("show", () => {
 
@@ -67,10 +64,8 @@ view.addElement(
 	.setStroke("#842C33", 10)
 	.addEventListener("pre-render", (element, canvas) => {
 		element.setSize(canvas.width, 100);
-	})
-);
+	}),
 
-view.addElement(
 	new ViewSprite("gui-cover-flip")
 	.setAnchor(Engine.anchorPresets.bottomRight)
 	.setOrigin(1, 1)
@@ -113,7 +108,6 @@ const bar = new Bar;
 view.addElement(bar);
 
 let inventoryButton = new ViewSprite("gui-cover");
-view.addElement(inventoryButton);
 inventoryButton.setAnchor( Engine.anchorPresets.bottomRight )
 	.scale(0.5)
 	.setOrigin(0.8, 0.9)
@@ -125,6 +119,8 @@ inventoryButton.addEventListener("click", () => {
 });
 
 view.addElement(
+	inventoryButton,
+
 	new ViewText("Inventory")
 	.setAnchor( Engine.anchorPresets.bottomRight )
 	.setAlignment("center", "middle")

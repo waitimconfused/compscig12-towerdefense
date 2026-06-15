@@ -7,6 +7,14 @@ import { View } from "../../view.js";
 
 const view = new View;
 
+view.addEventListener("show", () => {
+	tab_playerStats.reference = "tab-stats-active";
+});
+
+view.addEventListener("hide", () => {
+	tab_playerStats.reference = "tab-stats";
+});
+
 view.addElement(
 	new ViewText("Stats")
 	.setAnchor(Engine.anchorPresets.centerCenter)
@@ -21,14 +29,20 @@ view.addElement(
 Inventory.give("honey", 30);
 Inventory.give("jar", 30);
 
-var itemGroup = new ViewElementCollection;
-view.addElement(itemGroup);
+const itemText = new ViewText("")
+	.setAnchor(Engine.anchorPresets.centerCenter)
+	.setTranslation(-600, -200)
+	.setFont("Gamja Flower", 48)
+	.setStroke("none")
+	.setFill("black");
+
+view.addElement(itemText);
 
 view.addEventListener("show", () => {
 
-	while ( itemGroup.children.length > 0 ) itemGroup.removeElement(itemGroup.children[0]!);
-
 	let items = Inventory.items.entries();
+
+	let content = "";
 
 	let y = 0;
 	for ( let [item, count] of items ) {
@@ -36,27 +50,14 @@ view.addEventListener("show", () => {
 		if (item == "coin") continue;
 		if (item == "point") continue;
 
-		itemGroup.addElement(
-			new ViewText(`${item}\tx${count}`)
-			.setAnchor(Engine.anchorPresets.centerCenter)
-			.setTranslation(0, y * 150)
-			.setFont("Gamja Flower", 48)
-			.setStroke("none")
-			.setFill("black")
-		);
+		content += `- ${item}    x${count}\n`;
 
 		y += 1;
 
 	}
 
-});
+	itemText.content = content;
 
-view.addEventListener("show", () => {
-	tab_playerStats.reference = "tab-stats-active";
-});
-
-view.addEventListener("hide", () => {
-	tab_playerStats.reference = "tab-stats";
 });
 
 export default view;

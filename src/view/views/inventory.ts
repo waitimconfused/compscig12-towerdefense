@@ -13,13 +13,11 @@ export const button_close = new ViewSprite("close")
 	.addEventListener("click", () => {
 		Engine.showView("gameplay");
 	});
-view.addElement(button_close);
-
+	
 export const book = new ViewSprite("gui-book")
 	.setAnchor( Engine.anchorPresets.centerCenter )
 	.setOrigin(0.5, 0.5);
-view.addElement(book);
-
+	
 export const tab_playerStats = new ViewSprite("tab-stats")
 	.setAnchor(Engine.anchorPresets.centerCenter)
 	.setOrigin(0.6, 0.5)
@@ -27,8 +25,7 @@ export const tab_playerStats = new ViewSprite("tab-stats")
 	.addEventListener("click", () => {
 		Engine.showView("inventory/player-stats");
 	});
-view.addElement(tab_playerStats);
-
+	
 export const tab_defenderStats = new ViewSprite("tab-defender")
 	.setAnchor(Engine.anchorPresets.centerCenter)
 	.setOrigin(0.6, 0.5)
@@ -36,8 +33,7 @@ export const tab_defenderStats = new ViewSprite("tab-defender")
 	.addEventListener("click", () => {
 		Engine.showView("inventory/defender-stats");
 	});
-view.addElement(tab_defenderStats);
-
+	
 export const tab_enemyStats = new ViewSprite("tab-enemy")
 	.setAnchor(Engine.anchorPresets.centerCenter)
 	.setOrigin(0.6, 0.5)
@@ -45,8 +41,7 @@ export const tab_enemyStats = new ViewSprite("tab-enemy")
 	.addEventListener("click", () => {
 		Engine.showView("inventory/enemy-stats");
 	});
-view.addElement(tab_enemyStats);
-
+	
 export const tab_recipe = new ViewSprite("tab-recipe")
 	.setAnchor(Engine.anchorPresets.centerCenter)
 	.setTranslation( 200, -425 )
@@ -54,26 +49,34 @@ export const tab_recipe = new ViewSprite("tab-recipe")
 	.addEventListener("click", () => {
 		Engine.showView("inventory/recipe");
 	});
-view.addElement(tab_recipe);
-
+	
 const subViews = {
 	"player-stats": "./inventory/player-stats.js",
 	"defender-stats": "./inventory/defender-stats.js",
 	"enemy-stats": "./inventory/enemy-stats.js",
 	"recipe": "./inventory/tool-recipe.js"
 };
-
-
+	
+	
 let backgroundImage = new Image;
 backgroundImage.src = "/assets/picnic.svg";
 backgroundImage.addEventListener("load", () => {
 	view.background.source = backgroundImage;
 });
 
+view.addElement(
+	button_close,
+	book,
+	tab_playerStats,
+	tab_defenderStats,
+	tab_enemyStats,
+	tab_recipe
+);
+
 for (let name in subViews) {
-
+	
 	let path = subViews[name as keyof typeof subViews] as string;
-
+	
 	import(path)
 	.then((module) => {
 		let subView:View = module.default as View;

@@ -304,7 +304,16 @@ export abstract class Entity {
 	/**
 	 * Direction from the entity to a target, *measured in **radians***.
 	 */
-	public direction:number = 0;
+	protected _direction:number = 0;
+
+	public get direction() {
+		return this._direction;
+	}
+
+	public set direction(rad:number) {
+		this._direction = rad;
+		this.updateRenderCache = true;
+	}
 
 	/**
 	 * Wait for a specified number of milliseconds

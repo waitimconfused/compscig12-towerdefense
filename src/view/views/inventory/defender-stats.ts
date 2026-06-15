@@ -12,6 +12,14 @@ import { book, tab_defenderStats } from "../inventory.js";
 
 const view = new View;
 
+view.addEventListener("show", () => {
+	tab_defenderStats.reference = "tab-defender-active";
+});
+
+view.addEventListener("hide", () => {
+	tab_defenderStats.reference = "tab-defender";
+});
+
 view.addElement(
 	new ViewText("Defender Stats")
 	.setAnchor(Engine.anchorPresets.centerCenter)
@@ -23,13 +31,6 @@ view.addElement(
 	.setFill("black")
 );
 
-view.addEventListener("show", () => {
-	tab_defenderStats.reference = "tab-defender-active";
-});
-
-view.addEventListener("hide", () => {
-	tab_defenderStats.reference = "tab-defender";
-});
 
 class Section extends ViewElementCollection {
 

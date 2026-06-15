@@ -23,21 +23,17 @@ view.addElement(
 	new ViewSprite("paper-big")
 	.setAnchor( Engine.anchorPresets.centerCenter )
 	.setOrigin(0.5, 0.5)
-	.setRotation(7, "deg")
-);
+	.setRotation(7, "deg"),
 
-view.addElement(
 	new ViewText("Game Over!")
 	.setAnchor( Engine.anchorPresets.centerCenter )
 	.setTranslation(0, -120)
 	.setAlignment("center", "bottom")
 	.setFont("Preahvihear", 90)
 	.setFill("black")
-	.setStroke("none")
-);
+	.setStroke("none"),
 
-view.addElement(
-	new ViewText("☞ you got to wave ⓪ ☜")
+	new ViewText("☞ you got to wave 0 ☜")
 	.setAnchor( Engine.anchorPresets.centerCenter )
 	.setTranslation(0, -70)
 	.setAlignment("center", "bottom")
@@ -45,19 +41,14 @@ view.addElement(
 	.setFill("black")
 	.setStroke("none")
 	.addEventListener("pre-render", (element) => {
-
 		element.content = `☞ you got to wave #${Wave.getWave()} ☜`
-	})
-);
+	}),
 
-view.addElement(
 	new ViewSprite("sandwich-one")
 	.setAnchor(Engine.anchorPresets.centerCenter)
 	.setOrigin(0.5, 0.5)
-	.setRotation(-3, "deg")
-)
+	.setRotation(-3, "deg"),
 
-view.addElement(
 	new ViewText("> main menu <")
 	.setAnchor( Engine.anchorPresets.centerCenter )
 	.setTranslation(0, 200)
