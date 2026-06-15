@@ -1,6 +1,7 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { EnemyEntity } from "../enemy.js";
-import { Entity } from "../entity.js";
+import { Ant } from "../enemy.types/ant.js";
+import { Entity, EntityEvent } from "../entity.js";
 import { StatusEffects } from "../statusEffects.js";
 
 /**
@@ -12,13 +13,6 @@ type DirectionalTargets = {
 };
 
 export class Cherry extends DefenderEntity {	
-	/**
-	 * The ability for Cherry to attack enemies in front and behind them
-	 * 
-	 * This is available to use when at level 3 and up
-	 */
-	private static canAttackFrontBack : boolean = false;
-	
 	/**
 	 * Label the kind of entity cherry is - a defender
 	 */
@@ -80,7 +74,7 @@ export class Cherry extends DefenderEntity {
 			);
 
 			// If Cherry has not been upgraded, only update the distance of the front enemy
-			if (Cherry.canAttackFrontBack == true){
+			if (Cherry.canUseSkill == true){
 				// Check whether the entity's x and y values are more or less than the Cherry
 				// If the x and y is greater, then the entity is behind the Cherry
 				// If the x and y is less, then the entity is in front of the Cherry
@@ -127,51 +121,81 @@ export class Cherry extends DefenderEntity {
 		// If the cherry rolls a number less than or equal to 25, they have stunned the enemy
 		if (rollForStun <= this.stats.stunChance){
 			
-			await StatusEffects.stunEntity(target as Entity,this.stats.stunDuration as number);
+			await StatusEffects.stunEntity(target as Entity,this.stats.stunDuration);
 		}
 		// Otherwise, return that it was not able to
 		return;
+	}
+
+	public override async attackEntity(entity: Entity): Promise<undefined | EntityEvent> {
+		//Return if Defender is stunned
+		if (this.stunned) return;
+
+		//Wats for 4 attack frames
+		let interrupt = await this.wait(400);
+
+		//Stops attack animation when interrupted
+		if (interrupt){
+			this.state = 'idle';
+			return;
+		}
+
+		//Attack target entity
+		await super.attackEntity(entity);
+		
+		//Stun entity
+		await this.attemptStun(entity);
+
+		//Play last frame
+		await this.wait (100);
+
+		this.state = "idle";
+
+		return;
+		
 	}
 	
 	// Call method that unlocks Cherry's skill
 	// UnlockSkill(canAttackFrontBack);
 	public async brain() {
-
+		//Get the nearest enemy to Cherry
 		let cherryNearestEntity = this.nearestEnemies();
 
-		await this.wait(1000);
+		await this.wait(500);
 
+		//Store the values of the Cherry's nearest front and back entity
 		let closestFrontEntity = cherryNearestEntity.front;
 
 		let closestBackEntity = cherryNearestEntity.back;
 
-		// If Entity not found, don't do anything
-		if (!closestFrontEntity) return;
+		// If Entity not found or dead, don't do anything
+		if (!closestFrontEntity || closestFrontEntity.stats.health <= 0) return super.interruptTimers("walk");
 
 		await this.walkTo(closestFrontEntity.position[0], closestFrontEntity.position[1]);
 
+		//Walk towards enemy
+		let interrupt = await this.walkToEntity(closestFrontEntity);
+
+		//get the distance of the front enemy
 		let frontEnemyDistance = Entity.getDistance(this, closestFrontEntity);
 
-		if (frontEnemyDistance <= 45){
-			this.attackEntity(closestFrontEntity);
-			this.attemptStun(closestFrontEntity);
-
+		//Attack enemy if there has been no interruptions and distance is less than or equal to 45
+		if (frontEnemyDistance <= 45 && !interrupt){
 			this.state = "front-attack";
-			
-			if (!closestBackEntity) return;
+
+			this.attackEntity(closestFrontEntity);
+	
+			//if the Cherry has not been upgraded or there is no entity behind, return
+			if (Cherry.canUseSkill == false || !closestBackEntity) return;
 			
 			let backEnemyDistance = Entity.getDistance(this, closestBackEntity);
 
-			if (Cherry.canAttackFrontBack == true && backEnemyDistance <=45){
-				await this.wait (500);
+			//If the Cherry has been upgraded and there are no interruptions, it may attack from behind
+			if (backEnemyDistance <=45 && !interrupt){
+				this.state = "back-attack";
 
 				this.attackEntity(closestBackEntity);
-				this.attemptStun(closestBackEntity);
-
-				this.state = "back-attack";
 			}
-
-			await this.wait(5000);
 		}
 	}
 }

@@ -150,8 +150,7 @@ export class Ant extends EnemyEntity {
 					}
 				}
 			}
-		}
-		
+		}	
 	}
 	
 	/**

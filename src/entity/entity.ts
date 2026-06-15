@@ -57,37 +57,37 @@ export interface EntityStats {
 	/**
 	 * the entity's spawn cool-down
 	 */
-	spawnCoolDown : number | undefined;
+	spawnCoolDown : number;
 
 	/**
 	 * the entity's attack cool-down
 	 */
-	attackCoolDown : number | undefined;
+	attackCoolDown : number;
 
 	/**
 	 * the chance for entity to stun target (if they have the ability to stun entities)
 	 */
-	stunChance : number | undefined;
+	stunChance : number;
 
 	/**
 	 * the duration the entity stuns the target for (if they have the ability to stun entities)
 	 */
-	stunDuration : number | undefined;
+	stunDuration : number;
 
 	/**
 	 * the duration the entity slows the target for (if they have the ability to slow entities)
 	 */
-	slowDuration : number | undefined;
+	slowDuration : number;
 
 	/**
 	 * the duration the entity regenerates their health for (if they have the ability to regenerate)
 	 */
-	regenerationDuration : number | undefined;
+	regenerationDuration : number;
 
 	/**
 	 * the range of an Entity's area of effect attack (if they have the ability to do aoe attacks)
 	 */
-	aoeRange : number | undefined;
+	aoeRange : number;
 }
 
 export abstract class Entity {

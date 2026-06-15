@@ -1,4 +1,5 @@
 import { Position2D } from "../types.js";
+import { Sandwich } from "./defender.types/sandwich.js";
 import { EnemyEntity } from "./enemy.js";
 import { Entity, EntityStats } from "./entity.js";
 
@@ -16,14 +17,18 @@ export interface DefenderEntityStats extends EntityStats {
 	/**
 	 * the cost of upgrading a Defender
 	 */
-	upgradeEntityCost : number | undefined;
+	upgradeEntityCost : number;
+
 }
 
 export abstract class DefenderEntity extends Entity{
-
 	declare public stats: DefenderEntityStats;
 
 	static override baseStats: DefenderEntityStats;
+
+	private static defenderLevel : number = 1;
+
+	protected static canUseSkill : boolean = false;
 
 	/**
 	 * Value used inside `this.reloadStats()` to determine
@@ -36,6 +41,7 @@ export abstract class DefenderEntity extends Entity{
 	 * Usage: `new_stat = base_stat / levelIncrease`
 	 */
 	private static levelIncrease:number = 2;
+	
 
 	constructor(position: Position2D){
 		super(position);
@@ -65,19 +71,16 @@ export abstract class DefenderEntity extends Entity{
 
 			// Update the entity stats
 			this.stats[statType] += baseState / constructor.levelIncrease;
+
+			//If the Defender has been upgraded to level 3, their skill will activate
+			if (constructor.defenderLevel == 3){
+				constructor.canUseSkill = true;
+				if (this instanceof Sandwich && Sandwich.canUseSkill == true && statType == 'health'){
+					this.stats[statType] += baseState + 100;
+				}
+			}
 		}
-		
 	}
-	
-	/**
-	 * if the type of Defender is level 3 or higher, they have unlocked their unique skill 
-	 * override reloadStats to check for Defender upgrade
-	 */
-	protected unlockSkill(activateSkill : boolean) : void{
-		activateSkill = true;
-	}
-
-
 };
 
 export type DefenderStatus = {
