@@ -4,6 +4,7 @@ package-lock.json
 
 # TypeScript cache & output
 *.tsbuildinfo
+dist/
 
 # dotenv environment variable files
 .env
