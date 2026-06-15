@@ -322,8 +322,6 @@ export abstract class Entity {
 
 		return new Promise((resolve, reject) => {
 
-			this.state = "idle";
-
 			// Add an internal WAIT timer
 			this.internalTimers.push({
 				type: "wait",

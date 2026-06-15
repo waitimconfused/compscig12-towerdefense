@@ -68,7 +68,7 @@ export class Frog extends EnemyEntity {
 		await this.wait(600);
 		
 		// Reset state, isLeaping, stunned, invulnerable
-		this.state = 'idle'
+		this.state = 'idle';
 		this.isLeaping = false;
 		this.stunned = false;
 		this.invulnerable = false;
