@@ -123,6 +123,7 @@ export class Ant extends EnemyEntity {
 	 */
 	public async brain() {
 
+		await this.followPath(Ant.path, true);
 		if (this._disableBrain) return;
 
 		await this.followPath(EnemyEntity.path, () => {
