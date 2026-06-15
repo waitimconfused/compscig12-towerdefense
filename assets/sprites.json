@@ -25,10 +25,12 @@
 	],
 	"logic": [
 		"./carrier/logic.json",
+		"./defender/banana/banana-peel-logic.json",
 		"./defender/banana/entity-logic.json",
 		"./defender/banana/spawner-logic.json",
 		"./defender/cherry/logic.json",
-		"./defender/corn/logic.json",
+		"./defender/corn/corn-logic.json",
+		"./defender/corn/kernel-logic.json",
 		"./defender/sandwich/logic.json",
 		"./defender/strawberry/logic.json",
 		"./enemies/ant/logic.json",
