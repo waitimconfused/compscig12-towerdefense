@@ -3,11 +3,31 @@
 
 	"logic": [
 		{
-			"rule": "true",
+			"rule": "state=='spawn'",
+
+			"layers": [
+				{
+					"sprite": "banana-spawn",
+					"origin": [ 50, 0 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='rolling'",
 
 			"layers": [
 				{
 					"sprite": "banana-rolling",
+					"origin": [ 50, 0 ]
+				}
+			]
+		},
+		{
+			"rule": "state=='die'",
+
+			"layers": [
+				{
+					"sprite": "banana-death",
 					"origin": [ 50, 0 ]
 				}
 			]

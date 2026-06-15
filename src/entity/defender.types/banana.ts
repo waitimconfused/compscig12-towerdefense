@@ -6,9 +6,6 @@ import { Position2D } from "../../types.js";
 import GameplayView from "../../view/elements/gameplay-view.js";
 
 export class BananaSpawner extends DefenderEntity {
-	/**the readonly name of the entity Banana - to prevent spelling mistakes*/
-	public static readonly DEFENDER_NAME = "BANANA";
-
 	/** Label what the type of entity the banana spawner is - a part of Defender*/
 	public override entityType : string = "defender/banana_spawner";
 	
@@ -51,6 +48,11 @@ export class Banana extends BananaSpawner {
 	public async rollOverEnemy() : Promise<undefined |EntityEvent> {
 		//Return if the defender is stunned
 		if (this.stunned) return;
+		this.state = "reveal";
+
+		//wait for the banana to peel first
+
+		await this.wait(200);
 
 		//Roll
 		this.state = "rolling";
@@ -98,6 +100,8 @@ export class Banana extends BananaSpawner {
 
 			await this.wait(400);
 		}
+
+		this.state = "die";
 
 		this.stats.health = 0;
 	}

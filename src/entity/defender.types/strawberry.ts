@@ -5,9 +5,6 @@ import { EnemyEntity } from "../enemy.js";
 import { Entity, EntityEvent } from "../entity.js";
 
 export class Strawberry extends DefenderEntity {
-	/**the readonly name of the entity Strawberry - to prevent spelling mistakes*/
-	public static readonly DEFENDER_NAME = "STRAWBERRY";
-
 	/**the mental state the Strawberry spawns with */
 	public mentalState : number;
 

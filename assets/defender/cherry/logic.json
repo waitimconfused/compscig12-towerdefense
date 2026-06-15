@@ -23,7 +23,7 @@
 		},
 
 		{
-			"rule": "state=='attack-front'",
+			"rule": "state=='front-attack'",
 			"layers": [
 				{
 					"sprite": "cherry-forward-attacking",
@@ -33,10 +33,10 @@
 		},
 
 		{
-			"rule": "state=='cherry-backward-attacking'",
+			"rule": "state=='back-attack'",
 			"layers": [
 				{
-					"sprite": "cherry-forward-attacking",
+					"sprite": "cherry-backward-attacking",
 					"origin": [ 50, 100 ]
 				}
 			]

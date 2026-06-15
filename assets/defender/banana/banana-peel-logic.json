@@ -1,0 +1,16 @@
+{
+	"type": "defender/banana_entity",
+
+	"logic": [
+		{
+			"rule": "state=='banana-remains'",
+
+			"layers": [
+				{
+					"sprite": "banana-death",
+					"origin": [ 50, 0 ]
+				}
+			]
+		}
+	]
+}
