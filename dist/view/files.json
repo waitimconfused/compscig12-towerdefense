@@ -1,0 +1,7 @@
+{
+    "views": [
+        "./views/main-menu.js",
+        "./views/gameplay.js",
+        "./views/inventory.js"
+    ]
+}
