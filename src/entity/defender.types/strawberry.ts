@@ -125,6 +125,8 @@ export class Strawberry extends DefenderEntity {
 		// Waits for 4 attack frames
 		let interrupt = await this.wait(400);
 
+		entity.dealDamage(this.stats.damage, this, "melee");
+
 		// Stops attack animation when interrupted
 		if (interrupt) {
 			this.state = 'idle';
@@ -143,25 +145,13 @@ export class Strawberry extends DefenderEntity {
 
 		let closestEntity = Entity.nearestEntity(this, EnemyEntity);
 
-		if (!closestEntity || closestEntity.stats.health <=0) {
-			return;
-		}
+		if (!closestEntity || closestEntity.stats.health <=0) return;
 		// Walk toward defender
 		let interrupt = await this.walkToEntity(closestEntity);
 
-			// Attack if nothing was interrupted
-			if (!interrupt) {
-				// Store defender health
-				let defenderHealth = closestEntity.stats.health;
+		if (interrupt) return;
 
-				if (this.position[0] == closestEntity.position[0] && this.position[1] == closestEntity.position[1]) {
-					if (!(closestEntity.stats.health <= 0)) {
-						// Attacks closest entity
-						await this.attackEntity(closestEntity);
-			
-					}
-				}
-			}	
-
+			// Attacks closest entity
+			await this.attackEntity(closestEntity);
 		}
 };

@@ -10,7 +10,7 @@
 
 			"logic": [
 				{
-					"rule": "state=='idle'",
+					"rule": "state=='idle' || state=='attack'",
 
 					"layers": [
 						{
@@ -64,7 +64,7 @@
 
 			"logic": [
 				{
-					"rule": "state=='idle'",
+					"rule": "state=='idle' || state=='attack'",
 
 					"layers": [
 						{
@@ -118,7 +118,7 @@
 
 			"logic": [
 				{
-					"rule": "state=='idle'",
+					"rule": "state=='idle' || state=='attack'",
 
 					"layers": [
 						{
