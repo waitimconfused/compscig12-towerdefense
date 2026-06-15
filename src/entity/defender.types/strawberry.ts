@@ -146,12 +146,13 @@ export class Strawberry extends DefenderEntity {
 		let closestEntity = Entity.nearestEntity(this, EnemyEntity);
 
 		if (!closestEntity || closestEntity.stats.health <=0) return;
+
 		// Walk toward defender
 		let interrupt = await this.walkToEntity(closestEntity);
 
 		if (interrupt) return;
 
-			// Attacks closest entity
-			await this.attackEntity(closestEntity);
-		}
+		// Attacks closest entity
+		await this.attackEntity(closestEntity);
+	}
 };

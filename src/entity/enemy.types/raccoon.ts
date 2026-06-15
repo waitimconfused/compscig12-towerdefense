@@ -57,13 +57,11 @@ export class Raccoon extends EnemyEntity {
 		// Waits for 4 frames
 		let interrupt = await this.wait(400);
 
-		// If raccoon was interrupted during the attack, set state to idle
-		if (interrupt) {
-			this.state = 'idle';
-		}
-
 		// Attacks target entity
 		let result = await super.attackEntity(entity);
+
+		// If raccoon was interrupted during the attack, set state to idle
+		if (interrupt) this.state = 'idle';
 
 		// Waits for the remaining 2 frames
 		await this.wait(200);
@@ -85,10 +83,7 @@ export class Raccoon extends EnemyEntity {
 		// Gets the closest DefenderEntity
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 
-		if (!closestEntity || closestEntity.stats.health <= 0) {
-			super.interruptTimers("walk");
-			return;
-		}
+		if (!closestEntity || closestEntity.stats.health <= 0) return;
 
 		// Walks towards the closest DefenderEntity
 		let interrupt = await this.walkToEntity(closestEntity);
