@@ -418,7 +418,7 @@ export abstract class Entity {
 	 * 				position is reached, OR if the walking has been
 	 * 				interrupted.
 	 */
-	public walkTo(x:number, y:number):Promise<undefined|EntityEvent> {
+	public walkTo(x:number, y:number, ticker?:EntityTimerTicker):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve, reject) => {
 
@@ -456,7 +456,8 @@ export abstract class Entity {
 			this.internalTimers.push({
 				type: "walk",
 				complete: resolve,
-				fail: reject
+				fail: reject,
+				tick: ticker
 			});
 
 		});
@@ -472,7 +473,7 @@ export abstract class Entity {
 	 * 				position is reached, OR if the walking has been
 	 * 				interrupted.
 	 */
-	public walkToEntity(entity:Entity, distance=50):Promise<undefined|EntityEvent> {
+	public walkToEntity(entity:Entity, distance=50, ticker?:EntityTimerTicker):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve, reject) => {
 
@@ -508,7 +509,8 @@ export abstract class Entity {
 			this.internalTimers.push({
 				type: "walk",
 				complete: resolve,
-				fail: reject
+				fail: resolve,
+				tick: ticker
 			});
 
 		});
@@ -516,10 +518,9 @@ export abstract class Entity {
 	}
 
 	/**
-	 * 
 	 * @param path	SVG path data
 	 */
-	public followPath(path:string) {
+	public followPath(path:string, ticker?:EntityTimerTicker) {
 
 		return new Promise(async (resolve, reject) => {
 			let svg = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -550,7 +551,8 @@ export abstract class Entity {
 			this.internalTimers.push({
 				type: "walk",
 				complete: resolve,
-				fail: reject
+				fail: resolve,
+				tick: ticker
 			});
 		});
 
@@ -872,6 +874,18 @@ export abstract class Entity {
 
 			// Perform a movement-tick
 			this.movementTick(this._targetPosition, deltaTime);
+			
+			// Loop through each timer, 
+			for (let i = 0; i < this.internalTimers.length; i ++) {
+
+				// Get the current timer
+				let timer = this.internalTimers[i] as EntityTimer;
+
+				// If the current timer is not a WALK timer, go to the next timer
+				if (timer.type != "walk") continue;
+
+				if (timer.tick) timer.tick();
+			}
 
 			let totalDistance = Math.hypot(
 				this._targetPosition[0] - this.position[0],
@@ -918,6 +932,18 @@ export abstract class Entity {
 
 			this.position[0] = newPosition[0];
 			this.position[1] = newPosition[1];
+
+			// Loop through each timer, 
+			for (let i = 0; i < this.internalTimers.length; i ++) {
+
+				// Get the current timer
+				let timer = this.internalTimers[i] as EntityTimer;
+
+				// If the current timer is not a WALK timer, go to the next timer
+				if (timer.type != "walk") continue;
+
+				if (timer.tick) timer.tick();
+			}
 
 			if (this._targetPathLength >= this._targetPathMaxLength) {
 				this._targetPath = null;
