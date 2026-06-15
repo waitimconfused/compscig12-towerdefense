@@ -282,7 +282,6 @@ export class Entity {
             if (timer.tick)
                 timer.tick(() => {
                     this.internalTimers.splice(i, 1);
-                    i -= 1;
                 });
             if (triggerTime > performance.now())
                 continue;
@@ -299,7 +298,6 @@ export class Entity {
                 if (timer.tick)
                     timer.tick(() => {
                         this.internalTimers.splice(i, 1);
-                        i -= 1;
                     });
             }
             let totalDistance = Math.hypot(this._targetPosition[0] - this.position[0], this._targetPosition[1] - this.position[1]);
@@ -331,7 +329,6 @@ export class Entity {
                 if (timer.tick)
                     timer.tick(() => {
                         this.internalTimers.splice(i, 1);
-                        i -= 1;
                     });
             }
             if (this._targetPathLength >= this._targetPathMaxLength) {

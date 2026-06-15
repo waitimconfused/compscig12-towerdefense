@@ -2,8 +2,9 @@
 node_modules/
 package-lock.json
 
-# TypeScript cache
+# TypeScript cache & output
 *.tsbuildinfo
+dist/
 
 # dotenv environment variable files
 .env

@@ -856,7 +856,6 @@ export abstract class Entity {
 
 			if (timer.tick) timer.tick( () => {
 				this.internalTimers.splice(i, 1);
-				i -= 1;
 			} );
 
 			// If the time isn't in the past, go to the next timer
@@ -890,7 +889,6 @@ export abstract class Entity {
 
 				if (timer.tick) timer.tick( () => {
 					this.internalTimers.splice(i, 1);
-					i -= 1;
 				} );
 			}
 
@@ -951,7 +949,6 @@ export abstract class Entity {
 
 				if (timer.tick) timer.tick( () => {
 					this.internalTimers.splice(i, 1);
-					i -= 1;
 				} );
 			}
 
