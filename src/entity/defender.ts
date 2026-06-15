@@ -78,9 +78,6 @@ export abstract class DefenderEntity extends Entity{
 		super(position);
 	}
 
-	protected onDeath(): void {
-		
-	}
 
 };
 

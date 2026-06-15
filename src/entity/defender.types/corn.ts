@@ -63,7 +63,7 @@ export class Corn extends DefenderEntity{
 		//if the distance between the enemy and the corn is less than or equal to 45 pixels, 
 		// and Corn has not been stunned, start attacking
 		//the corn will shoot/summon a kernel between the position of the Corn and the enemy
-		if (distance <= 45 && this.stunned == false){
+		if (distance <= 1000 && this.stunned == false){
 			new Kernel(this.position, closestEnemy);
 			console.log ('spawn corn and exist');
 			
@@ -98,7 +98,7 @@ export class Kernel extends Corn{
 	//Kernal will have its own base stats
 	//This means that enemies have the opportunity to get rid of the kernel before it hits them, but it doesn't directly effect the corn itself
 	public static override baseStats: DefenderEntityStats = {
-		health: 200,
+		health: 10000,
 		speed: 3,
 		damage: 15, 
 		knockBack: 3,
@@ -169,6 +169,7 @@ export class Kernel extends Corn{
 	 * As of now it is used to check for enemies nearby
 	 */
 	public override async brain(): Promise<void> {
+		console.log('hello')
 
 		//Get the Kernel to keep on traveling to the target/enemy's position
 		await this.walkToEntity(this.target);
