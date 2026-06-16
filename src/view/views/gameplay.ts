@@ -159,3 +159,4 @@ const defaultSpawnAreas = {
 
 view.entitySpawnAreas.set(Sandwich.getDisplayName(), new Path2D(defaultSpawnAreas.on_path) );
 view.entitySpawnAreas.set(Corn.getDisplayName(), new Path2D(defaultSpawnAreas.off_path) );
+view.entitySpawnAreas.set(BananaSpawner.getDisplayName(), new Path2D(`M0,0 L${GameplayView.playSpaceSize[0]},0 L${GameplayView.playSpaceSize[0]},100 L0,100 L0,0`) );

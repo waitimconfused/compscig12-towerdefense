@@ -27,6 +27,11 @@ export class BananaSpawner extends DefenderEntity {
 		entityResaleCost: 15
 	}
 
+	constructor(position:Position2D) {
+		super(position);
+		this.position[1] = 0;
+	}
+
 	/** This method needs to exist, but will not have anything in it because the Kernel's death is done in the brain*/
 	protected override onDeath(): void {}
 
