@@ -1,6 +1,7 @@
 import Inventory, { InventoryItemTag } from "../inventory.js";
 import { Position2D } from "../types.js";
 import { Wave } from "../wave.js";
+import { DefenderEntity } from "./defender.js";
 import { Entity, EntityStats } from "./entity.js";
 
 export type MaterialType = 'jar' | 'wood' | 'honey' | 'glassLemonade'
@@ -50,10 +51,10 @@ export abstract class EnemyEntity extends Entity {
     // Enemy base stats
 	public static override baseStats: EnemyEntityStats;
     
-    protected disableWalking:boolean = false;
+    protected targetEntity:DefenderEntity|null = null;
     protected currentPath:SVGPathElement|null = null;
     protected currentPathLength:number = 0;
-    protected currentPathMaxProgress:number = 0;
+    protected currentPathMaxLength:number = 0;
 
     public override reloadStats(): void {
         super.reloadStats();
@@ -94,6 +95,4 @@ export abstract class EnemyEntity extends Entity {
             }
         }
     }
-
-    protected abstract brainHelper(interrupt: ()=> void) : Promise<void>;
 }
