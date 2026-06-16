@@ -40,11 +40,6 @@ export class Ant extends EnemyEntity {
 		]
 	}
 
-	private disableWalking:boolean = false;
-	private currentPath:SVGPathElement|null = null;
-	private currentPathLength:number = 0;
-	private currentPathMaxProgress:number = 0;
-
 	/**
 	 * Override, Ant takes more damage from AOE type attacks
 	 * @param dealtDamage Amount of damage dealt
@@ -133,12 +128,12 @@ export class Ant extends EnemyEntity {
 				this.currentPathLength = 0;
 				this.currentPathMaxProgress = 0;
 			}
-			this.tester(interrupt);
+			this.brainHelper(interrupt);
 		});
 
 	}
 
-	public async tester(interrupt:()=>void) {
+	public async brainHelper(interrupt:()=>void) : Promise<void> {
 		// Get the closest DEFENDER entity
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 	

@@ -49,6 +49,11 @@ export abstract class EnemyEntity extends Entity {
 
     // Enemy base stats
 	public static override baseStats: EnemyEntityStats;
+    
+    protected disableWalking:boolean = false;
+    protected currentPath:SVGPathElement|null = null;
+    protected currentPathLength:number = 0;
+    protected currentPathMaxProgress:number = 0;
 
     public override reloadStats(): void {
         super.reloadStats();
@@ -89,4 +94,6 @@ export abstract class EnemyEntity extends Entity {
             }
         }
     }
+
+    protected abstract brainHelper(interrupt: ()=> void) : Promise<void>;
 }

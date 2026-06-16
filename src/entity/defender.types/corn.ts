@@ -68,10 +68,12 @@ export class Corn extends DefenderEntity{
 			//change the Corn's state to shooting
 			this.state = "shoot";
 
+			await this.wait(200);
+
 			new Kernel([this.position[0], this.position[1]], closestEnemy);
 
 			//wait for a bit for the animation to play(half a second)
-			await this.wait(500);
+			await this.wait(1100);
 
 			//once done waiting revert Corn's animation back to idling
 			this.state = "idle";
@@ -92,13 +94,14 @@ export class Kernel extends Corn{
 	constructor(position: Position2D, target: EnemyEntity){
 		super(position);
 
+		this.invulnerable = true;
 		this.target = target;
 	}
 
 	//Kernal will have its own base stats
 	//This means that enemies have the opportunity to get rid of the kernel before it hits them, but it doesn't directly effect the corn itself
 	public static override baseStats: DefenderEntityStats = {
-		health: 10000,
+		health: 1,
 		speed: 1,
 		damage: 15, 
 		knockBack: 3,
@@ -108,7 +111,7 @@ export class Kernel extends Corn{
 		stunDuration : 0,
 		slowDuration : 0,
 		regenerationDuration : 0,
-		aoeRange : 10,
+		aoeRange : 1000,
 		upgradeEntityCost : 0,
 		entityPurchaseCost: 0,
 		entityResaleCost: 0,
@@ -154,7 +157,6 @@ export class Kernel extends Corn{
 	 * As of now it is used to check for enemies nearby
 	 */
 	public override async brain(): Promise<void> {	
-		console.log('hello there')
 		//Change Defender State
 		this.state = "attack";
 
