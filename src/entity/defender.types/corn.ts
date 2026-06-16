@@ -68,9 +68,17 @@ export class Corn extends DefenderEntity{
 			//change the Corn's state to shooting
 			this.state = "shoot";
 
-			const kernelPosition : [number,number] = [this.position[0] - 100, this.position[1] - 85];
+			const kernelFaceRightPosition : [number,number] = [this.position[0] - 100, this.position[1] - 45];
 
-			new Kernel(kernelPosition, closestEnemy);
+			const kernelFaceLeftPosition : [number,number] = [this.position[0] + 100, this.position[1] - 20];
+
+			if (this.direction >= 0 ){
+				new Kernel(kernelFaceLeftPosition, closestEnemy);
+			}
+			else{
+				new Kernel(kernelFaceRightPosition,closestEnemy);
+			}
+			
 
 			//wait for a bit for the animation to play(half a second)
 			await this.wait(1100);
