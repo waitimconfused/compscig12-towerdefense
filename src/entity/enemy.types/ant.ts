@@ -40,6 +40,8 @@ export class Ant extends EnemyEntity {
 		]
 	}
 
+	private start = true;
+
 	private targetEntity:DefenderEntity|null = null;
 	private currentPath:SVGPathElement|null = null;
 	private currentPathLength:number = 0;
@@ -137,6 +139,8 @@ export class Ant extends EnemyEntity {
 
 		await this.followPath(EnemyEntity.path, false, (interrupt) => {
 
+			this.start = false;
+
 			if (this.currentPath) {
 				this.targetEntity = null;
 				this._targetPath = this.currentPath;
@@ -160,7 +164,7 @@ export class Ant extends EnemyEntity {
 
 			interrupt();
 
-		}, false);
+		}, this.start);
 		
 		let entity = this.targetEntity! as DefenderEntity;
 

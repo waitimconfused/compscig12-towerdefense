@@ -3,6 +3,7 @@ import { DefenderEntity } from "../../../entity/defender.js";
 import { Entity } from "../../../entity/entity.js";
 import { SpriteRenderer } from "../../../sprites.js";
 import { Canvas, Position2D, RenderingContext } from "../../../types.js";
+import { ViewRect } from "../../elements/rect.js";
 import { ViewSprite } from "../../elements/sprite.js";
 import { ViewText } from "../../elements/text.js";
 import { ViewElementCollection } from "../../view-element-collection.js";
@@ -128,7 +129,11 @@ view.addEventListener("show", () => {
 		[ -550, -200 ],
 		[ -300, -200 ],
 		[ -550, 50 ],
-		[ -300, 50 ]
+		[ -300, 50 ],
+		[ 50, -300 ],
+		[ 300, -300 ],
+		[ 50, -50 ],
+		[ 300, -50 ],
 	];
 
 	let positionIndex = 0;
@@ -139,9 +144,9 @@ view.addEventListener("show", () => {
 
 		let constructor = Entity.derived.get(type) as typeof Entity;
 
+		if (constructor.showInInventory == false) continue;
 		if (constructor.prototype instanceof DefenderEntity == false) continue;
 
-		
 		let card = new Section;
 		enemyCards.addElement(card);
 		card.setAnchor( Engine.anchorPresets.centerCenter );
@@ -154,10 +159,10 @@ view.addEventListener("show", () => {
 
 		card.addElement(
 			new ViewText(type)
-			.setTranslation(219/2, 231 - 32)
+			.setTranslation(219/2, 32)
 			.setRotation(-2, "deg")
 			.setFont("Gamja Flower", 40)
-			.setAlignment("center", "bottom")
+			.setAlignment("center", "top")
 			.setFill("black")
 			.setStroke("none")
 		);
@@ -166,6 +171,37 @@ view.addEventListener("show", () => {
 			new ViewSprite(type)
 			.setTranslation(219/2, 231 - 32)
 			.setRotation(-2, "deg")
+		);
+
+		card.addElement(
+			new ViewText("lvl: ")
+			.setTranslation(219/2, 64)
+			.setFont("Gamja Flower", 32)
+			.setAlignment("center", "top")
+			.setFill("black")
+			.setStroke("none")
+			.addEventListener("pre-render", (element) => {
+				element.content = `lvl: ${constructor.level}`
+			})
+		);
+
+		card.addElement(
+			new ViewSprite("button-corners")
+			.scale(0.3)
+			.setOrigin(0.5, 0.5)
+			.setRotation(3, "deg")
+			.setTranslation(219/2, 231 - 48)
+			.addEventListener("click", () => {
+				constructor.upgrade();
+			}),
+
+			new ViewText("upgrade")
+			.setTranslation(219/2, 231 - 48)
+			.setRotation(3, "deg")
+			.setFont("Gamja Flower", 32)
+			.setAlignment("center", "middle")
+			.setFill("black")
+			.setStroke("none")
 		);
 
 	}

@@ -15,13 +15,13 @@ export class BananaSpawner extends DefenderEntity {
 		speed: 0.1,
 		damage: 10,
 		knockBack: 10,
-		spawnCoolDown: 10000,
+		spawnCoolDown: 3_000,
 		attackCoolDown: 0,
 		stunChance : 0,
 		stunDuration : 0,
-		slowDuration : 5000,
+		slowDuration : 5_000,
 		regenerationDuration : 0,
-		aoeRange : 50,
+		aoeRange : 293/2,
 		upgradeEntityCost : 35,
 		entityPurchaseCost: 30,
 		entityResaleCost: 15
@@ -32,7 +32,7 @@ export class BananaSpawner extends DefenderEntity {
 
 	/**The brain spawns the Banana onto the field*/
 	public override async brain() {
-		await this.wait(1000);
+		await this.wait(this.stats.spawnCoolDown);
 
 		console.log("Spawning Banana");
 
@@ -45,29 +45,24 @@ export class Banana extends BananaSpawner {
 	/**Label what the type of entity banana is - a defender*/
 	public override entityType: string = "defender/banana_entity";
 
+	public static override showInInventory:boolean = false;
+
 	public async rollOverEnemy() : Promise<undefined |EntityEvent> {
 		//Return if the defender is stunned
 		if (this.stunned) return;
-		this.state = "reveal";
 
 		//wait for the banana to peel first
-
-		await this.wait(200);
-
-		//Roll
-		this.state = "rolling";
 
 		//Attack entities in the way of Banana
 		let entitiesNearBanana = Entity.totalEntitiesInRange(this,this.stats.aoeRange, EnemyEntity);
 
 		//If there are no enemies around, don't run the damage
-		if (entitiesNearBanana.length == 0){
-			return
-		}
+		if (entitiesNearBanana.length == 0) return;
 		//Deal damage - loop through the entire array of entitiesNearBanana and do damage
 		
 		for (let i = 0; i < entitiesNearBanana.length; i++){
-			(entitiesNearBanana[i] as Entity).dealDamage(this.stats.damage,entitiesNearBanana[i] as Entity);
+			let entity = entitiesNearBanana[i] as EnemyEntity;
+			entity.dealDamage(this.stats.damage,entitiesNearBanana[i] as Entity);
 		}
 
 		//can't use resolve? not sure why

@@ -1,7 +1,19 @@
 {
-	"type": "defender/banana_entity",
+	"type": "defender/banana_peel",
 
 	"logic": [
+
+		{
+			"rule": "true",
+
+			"layers": [
+				{
+					"sprite": "banana-rolling",
+					"origin": [ 50, 0 ]
+				}
+			]
+		},
+
 		{
 			"rule": "state=='banana-remains'",
 
