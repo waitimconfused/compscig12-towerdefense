@@ -42,9 +42,6 @@ export class Ant extends EnemyEntity {
 
 	private start = true;
 
-	private start = true;
-
-
 	/**
 	 * Override, Ant takes more damage from AOE type attacks
 	 * @param dealtDamage Amount of damage dealt
