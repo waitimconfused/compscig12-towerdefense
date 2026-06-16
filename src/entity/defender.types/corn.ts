@@ -106,7 +106,9 @@ export class Kernel extends Corn{
 		this.target = target;
 	}
 
-	//Kernal will have its own base stats
+	public static override showInInventory: boolean = false;
+
+	//Kernel will have its own base stats
 	//This means that enemies have the opportunity to get rid of the kernel before it hits them, but it doesn't directly effect the corn itself
 	public static override baseStats: DefenderEntityStats = {
 		health: 1,
