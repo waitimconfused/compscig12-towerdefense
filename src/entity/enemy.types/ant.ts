@@ -42,10 +42,8 @@ export class Ant extends EnemyEntity {
 
 	private start = true;
 
-	private targetEntity:DefenderEntity|null = null;
-	private currentPath:SVGPathElement|null = null;
-	private currentPathLength:number = 0;
-	private currentPathMaxLength:number = 0;
+	private start = true;
+
 
 	/**
 	 * Override, Ant takes more damage from AOE type attacks

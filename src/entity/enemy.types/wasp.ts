@@ -3,6 +3,9 @@ import { DefenderEntity } from "../defender.js";
 import { Entity, EntityEvent } from "../entity.js";
 
 export class Wasp extends EnemyEntity {
+	/**the readonly name of the entity Wasp - to prevent spelling mistakes*/
+	public static readonly ENEMY_NAME = "Wasp";
+
 	// Entity is type of wasp enemy
 	public entityType: string = "enemy/wasp";
 

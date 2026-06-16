@@ -528,6 +528,8 @@ export abstract class Entity {
 				return;
 			}
 
+			if (entity.invulnerable) return;
+
 			// If the position is the same as the target location, stop
 			if (this.position[0] == entity.position[0] && this.position[1] == entity.position[1]) {
 				resolve(undefined);

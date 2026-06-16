@@ -1,3 +1,4 @@
+import { updateLanguageServiceSourceFile } from "typescript";
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { Entity } from "../entity.js";
@@ -18,7 +19,7 @@ export class Frog extends EnemyEntity {
 	public static override baseStats:EnemyEntityStats = {
 		health: 75,
 		speed: 0.1,
-		damage: 0,
+		damage: 20,
 		knockBack: 10,
 		spawnCoolDown: 10,
 		attackCoolDown: 10,
@@ -43,7 +44,6 @@ export class Frog extends EnemyEntity {
 	}
 	
 	public async brain() {
-	
 		let entities: Entity[] = Entity.totalEntitiesInRange(this, Infinity, DefenderEntity);
 	
 		let target: Carrier | undefined;
@@ -58,5 +58,15 @@ export class Frog extends EnemyEntity {
 		if (!target) return;
 	
 		await this.walkToEntity(target);
+
+		await this.wait(500);
+
+		this.attackEntity(target);
+	}
+
+	protected async brainHelper(interrupt: () => void): Promise<void> {
+		interrupt();
+
+		return;
 	}
 }

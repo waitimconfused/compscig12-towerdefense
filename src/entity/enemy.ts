@@ -1,6 +1,7 @@
 import Inventory, { InventoryItemTag } from "../inventory.js";
 import { Position2D } from "../types.js";
 import { Wave } from "../wave.js";
+import { DefenderEntity } from "./defender.js";
 import { Entity, EntityStats } from "./entity.js";
 
 export type MaterialType = 'jar' | 'wood' | 'honey' | 'glassLemonade'
@@ -49,6 +50,11 @@ export abstract class EnemyEntity extends Entity {
 
     // Enemy base stats
 	public static override baseStats: EnemyEntityStats;
+    
+    protected targetEntity:DefenderEntity|null = null;
+    protected currentPath:SVGPathElement|null = null;
+    protected currentPathLength:number = 0;
+    protected currentPathMaxLength:number = 0;
 
     public override reloadStats(): void {
         super.reloadStats();
