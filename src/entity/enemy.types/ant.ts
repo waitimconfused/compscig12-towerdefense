@@ -40,10 +40,10 @@ export class Ant extends EnemyEntity {
 		]
 	}
 
-	private disableWalking:boolean = false;
+	private targetEntity:DefenderEntity|null = null;
 	private currentPath:SVGPathElement|null = null;
 	private currentPathLength:number = 0;
-	private currentPathMaxProgress:number = 0;
+	private currentPathMaxLength:number = 0;
 
 	/**
 	 * Override, Ant takes more damage from AOE type attacks
@@ -120,67 +120,61 @@ export class Ant extends EnemyEntity {
 	 */
 	public async brain() {
 
-		if (this.disableWalking) return;
+		if (this.targetEntity) {
+			await this.attackEntity(this.targetEntity);
+
+			if (this.targetEntity.stats.health <= 0) {
+
+				this.targetEntity = null;
+
+				let path:SVGPathElement = this.currentPath as SVGPathElement;
+				let position = path.getPointAtLength(this.currentPathLength);
+				await this.walkTo(position.x, position.y);
+			}
+
+			return;
+		}
 
 		await this.followPath(EnemyEntity.path, false, (interrupt) => {
+
 			if (this.currentPath) {
-				console.log("RESETTING POSITION")
+				this.targetEntity = null;
 				this._targetPath = this.currentPath;
 				this._targetPathLength = this.currentPathLength;
-				this._targetPathMaxLength = this.currentPathMaxProgress;
-
+				this._targetPathMaxLength = this.currentPathMaxLength;
 				this.currentPath = null;
-				this.currentPathLength = 0;
-				this.currentPathMaxProgress = 0;
 			}
-			this.tester(interrupt);
-		});
 
-	}
+			let entity = Entity.nearestEntity(this, DefenderEntity);
 
-	public async tester(interrupt:()=>void) {
-		// Get the closest DEFENDER entity
-		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
-	
-		if (!closestEntity) {
-			this.disableWalking = false;
-			return;
-		}
+			if (!entity) return;
 
-		let distance = Entity.getDistance(this, closestEntity);
+			let distance = Entity.getDistance(this, entity);
 
-		if (distance >= 200) {
-			this.disableWalking = false;
-			return;
-		}
+			if (distance > 100) return;
 
-		this.disableWalking = true;
-		this.currentPath = this._targetPath;
-		this.currentPathLength = this._targetPathLength;
-		this.currentPathMaxProgress = this._targetPathMaxLength;
+			this.targetEntity = entity;
+			this.currentPath = this._targetPath;
+			this.currentPathLength = this._targetPathLength;
+			this.currentPathMaxLength = this._targetPathMaxLength;
 
-		interrupt();
+			interrupt();
 
-		// Walk toward defender
-		await this.walkToEntity(closestEntity);
-		await this.attackEntity(closestEntity);
+		}, false);
+		
+		let entity = this.targetEntity! as DefenderEntity;
 
-		this.disableWalking = false;
+		await this.walkToEntity(entity);
 
-		if (closestEntity.stats.health <= 0) {
-			// Regenerates if the closestEntity is dead
-			await StatusEffects.regenerateEntity(this, 5000, 2);
-		}
+		await this.attackEntity(entity);
 
-		this.disableWalking = false;
-	
 	}
 	
 	/**
 	 * Spawns a cluster of ants at a small chance
 	 * @param waveNumber The current wave number
 	 */
-	public static antSpawn(position:Position2D, spread?:number) : Entity[] {
+	public static antSpawn(position:Position2D, spread?:number) : Ant[] {
 		// Spawns waveNumber amount of Ant(s) up to a maximum of 15
 		let cluster : number = Math.min(Wave.getWave(), 10) + 5;
 
@@ -198,6 +192,6 @@ export class Ant extends EnemyEntity {
 			count = randomAnts;
 		}
 
-		return super.spawn(count, position, spread);
+		return super.spawn(count, position, spread) as Ant[];
 	}
 }

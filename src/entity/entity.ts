@@ -314,7 +314,7 @@ export abstract class Entity {
 		if (!constructor.baseStats) throw new Error(`Entity ${constructor.name} does not have baseStats.`)
 
 		// Set the position
-		this.position = position;
+		this.position = [ position[0], position[1] ];
 
 		// Reload the entity stats (health, speed, etc.)
 		this.reloadStats();
@@ -384,7 +384,7 @@ export abstract class Entity {
 				// The resolution function to call when
 				// the timer is up
 				complete: resolve,
-				fail: reject,
+				fail: resolve,
 				tick: ticker,
 				
 				interrupt
@@ -500,7 +500,7 @@ export abstract class Entity {
 			this.internalTimers.push({
 				type: "walk",
 				complete: resolve,
-				fail: reject,
+				fail: resolve,
 				tick: ticker
 			});
 
@@ -564,7 +564,7 @@ export abstract class Entity {
 	/**
 	 * @param path	SVG path data
 	 */
-	public followPath(path:string, reverse=false, ticker?:EntityTimerTicker) {
+	public followPath(path:string, reverse=false, ticker?:EntityTimerTicker, walkToStart=true) {
 
 		return new Promise(async (resolve, reject) => {
 			let svg = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -573,7 +573,7 @@ export abstract class Entity {
 			let maxLength = svg.getTotalLength();
 			let startingPoint = (!reverse) ? svg.getPointAtLength(0) : svg.getPointAtLength(maxLength);
 			
-			await this.walkTo(startingPoint.x, startingPoint.y);
+			if (walkToStart) await this.walkTo(startingPoint.x, startingPoint.y, ticker);
 
 			this._targetPath = svg;
 			this._targetPathReversed = reverse;
@@ -885,7 +885,9 @@ export abstract class Entity {
 			let triggerTime = timer.trigger_time as number;
 
 			if (timer.tick) timer.tick( () => {
-				this.internalTimers.splice(i, 1);
+				let index = this.internalTimers.indexOf(timer);
+				if (index >= 0) this.internalTimers.splice(index, 1);
+				timer.fail();
 			} );
 
 			// If the time isn't in the past, go to the next timer
@@ -905,9 +907,6 @@ export abstract class Entity {
 		// target position has been reached
 		if (this._targetPosition && !this.stunned) {
 
-			// Perform a movement-tick
-			this.movementTick(this._targetPosition, deltaTime);
-			
 			// Loop through each timer, 
 			for (let i = 0; i < this.internalTimers.length; i ++) {
 
@@ -918,59 +917,49 @@ export abstract class Entity {
 				if (timer.type != "walk") continue;
 
 				if (timer.tick) timer.tick( () => {
-					this.internalTimers.splice(i, 1);
+					let index = this.internalTimers.indexOf(timer);
+					if (index >= 0) this.internalTimers.splice(index, 1);
+					this._targetPosition = null;
+					this._targetPositionRange = 0;
+					this._targetPath = null;
+					this._targetPathLength = 0;
+					this._targetPathMaxLength = 0;
+					this.state = "idle";
+					timer.fail();
 				} );
 			}
 
-			let totalDistance = Math.hypot(
-				this._targetPosition[0] - this.position[0],
-				this._targetPosition[1] - this.position[1]
-			);
-			
-			// Check if the new position is the same as the target position
-			if ( totalDistance <= this._targetPositionRange ) {
-				// Clear the target position
-				this._targetPosition = null;
-				this._targetPositionRange = 0;
-				this._targetPath = null;
-				this._targetPathLength = 0;
-				this._targetPathMaxLength = 0;
+			if (this._targetPosition) {
 
-				// Set the state back to `"idle"`
-				this.state = "idle";
-
-				// Clear walking timers, saying that the action was a success
-				this.interruptTimers("walk");
+				// Perform a movement-tick
+				this.movementTick(this._targetPosition, deltaTime);
+				
+				let totalDistance = Math.hypot(
+					this._targetPosition[0] - this.position[0],
+					this._targetPosition[1] - this.position[1]
+				);
+				
+				// Check if the new position is the same as the target position
+				if ( totalDistance <= this._targetPositionRange ) {
+					// Clear the target position
+					this._targetPosition = null;
+					this._targetPositionRange = 0;
+					this._targetPath = null;
+					this._targetPathLength = 0;
+					this._targetPathMaxLength = 0;
+	
+					// Set the state back to `"idle"`
+					this.state = "idle";
+	
+					// Clear walking timers, saying that the action was a success
+					this.interruptTimers("walk");
+	
+				}
 
 			}
-
 
 		} else if (this._targetPath && !this.stunned) {
 
-			let length = this._targetPathLength;
-			if (this._targetPathReversed) length = this._targetPathMaxLength - length;
-
-			let rawPosition:DOMPoint = this._targetPath.getPointAtLength(length);
-			let newPosition:Position2D = [ rawPosition.x, rawPosition.y ];
-			this._targetPathLength += this.stats.speed * deltaTime;
-
-			// Get the direction from the entity to the target position
-			// In radians
-			let direction = Math.atan(
-				(newPosition[1] - this.position[1]) /
-				(newPosition[0] - this.position[0])
-			) || 0;
-
-			// Fix the angle for when the target position's x value
-			// is less than the entity's position
-			if (newPosition[0] < this.position[0]) direction += Math.PI;
-
-			// Store the direction that the entity moved
-			this.direction = direction;
-
-			this.position[0] = newPosition[0];
-			this.position[1] = newPosition[1];
-
 			// Loop through each timer, 
 			for (let i = 0; i < this.internalTimers.length; i ++) {
 
@@ -981,20 +970,52 @@ export abstract class Entity {
 				if (timer.type != "walk") continue;
 
 				if (timer.tick) timer.tick( () => {
-					this.internalTimers.splice(i, 1);
+					let index = this.internalTimers.indexOf(timer);
+					if (index >= 0) this.internalTimers.splice(index, 1);
+					this._targetPosition = null;
+					this._targetPositionRange = 0;
+					this._targetPath = null;
+					this._targetPathLength = 0;
+					this._targetPathMaxLength = 0;
+					timer.fail();
 				} );
 			}
 
-			if (this._targetPathLength >= this._targetPathMaxLength) {
-				this._targetPath = null;
-				this._targetPositionRange = 0;
-				this._targetPathLength = 0;
-				this._targetPathMaxLength = 0;
-				this._targetPosition = null;
-				this.state = "idle";
-				this.interruptTimers("walk");
-			}
+			if (this._targetPath) {
+				let length = this._targetPathLength;
+				if (this._targetPathReversed) length = this._targetPathMaxLength - length;
 
+				let rawPosition:DOMPoint = this._targetPath.getPointAtLength(length);
+				let newPosition:Position2D = [ rawPosition.x, rawPosition.y ];
+				this._targetPathLength += this.stats.speed * deltaTime;
+
+				// Get the direction from the entity to the target position
+				// In radians
+				let direction = Math.atan(
+					(newPosition[1] - this.position[1]) /
+					(newPosition[0] - this.position[0])
+				) || 0;
+
+				// Fix the angle for when the target position's x value
+				// is less than the entity's position
+				if (newPosition[0] < this.position[0]) direction += Math.PI;
+
+				// Store the direction that the entity moved
+				this.direction = direction;
+
+				this.position[0] = newPosition[0];
+				this.position[1] = newPosition[1];
+
+				if (this._targetPathLength >= this._targetPathMaxLength) {
+					this._targetPath = null;
+					this._targetPositionRange = 0;
+					this._targetPathLength = 0;
+					this._targetPathMaxLength = 0;
+					this._targetPosition = null;
+					this.state = "idle";
+					this.interruptTimers("walk");
+				}
+			}
 
 		}
 

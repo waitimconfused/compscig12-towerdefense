@@ -68,7 +68,7 @@ export class Corn extends DefenderEntity{
 			//change the Corn's state to shooting
 			this.state = "shoot";
 
-			new Kernel([this.position[0], this.position[1]], closestEnemy);
+			new Kernel(this.position, closestEnemy);
 
 			//wait for a bit for the animation to play(half a second)
 			await this.wait(500);
