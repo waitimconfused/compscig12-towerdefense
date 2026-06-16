@@ -1,6 +1,7 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
 import { EnemyEntity } from "../enemy.js";
 import { Entity } from "../entity.js";
+import { StatusEffects } from "../statusEffects.js";
 import { Strawberry } from "./strawberry.js";
 
 export class Sandwich extends DefenderEntity {
@@ -18,7 +19,7 @@ export class Sandwich extends DefenderEntity {
 		attackCoolDown: 0,
 		spawnCoolDown: 5000, 
 		stunChance : 0,
-		stunDuration : 0,
+		stunDuration : 500,
 		slowDuration : 0, 
 		regenerationDuration : 0,
 		aoeRange : 0,
@@ -57,11 +58,13 @@ export class Sandwich extends DefenderEntity {
 
 		this.state = "idle";
 
-		let entitiesInRange = this.getEntitiesInRange(EnemyEntity, 50);
+		let interrupt = await this.wait(Infinity);
 
-		await this.wait(Infinity);
+		if (interrupt?.interrupt_type == "attacked" && interrupt.triggered_by instanceof Entity) {
 
-		let entities = Sandwich.spawn<Sandwich>(1, [0,0]);
+			StatusEffects.stunEntity(interrupt.triggered_by, this.stats.stunDuration);
+
+		}
 
 	}
 };

@@ -40,9 +40,7 @@ view.addEventListener("show", () => {
 		GameplayView.playSpaceSize[1] - 200
 	])[0] as Carrier;
 
-	// Wave.setWave(1);
-
-	Ant.spawn(1, [0,0]);
+	Wave.setWave(1);
 
 });
 
