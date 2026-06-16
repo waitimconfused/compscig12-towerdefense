@@ -63,7 +63,7 @@ export class Corn extends DefenderEntity{
 		//if the distance between the enemy and the corn is less than or equal to 45 pixels, 
 		// and Corn has not been stunned, start attacking
 		//the corn will shoot/summon a kernel between the position of the Corn and the enemy
-		if (distance <= 1000 && this.stunned == false){
+		if (distance <= 500 && this.stunned == false){
 			
 			//change the Corn's state to shooting
 			this.state = "shoot";
@@ -108,7 +108,7 @@ export class Kernel extends Corn{
 
 	public static override showInInventory: boolean = false;
 
-	//Kernal will have its own base stats
+	//Kernel will have its own base stats
 	//This means that enemies have the opportunity to get rid of the kernel before it hits them, but it doesn't directly effect the corn itself
 	public static override baseStats: DefenderEntityStats = {
 		health: 1,
