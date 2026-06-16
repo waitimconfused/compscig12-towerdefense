@@ -45,7 +45,7 @@ export default class GameplayView extends View {
 
 	public entitySpawnAreas:Map<string, Path2D> = new Map;
 
-	public spawningEntity:{reference:string,entity:(typeof Entity)}|null = null;
+	public spawningEntity:{reference:string,entity:typeof Entity}|null = null;
 
 	/**
 	 * The generated `CanvasPattern` to be used for `context.fillStyle`.
@@ -141,8 +141,11 @@ export default class GameplayView extends View {
 				
 				MouseManager.buttons.left = false;
 
-				this.spawningEntity.entity.spawn(1, [innerMouse.x, innerMouse.y]);
-				
+				let constructor = this.spawningEntity.entity;
+
+				// @ts-ignore
+				constructor.spawn(1, [innerMouse.x, innerMouse.y])
+
 				this.spawningEntity = null;
 
 			}

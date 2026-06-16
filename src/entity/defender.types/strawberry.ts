@@ -66,6 +66,10 @@ export class Strawberry extends DefenderEntity {
 
 	}
 
+	protected onDeath(): void | Promise<void> {
+		
+	}
+
 	/** Override reload Stats to include rolling for the mental state of the Strawberry
 	 * When the Strawberry is being upgraded and it's at level 3 or higher, 
 	 * the chance for the Strawberry to spawn psychotic increases 

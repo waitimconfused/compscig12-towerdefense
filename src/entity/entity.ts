@@ -1058,9 +1058,9 @@ export abstract class Entity {
 	 * @param selector What kind of Entity should be selected. *(Optional)*
 	 * @returns 
 	 */
-	public static totalEntitiesInRange(origin:Entity, range:number, selector?: typeof Entity): Entity[]{
+	public static totalEntitiesInRange<EntityType extends typeof Entity>(origin:Entity, range:number, selector?: EntityType): InstanceType<EntityType>[]{
 		//create an object array to collect the specific entities that will be effected
-		let entitiesInRange : Entity[] = [];
+		let entitiesInRange : InstanceType<EntityType>[] = [];
 		// Get an array of all entities
 		let entities = [ ...Entity.entities.values() ];
 
@@ -1080,7 +1080,7 @@ export abstract class Entity {
 			// Update the stored entity and the stored distance
 			if (distance <= range) {
 				//update the list of entities in range
-				entitiesInRange.push(entity);
+				entitiesInRange.push(entity as InstanceType<EntityType>);
 			}
 		}
 

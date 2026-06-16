@@ -24,8 +24,32 @@ export class Sandwich extends DefenderEntity {
 		aoeRange : 0,
 		upgradeEntityCost : 30
 	};
+
+	protected onDeath(): void | Promise<void> {
+		
+	}
 	
 	public getEntitiesInRange<EntityType extends typeof Entity>(selector:EntityType, radius:number):InstanceType<EntityType>[] {
+		
+		let ids:string[] = [ ...Entity.entities.keys() ];
+
+		let entities:InstanceType<EntityType>[] = [];
+
+		for (let i = 0; i < ids.length; i ++) {
+
+			let id:string = ids[i] as string;
+			let entity:Entity|undefined = Entity.entities.get(id);
+
+			if (entity instanceof selector == false) continue;
+
+			let distance = Entity.getDistance(this, entity);
+
+			if (distance > radius) continue;
+
+			entities.push(entity as InstanceType<EntityType>);
+
+		}
+
 		return [];
 	}
 

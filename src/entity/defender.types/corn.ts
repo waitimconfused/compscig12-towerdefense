@@ -68,7 +68,7 @@ export class Corn extends DefenderEntity{
 			//change the Corn's state to shooting
 			this.state = "shoot";
 
-			new Kernel(this.position, closestEnemy);
+			new Kernel([this.position[0], this.position[1]], closestEnemy);
 
 			//wait for a bit for the animation to play(half a second)
 			await this.wait(500);
@@ -86,7 +86,7 @@ export class Kernel extends Corn{
 	private target : EnemyEntity;
 	
 	//label the kind of entity corn is - a defender
-	public override entityType : string = "defender/Kernel";
+	public override entityType : string = "defender/kernel";
 
 	//use the corn's position and store the tracked target into the kernel's target property
 	constructor(position: Position2D, target: EnemyEntity){
@@ -99,7 +99,7 @@ export class Kernel extends Corn{
 	//This means that enemies have the opportunity to get rid of the kernel before it hits them, but it doesn't directly effect the corn itself
 	public static override baseStats: DefenderEntityStats = {
 		health: 10000,
-		speed: 3,
+		speed: 1,
 		damage: 15, 
 		knockBack: 3,
 		spawnCoolDown: 0,
@@ -133,9 +133,7 @@ export class Kernel extends Corn{
 			let entitiesNearKernel = Entity.totalEntitiesInRange(this,this.stats.aoeRange, EnemyEntity);
 
 			//If there are no enemies around, don't even run the rest
-			if (entitiesNearKernel.length == 0){
-				return;
-			}
+			if (entitiesNearKernel.length == 0) return;
 
 			//Deal Damage - loop through the entire array of entitiesNearKernel and do 1/3 of the corn's damage
 			let blastDamage = this.stats.damage/3;
@@ -162,7 +160,7 @@ export class Kernel extends Corn{
 
 		
 		//Get the Kernel to keep on traveling to the target/enemy's position
-		//await this.walkToEntity(this.target);
+		await this.walkToEntity(this.target);
 
 		//When it has, attack the target
 		this.attackEntity(this.target);

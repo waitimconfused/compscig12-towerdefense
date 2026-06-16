@@ -74,7 +74,7 @@ export class Raccoon extends EnemyEntity {
 	 * @returns If there is no defender in range
 	 */
 	public async brain() {
-		// Delay before targetting next entity
+		// Delay before targeting next entity
 		await this.wait(500);
 
 		// Gets the closest DefenderEntity

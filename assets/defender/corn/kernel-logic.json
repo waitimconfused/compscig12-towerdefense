@@ -3,16 +3,7 @@
 	"logic": [
 
 		{
-			"rule": "state=='attack'",
-			"layers": [
-				{
-					"sprite": "corn-kernal",
-					"origin": [ 50, 100 ]
-				}
-			]
-		},
-		{
-			"rule": "state=='pop'",
+			"rule": "true",
 			"layers": [
 				{
 					"sprite": "corn-kernal",
