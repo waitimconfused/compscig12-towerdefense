@@ -7,9 +7,9 @@ import { StatusEffects } from "../statusEffects.js";
 /**
  * Create a type for storing the nearest entity in front and behind the Cherry
  */
-type DirectionalTargets = {
-	front : Entity | undefined,
-	back : Entity | undefined
+type DirectionalTargets<EntityInstance extends Entity> = {
+	front : EntityInstance | undefined,
+	back : EntityInstance | undefined
 };
 
 export class Cherry extends DefenderEntity {	
@@ -45,12 +45,12 @@ export class Cherry extends DefenderEntity {
 	 * Hide nearestEntity method from Entity to detect Entities in front and behind it
 	 * this is needed when Cherry is upgraded and can use their skill
 	 */
-	public nearestEnemies(): DirectionalTargets {
+	public nearestEnemies(): DirectionalTargets<EnemyEntity> {
 		
 		// Keep track of the nearest found entity (starts as undefined)
-		let front:Entity|undefined = undefined;
+		let front:EnemyEntity|undefined = undefined;
 
-		let back:Entity|undefined = undefined;
+		let back:EnemyEntity|undefined = undefined;
 
 		// Keep track of the distance to the closest entity (starts as `Infinity`)
 		let frontNearestDistance = Infinity;
@@ -82,17 +82,21 @@ export class Cherry extends DefenderEntity {
 				// If the x and y is greater, then the entity is behind the Cherry
 				// If the x and y is less, then the entity is in front of the Cherry
 				// After checking the entity's position, check if it's any closer than the last recorded enemy
-				if (entity.position[0] < this.position[0] && entity.position[1] < this.position[1]){
+				if (entity.position[0] < this.position[0]){
 					// If the distance is less than the past nearest distance,
 					// Update the stored entity and the stored distance
 					if (distance < frontNearestDistance) {
 						front = entity;
 						frontNearestDistance = distance;
 					}
-				}
-				else {
-					back = entity;
-					backNearestDistance = distance;
+
+				} else {
+					
+					if (distance < backNearestDistance) {
+						back = entity;
+						backNearestDistance = distance;
+					}
+
 				}
 			}
 			else{

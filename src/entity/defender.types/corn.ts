@@ -70,7 +70,9 @@ export class Corn extends DefenderEntity{
 
 			await this.wait(200);
 
-			new Kernel([this.position[0], this.position[1]], closestEnemy);
+			await this.wait(200);
+
+			new Kernel(this.position, closestEnemy);
 
 			//wait for a bit for the animation to play(half a second)
 			await this.wait(1100);
