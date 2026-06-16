@@ -668,15 +668,12 @@ export abstract class Entity {
 				location[0] = Math.round( location[0] * 100 ) / 100;
 				location[1] = Math.round( location[1] * 100 ) / 100;
 
-				
 			}
-			console.log("Spawned", this.name);
-			
+
 			// Ignore the following line, because TypeScript has a problem with it
 			// Create a new instance of whatever class was used for the spawning
 			let instance:U = new this(location);
 
-			
 			// Add the instance to the list of entities
 			entities.push(instance);
 
