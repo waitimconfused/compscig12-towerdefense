@@ -13,7 +13,7 @@
 			]
 		},
 		{
-			"rule": "state=='rolling'",
+			"rule": "state=='walk'",
 
 			"layers": [
 				{

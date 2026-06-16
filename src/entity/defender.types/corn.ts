@@ -68,11 +68,17 @@ export class Corn extends DefenderEntity{
 			//change the Corn's state to shooting
 			this.state = "shoot";
 
-			await this.wait(200);
+			const kernelFaceRightPosition : [number,number] = [this.position[0] - 100, this.position[1] - 45];
 
-			await this.wait(200);
+			const kernelFaceLeftPosition : [number,number] = [this.position[0] + 100, this.position[1] - 20];
 
-			new Kernel(this.position, closestEnemy);
+			if (this.direction >= 0 ){
+				new Kernel(kernelFaceLeftPosition, closestEnemy);
+			}
+			else{
+				new Kernel(kernelFaceRightPosition,closestEnemy);
+			}
+			
 
 			//wait for a bit for the animation to play(half a second)
 			await this.wait(1100);
@@ -100,11 +106,13 @@ export class Kernel extends Corn{
 		this.target = target;
 	}
 
+	public static override showInInventory: boolean = false;
+
 	//Kernal will have its own base stats
 	//This means that enemies have the opportunity to get rid of the kernel before it hits them, but it doesn't directly effect the corn itself
 	public static override baseStats: DefenderEntityStats = {
 		health: 1,
-		speed: 1,
+		speed: 0.5,
 		damage: 15, 
 		knockBack: 3,
 		spawnCoolDown: 0,

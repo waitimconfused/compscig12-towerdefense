@@ -1,5 +1,3 @@
-import { Cherry } from "./entity/defender.types/cherry.js";
-import { Strawberry } from "./entity/defender.types/strawberry.js";
 import { EnemyEntity } from "./entity/enemy.js";
 import { Ant } from "./entity/enemy.types/ant.js";
 import { Frog } from "./entity/enemy.types/frog.js";
@@ -20,49 +18,45 @@ export class Wave extends StaticClass {
 	private static _waveNumber : number = 0;
 	public static getWave() { return this._waveNumber };
 
-	private static _waveDuration : number = 60000;
-	private static _timeLeft : number = 60000;
+	private static _waveCoolDown : number = 1_0000;
+	private static _timeLeft : number = 1_0000;
 	
-	private static _waveActive = true;
-	private static _waveInitialized = false;
-
 	/**
 	 * Game loop updates the wave time
-	 * @param t The time of each game tick
+	 * @param deltaTime The time of each game tick
 	 */
-	public static update(t : number) : void {
-		if (!this._waveInitialized) return;
+	public static update(deltaTime : number) : void {
+
+		let waveActive:boolean = false;
+
+		let entities = [ ...Entity.entities.keys() ];
+
+		for (let i = 0; i < entities.length; i ++) {
+			let id = entities[i] as string;
+			let entity = Entity.entities.get(id) as Entity;
+
+			if (entity instanceof EnemyEntity == false) continue;
+			
+			waveActive = true;
+			break;
+		}
+
+		if (waveActive == true) return;
 
 		// Updates the current time left
-		this._timeLeft -= t;
+		this._timeLeft -= deltaTime;
+
+		if (this._timeLeft > 0) return;
 		
-		// Initially assume all enemies are dead
-		let enemyDead = true;
-		
-		// Search map for any enemies
-		// Breaks loop and sets enemyDead to be false if an enemy is found
-		for (const entity of Entity.entities.values()) {
-			if (entity.entityType.startsWith("enemy")) {
-				enemyDead = false;
-				break;
-			}
-		}
+		// Starts a new wave of enemies
+		this.newWave();
 
-		// Checks if the wave is finished
-		if ((this._timeLeft <= 0 || enemyDead) && this._waveActive) {
-			this._waveActive = false;
+		// Decrease the wave duration by 0.5 seconds every time a wave ends
+		this._waveCoolDown -= 500;
+		this._waveCoolDown = Math.max(this._waveCoolDown, 0);
 
-			// Starts a new wave of enemies
-			this.newWave();
-
-			// Increases the wave duration by 2 seconds every time a wave ends
-			this._waveDuration += 2000;
-
-			// Updates current time left to match the wave duration
-			this._timeLeft = this._waveDuration;
-
-			this._waveActive = true;
-		}
+		// Updates current time left to match the wave duration
+		this._timeLeft = this._waveCoolDown;
 	}
 
 	public static setWave(number:number=this._waveNumber) {
@@ -96,12 +90,11 @@ export class Wave extends StaticClass {
 	 * Spawns enemies based on wave number
 	 */
 	public static newWave() : void {	
-		this._waveInitialized = true;
 
 		// Increase the wave number
 		this._waveNumber++;
 
-		this.setWave()
+		this.setWave(this._waveNumber);
 		
 	}
 
