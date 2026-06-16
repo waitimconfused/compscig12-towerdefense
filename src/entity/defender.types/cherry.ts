@@ -23,7 +23,7 @@ export class Cherry extends DefenderEntity {
 	 */
 	public static override baseStats:DefenderEntityStats = {
 		health: 20,
-		speed: 0.50,
+		speed: 0.10,
 		damage: 10,
 		knockBack: 2,
 		spawnCoolDown: 3000,
@@ -83,6 +83,7 @@ export class Cherry extends DefenderEntity {
 				// If the x and y is less, then the entity is in front of the Cherry
 				// After checking the entity's position, check if it's any closer than the last recorded enemy
 				if (entity.position[0] < this.position[0]){
+					this.state = "front-attack";
 					// If the distance is less than the past nearest distance,
 					// Update the stored entity and the stored distance
 					if (distance < frontNearestDistance) {
@@ -91,7 +92,8 @@ export class Cherry extends DefenderEntity {
 					}
 
 				} else {
-					
+					this.state = "back-attack";
+
 					if (distance < backNearestDistance) {
 						back = entity;
 						backNearestDistance = distance;
@@ -100,11 +102,12 @@ export class Cherry extends DefenderEntity {
 				}
 			}
 			else{
+				this.state = "front-attack";
 				// If the distance is less than the past nearest distance,
 				// Update the stored entity and the stored distance
-				if (distance < backNearestDistance) {
-					back = entity;
-					backNearestDistance = distance;
+				if (distance < frontNearestDistance) {
+					front = entity;
+					frontNearestDistance = distance;
 				}
 			}	
 		}
@@ -158,8 +161,6 @@ export class Cherry extends DefenderEntity {
 		//Play last frame
 		await this.wait (100);
 
-		this.state = "idle";
-
 		return;
 		
 	}
@@ -168,43 +169,52 @@ export class Cherry extends DefenderEntity {
 	// UnlockSkill(canAttackFrontBack);
 	public async brain() {
 		
-
 		await this.wait(400);
 
 		//Get the nearest enemy to Cherry
 		let cherryNearestEntity = this.nearestEnemies();
 
-
-
-		await this.wait(500);
-
 		//Store the values of the Cherry's nearest front and back entity
 		let closestFrontEntity = cherryNearestEntity.front;
 
 		let closestBackEntity = cherryNearestEntity.back;
+		
+		// Get the direction from the entity to the target position
+		// In radians
+		if (!closestFrontEntity) return;
+
+		this.direction = Math.atan(
+			(closestFrontEntity.position[1] - closestFrontEntity.position[1]) /
+			(closestFrontEntity.position[0] - closestFrontEntity.position[0])
+		) || 0;
+
+		// Fix the angle for when the target position's x value
+		// is less than the entity's position
+		if (closestFrontEntity.position[0] > closestFrontEntity.position[0]) this.direction += Math.PI;
 
 		// If Entity not found or dead, don't do anything
-		if (!closestFrontEntity || closestFrontEntity.stats.health <= 0) return super.interruptTimers("walk");
-
+		if (closestFrontEntity == undefined) return;
+	
 		//Walk towards enemy
 		let interrupt = await this.walkToEntity(closestFrontEntity);
+
+	
 
 		//get the distance of the front enemy
 		let frontEnemyDistance = Entity.getDistance(this, closestFrontEntity);
 
 		//Attack enemy if there has been no interruptions and distance is less than or equal to 45
-		if (frontEnemyDistance <= 45 && !interrupt){
+		if (frontEnemyDistance <= 500 && !interrupt){
 			this.state = "front-attack";
 
 			this.attackEntity(closestFrontEntity);
-	
 			//if the Cherry has not been upgraded or there is no entity behind, return
 			if (Cherry.canUseSkill == false || !closestBackEntity) return;
 			
 			let backEnemyDistance = Entity.getDistance(this, closestBackEntity);
 
 			//If the Cherry has been upgraded and there are no interruptions, it may attack from behind
-			if (backEnemyDistance <=45 && !interrupt){
+			if (backEnemyDistance <=500 && !interrupt){
 				this.state = "back-attack";
 
 				this.attackEntity(closestBackEntity);
