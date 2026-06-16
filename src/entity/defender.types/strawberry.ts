@@ -92,7 +92,7 @@ export class Strawberry extends DefenderEntity {
 
 		this.state = "launch";
 
-		await this.wait(600);
+		await this.wait(600, undefined, false);
 
 		this.state = "walk";
 
@@ -100,13 +100,13 @@ export class Strawberry extends DefenderEntity {
 	}
 
 	//Override walkTo to add the Strawberry animations
-	public override async walkToEntity(entity:Entity, distance=50): Promise<undefined | EntityEvent> {
+	public override async walkToEntity<EntityInstance extends Entity>(entity:EntityInstance, distance=50): Promise<undefined | EntityEvent> {
 		
 		if (this.position[0] == entity.position[0] && this.position[1] == entity.position[1]) return;
 
 		this.state = "launch";
 
-		await this.wait(600);
+		await this.wait(600, undefined, false);
 
 		this.state = "walk";
 
@@ -123,15 +123,9 @@ export class Strawberry extends DefenderEntity {
 		this.state = 'attack';
 
 		// Waits for 4 attack frames
-		let interrupt = await this.wait(400);
+		await this.wait(400);
 
 		entity.dealDamage(this.stats.damage, this, "melee");
-
-		// Stops attack animation when interrupted
-		if (interrupt) {
-			this.state = 'idle';
-			return;
-		}
 
 		// Plays last frame
 		await this.wait(100);
@@ -148,9 +142,7 @@ export class Strawberry extends DefenderEntity {
 		if (!closestEntity || closestEntity.stats.health <=0) return;
 
 		// Walk toward defender
-		let interrupt = await this.walkToEntity(closestEntity);
-
-		if (interrupt) return;
+		await this.walkToEntity(closestEntity);
 
 		// Attacks closest entity
 		await this.attackEntity(closestEntity);

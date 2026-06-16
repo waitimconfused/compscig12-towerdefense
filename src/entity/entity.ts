@@ -15,7 +15,14 @@ type EntityTimer = {
 	 * 
 	 * *Optional*
 	 */
-	tick?: EntityTimerTicker
+	tick?: EntityTimerTicker,
+
+	/**
+	 * Specifies if the timer can be interrupted
+	 * 
+	 * *Optional*; Defaults to `true`
+	 */
+	interrupt?: boolean
 };
 
 export type EntityEventType = "wait" | "jump" | "walk";
@@ -352,12 +359,17 @@ export abstract class Entity {
 	 * 
 	 * @param milliseconds	The number of milliseconds that the timer should wait for
 	 * 
+	 * @param ticker		A function that is run every time the entity is
+	 * 						updated, until the timer stops
+	 * 
+	 * @param interrupt		Specifies if the timer can be interrupted. Defaults to `true`
+	 * 
 	 * @returns				A promise that is resolved when the
 	 * 						amount of milliseconds has passed, or
 	 * 						the timer has been interrupted (like if
 	 * 						the entity was attacked)
 	 */
-	public wait(milliseconds:number, ticker?:EntityTimerTicker):Promise<undefined|EntityEvent> {
+	public wait(milliseconds:number, ticker?:EntityTimerTicker, interrupt=true):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve, reject) => {
 
@@ -374,6 +386,8 @@ export abstract class Entity {
 				complete: resolve,
 				fail: reject,
 				tick: ticker,
+				
+				interrupt
 			})
 		});
 
@@ -503,7 +517,7 @@ export abstract class Entity {
 	 * 				position is reached, OR if the walking has been
 	 * 				interrupted.
 	 */
-	public walkToEntity(entity:Entity, distance=50, ticker?:EntityTimerTicker):Promise<undefined|EntityEvent> {
+	public walkToEntity<EntityInstance extends Entity>(entity:EntityInstance, distance=50, ticker?:EntityTimerTicker):Promise<undefined|EntityEvent> {
 
 		return new Promise((resolve, reject) => {
 
@@ -618,10 +632,10 @@ export abstract class Entity {
 	 * 						Defaults to `0` (directly at `position`)
 	 * 						`0` or `undefined` makes all entities spawn directly at the `position` 
 	 */
-	public static spawn(count:number=1, position:Position2D, spreadAmount?:number):Entity[] {
+	public static spawn<U extends Entity>(this: new (position:Position2D) => U, count:number=1, position:Position2D, spreadAmount?:number):U[] {
 
 		// Create a variable to store the new `Entity` instances
-		let entities:Entity[] = [];
+		let entities:U[] = [];
 
 		// If the number of `Entity` instances to spawn is invalid, set it to `1`.
 		if (count < 1) count = 1;
@@ -660,8 +674,7 @@ export abstract class Entity {
 			
 			// Ignore the following line, because TypeScript has a problem with it
 			// Create a new instance of whatever class was used for the spawning
-			// @ts-ignore
-			let instance:Entity = new this(location);
+			let instance:U = new this(location);
 
 			
 			// Add the instance to the list of entities
@@ -723,6 +736,9 @@ export abstract class Entity {
 
 			// Get the current timer
 			let timer = this.internalTimers[i] as EntityTimer;
+			
+			// If the timer cannot be interrupted, go to the next timer
+			if (timer.interrupt == false) continue;
 
 			// If there is a set selector, and the timer's type does not
 			// match the selector, go to the next timer
@@ -735,6 +751,7 @@ export abstract class Entity {
 
 			// Remove the timer from `internalTimers`.
 			this.internalTimers.splice(i, 1);
+			i -= 1;
 
 		}
 
@@ -993,10 +1010,10 @@ export abstract class Entity {
 	 * @returns			The closest entity, matched by the selector.
 	 * 					Is `undefined` if an entity could not be found
 	 */
-	public static nearestEntity(origin:Entity, selector?:typeof Entity):Entity|undefined {
+	public static nearestEntity<EntityType extends typeof Entity>(origin:Entity, selector:EntityType):InstanceType<EntityType>|undefined {
 		
 		// Keep track of the nearest found entity (starts as undefined)
-		let nearest:Entity|undefined = undefined;
+		let nearest:InstanceType<EntityType>|undefined = undefined;
 
 		// Keep track of the distance to the closest entity (starts as `Infinity`)
 		let nearestDistance = Infinity;
@@ -1010,7 +1027,7 @@ export abstract class Entity {
 			let id = entityIds[i] as string;
 
 			// Get the current entity
-			let entity = Entity.entities.get(id) as Entity;
+			let entity = Entity.entities.get(id) as InstanceType<EntityType>;
 
 			// If a selector has been set, and the entity is
 			// not an instance of it, move onto the next entity

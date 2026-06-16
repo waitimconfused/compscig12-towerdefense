@@ -1,4 +1,7 @@
 import { DefenderEntity, DefenderEntityStats } from "../defender.js";
+import { EnemyEntity } from "../enemy.js";
+import { Entity } from "../entity.js";
+import { Strawberry } from "./strawberry.js";
 
 export class Sandwich extends DefenderEntity {
 	/** Label what the type of entity sandwich is - a Defender*/
@@ -22,11 +25,19 @@ export class Sandwich extends DefenderEntity {
 		upgradeEntityCost : 30
 	};
 	
+	public getEntitiesInRange<EntityType extends typeof Entity>(selector:EntityType, radius:number):InstanceType<EntityType>[] {
+		return [];
+	}
+
 	public async brain() {
 
 		this.state = "idle";
 
+		let entitiesInRange = this.getEntitiesInRange(EnemyEntity, 50);
+
 		await this.wait(Infinity);
+
+		let entities = Sandwich.spawn<Sandwich>(1, [0,0]);
 
 	}
 };

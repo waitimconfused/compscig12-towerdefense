@@ -43,9 +43,9 @@ export class Ant extends EnemyEntity {
 		]
 	}
 
-	private _disableBrain:boolean = false;
+	private disableWalking:boolean = false;
 	private currentPath:SVGPathElement|null = null;
-	private currentPathProgress:number = 0;
+	private currentPathLength:number = 0;
 	private currentPathMaxProgress:number = 0;
 
 	/**
@@ -97,7 +97,7 @@ export class Ant extends EnemyEntity {
 		this.state = 'attack';
 
 		// Waits for 4 attack frames
-		let interrupt = await this.wait(400);
+		let interrupt = await this.wait(400, undefined, false);
 
 		// Stops attack animation when interrupted
 		if (interrupt) {
@@ -109,7 +109,7 @@ export class Ant extends EnemyEntity {
 		let result = await super.attackEntity(entity);
 
 		// Plays last frame
-		await this.wait(100);
+		await this.wait(100, undefined, false);
 
 		// Reset animation to idle
 		this.state = 'idle';
@@ -123,73 +123,59 @@ export class Ant extends EnemyEntity {
 	 */
 	public async brain() {
 
-		if (this._disableBrain) return;
+		if (this.disableWalking) return;
 
-		await this.followPath(EnemyEntity.path, false, () => {
-
+		await this.followPath(EnemyEntity.path, false, (interrupt) => {
 			if (this.currentPath) {
 				console.log("RESETTING POSITION")
 				this._targetPath = this.currentPath;
-				this._targetPathLength = this.currentPathProgress;
+				this._targetPathLength = this.currentPathLength;
 				this._targetPathMaxLength = this.currentPathMaxProgress;
-				
+
 				this.currentPath = null;
-				this.currentPathProgress = 0;
+				this.currentPathLength = 0;
 				this.currentPathMaxProgress = 0;
 			}
-
-			this.tester();
+			this.tester(interrupt);
 		});
 
 	}
 
-	public async tester() {
+	public async tester(interrupt:()=>void) {
 		// Get the closest DEFENDER entity
 		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
 	
 		if (!closestEntity) {
-			this._disableBrain = false;
+			this.disableWalking = false;
 			return;
 		}
 
 		let distance = Entity.getDistance(this, closestEntity);
 
 		if (distance >= 200) {
-			this._disableBrain = false;
+			this.disableWalking = false;
 			return;
 		}
 
-		this._disableBrain = true;
+		this.disableWalking = true;
 		this.currentPath = this._targetPath;
-		this.currentPathProgress = this._targetPathLength;
+		this.currentPathLength = this._targetPathLength;
 		this.currentPathMaxProgress = this._targetPathMaxLength;
 
-		this.interruptTimers("walk");
+		interrupt();
 
 		// Walk toward defender
-		let interrupt = await this.walkToEntity(closestEntity);
-		if (interrupt) {
-			this._disableBrain = false;
-			return;
-		}
+		await this.walkToEntity(closestEntity);
+		await this.attackEntity(closestEntity);
 
-		// Attacks
-		// Stores closest defender health
-		let defenderHealth = closestEntity.stats.health;
-		let attackInterrupt = await this.attackEntity(closestEntity);
-		if (attackInterrupt) {
-			this._disableBrain = false;
-			return;
-		}
+		this.disableWalking = false;
 
 		if (closestEntity.stats.health <= 0) {
 			// Regenerates if the closestEntity is dead
-			if (defenderHealth > 0 && closestEntity.stats.health <= 0) {
-				await StatusEffects.regenerateEntity(this, 5000, 2);
-			}
+			await StatusEffects.regenerateEntity(this, 5000, 2);
 		}
 
-		this._disableBrain = false;
+		this.disableWalking = false;
 	
 	}
 	
