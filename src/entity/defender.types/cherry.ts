@@ -182,19 +182,6 @@ export class Cherry extends DefenderEntity {
 		// Get the direction from the entity to the target position
 		// In radians
 		if (!closestFrontEntity) return;
-
-		this.direction = Math.atan(
-			(closestFrontEntity.position[1] - closestFrontEntity.position[1]) /
-			(closestFrontEntity.position[0] - closestFrontEntity.position[0])
-		) || 0;
-
-		// Fix the angle for when the target position's x value
-		// is less than the entity's position
-		if (closestFrontEntity.position[0] > closestFrontEntity.position[0]) this.direction += Math.PI;
-
-		// If Entity not found or dead, don't do anything
-		if (closestFrontEntity == undefined) return;
-	
 		//Walk towards enemy
 		let interrupt = await this.walkToEntity(closestFrontEntity);
 
