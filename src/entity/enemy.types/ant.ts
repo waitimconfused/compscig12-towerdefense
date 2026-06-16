@@ -116,10 +116,12 @@ export class Ant extends EnemyEntity {
 	 * @returns If there is no closest entity
 	 */
 	public async brain() {
-
+		// Checks if there is a target entity
 		if (this.targetEntity) {
+			// Attacks target
 			await this.attackEntity(this.targetEntity);
 
+			// Return to path once target is dead
 			if (this.targetEntity.stats.health <= 0) {
 
 				this.targetEntity = null;
@@ -132,10 +134,12 @@ export class Ant extends EnemyEntity {
 			return;
 		}
 
+		// Follows path normally
 		await this.followPath(EnemyEntity.path, false, (interrupt) => {
 
 			this.start = false;
 
+			// Saves path location
 			if (this.currentPath) {
 				this.targetEntity = null;
 				this._targetPath = this.currentPath;
@@ -144,14 +148,15 @@ export class Ant extends EnemyEntity {
 				this.currentPath = null;
 			}
 
+			// Gets the nearest entity
 			let entity = Entity.nearestEntity(this, DefenderEntity);
-
 			if (!entity) return;
 
+			// Checks if nearest entity is out of range
 			let distance = Entity.getDistance(this, entity);
-
 			if (distance > 100) return;
 
+			// Targets entity and saves path data
 			this.targetEntity = entity;
 			this.currentPath = this._targetPath;
 			this.currentPathLength = this._targetPathLength;
@@ -167,6 +172,7 @@ export class Ant extends EnemyEntity {
 
 		await this.attackEntity(entity);
 
+		// Regenerates health when entity is dead
 		if (entity.stats.health <= 0) {
 			await StatusEffects.regenerateEntity(this, 5000, 2);
 		}
