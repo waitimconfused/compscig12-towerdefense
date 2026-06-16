@@ -63,7 +63,7 @@ export class Corn extends DefenderEntity{
 		//if the distance between the enemy and the corn is less than or equal to 45 pixels, 
 		// and Corn has not been stunned, start attacking
 		//the corn will shoot/summon a kernel between the position of the Corn and the enemy
-		if (distance <= 1000 && this.stunned == false){
+		if (distance <= 500 && this.stunned == false){
 			
 			//change the Corn's state to shooting
 			this.state = "shoot";
