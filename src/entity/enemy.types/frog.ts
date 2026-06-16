@@ -11,8 +11,6 @@ import { Carrier } from "../other/carrier.js";
  * 
  */
 export class Frog extends EnemyEntity {
-	/**the readonly name of the entity Frog - to prevent spelling mistakes*/
-	public static readonly ENEMY_NAME = "Frog";
 	// Frog entity type
 	public entityType:string = "enemy/frog";
 

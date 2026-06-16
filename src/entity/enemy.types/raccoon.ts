@@ -9,9 +9,6 @@ import { StatusEffects } from "../statusEffects.js";
  * Raccoons are high hp enemies that deal damage and randomly attack and stun defenders on the path
  */
 export class Raccoon extends EnemyEntity {
-	/**the readonly name of the entity Raccoon - to prevent spelling mistakes*/
-	public static readonly ENEMY_NAME = "Raccoon";
-	
 	// Entity is raccoon enemy type
 	public entityType : string = "enemy/raccoon";
 
