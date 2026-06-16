@@ -11,7 +11,6 @@ import { Carrier } from "../../entity/other/carrier.js";
 import { Corn } from "../../entity/defender.types/corn.js";
 import { ViewText } from "../elements/text.js";
 import { Cherry } from "../../entity/defender.types/cherry.js";
-import { Ant } from "../../entity/enemy.types/ant.js";
 
 GameplayView.playSpaceSize[0] = 1900;
 GameplayView.playSpaceSize[1] = 950;
