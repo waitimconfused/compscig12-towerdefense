@@ -5,12 +5,7 @@
 		{
 			"rule": "state=='idle'",
 
-			"layers": [
-				{
-					"sprite": "ant-idling",
-					"origin": [ 50, 0 ]
-				}
-			]
+			"layers": []
 		}
 	]
 }
