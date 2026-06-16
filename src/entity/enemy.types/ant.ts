@@ -167,6 +167,10 @@ export class Ant extends EnemyEntity {
 
 		await this.attackEntity(entity);
 
+		if (entity.stats.health <= 0) {
+			await StatusEffects.regenerateEntity(this, 5000, 2);
+		}
+
 	}
 	
 	/**
