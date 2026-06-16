@@ -1,3 +1,4 @@
+import { OrganizeImportsMode } from "typescript";
 import { Position2D } from "../types.js";
 
 type EntityTimer = {
@@ -1052,6 +1053,7 @@ export abstract class Entity {
 			// If a selector has been set, and the entity is
 			// not an instance of it, move onto the next entity
 			if (selector && entity instanceof selector == false) continue;
+			if (entity.invulnerable) continue;
 
 			// Get the distance between the origin entity and the current entity
 			let distance = this.getDistance(origin, entity);
