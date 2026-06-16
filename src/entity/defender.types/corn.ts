@@ -63,12 +63,12 @@ export class Corn extends DefenderEntity{
 		//if the distance between the enemy and the corn is less than or equal to 45 pixels, 
 		// and Corn has not been stunned, start attacking
 		//the corn will shoot/summon a kernel between the position of the Corn and the enemy
-		if (distance <= 45 && this.stunned == false){
-			new Kernel(this.position, closestEnemy);
-			console.log ('spawn corn and exist');
+		if (distance <= 1000 && this.stunned == false){
 			
 			//change the Corn's state to shooting
 			this.state = "shoot";
+
+			new Kernel(this.position, closestEnemy);
 
 			//wait for a bit for the animation to play(half a second)
 			await this.wait(500);
@@ -98,7 +98,7 @@ export class Kernel extends Corn{
 	//Kernal will have its own base stats
 	//This means that enemies have the opportunity to get rid of the kernel before it hits them, but it doesn't directly effect the corn itself
 	public static override baseStats: DefenderEntityStats = {
-		health: 200,
+		health: 10000,
 		speed: 3,
 		damage: 15, 
 		knockBack: 3,
@@ -116,19 +116,6 @@ export class Kernel extends Corn{
 
 	public override async attackEntity(entity:Entity):Promise<undefined|EntityEvent> {
 		if (this.stunned) {
-			return;
-		}
-
-		//Change Defender State
-		this.state = "attack";
-
-		//Waits for 4 attack frames
-		let interrupt = await this.wait(400);
-
-		//Stops attack animation when interrupted
-		if (interrupt){
-			this.state = "idle";
-			
 			return;
 		}
 
@@ -159,7 +146,7 @@ export class Kernel extends Corn{
 		}
 
 		//Play last frame
-		await this.wait(100);
+		await this.wait(400);
 
 		return;
 	}
@@ -168,10 +155,14 @@ export class Kernel extends Corn{
 	 * The brain checks for events that happen around and to the Kernel
 	 * As of now it is used to check for enemies nearby
 	 */
-	public override async brain(): Promise<void> {
+	public override async brain(): Promise<void> {	
+		console.log('hello there')
+		//Change Defender State
+		this.state = "attack";
 
+		
 		//Get the Kernel to keep on traveling to the target/enemy's position
-		await this.walkToEntity(this.target);
+		//await this.walkToEntity(this.target);
 
 		//When it has, attack the target
 		this.attackEntity(this.target);

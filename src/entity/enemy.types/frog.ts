@@ -1,6 +1,7 @@
 import { DefenderEntity } from "../defender.js";
 import { EnemyDrops, EnemyEntity, EnemyEntityStats } from "../enemy.js";
 import { Entity } from "../entity.js";
+import { Carrier } from "../other/carrier.js";
 
 /**
  * Creates a Frog as an EnemyEntity
@@ -10,15 +11,13 @@ import { Entity } from "../entity.js";
  * 
  */
 export class Frog extends EnemyEntity {
-	/**the readonly name of the entity Frog - to prevent spelling mistakes*/
-	public static readonly ENEMY_NAME = "Frog";
 	// Frog entity type
 	public entityType:string = "enemy/frog";
 
 	// Initial stats of Frog
 	public static override baseStats:EnemyEntityStats = {
 		health: 75,
-		speed: 0.75,
+		speed: 0.1,
 		damage: 0,
 		knockBack: 10,
 		spawnCoolDown: 10,
@@ -43,58 +42,21 @@ export class Frog extends EnemyEntity {
 		]
 	}
 	
-	/**
-	 * Attempt to leap
-	 * @param target 
-	 */
-	private async tryLeap() {
-		// Frog is leaping
-		this.isLeaping = true;
-	
-		// Cannot deal damage but can't take damage when leaping
-		this.stunned = true;
-		this.invulnerable = true;
-
-		// Play walk (leap) animation
-		this.state = 'walk';
-
-		await this.walkTo(
-			// placeholder for now, walk to nearest part on the path
-			this.position[0] + 100,
-			this.position[1]
-		);
-		
-		// Wait for 6 frames
-		await this.wait(600);
-		
-		// Reset state, isLeaping, stunned, invulnerable
-		this.state = 'idle';
-		this.isLeaping = false;
-		this.stunned = false;
-		this.invulnerable = false;
-	}
-
 	public async brain() {
-		await this.wait(500);
-
-		let closestEntity = Entity.nearestEntity(this, DefenderEntity);
-
-		if (!closestEntity) {
-			return;
-		}
-
-		// normal movement
-		let interrupt = await this.walkTo(
-			closestEntity.position[0],
-			closestEntity.position[1]
-		)
-
-		if (!interrupt) {
-			// Try leap occasionally
-			if (this.canLeap) {
-				this.tryLeap();
+	
+		let entities: Entity[] = Entity.totalEntitiesInRange(this, Infinity, DefenderEntity);
+	
+		let target: Carrier | undefined;
+	
+		for (let i = 0; i < entities.length; i++) {
+			if (entities[i] instanceof Carrier) {
+				target = entities[i] as Carrier;
+				break;
 			}
 		}
-		
+	
+		if (!target) return;
+	
+		await this.walkToEntity(target);
 	}
 }
