@@ -1,7 +1,7 @@
 const sources = [
-    [0.4, "/assets/favicon/2.png"],
-    [0.2, "/assets/favicon/3.png"],
-    [0.4, "/assets/favicon/1.png"],
+    [0.4, "./assets/favicon/2.png"],
+    [0.2, "./assets/favicon/3.png"],
+    [0.4, "./assets/favicon/1.png"],
 ].sort((a, b) => {
     let favicon1 = a;
     let favicon2 = b;

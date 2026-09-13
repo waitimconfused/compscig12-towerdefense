@@ -172,7 +172,7 @@ export default class GameplayView extends View {
 }
 for (let i = 0; i < spriteAssets.logic.length; i++) {
     let path = spriteAssets.logic[i];
-    path = new URL(path, location.origin + "/assets/").href;
+    path = new URL(path, location.href + "assets/").href;
     let { default: data } = await import(path, { with: { type: "json" } });
     let generatedRule = rulesToFunction(data.logic);
     entityRenderingLookup.set(data.type, generatedRule);

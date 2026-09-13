@@ -59,7 +59,7 @@ const subViews = {
 	
 	
 let backgroundImage = new Image;
-backgroundImage.src = "/assets/picnic.svg";
+backgroundImage.src = "./assets/picnic.svg";
 backgroundImage.addEventListener("load", () => {
 	view.background.source = backgroundImage;
 });

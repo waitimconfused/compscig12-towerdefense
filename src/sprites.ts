@@ -488,7 +488,7 @@ export class SpriteRenderer extends StaticClass {
 				let path:string = spriteAssets.assets[i] as string;
 
 				// Make path relative to the ./assets/ folder
-				path = new URL( path, location.origin+"/assets/" ).href;
+				path = new URL( path, location.href+"assets/" ).href;
 
 				// Import the JSON file, using promises
 				let spriteData = await import(path, { with: { type: "json" } });

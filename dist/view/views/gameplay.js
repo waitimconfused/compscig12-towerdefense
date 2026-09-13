@@ -37,12 +37,12 @@ view.addEventListener("show", () => {
     Wave.setWave(1);
 });
 let grass = new Image;
-grass.src = "/assets/grass.svg";
+grass.src = "./assets/grass.svg";
 grass.addEventListener("load", () => {
     view.background.source = grass;
 });
 let picnic = new Image;
-picnic.src = "/assets/picnic.svg";
+picnic.src = "./assets/picnic.svg";
 picnic.addEventListener("load", () => {
     view.gameplayBackground.source = picnic;
 });

@@ -10,7 +10,7 @@ view.addEventListener("show", () => {
     Entity.entities.clear();
 });
 let picnic = new Image;
-picnic.src = "/assets/picnic.svg";
+picnic.src = "./assets/picnic.svg";
 picnic.addEventListener("load", () => {
     view.background.source = picnic;
 });

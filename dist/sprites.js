@@ -132,7 +132,7 @@ export class SpriteRenderer extends StaticClass {
             let loadedImageCount = 0;
             for (let i = 0; i < spriteAssets.assets.length; i++) {
                 let path = spriteAssets.assets[i];
-                path = new URL(path, location.origin + "/assets/").href;
+                path = new URL(path, location.href + "assets/").href;
                 let spriteData = await import(path, { with: { type: "json" } });
                 let imported = spriteData?.default;
                 if (Array.isArray(imported)) {

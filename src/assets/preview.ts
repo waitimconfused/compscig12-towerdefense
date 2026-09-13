@@ -15,7 +15,7 @@ var canvases:Map<string, HTMLCanvasElement> = new Map();
 for (let i = 0; i < pathsToSpriteData.assets.length; i ++) {
 	
 	let path = pathsToSpriteData.assets[i] as string;
-	let absolutePath = new URL( path, location.origin+"/assets/" ).pathname;
+	let absolutePath = new URL( path, location.href+"assets/" ).pathname;
 	let spriteData:SpriteData|SpriteData[] = (await import(absolutePath, { with: { type: "json" } })).default;
 	
 	let li = document.createElement("li");

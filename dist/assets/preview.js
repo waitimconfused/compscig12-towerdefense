@@ -8,7 +8,7 @@ await SpriteRenderer.loadDefaults();
 var canvases = new Map();
 for (let i = 0; i < pathsToSpriteData.assets.length; i++) {
     let path = pathsToSpriteData.assets[i];
-    let absolutePath = new URL(path, location.origin + "/assets/").pathname;
+    let absolutePath = new URL(path, location.href + "assets/").pathname;
     let spriteData = (await import(absolutePath, { with: { type: "json" } })).default;
     let li = document.createElement("li");
     let link = document.createElement("a");

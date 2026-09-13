@@ -394,7 +394,7 @@ for (let i = 0; i < spriteAssets.logic.length; i ++) {
 	let path:string = spriteAssets.logic[i] as string;
 
 	// Make path relative to the ./assets/ folder
-	path = new URL( path, location.origin+"/assets/" ).href;
+	path = new URL( path, location.href+"assets/" ).href;
 
 	// Import the JSON file
 	let {default: data} = await import(path, { with: { type: "json" } });

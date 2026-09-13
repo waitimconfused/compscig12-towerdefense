@@ -47,7 +47,7 @@ const subViews = {
     "recipe": "./inventory/tool-recipe.js"
 };
 let backgroundImage = new Image;
-backgroundImage.src = "/assets/picnic.svg";
+backgroundImage.src = "./assets/picnic.svg";
 backgroundImage.addEventListener("load", () => {
     view.background.source = backgroundImage;
 });

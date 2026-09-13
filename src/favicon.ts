@@ -13,9 +13,9 @@ interface FaviconProbability extends Array<string|number> {
 }
 
 const sources:FaviconProbability[] = [
-	[0.4, "/assets/favicon/2.png"],
-	[0.2, "/assets/favicon/3.png"],
-	[0.4, "/assets/favicon/1.png"],
+	[0.4, "./assets/favicon/2.png"],
+	[0.2, "./assets/favicon/3.png"],
+	[0.4, "./assets/favicon/1.png"],
 ].sort((a,b) => {
 	let favicon1 = a as FaviconProbability;
 	let favicon2 = b as FaviconProbability;

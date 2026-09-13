@@ -9,9 +9,9 @@ Engine.createView("main-menu", view);
 const bookRotation = 15;
 const bookRotationRad = bookRotation * Math.PI / 180;
 let grassBackgroundImage = new Image;
-grassBackgroundImage.src = "/assets/grass.svg";
+grassBackgroundImage.src = "./assets/grass.svg";
 let picnicBackgroundImage = new Image;
-picnicBackgroundImage.src = "/assets/picnic.svg";
+picnicBackgroundImage.src = "./assets/picnic.svg";
 var grassBackground = new ViewRect()
     .setFill(grassBackgroundImage)
     .setAnchor(Engine.anchorPresets.centerCenter)
