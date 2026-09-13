@@ -9,15 +9,15 @@ SpriteRenderer.verbose = false;
 MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
 MouseManager.preventZoom = true;
-ViewText.addFont("Preahvihear", "/fonts/preahvihear.ttf");
-ViewText.addFont("Gamja Flower", "/fonts/gamja-flower.ttf");
+ViewText.addFont("Preahvihear", "./fonts/preahvihear.ttf");
+ViewText.addFont("Gamja Flower", "./fonts/gamja-flower.ttf");
 Inventory.load();
 const canvas = document.getElementById("canvas");
 await SpriteRenderer.loadDefaults();
 for (let i = 0; i < viewFiles.length; i++) {
     let path = viewFiles[i];
     path = path.replace(/\.ts$/, ".js");
-    let absolutePath = new URL(path, location.origin + "/dist/view/").pathname;
+    let absolutePath = new URL(path, location.href + "dist/view/").pathname;
     console.info(`Importing view from "${absolutePath}".`);
     await import(absolutePath);
     console.info(`Successfully imported view from "${absolutePath}".`);

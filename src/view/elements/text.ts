@@ -131,7 +131,7 @@ export class ViewText extends ViewElement {
 	 * @param name			CSS `font-family` property value
 	 * 
 	 * @param absolutePath	Path (relative to `/index.html`) to font file.
-	 * 						EG: `"/fonts/example.ttf"`
+	 * 						EG: `"./fonts/example.ttf"`
 	 */
 	public static addFont(name:string, absolutePath:string) {
 

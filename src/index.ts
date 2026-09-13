@@ -19,8 +19,8 @@ MouseManager.preventContextMenu = true;
 MouseManager.preventScroll = true;
 MouseManager.preventZoom = true;
 
-ViewText.addFont("Preahvihear", "/fonts/preahvihear.ttf");
-ViewText.addFont("Gamja Flower", "/fonts/gamja-flower.ttf");
+ViewText.addFont("Preahvihear", "./fonts/preahvihear.ttf");
+ViewText.addFont("Gamja Flower", "./fonts/gamja-flower.ttf");
 
 Inventory.load();
 
@@ -39,7 +39,7 @@ for (let i = 0; i < viewFiles.length; i ++) {
 	path = path.replace(/\.ts$/, ".js");
 	
 	// Turn the path into an absolute path
-	let absolutePath = new URL( path, location.origin+"/dist/view/" ).pathname;
+	let absolutePath = new URL( path, location.href+"dist/view/" ).pathname;
 	
 	console.info(`Importing view from "${absolutePath}".`);
 
